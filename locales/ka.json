@@ -46,7 +46,7 @@
     "reset_search": "ძიების გასუფთავება",
     "scroll_to": "Scroll to {{ title }}",
     "search_results_count": "ნაპოვნია {{ count }} შედეგი „{{ query }}“-სთვის",
-    "search_results_no_results": "No results found for \"{{ query }}\"",
+    "search_results_no_results": "„{{ query }}“-სთვის შედეგი ვერ მოიძებნა",
     "skip_to_product_info": "Skip to product information",
     "skip_to_results_list": "Skip to results list",
     "skip_to_text": "შინაარსზე გადასვლა",
@@ -181,7 +181,7 @@
     "cart": {
       "cart_items": "კალათა {{ count }} პროდუქტით",
       "cart_texts": "კალათა ({{ count }} პროდუქტი)",
-      "edit_cart_title": "Edit option",
+      "edit_cart_title": "ოფციის რედაქტირება",
       "edit_title": "Edit {{ title }}",
       "gift_wrapping_content": "Only for {{ money }}",
       "gift_wrapping_title": "Do you want a gift wrap?",
@@ -312,7 +312,7 @@
       "one": "{{ count }} item",
       "other": "{{ count }} items"
     },
-    "items": "items",
+    "items": "პროდუქტი",
     "items_added": {
       "one": "{{ quantity }} item added",
       "other": "{{ quantity }} items added"
@@ -466,7 +466,7 @@
     "search_input_placeholder": "ძიება",
     "search_results": "ძიება results",
     "search_results_label": "ძიება results",
-    "search_results_no_results": "No results found for \"{{ terms }}\". Try another search.",
+    "search_results_no_results": "„{{ query }}“-სთვის შედეგი ვერ მოიძებნა",
     "search_results_no_results_check_spelling": "No results found for \"{{ terms }}\". Check the spelling or use a different word or phrase.",
     "search_results_quick_keywords": "Trending searches",
     "search_results_quick_links": "Popular categories",

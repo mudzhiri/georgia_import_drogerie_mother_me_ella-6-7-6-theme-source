@@ -351,7 +351,7 @@
                     "field-padding-block-end": 0,
                     "field-padding-inline-start": 0,
                     "field-padding-inline-end": 0,
-                    "input_label": "Email Address",
+                    "input_label": "ელფოსტა",
                     "border_style": "all",
                     "input_border_width": 1,
                     "input_border_radius": 0,
@@ -507,7 +507,7 @@
                   "name": "Menu",
                   "settings": {
                     "menu": "footer-shop-classic",
-                    "heading": "SHOP",
+                    "heading": "მაღაზია",
                     "margin-block-end": 10,
                     "content_direction": "column",
                     "content_direction_mobile": "column",
@@ -557,7 +557,7 @@
                   "name": "Menu",
                   "settings": {
                     "menu": "footer-about-classic",
-                    "heading": "ABOUT",
+                    "heading": "ჩვენს შესახებ",
                     "margin-block-end": 10,
                     "content_direction": "column",
                     "content_direction_mobile": "column",
@@ -607,7 +607,7 @@
                   "name": "Menu",
                   "settings": {
                     "menu": "footer-help-classic",
-                    "heading": "HELP",
+                    "heading": "დახმარება",
                     "margin-block-end": 10,
                     "content_direction": "column",
                     "content_direction_mobile": "column",

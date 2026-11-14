@@ -433,7 +433,7 @@
                   "type": "_menu-tab-item",
                   "name": "Menu item",
                   "settings": {
-                    "title": "Home",
+                    "title": "მთავარი",
                     "link": "#",
                     "sub_menu": "",
                     "image_type_level_1": "image",
@@ -562,7 +562,7 @@
                   "type": "_menu-tab-item",
                   "name": "t:names.menu_item",
                   "settings": {
-                    "title": "Home Page",
+                    "title": "მთავარი",
                     "link": "",
                     "sub_menu": "mobile-menu-home-page",
                     "image_type_level_1": "image",
