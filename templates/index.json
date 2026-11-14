@@ -93,9 +93,30 @@
             "collection": "სხეულის-მოვლა",
             "label": "სხეულის მოვლა"
           }
+        },
+        "c7": {
+          "type": "category",
+          "settings": {
+            "collection": "დეოდორანტები",
+            "label": "დეოდორანტები"
+          }
+        },
+        "c8": {
+          "type": "category",
+          "settings": {
+            "collection": "სათამაშოები-და-აქსესუარები",
+            "label": "სათამაშოები და აქსესუარები"
+          }
+        },
+        "c9": {
+          "type": "category",
+          "settings": {
+            "collection": "მაკიაჟი",
+            "label": "მაკიაჟი"
+          }
         }
       },
-      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6"],
+      "block_order": ["c1", "c2", "c3", "c4", "c5", "c6", "c7", "c8", "c9"],
       "settings": {
         "heading": "კატეგორიები",
         "subheading": "ყველაფერი დედისა და ბავშვის ყოველდღიური მოვლისთვის."

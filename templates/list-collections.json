@@ -50,7 +50,7 @@
           "name": "Heading",
           "static": true,
           "settings": {
-            "text": "<p><strong>COLLECTIONS</strong></p>",
+            "text": "<p><strong>კოლექციები</strong></p>",
             "typing_text": false,
             "primary_text": "Welcome to our store!",
             "secondary_text": "Exclusive offers just for you.",
@@ -276,15 +276,15 @@
         }
       },
       "settings": {
-        "render_type": "custom",
+        "render_type": "all",
         "collection_list": [],
         "layout_type": "grid",
-        "collections_to_show": 6,
+        "collections_to_show": 12,
         "columns": 3,
         "mobile_columns": "2",
         "columns_gap": 30,
         "rows_gap": 60,
-        "show_more": "Show more",
+        "show_more": "მეტის ნახვა",
         "style_class": "button-secondary",
         "section_width": "custom",
         "page_width_custom": 1170,
