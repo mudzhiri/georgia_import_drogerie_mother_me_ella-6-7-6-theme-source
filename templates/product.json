@@ -1172,7 +1172,7 @@
                         "input_width": 50,
                         "input_type_preset": "paragraph",
                         "is_required": true,
-                        "placeholder": "Enter your email",
+                        "placeholder": "ელფოსტა",
                         "padding_left": 15,
                         "padding_right": 15,
                         "padding_top": 12,
