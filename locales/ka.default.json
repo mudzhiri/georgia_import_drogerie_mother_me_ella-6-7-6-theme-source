@@ -96,7 +96,7 @@
     "save": "შენახვა",
     "see_items": {
       "one": "See {{ count }} item",
-      "other": "See {{ count }} items"
+      "other": "See {{ count }} პროდუქტი"
     },
     "show_all_options": "Show all options",
     "show_filters": "ფილტრი",
@@ -200,8 +200,8 @@
       "view_empty_cart": "კალათის ნახვა"
     },
     "cart_count": {
-      "one": "{{ count }} item",
-      "other": "{{ count }} items"
+      "one": "{{ count }} პროდუქტი",
+      "other": "{{ count }} პროდუქტი"
     },
     "cart_count_max": {
       "more": "99+"
@@ -318,19 +318,19 @@
     },
     "inventory_out_of_stock": "მარაგში არ არის",
     "item_count": {
-      "one": "{{ count }} item",
-      "other": "{{ count }} items"
+      "one": "{{ count }} პროდუქტი",
+      "other": "{{ count }} პროდუქტი"
     },
     "items": "პროდუქტი",
     "items_added": {
-      "one": "{{ quantity }} item added",
-      "other": "{{ quantity }} items added"
+      "one": "{{ quantity }} პროდუქტი დამატებულია",
+      "other": "{{ quantity }} პროდუქტი added"
     },
     "items_per_page": "{{ limit }} Items per page",
     "items_per_page_label": "Items per page",
     "items_removed": {
-      "one": "{{ quantity }} item removed",
-      "other": "{{ quantity }} items removed"
+      "one": "{{ quantity }} პროდუქტი წაშლილია",
+      "other": "{{ quantity }} პროდუქტი removed"
     },
     "label": "ელფოსტა",
     "language": "ენა",
@@ -442,7 +442,7 @@
     "recipient_form_send_to": "Send to",
     "remove": "წაშლა",
     "remove_all": "ყველას წაშლა",
-    "remove_all_items_confirmation": "წაშლა all {{ quantity }} items from your cart?",
+    "remove_all_items_confirmation": "წაშლა all {{ quantity }} პროდუქტი from your cart?",
     "remove_all_single_item_confirmation": "წაშლა 1 item from your cart?",
     "remove_title": "წაშლა {{ title }}",
     "results_pages_with_count": {
@@ -542,7 +542,7 @@
     "taxes_included_shipping_at_checkout_without_policy_without_discounts": "Taxes included. Shipping is calculated at checkout.",
     "title": "კოლექცია",
     "total": "სულ",
-    "total_items": "Total items",
+    "total_items": "სულ პროდუქტები",
     "unavailable": "მიუწვდომელია",
     "update": "განახლება",
     "update_country": "Update country/region",
@@ -556,7 +556,7 @@
     "view_cart": "კალათის ნახვა",
     "view_more_details": "View more details",
     "wishlist": "რჩეულები",
-    "wishlist_items": "რჩეულები with {{ count }} items",
+    "wishlist_items": "რჩეულები with {{ count }} პროდუქტი",
     "wrong_password": "Wrong password",
     "your_cart": "Your cart",
     "your_cart_is_empty": "თქვენი კალათა ცარიელია"
@@ -630,7 +630,7 @@
       "quantity": "რაოდენობა",
       "reorder": "Reorder",
       "reorder_error": "We were unable to add this order to your cart.",
-      "reorder_loading": "Adding items...",
+      "reorder_loading": "პროდუქტების დამატება...",
       "reorder_success": "Items were added to your cart.",
       "shipping": "მიწოდება",
       "shipping_address": "Shipping Address",
@@ -752,7 +752,7 @@
       "bundle_block": {
         "add_all_to_cart": "Add all to cart",
         "add_item_to_cart": "Add ([item]) item to cart",
-        "add_items_to_cart": "Add ([item]) items to cart"
+        "add_items_to_cart": "([item]) პროდუქტის კალათაში დამატება"
       },
       "choose_options": "Choose options",
       "choose_product_options": "Choose options for {{ product_name }}",
