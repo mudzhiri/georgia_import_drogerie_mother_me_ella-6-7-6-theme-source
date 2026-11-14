@@ -50,7 +50,7 @@
                 "announcement_text_BXhKCE": {
                   "type": "_announcement-text",
                   "settings": {
-                    "text": "End of season sale up to 50% off. <a href=\"/collections\" title=\"All collections\">Shop Now</a>",
+                    "text": "მიწოდება საქართველოში 8 ₾ · თვითგატანა თბილისში უფასო · <a href=\"/collections/all\">შოპინგი</a>",
                     "font": "body",
                     "font_size": "1.4rem",
                     "font_weight": "default",

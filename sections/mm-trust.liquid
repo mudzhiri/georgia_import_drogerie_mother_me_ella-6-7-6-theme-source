@@ -1,0 +1,75 @@
+<section class="mm-trust">
+  <div class="mm-trust__inner">
+    {% for block in section.blocks %}
+      <div class="mm-trust__item" {{ block.shopify_attributes }}>
+        <strong>{{ block.settings.title }}</strong>
+        <span>{{ block.settings.text }}</span>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .mm-trust {
+    background: #14201c;
+    color: #e8f0eb;
+    padding: 1.15rem clamp(1rem, 4vw, 2rem);
+  }
+  .mm-trust__inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .mm-trust__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-family: Manrope, system-ui, sans-serif;
+  }
+  .mm-trust__item strong {
+    font-size: 0.92rem;
+    letter-spacing: 0.02em;
+    color: #fff;
+  }
+  .mm-trust__item span {
+    font-size: 0.82rem;
+    opacity: 0.78;
+    line-height: 1.4;
+  }
+  @media (max-width: 749px) {
+    .mm-trust__inner {
+      grid-template-columns: 1fr;
+      gap: 0.85rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "MM Trust",
+  "tag": "section",
+  "class": "section-mm-trust",
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        { "type": "text", "id": "title", "label": "Title", "default": "მიწოდება 8 ₾" },
+        { "type": "text", "id": "text", "label": "Text", "default": "საქართველოს მასშტაბით" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Trust",
+      "blocks": [
+        { "type": "item", "settings": { "title": "მიწოდება 8 ₾", "text": "საქართველოს მასშტაბით" } },
+        { "type": "item", "settings": { "title": "თვითგატანა უფასო", "text": "თბილისი · Parnavaz Mepe 12" } },
+        { "type": "item", "settings": { "title": "ევროპული ხარისხი", "text": "შერჩეული dm ბრენდები" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

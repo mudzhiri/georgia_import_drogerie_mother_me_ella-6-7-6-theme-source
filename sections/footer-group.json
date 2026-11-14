@@ -159,7 +159,7 @@
                   "type": "text",
                   "name": "Heading",
                   "settings": {
-                    "text": "<p><strong>NEWSLETTER SIGN UP</strong></p>",
+                    "text": "<p><strong>გამოიწერე სიახლეები</strong></p>",
                     "collection_description_only": false,
                     "collapse_text": false,
                     "typing_text": false,
@@ -241,7 +241,7 @@
                   "type": "text",
                   "name": "Text",
                   "settings": {
-                    "text": "<p>Sign up for new arrivals, offers, and more!</p>",
+                    "text": "<p>ახალი პროდუქტები და შეთავაზებები MOTHER &amp; ME-დან.</p>",
                     "collection_description_only": false,
                     "collapse_text": false,
                     "typing_text": false,
@@ -733,7 +733,7 @@
                       "type": "text",
                       "name": "Heading",
                       "settings": {
-                        "text": "<p><strong>CONTACT US</strong></p>",
+                        "text": "<p><strong>კონტაქტი</strong></p>",
                         "collection_description_only": false,
                         "collapse_text": false,
                         "typing_text": false,
@@ -892,7 +892,7 @@
                           "type": "text",
                           "name": "Text",
                           "settings": {
-                            "text": "<p>EXT: (091)-123-ELLA</p>",
+                            "text": "<p>თბილისი, საქართველო</p>",
                             "collection_description_only": false,
                             "collapse_text": false,
                             "typing_text": false,
@@ -974,7 +974,7 @@
                           "type": "text",
                           "name": "Text",
                           "settings": {
-                            "text": "<p>mail@domain.com</p>",
+                            "text": "<p>mudzhirime@googlemail.com</p>",
                             "collection_description_only": false,
                             "collapse_text": false,
                             "typing_text": false,
@@ -1056,7 +1056,7 @@
                           "type": "text",
                           "name": "Text",
                           "settings": {
-                            "text": "<p>685 Market Street</p>",
+                            "text": "<p>12 Parnavaz Mepe Avenue</p>",
                             "collection_description_only": false,
                             "collapse_text": false,
                             "typing_text": false,
@@ -1138,7 +1138,7 @@
                           "type": "text",
                           "name": "Text",
                           "settings": {
-                            "text": "<p>San Francisco, CA 94105.</p>",
+                            "text": "<p>თბილისი 0105</p>",
                             "collection_description_only": false,
                             "collapse_text": false,
                             "typing_text": false,
