@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
@@ -978,7 +987,7 @@
                         "input_width": 100,
                         "input_type_preset": "paragraph",
                         "is_required": true,
-                        "placeholder": "Enter your email",
+                        "placeholder": "ელფოსტა",
                         "padding_left": 15,
                         "padding_right": 15,
                         "padding_top": 12,
