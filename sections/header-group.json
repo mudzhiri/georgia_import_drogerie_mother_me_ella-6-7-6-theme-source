@@ -406,22 +406,13 @@
               "type": "_menu_tab_heading",
               "name": "Heading",
               "settings": {
-                "title": "Menu"
-              },
-              "blocks": {}
-            },
-            "menu_tab_heading_nCEGbq": {
-              "type": "_menu_tab_heading",
-              "name": "Heading",
-              "settings": {
-                "title": "Demo"
+                "title": "მენიუ"
               },
               "blocks": {}
             }
           },
           "block_order": [
-            "menu_tab_heading_X7rqfc",
-            "menu_tab_heading_nCEGbq"
+            "menu_tab_heading_X7rqfc"
           ]
         },
         "static-menu-tab-content": {
@@ -433,7 +424,7 @@
               "type": "_menu-tab-list",
               "name": "Menu tab list",
               "settings": {
-                "tab_for": "Menu",
+                "tab_for": "მენიუ",
                 "divider": true,
                 "scheme_border": "#e6e6e6"
               },
@@ -443,7 +434,7 @@
                   "name": "Menu item",
                   "settings": {
                     "title": "მთავარი",
-                    "link": "#",
+                    "link": "/",
                     "sub_menu": "",
                     "image_type_level_1": "image",
                     "svg_upload_level_1": "",
@@ -451,13 +442,13 @@
                   },
                   "blocks": {}
                 },
-                "menu_tab_item_gFEwXm": {
+                "menu_tab_item_baby": {
                   "type": "_menu-tab-item",
                   "name": "Menu item",
                   "settings": {
-                    "title": "New In",
-                    "link": "#",
-                    "sub_menu": "mobile-menu-new-in",
+                    "title": "ბავშვი",
+                    "link": "/collections/ბავშვი",
+                    "sub_menu": "sub-baby",
                     "image_type_level_1": "image",
                     "svg_upload_level_1": "",
                     "image_level_1": "",
@@ -465,13 +456,13 @@
                   },
                   "blocks": {}
                 },
-                "menu_tab_item_UbTwFE": {
+                "menu_tab_item_kids": {
                   "type": "_menu-tab-item",
                   "name": "Menu item",
                   "settings": {
-                    "title": "Accessories",
-                    "link": "#",
-                    "sub_menu": "mobile-menu-accessories",
+                    "title": "ბავშვები",
+                    "link": "/collections/ბავშვები",
+                    "sub_menu": "sub-kids",
                     "image_type_level_1": "image",
                     "svg_upload_level_1": "",
                     "image_level_1": "",
@@ -479,13 +470,13 @@
                   },
                   "blocks": {}
                 },
-                "menu_tab_item_FiUPrt": {
+                "menu_tab_item_mama": {
                   "type": "_menu-tab-item",
                   "name": "Menu item",
                   "settings": {
-                    "title": "Shop This Look",
-                    "link": "#",
-                    "sub_menu": "mobile-menu-shop-this-look",
+                    "title": "დედა",
+                    "link": "/collections/დედა",
+                    "sub_menu": "sub-mama",
                     "image_type_level_1": "image",
                     "svg_upload_level_1": "",
                     "image_level_1": "",
@@ -493,52 +484,12 @@
                   },
                   "blocks": {}
                 },
-                "menu_tab_item_kUtUi9": {
+                "menu_tab_item_all": {
                   "type": "_menu-tab-item",
                   "name": "Menu item",
                   "settings": {
-                    "title": "Blog",
-                    "link": "#",
-                    "sub_menu": "mobile-menu-blog",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": "",
-                    "banner_level_2": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_jPiHNw": {
-                  "type": "_menu-tab-item",
-                  "name": "Menu item",
-                  "settings": {
-                    "title": "Buy Theme",
-                    "link": "https://1.envato.market/dokaB2",
-                    "sub_menu": "mobile-menu-buy-theme",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_AJwmMz": {
-                  "type": "_menu-tab-item",
-                  "name": "Menu item",
-                  "settings": {
-                    "title": "My Wish List",
-                    "link": "",
-                    "sub_menu": "",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_6rAXjy": {
-                  "type": "_menu-tab-item",
-                  "name": "Menu item",
-                  "settings": {
-                    "title": "My Account",
-                    "link": "https://new-ella-demo-07.myshopify.com/account/login",
+                    "title": "ყველა პროდუქტი",
+                    "link": "/collections/all",
                     "sub_menu": "",
                     "image_type_level_1": "image",
                     "svg_upload_level_1": "",
@@ -549,100 +500,15 @@
               },
               "block_order": [
                 "menu_tab_item_aUDAAR",
-                "menu_tab_item_gFEwXm",
-                "menu_tab_item_UbTwFE",
-                "menu_tab_item_FiUPrt",
-                "menu_tab_item_kUtUi9",
-                "menu_tab_item_jPiHNw",
-                "menu_tab_item_AJwmMz",
-                "menu_tab_item_6rAXjy"
-              ]
-            },
-            "menu_tab_list_JdVVGD": {
-              "type": "_menu-tab-list",
-              "name": "Menu tab list",
-              "settings": {
-                "tab_for": "Demo",
-                "divider": true,
-                "scheme_border": "#e6e6e6"
-              },
-              "blocks": {
-                "menu_tab_item_PbNVWV": {
-                  "type": "_menu-tab-item",
-                  "name": "t:names.menu_item",
-                  "settings": {
-                    "title": "მთავარი",
-                    "link": "",
-                    "sub_menu": "mobile-menu-home-page",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_kPjJxE": {
-                  "type": "_menu-tab-item",
-                  "name": "t:names.menu_item",
-                  "settings": {
-                    "title": "Product Page",
-                    "link": "",
-                    "sub_menu": "",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_xPkVWn": {
-                  "type": "_menu-tab-item",
-                  "name": "t:names.menu_item",
-                  "settings": {
-                    "title": "Collection Page",
-                    "link": "",
-                    "sub_menu": "",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": "",
-                    "image_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_R38hiD": {
-                  "type": "_menu-tab-item",
-                  "name": "t:names.menu_item",
-                  "settings": {
-                    "title": "Collection List Page",
-                    "link": "",
-                    "sub_menu": "",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": ""
-                  },
-                  "blocks": {}
-                },
-                "menu_tab_item_arJjWr": {
-                  "type": "_menu-tab-item",
-                  "name": "t:names.menu_item",
-                  "settings": {
-                    "title": "Blog Page",
-                    "link": "",
-                    "sub_menu": "",
-                    "image_type_level_1": "image",
-                    "svg_upload_level_1": ""
-                  },
-                  "blocks": {}
-                }
-              },
-              "block_order": [
-                "menu_tab_item_PbNVWV",
-                "menu_tab_item_kPjJxE",
-                "menu_tab_item_xPkVWn",
-                "menu_tab_item_R38hiD",
-                "menu_tab_item_arJjWr"
+                "menu_tab_item_baby",
+                "menu_tab_item_kids",
+                "menu_tab_item_mama",
+                "menu_tab_item_all"
               ]
             }
           },
           "block_order": [
-            "menu_tab_list_FpTJaT",
-            "menu_tab_list_JdVVGD"
+            "menu_tab_list_FpTJaT"
           ]
         }
       },
