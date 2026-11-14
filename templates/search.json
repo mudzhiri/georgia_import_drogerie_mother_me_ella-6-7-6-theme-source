@@ -242,7 +242,7 @@
               "type": "_card-product-media",
               "static": true,
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "show_secondary_image": true,
                 "enable_quick_add": true,
                 "width_option": "full",
@@ -383,7 +383,7 @@
                 "video_position": "cover",
                 "background_image_position": "cover",
                 "content_overlay": false,
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "border": "none",
                 "border_width": 1,
                 "border_radius": 0,

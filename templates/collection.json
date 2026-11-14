@@ -141,7 +141,7 @@
                       "name": "Product media",
                       "settings": {
                         "product": "{{ closest.product }}",
-                        "image_ratio": "adapt",
+                        "image_ratio": "square",
                         "show_secondary_image": true,
                         "show_badges": true,
                         "width_option": "full",
@@ -329,7 +329,7 @@
               "settings": {
                 "link": "",
                 "hide_on_mobile": false,
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "width": "custom",
                 "unit": "percent",
                 "custom_width": 100,
@@ -680,7 +680,7 @@
               "type": "_card-product-media",
               "static": true,
               "settings": {
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "show_secondary_image": true,
                 "enable_quick_add": true,
                 "width_option": "full",
@@ -892,7 +892,7 @@
               "name": "Group: Product media",
               "settings": {
                 "product": "{{ closest.product }}",
-                "image_ratio": "adapt",
+                "image_ratio": "square",
                 "show_secondary_image": true,
                 "show_badges": true,
                 "width_option": "full",

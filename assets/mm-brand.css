@@ -284,20 +284,72 @@ button.button,
   transform: translateY(-8px);
 }
 
-.card__media,
-.product-card__media,
-.media,
-.card .media {
+/* Uniform square product frames — source photos vary wildly (e.g. 0.37 ratio) */
+.product-card-wrapper .card__media,
+.card-wrapper .card__media,
+.resource-card__media,
+.mm-featured__media,
+.product-grid-container .card__media,
+.collection .product-card-wrapper .card__media {
+  position: relative !important;
+  aspect-ratio: 1 / 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  overflow: hidden !important;
   border-radius: var(--mm-radius) !important;
-  overflow: hidden;
-  background: var(--mm-paper-2) !important;
+  background: #ffffff !important;
+  --ratio-percent: 100% !important;
+  --resource-card-aspect-ratio: 1 !important;
+  --media-adapt-ratio: 1 !important;
 }
 
-.card__media img,
-.product-card img,
-.media img,
-.card img {
+.product-card-wrapper .card__media .media,
+.card-wrapper .card__media .media,
+.resource-card__media .media,
+.product-grid-container .card__media .media {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  aspect-ratio: unset !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #ffffff !important;
+}
+
+.product-card-wrapper .card__media img,
+.card-wrapper .card__media img,
+.resource-card__media img,
+.product-grid-container .card__media img,
+.mm-featured__media img,
+.product-card-wrapper img.motion-reduce,
+.card-wrapper .media img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center !important;
   transition: transform 0.95s var(--mm-ease) !important;
+}
+
+/* Product page gallery tiles */
+.product-media-container,
+.product__media-wrapper .product-media-container,
+.media-gallery .product-media-container {
+  aspect-ratio: 1 / 1 !important;
+  background: #ffffff !important;
+  overflow: hidden !important;
+}
+.product-media-container img,
+.media-gallery img,
+.product__media img {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .card-wrapper:hover img,
