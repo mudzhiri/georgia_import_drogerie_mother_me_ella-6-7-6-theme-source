@@ -1457,7 +1457,7 @@
                   "type": "text",
                   "name": "t:names.text",
                   "settings": {
-                    "text": "<p>© 2025, <a href=\"https://new-ella-demo-07.myshopify.com/\" title=\"https://new-ella-demo-07.myshopify.com/\"><span style=\"text-decoration:underline\">Ella 7</span></a>. <a href=\"https://www.shopify.com/?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore\" target=\"_blank\">Powered by Shopify</a>. SHOPIFY THEMES BY <a href=\"https://halothemes.net/\" title=\"https://halothemes.net/\">HALOTHEMES</a>.</p>",
+                    "text": "<p>© 2025 MOTHER &amp; ME · თბილისი, საქართველო</p>",
                     "collection_description_only": false,
                     "collapse_text": false,
                     "typing_text": false,
@@ -1567,7 +1567,7 @@
                           "type": "text",
                           "name": "Text",
                           "settings": {
-                            "text": "<p>SHOPIFY THEMES BY <a href=\"https://halothemes.net/\" title=\"https://halothemes.net/\">HALOTHEMES</a>.</p>",
+                            "text": "<p>MOTHER &amp; ME</p>",
                             "collection_description_only": false,
                             "collapse_text": false,
                             "typing_text": false,

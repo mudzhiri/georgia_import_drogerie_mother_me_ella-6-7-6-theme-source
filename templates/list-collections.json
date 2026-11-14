@@ -231,7 +231,7 @@
               "type": "_collection-button",
               "name": "Collection link",
               "settings": {
-                "label": "SHOP NOW",
+                "label": "ნახვა",
                 "open_in_new_tab": false,
                 "style_class": "button",
                 "button_style": "default",
