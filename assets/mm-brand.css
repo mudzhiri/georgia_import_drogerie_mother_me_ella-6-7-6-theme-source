@@ -601,3 +601,20 @@ body.template-index {
 .badge--sale {
   color: #1f4d42 !important;
 }
+
+/* Force hero contrast on Ella overrides */
+.mm-hero__brand,
+.mm-hero h1,
+.section-mm-hero h1 {
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+}
+.mm-hero__lead,
+.mm-hero__eyebrow,
+.mm-hero p {
+  color: rgba(255,255,255,0.95) !important;
+}
+.mm-hero .mm-btn--primary {
+  background: #1f4d42 !important;
+  color: #fff !important;
+}
