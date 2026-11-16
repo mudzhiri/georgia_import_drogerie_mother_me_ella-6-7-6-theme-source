@@ -724,3 +724,202 @@ body.template-index {
   background: #1f4d42 !important;
   color: #fff !important;
 }
+
+/* ---------- Professional motion & polish ---------- */
+:root {
+  --mm-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --mm-ease-soft: cubic-bezier(0.33, 1, 0.68, 1);
+}
+
+.mm-reveal,
+[data-mm-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.7s var(--mm-ease-out),
+    transform 0.7s var(--mm-ease-out);
+  transition-delay: var(--mm-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.mm-reveal.is-in,
+[data-mm-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+.mm-btn,
+a.mm-btn,
+.button,
+button.button {
+  transition:
+    transform 0.35s var(--mm-ease-out),
+    background-color 0.35s var(--mm-ease-out),
+    border-color 0.35s var(--mm-ease-out),
+    box-shadow 0.35s var(--mm-ease-out),
+    color 0.35s var(--mm-ease-out) !important;
+}
+
+.mm-btn:hover,
+a.mm-btn:hover,
+.button:hover {
+  transform: translateY(-2px);
+}
+
+.mm-btn:active,
+a.mm-btn:active,
+.button:active {
+  transform: translateY(0);
+}
+
+.mm-btn--primary:hover,
+a.mm-btn--primary:hover {
+  box-shadow: 0 10px 28px rgba(20, 32, 28, 0.22) !important;
+}
+
+.mm-cats__card,
+.mm-featured__card {
+  display: block;
+  transition: transform 0.5s var(--mm-ease-out);
+}
+
+.mm-cats__card:hover,
+.mm-featured__card:hover {
+  transform: translateY(-6px);
+}
+
+.mm-cats__visual,
+.mm-featured__media {
+  overflow: hidden;
+  border-radius: var(--mm-radius, 10px);
+  transition: box-shadow 0.45s var(--mm-ease-soft);
+}
+
+.mm-cats__card:hover .mm-cats__visual,
+.mm-featured__card:hover .mm-featured__media {
+  box-shadow: 0 14px 36px rgba(20, 32, 28, 0.12);
+}
+
+.mm-cats__visual img,
+.mm-featured__media img {
+  transition: transform 0.85s var(--mm-ease-soft);
+  transform: scale(1.001);
+}
+
+.mm-cats__card:hover .mm-cats__visual img,
+.mm-featured__card:hover .mm-featured__media img {
+  transform: scale(1.045);
+}
+
+.mm-cats__title,
+.mm-featured__title {
+  position: relative;
+  display: inline-block;
+  transition: color 0.35s var(--mm-ease-out);
+}
+
+.mm-cats__title::after,
+.mm-featured__meta .mm-featured__title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.45s var(--mm-ease-out);
+  opacity: 0.55;
+}
+
+.mm-cats__card:hover .mm-cats__title::after,
+.mm-featured__card:hover .mm-featured__title::after {
+  transform: scaleX(1);
+}
+
+.product-card-wrapper .card__media img,
+.card-wrapper .card__media img,
+.product-grid__item .card__media img {
+  transition: transform 0.85s var(--mm-ease-soft) !important;
+}
+
+.product-card-wrapper:hover .card__media img,
+.card-wrapper:hover .card__media img,
+.product-grid__item:hover .card__media img {
+  transform: scale(1.04) !important;
+}
+
+.mm-story__media img {
+  transition: transform 1.1s var(--mm-ease-soft);
+}
+
+.mm-story.is-in .mm-story__media img,
+.mm-story:hover .mm-story__media img {
+  transform: scale(1.03);
+}
+
+.mm-trust__item {
+  transition: opacity 0.55s var(--mm-ease-out), transform 0.55s var(--mm-ease-out);
+}
+
+#header-group,
+sticky-header,
+.header-wrapper {
+  transition:
+    box-shadow 0.4s var(--mm-ease-out),
+    background-color 0.4s var(--mm-ease-out),
+    backdrop-filter 0.4s var(--mm-ease-out);
+}
+
+.mm-header--scrolled #header-group,
+#header-group.mm-header--scrolled,
+.mm-header--scrolled sticky-header,
+sticky-header.mm-header--scrolled,
+.mm-header--scrolled .header-wrapper {
+  box-shadow: 0 8px 28px rgba(20, 32, 28, 0.08);
+}
+
+.mm-hero__content > * {
+  animation: mmHeroChild 0.9s var(--mm-ease-out) both;
+}
+.mm-hero__content > *:nth-child(1) { animation-delay: 0.05s; }
+.mm-hero__content > *:nth-child(2) { animation-delay: 0.16s; }
+.mm-hero__content > *:nth-child(3) { animation-delay: 0.28s; }
+.mm-hero__content > *:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes mmHeroChild {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Smooth page feel */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .mm-reveal,
+  [data-mm-reveal],
+  .mm-hero__content > *,
+  .mm-hero__media img,
+  .mm-cats__visual img,
+  .mm-featured__media img,
+  .mm-story__media img,
+  .product-card-wrapper .card__media img {
+    animation: none !important;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

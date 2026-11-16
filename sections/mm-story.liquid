@@ -1,5 +1,5 @@
 <section class="mm-story">
-  <div class="mm-story__media">
+  <div class="mm-story__media" data-mm-reveal>
     <img
       src="{{ 'mm-apothecary-still.jpg' | asset_url }}"
       alt="{{ section.settings.image_alt }}"
@@ -8,7 +8,7 @@
       loading="lazy"
     >
   </div>
-  <div class="mm-story__copy">
+  <div class="mm-story__copy" data-mm-reveal>
     <p class="mm-story__eyebrow">{{ section.settings.eyebrow }}</p>
     <h2>{{ section.settings.heading }}</h2>
     <p class="mm-story__text">{{ section.settings.text }}</p>
