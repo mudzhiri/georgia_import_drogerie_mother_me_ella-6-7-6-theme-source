@@ -63,26 +63,33 @@
   align-items: center !important;
 }
 
-.header__heading-logo.mm-logo,
-.header-logo .mm-logo,
-.header__heading-link .mm-logo {
-  width: clamp(220px, 32vw, 320px) !important;
-  max-width: none !important;
-  height: auto !important;
-  display: block;
-  margin-inline: auto;
+/* Logo — editor width via --logo_width / --width-logo-mb; keep SVG colors */
+.header-navigation .header-logo {
+  justify-content: flex-start !important;
+  max-width: var(--logo_width, 180px);
+  flex: 0 0 auto;
+  z-index: 2;
 }
 
-.header__logo .h2,
-.header__heading-link .h2 {
-  font-family: var(--mm-display) !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.16em !important;
-  text-transform: uppercase !important;
-  color: var(--mm-primary, #214d43) !important;
-  font-size: clamp(1.45rem, 2.6vw, 2rem) !important;
-  line-height: 1 !important;
+.header-navigation .header-logo .header__heading-logo.mm-logo,
+.header-navigation .header-logo .mm-logo,
+.header__heading-link .mm-logo {
+  width: var(--logo_width, 180px) !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin-inline: 0 !important;
+  object-fit: contain;
 }
+
+/* Hide duplicate text brand name when SVG logo is present */
+.header-logo:has(.mm-logo) .header__heading-text,
+.header-mobile:has(.mm-logo) .header__heading-text,
+.header-logo:has(.mm-logo) .h2,
+.header__heading-link:has(.mm-logo) .h2 {
+  display: none !important;
+}
+
 
 .customer-service-text,
 .customer-service-text p,
@@ -211,11 +218,31 @@
   border-bottom: 1px solid var(--mm-line) !important;
 }
 
-.header-mobile .mm-logo {
-  width: clamp(180px, 55vw, 260px) !important;
-  height: auto !important;
-  margin: 0 auto;
+.header-mobile .header-mobile__item--logo,
+.header-mobile .header__heading,
+.header-mobile .header-mobile--icon:has(.mm-logo) {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  z-index: 1;
+  pointer-events: none;
 }
+
+.header-mobile .header__heading-link,
+.header-mobile a.header__heading-logo {
+  pointer-events: auto;
+}
+
+.header-mobile .mm-logo,
+.header-mobile .header__heading-logo.mm-logo {
+  width: var(--width-logo-mb, 130px) !important;
+  max-width: min(var(--width-logo-mb, 130px), calc(100vw - 148px)) !important;
+  height: auto !important;
+  margin-inline: auto !important;
+  object-fit: contain;
+  display: block;
+}
+
 
 .shopify-section-group-header-group.is-sticky,
 .header-sticky,

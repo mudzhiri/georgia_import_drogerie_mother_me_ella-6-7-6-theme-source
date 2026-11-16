@@ -249,8 +249,8 @@
                                   src="{{ 'mm-logo.svg' | asset_url }}"
                                   alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
                                   class="header__heading-logo mm-logo motion-reduce"
-                                  width="{{ block.settings.logo_width | default: 280 }}"
-                                  height="56"
+                                  width="{{ block.settings.logo_width | default: 180 }}"
+                                  height="{{ block.settings.logo_width | default: 180 | times: 180 | divided_by: 900 }}"
                                   loading="eager"
                                 >
                             {%- endif -%}

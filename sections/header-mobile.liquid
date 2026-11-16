@@ -83,8 +83,8 @@
                                                       src="{{ 'mm-logo.svg' | asset_url }}"
                                                       alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
                                                       class="header__heading-logo mm-logo motion-reduce"
-                                                      width="{{ block.settings.logo_width_mobile | default: 150 }}"
-                                                      height="33"
+                                                      width="{{ block.settings.logo_width_mobile | default: 130 }}"
+                                                      height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
                                                       loading="eager"
                                                     >
                                                 {%- endif -%}
@@ -122,9 +122,9 @@
                                               src="{{ 'mm-logo.svg' | asset_url }}"
                                               alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
                                               class="header__heading-logo mm-logo motion-reduce"
-                                              width="{{ block.settings.logo_width_mobile | default: 150 }}"
-                                              height="33"
-                                              loading="eager"
+                                              width="{{ block.settings.logo_width_mobile | default: 130 }}"
+                                              height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
+                                                      loading="eager"
                                             >
                                         {%- endif -%}
                                     </a>
