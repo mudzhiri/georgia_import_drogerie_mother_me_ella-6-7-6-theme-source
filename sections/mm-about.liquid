@@ -8,13 +8,23 @@
   if image_alt == blank and heading != blank
     assign image_alt = heading
   endif
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
   assign has_image = false
   if image != blank
     assign has_image = true
   endif
+  assign has_button = false
+  if button_link != blank and button_label != blank
+    assign has_button = true
+  endif
   assign has_content = false
-  if heading != blank or text != blank or has_image
+  if heading != blank or text != blank or has_image or has_button
     assign has_content = true
+  endif
+  assign focal_point = 'center'
+  if has_image and image.presentation.focal_point != blank
+    assign focal_point = image.presentation.focal_point
   endif
 -%}
 
@@ -25,7 +35,7 @@
     {% if heading != blank %}aria-labelledby="mm-about-heading-{{ section.id }}"{% endif %}
   >
     <div class="mm-about__inner">
-      <div class="mm-about__layout{% unless has_image %} mm-about__layout--text-only{% endunless %}">
+      <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--text-only{% endif %}">
         <div class="mm-about__copy">
           {%- if heading != blank -%}
             <h2 id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
@@ -35,10 +45,15 @@
           {%- if text != blank -%}
             <p class="mm-about__text">{{ text | escape }}</p>
           {%- endif -%}
+          {%- if has_button -%}
+            <a class="mm-about__link" href="{{ button_link }}">
+              {{ button_label | escape }}
+            </a>
+          {%- endif -%}
         </div>
 
         {%- if has_image -%}
-          <figure class="mm-about__media">
+          <figure class="mm-about__media" style="--mm-about-focal: {{ focal_point }};">
             {{
               image
               | image_url: width: 1400
@@ -72,13 +87,27 @@
       "type": "textarea",
       "id": "text",
       "label": "Text",
-      "default": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
+      "default": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
+      "info": "Editable in the theme editor. Translate via Shopify Languages / Translate & Adapt."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Link label",
+      "default": "ჩვენს შესახებ",
+      "info": "Shown only when a link target is set. Translate per language (e.g. Über uns)."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "About page link",
+      "info": "Optional. Select the existing About us page. The button stays hidden until a valid URL is set."
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Image",
-      "info": "Optional. Use a real photo of shopping or packing. Without an image only the text is shown."
+      "label": "Photo",
+      "info": "Optional real photo. Set focal point in the media editor. Without an image no empty media column is reserved."
     },
     {
       "type": "text",

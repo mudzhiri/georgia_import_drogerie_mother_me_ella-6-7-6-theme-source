@@ -1,0 +1,76 @@
+/* MOTHER & ME — product breadcrumb return path only */
+
+.template-product breadcrumb-component.mm-breadcrumb {
+  display: block;
+}
+
+.template-product .mm-breadcrumb .breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #59665f;
+  white-space: normal;
+  overflow: visible;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.template-product .mm-breadcrumb .breadcrumb a,
+.template-product .mm-breadcrumb .breadcrumb span:not(.separate) {
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #59665f;
+}
+
+.template-product .mm-breadcrumb .breadcrumb a {
+  color: #214d43;
+  text-decoration: none;
+  transition: opacity 180ms ease;
+}
+
+.template-product .mm-breadcrumb .breadcrumb a:hover {
+  opacity: 0.8;
+}
+
+.template-product .mm-breadcrumb .breadcrumb a:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+}
+
+.template-product .mm-breadcrumb .breadcrumb .breadcrumb__current {
+  color: #59665f;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  max-width: 100%;
+}
+
+.template-product .mm-breadcrumb .breadcrumb span.separate {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding: 0 7px;
+  color: #59665f;
+  fill: #59665f;
+}
+
+.template-product .mm-breadcrumb .breadcrumb span.separate svg {
+  width: 9px;
+  height: 10px;
+  fill: #59665f;
+  color: #59665f;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .template-product .mm-breadcrumb .breadcrumb a {
+    transition: none;
+  }
+}

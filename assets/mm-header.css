@@ -288,7 +288,6 @@
   transition: transform 0.22s var(--mm-ease, ease), opacity 0.22s var(--mm-ease, ease);
   max-height: min(100dvh, 100%);
   overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .mm-search-panel.is-open .mm-search-panel__backdrop {
@@ -695,19 +694,65 @@ body.mm-search-open {
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .icon-dropdown {
-    display: none !important; /* desktop: clean top-level label */
+    display: none !important; /* desktop: clean top-level label; separate toggle used */
+  }
+
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row {
+    display: inline-flex;
+    align-items: stretch;
+    min-height: var(--mm-header-cats-min) !important;
+  }
+
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row > a.menu-lv-1__action {
+    padding-right: 6px !important;
+  }
+
+  .header-nav-hamburger--style1 .main-menu .mm-cat-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-width: 40px;
+    min-height: var(--mm-header-cats-min) !important;
+    margin: 0;
+    padding: 0 10px 0 4px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #214d43;
+    cursor: pointer;
+  }
+
+  .header-nav-hamburger--style1 .main-menu .mm-cat-toggle__icon {
+    display: block;
+    transition: transform 160ms ease-out;
+  }
+
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row .mm-cat-toggle__icon {
+    transform: rotate(180deg);
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:hover,
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:focus-visible,
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > a,
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1:focus-within > a {
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover > a,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover > .mm-cat-toggle,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row > a,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row > .mm-cat-toggle {
     color: #214d43 !important;
     background: #eaf1ec !important;
   }
 
-  /* Dropdown panel */
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:focus-visible,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-toggle:focus-visible,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-2 > a:focus-visible,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-2 .menu-lv-2__action:focus-visible {
+    outline: 2px solid #214d43 !important;
+    outline-offset: 2px !important;
+  }
+
+  /* Dropdown panel — open only via .is-open (keyboard/click/mouseenter JS) */
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > .header__submenu {
+    display: none !important;
     background: #ffffff !important;
     border: 1px solid #dee5df !important;
     box-shadow: 0 8px 24px rgba(33, 77, 67, 0.08) !important;
@@ -717,11 +762,12 @@ body.mm-search-open {
     left: 50% !important;
     transform: translateX(-50%) translateY(4px);
     text-align: left;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
   }
 
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .header__submenu,
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1:focus-within > .header__submenu,
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1:hover > .header__submenu {
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .header__submenu {
     display: block !important;
     opacity: 1 !important;
     visibility: visible !important;
@@ -768,6 +814,10 @@ body.mm-search-open {
   .header-nav-hamburger .main-menu {
     display: none !important;
   }
+
+  .mm-cat-toggle {
+    display: none !important;
+  }
 }
 
 /* Mobile drawer — existing #navigation-mobile, accordion (no second menu) */
@@ -796,7 +846,6 @@ body.mm-search-open {
     max-height: 100dvh !important;
     overflow-x: hidden !important;
     overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch;
     padding: 0 0 48px !important;
     background: #ffffff !important;
   }

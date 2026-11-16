@@ -1,0 +1,131 @@
+/* MOTHER & ME — empty cart page state only */
+.mm-cart-empty {
+  --mm-cart-empty-bg: #faf8f4;
+  --mm-cart-empty-heading: #214d43;
+  --mm-cart-empty-text: #59665f;
+  --mm-cart-empty-max: 640px;
+  width: 100%;
+  margin: 0;
+  padding: 32px 16px 40px;
+  box-sizing: border-box;
+  background: var(--mm-cart-empty-bg);
+  color: var(--mm-cart-empty-text);
+  text-align: center;
+}
+
+.mm-cart-empty__inner {
+  width: 100%;
+  max-width: var(--mm-cart-empty-max);
+  margin: 0 auto;
+}
+
+.mm-cart-empty__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin: 0 0 16px;
+  color: #214d43;
+}
+
+.mm-cart-empty__icon svg {
+  width: 40px;
+  height: 40px;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.mm-cart-empty__heading {
+  margin: 0 0 24px;
+  color: var(--mm-cart-empty-heading);
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.mm-cart-empty__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mm-cart-empty__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 20px;
+  border: 1px solid #214d43;
+  border-radius: 8px;
+  background: #214d43;
+  color: #ffffff;
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition:
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    color 180ms ease-out;
+}
+
+.mm-cart-empty__button--secondary {
+  background: transparent;
+  color: #214d43;
+}
+
+.mm-cart-empty__button:hover {
+  background: #173b33;
+  border-color: #173b33;
+  color: #ffffff;
+}
+
+.mm-cart-empty__button--secondary:hover {
+  background: #214d43;
+  border-color: #214d43;
+  color: #ffffff;
+}
+
+.mm-cart-empty__button:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+}
+
+.mm-cart-empty__button:active {
+  background: #102822;
+  border-color: #102822;
+  color: #ffffff;
+}
+
+@media screen and (min-width: 600px) {
+  .mm-cart-empty {
+    padding-top: 40px;
+    padding-bottom: 48px;
+  }
+
+  .mm-cart-empty__heading {
+    font-size: 28px;
+  }
+
+  .mm-cart-empty__actions {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mm-cart-empty__button {
+    width: auto;
+    min-width: 180px;
+  }
+}

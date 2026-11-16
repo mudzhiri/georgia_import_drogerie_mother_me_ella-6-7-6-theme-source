@@ -919,7 +919,7 @@
                                                     product: product,
                                                     show_vendor: show_vendor,
                                                     current_variant: current_variant,
-                                                    show_availability: show_availability,
+                                                    show_availability: false,
                                                     show_sku: show_sku,
                                                     show_barcode: show_barcode,
                                                     show_product_type: show_product_type,
@@ -960,6 +960,10 @@
                                                         price_class: 'price--medium'
                                                     -%}
                                                 </div>
+                                                {% render 'mm-product-availability',
+                                                    product: product,
+                                                    current_variant: current_variant
+                                                %}
                                                 {%- if product.quantity_price_breaks_configured? -%}
                                                     <div class="volume-pricing-note" id="Volume-Note-{{ section.id }}">
                                                         <span>{{ 'products.product.volume_pricing.note' | t }}</span>

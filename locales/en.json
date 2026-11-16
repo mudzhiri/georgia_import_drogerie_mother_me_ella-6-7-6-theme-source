@@ -10,7 +10,8 @@
 {
   "general": {
     "breadcrumb": {
-      "home": "Home"
+      "home": "Home",
+      "label": "Breadcrumb"
     },
     "common": {
       "close": "Close",
@@ -89,6 +90,11 @@
       "submit": "Search",
       "placeholder": "Search",
       "mm_no_results": "No products found",
+      "mm_empty_title": "No product found",
+      "mm_empty_query": "“{{ terms }}”",
+      "mm_empty_hint": "Try a different word or search by brand name.",
+      "mm_empty_kids": "For kids",
+      "mm_empty_mamas": "For mamas",
       "mm_view_all": "View all results",
       "mm_error": "Search failed. Please try again.",
       "mm_results": "Search results"
@@ -193,7 +199,9 @@
     "account": "Account",
     "cart": "Cart",
     "menu": "Menu",
-    "search": "Search"
+    "search": "Search",
+    "submenu_expand": "Open {{ title }} submenu",
+    "submenu_collapse": "Close {{ title }} submenu"
   },
   "blogs": {
     "article": {
@@ -307,12 +315,21 @@
       "unavailable": "Unavailable",
       "unavailable_message": "This variant is unavailable!",
       "value_unavailable": "{{ option_value }} (unavailable)",
-      "out_of_stock": "Out Of Stock",
+      "out_of_stock": "Not in stock",
       "vendor": "Vendor",
       "video_exit_message": "{{ title }} opens full screen video in same window.",
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
       "pre_order": "Pre-order",
+      "availability_status": {
+        "in_stock": "In stock",
+        "out_of_stock": "Not in stock",
+        "preorder": "Pre-order"
+      },
+      "shipping_note": {
+        "text_html": "Shipping within Georgia: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
+        "text_with_free_html": "Shipping within Georgia: {{ price }}; free over {{ threshold }}. <a href=\"{{ link }}\">{{ policy }}</a>"
+      },
       "quick_view": "Quick view",
       "quick_view_2": "Quick view",
       "quick_shop": "Quick add",
@@ -403,21 +420,30 @@
       "cart": "Cart"
     },
     "contact": {
+      "title": "Contact us",
+      "info": {
+        "email": "Email",
+        "phone": "Phone",
+        "address": "Address"
+      },
       "form": {
         "name": "Name",
         "email": "Email",
         "phone": "Phone number",
-        "comment": "Comment",
-        "send": "Submit contact",
-        "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
+        "comment": "Message",
+        "message": "Message",
+        "send": "Send",
+        "post_success": "Thank you for your message.",
         "error_heading": "Please adjust the following:"
       }
     },
     "404": {
-      "title": "Oops! Page not found",
+      "title": "Page not found",
       "subtext": "404",
-      "description": "Sorry! The page you're looking for clocked out!",
-      "button": "Return to store"
+      "description": "The link may have changed or the page no longer exists.",
+      "button": "Back to homepage",
+      "kids": "For kids",
+      "mamas": "For mamas"
     }
   },
   "faqs": {
@@ -463,6 +489,8 @@
       "shipping": "Shipping",
       "shipping_text": "Taxes and shipping fee will be calculated at checkout",
       "empty": "Your cart is empty",
+      "empty_kids": "For kids",
+      "empty_mamas": "For mamas",
       "title_collection": "You may also like",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add [quantity] of this item to your cart.",
@@ -530,12 +558,15 @@
         "other": "{{ count }} products"
       },
       "item_per_page": "Items per page",
-      "load_more": "Load more",
+      "load_more": "Show more",
       "show_more": "Show more",
       "show_less": "Show less",
       "show_all": "Show all",
-      "loading_more": "Loading more",
-      "no_more": "No more product",
+      "loading_more": "Loading…",
+      "load_error": "Could not load more products. Please try again.",
+      "load_retry": "Try again",
+      "load_success": "Added {{ count }} products.",
+      "no_more": "No more products",
       "max": "Max",
       "max_price": "The highest price is {{ price }}",
       "min": "Min",

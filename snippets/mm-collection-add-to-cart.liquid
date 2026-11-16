@@ -1,0 +1,69 @@
+{% comment %}
+  Collection product-card purchase action only.
+  Labels come from theme locale files. Pre-order only when the active variant
+  continues selling with zero inventory (Shopify continue-selling / pre-order).
+{% endcomment %}
+{%- liquid
+  assign mm_product = product
+  assign mm_variant = mm_product.selected_or_first_available_variant
+  assign mm_sold_out = false
+  if mm_product.available == false
+    assign mm_sold_out = true
+  endif
+
+  assign mm_needs_selection = false
+  if mm_product.has_only_default_variant == false
+    assign mm_needs_selection = true
+  endif
+
+  assign mm_is_preorder = false
+  if mm_sold_out == false and mm_needs_selection == false
+    if mm_variant.inventory_management != blank and mm_variant.inventory_quantity <= 0 and mm_variant.inventory_policy == 'continue'
+      assign mm_is_preorder = true
+    endif
+  endif
+
+  assign mm_form_id = 'mm-coll-atc-' | append: mm_product.id | append: '-' | append: sectionId
+-%}
+
+<div class="card-action mm-collection-atc-wrap">
+  {%- if mm_sold_out -%}
+    <button
+      type="button"
+      class="button button-ATC mm-collection-atc mm-collection-atc--sold-out"
+      disabled
+      aria-disabled="true"
+    >
+      {{ 'products.product.sold_out' | t }}
+    </button>
+  {%- elsif mm_needs_selection -%}
+    <a class="button button-ATC mm-collection-atc mm-collection-atc--select" href="{{ mm_product.url }}">
+      {{ 'products.product.select_variant' | t }}
+    </a>
+  {%- else -%}
+    <form
+      action="{{ routes.cart_add_url }}"
+      method="post"
+      enctype="multipart/form-data"
+      class="variants mm-collection-atc-form"
+      id="{{ mm_form_id }}"
+      data-product-id="{{ mm_product.id }}"
+    >
+      <input type="hidden" name="id" value="{{ mm_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button
+        type="submit"
+        name="add"
+        class="button button-ATC mm-collection-atc{% if mm_is_preorder %} mm-collection-atc--preorder{% endif %}"
+        data-btn-addToCart
+        data-form-id="#{{ mm_form_id }}"
+      >
+        {%- if mm_is_preorder -%}
+          {{ 'products.product.pre_order' | t }}
+        {%- else -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- endif -%}
+      </button>
+    </form>
+  {%- endif -%}
+</div>

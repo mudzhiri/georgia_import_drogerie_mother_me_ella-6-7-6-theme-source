@@ -1,0 +1,198 @@
+/* MOTHER & ME — Shopify policy pages only (.mm-policy / .shopify-policy) */
+.mm-policy,
+.shopify-policy__container {
+  --mm-policy-heading: #214d43;
+  --mm-policy-text: #242d29;
+  --mm-policy-max: 800px;
+  --mm-policy-gutter: 16px;
+  width: 100%;
+  max-width: var(--mm-policy-max);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 32px var(--mm-policy-gutter) 48px;
+  box-sizing: border-box;
+  color: var(--mm-policy-text);
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.mm-policy__title,
+.shopify-policy__title,
+.mm-policy__title h1,
+.shopify-policy__title h1,
+.mm-policy h1 {
+  margin: 0 0 24px;
+  color: var(--mm-policy-heading);
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+
+.mm-policy__body,
+.shopify-policy__body,
+.mm-policy__body.rte,
+.shopify-policy__body .rte,
+.mm-policy .rte {
+  color: var(--mm-policy-text);
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.mm-policy__body > *:first-child,
+.shopify-policy__body > *:first-child,
+.mm-policy .rte > *:first-child {
+  margin-top: 0;
+}
+
+.mm-policy__body > *:last-child,
+.shopify-policy__body > *:last-child,
+.mm-policy .rte > *:last-child {
+  margin-bottom: 0;
+}
+
+.mm-policy__body h2,
+.mm-policy__body h3,
+.mm-policy__body h4,
+.mm-policy__body h5,
+.mm-policy__body h6,
+.shopify-policy__body h2,
+.shopify-policy__body h3,
+.shopify-policy__body h4,
+.shopify-policy__body h5,
+.shopify-policy__body h6,
+.mm-policy .rte h2,
+.mm-policy .rte h3,
+.mm-policy .rte h4,
+.mm-policy .rte h5,
+.mm-policy .rte h6 {
+  margin: 1.75em 0 0.65em;
+  color: var(--mm-policy-heading);
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.mm-policy__body h2,
+.shopify-policy__body h2,
+.mm-policy .rte h2 {
+  font-size: 1.25em;
+}
+
+.mm-policy__body h3,
+.shopify-policy__body h3,
+.mm-policy .rte h3 {
+  font-size: 1.125em;
+}
+
+.mm-policy__body h4,
+.mm-policy__body h5,
+.mm-policy__body h6,
+.shopify-policy__body h4,
+.shopify-policy__body h5,
+.shopify-policy__body h6,
+.mm-policy .rte h4,
+.mm-policy .rte h5,
+.mm-policy .rte h6 {
+  font-size: 1em;
+}
+
+.mm-policy__body p,
+.shopify-policy__body p,
+.mm-policy .rte p {
+  margin: 0 0 1em;
+  color: var(--mm-policy-text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.mm-policy__body ul,
+.mm-policy__body ol,
+.shopify-policy__body ul,
+.shopify-policy__body ol,
+.mm-policy .rte ul,
+.mm-policy .rte ol {
+  margin: 0 0 1.15em;
+  padding-left: 1.35em;
+}
+
+.mm-policy__body li,
+.shopify-policy__body li,
+.mm-policy .rte li {
+  margin: 0 0 0.45em;
+  color: var(--mm-policy-text);
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.mm-policy__body li:last-child,
+.shopify-policy__body li:last-child,
+.mm-policy .rte li:last-child {
+  margin-bottom: 0;
+}
+
+.mm-policy__body a,
+.shopify-policy__body a,
+.mm-policy .rte a,
+.mm-policy a {
+  color: var(--mm-policy-heading);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.mm-policy__body a:hover,
+.shopify-policy__body a:hover,
+.mm-policy .rte a:hover,
+.mm-policy a:hover {
+  color: #173b33;
+}
+
+.mm-policy__body a:focus-visible,
+.shopify-policy__body a:focus-visible,
+.mm-policy .rte a:focus-visible,
+.mm-policy a:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.mm-policy__body table,
+.shopify-policy__body table,
+.mm-policy .rte table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  margin: 0 0 1.15em;
+  border-collapse: collapse;
+}
+
+.mm-policy__body img,
+.shopify-policy__body img,
+.mm-policy .rte img {
+  max-width: 100%;
+  height: auto;
+}
+
+.mm-policy__body pre,
+.shopify-policy__body code,
+.mm-policy .rte pre,
+.mm-policy .rte code {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+@media screen and (min-width: 900px) {
+  .mm-policy,
+  .shopify-policy__container {
+    padding-top: 40px;
+    padding-bottom: 64px;
+  }
+}

@@ -300,6 +300,19 @@
         show_all: `{{ 'sections.collection_template.show_all' | t }}`,
     };
 
+    window.mm_load_more = {
+        label: {{ 'sections.collection_template.show_more' | t | json }},
+        loading: {{ 'sections.collection_template.loading_more' | t | json }},
+        error: {{ 'sections.collection_template.load_error' | t | json }},
+        retry: {{ 'sections.collection_template.load_retry' | t | json }},
+        success: {{ 'sections.collection_template.load_success' | t | json }}
+    };
+
+    window.mm_category_nav = {
+        submenu_expand: {{ 'accessibility.submenu_expand' | t | json }},
+        submenu_collapse: {{ 'accessibility.submenu_collapse' | t | json }}
+    };
+
     function getCookie(cname) {
         let name = cname + "=";
         let decodedCookie = decodeURIComponent(document.cookie);

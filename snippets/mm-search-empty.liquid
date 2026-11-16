@@ -1,0 +1,87 @@
+{{ 'mm-search-empty.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign kids_collection = collections['ბავშვი']
+  assign mamas_collection = collections['დედა']
+  assign show_kids = false
+  assign show_mamas = false
+  if kids_collection != blank and kids_collection.url != blank
+    assign show_kids = true
+  endif
+  if mamas_collection != blank and mamas_collection.url != blank
+    assign show_mamas = true
+  endif
+-%}
+
+<section
+  class="mm-search-empty"
+  aria-labelledby="mm-search-empty-heading"
+>
+  <div class="mm-search-empty__inner">
+    <h1 id="mm-search-empty-heading" class="mm-search-empty__heading">
+      {{ 'general.search.mm_empty_title' | t }}
+    </h1>
+
+    {%- if search.terms != blank -%}
+      <p class="mm-search-empty__query">
+        <span class="mm-search-empty__query-term">{{ 'general.search.mm_empty_query' | t: terms: search.terms }}</span>
+      </p>
+    {%- endif -%}
+
+    <p class="mm-search-empty__hint">
+      {{ 'general.search.mm_empty_hint' | t }}
+    </p>
+
+    <form
+      class="mm-search-empty__form"
+      action="{{ routes.search_url }}"
+      method="get"
+      role="search"
+    >
+      <input type="hidden" name="type" value="product">
+      <input type="hidden" name="options[prefix]" value="last">
+      <div class="mm-search-empty__field">
+        <label class="mm-search-empty__label" for="mm-Search-Empty">
+          {{ 'general.search.search' | t }}
+        </label>
+        <input
+          id="mm-Search-Empty"
+          class="mm-search-empty__input"
+          type="search"
+          name="q"
+          value="{{ search.terms | escape }}"
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+        >
+        <button
+          type="submit"
+          class="mm-search-empty__submit"
+          aria-label="{{ 'general.search.search' | t }}"
+        >
+          {% render 'icon-search' %}
+        </button>
+      </div>
+    </form>
+
+    {%- if show_kids or show_mamas -%}
+      <ul class="mm-search-empty__links">
+        {%- if show_kids -%}
+          <li>
+            <a class="mm-search-empty__link" href="{{ kids_collection.url }}">
+              {{ 'general.search.mm_empty_kids' | t }}
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if show_mamas -%}
+          <li>
+            <a class="mm-search-empty__link" href="{{ mamas_collection.url }}">
+              {{ 'general.search.mm_empty_mamas' | t }}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>

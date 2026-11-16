@@ -13,6 +13,9 @@
 {% endcomment %}
 
 {{ 'component-pagination.css' | asset_url | stylesheet_tag }}
+{%- if show_infinite_scrolling == 'show_more' or show_infinite_scrolling == 'infinite' -%}
+  {{ 'mm-load-more.css' | asset_url | stylesheet_tag }}
+{%- endif -%}
 
 {%- if paginate.parts.size > 0 -%}
     <div class="{{ class | default: 'pagination-wrapper' }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
@@ -41,24 +44,27 @@
                 </div>
             </div>
             {%- if show_infinite_scrolling == 'show_more' or show_infinite_scrolling == 'infinite' -%}
-                <div class="pagination-page-item pagination-page-infinite">
-                    <a class="{% if settings.infinite_scroll_style == '1' %}link link-underline{% else %}button button--secondary{% endif %}{% unless paginate.next %} disabled{% endunless %}"
-                        {% if paginate.next %}
-                            href="{{ paginate.next.url }}" data-href="{{ paginate.next.url }}"
+                {%- if paginate.next -%}
+                    <div class="pagination-page-item pagination-page-infinite mm-load-more-wrap">
+                        <a
+                            class="mm-load-more"
+                            href="{{ paginate.next.url }}"
+                            data-href="{{ paginate.next.url }}"
                             data-infinite-scrolling
-                            data-load-more="{{ 'sections.collection_template.show_more' | t }}"
-                            data-loading-more="{{ 'sections.collection_template.show_more' | t }}"
-                        {% else %}
-                            href="javascript:void(0)"
-                        {% endif %}
-                    >
-                        {%- if paginate.next -%}
-                            {{ 'sections.collection_template.show_more' | t }}
-                        {%- else -%}
-                            {{ 'sections.collection_template.no_more' | t }}
-                        {%- endif -%}
-                    </a>
-                </div>
+                            data-load-more="{{ 'sections.collection_template.show_more' | t | escape }}"
+                            data-loading-more="{{ 'sections.collection_template.loading_more' | t | escape }}"
+                            aria-busy="false"
+                        >
+                            <span class="mm-load-more__spinner" aria-hidden="true"></span>
+                            <span class="mm-load-more__label">{{ 'sections.collection_template.show_more' | t }}</span>
+                        </a>
+                        <p class="mm-load-more__error" data-mm-load-more-error hidden role="alert"></p>
+                        <button type="button" class="mm-load-more__retry" data-mm-load-more-retry hidden>
+                            {{ 'sections.collection_template.load_retry' | t }}
+                        </button>
+                        <p class="visually-hidden" data-mm-load-more-status aria-live="polite" aria-atomic="true"></p>
+                    </div>
+                {%- endif -%}
             {%-else -%}
                 <ul class="pagination__list list-unstyled" role="list">
                     {%- if paginate.previous -%}

@@ -1,0 +1,48 @@
+{{ 'mm-policy.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  # Native Shopify policy on /policies/*; fallback by request path. No invented copy.
+
+  assign current_policy = false
+
+  if policy != blank and policy.body != blank
+    assign current_policy = policy
+  endif
+
+  unless current_policy
+    for shop_policy in shop.policies
+      if shop_policy.url == request.path
+        assign current_policy = shop_policy
+        break
+      endif
+    endfor
+  endunless
+-%}
+
+{%- if current_policy -%}
+  <section
+    class="mm-policy"
+    aria-labelledby="mm-policy-heading-{{ section.id }}"
+  >
+    <h1 id="mm-policy-heading-{{ section.id }}" class="mm-policy__title">
+      {{ current_policy.title | escape }}
+    </h1>
+    <div class="mm-policy__body rte">
+      {{ current_policy.body }}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM Policy",
+  "tag": "div",
+  "class": "section-mm-policy",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Renders the official Shopify policy for this URL (shipping, refund, privacy, terms). Content and title follow the active store language. Translations are managed in Shopify Admin → Settings → Policies / Translate & Adapt."
+    }
+  ]
+}
+{% endschema %}

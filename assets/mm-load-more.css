@@ -1,0 +1,135 @@
+/* MOTHER & ME — collection load-more button */
+.mm-load-more {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-width: min(100%, 220px);
+  min-height: 48px;
+  padding: 12px 24px;
+  border: 1px solid #214d43;
+  border-radius: 8px;
+  background: #214d43;
+  color: #ffffff;
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-decoration: none;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition:
+    background-color 180ms ease-out,
+    border-color 180ms ease-out,
+    color 180ms ease-out;
+}
+
+.mm-load-more:hover {
+  background: #173b33;
+  border-color: #173b33;
+  color: #ffffff;
+}
+
+.mm-load-more:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+  color: #ffffff;
+}
+
+.mm-load-more:active {
+  background: #102822;
+  border-color: #102822;
+  color: #ffffff;
+}
+
+.mm-load-more.is-loading,
+.mm-load-more[aria-busy="true"] {
+  pointer-events: none;
+  cursor: wait;
+  opacity: 0.85;
+}
+
+.mm-load-more__spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+}
+
+.mm-load-more.is-loading .mm-load-more__spinner,
+.mm-load-more[aria-busy="true"] .mm-load-more__spinner {
+  display: inline-block;
+  animation: mm-load-more-spin 0.7s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-load-more.is-loading .mm-load-more__spinner,
+  .mm-load-more[aria-busy="true"] .mm-load-more__spinner {
+    animation: none;
+    border-top-color: #ffffff;
+    opacity: 0.9;
+  }
+}
+
+@keyframes mm-load-more-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mm-load-more-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.mm-load-more__error {
+  margin: 0;
+  max-width: 32rem;
+  color: #7a2e22;
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 14px;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.mm-load-more__error[hidden],
+.mm-load-more__retry[hidden] {
+  display: none !important;
+}
+
+.mm-load-more__retry {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 8px 14px;
+  border: 1px solid #214d43;
+  border-radius: 8px;
+  background: transparent;
+  color: #214d43;
+  font-family: var(--mm-font-sans, "Manrope", "Noto Sans Georgian", sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.3;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.mm-load-more__retry:hover {
+  color: #173b33;
+}
+
+.mm-load-more__retry:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+}
+
+.pagination-page-infinite .mm-load-more {
+  width: auto;
+}

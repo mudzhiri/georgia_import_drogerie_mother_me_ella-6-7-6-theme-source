@@ -1,8 +1,9 @@
-/* MOTHER & ME — about strip under info points */
+/* MOTHER & ME — homepage about strip */
 .mm-about {
   --mm-about-bg: #faf8f4;
   --mm-about-heading: #214d43;
   --mm-about-text: #59665f;
+  --mm-about-focal: center;
   background: var(--mm-about-bg);
 }
 
@@ -17,24 +18,39 @@
 .mm-about__layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 28px;
+  gap: 24px;
   align-items: center;
 }
 
+/* Mobile / default: text first, photo below when present */
+.mm-about__copy {
+  min-width: 0;
+  order: 1;
+}
+
+.mm-about__media {
+  order: 2;
+}
+
 @media screen and (min-width: 900px) {
-  .mm-about__layout {
+  .mm-about__layout--with-image {
     grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: 48px;
   }
 
+  .mm-about__layout--with-image .mm-about__copy {
+    order: 0;
+  }
+
+  .mm-about__layout--with-image .mm-about__media {
+    order: 0;
+  }
+
+  /* No empty media column without a photo */
   .mm-about__layout--text-only {
     grid-template-columns: minmax(0, 36rem);
     justify-content: start;
   }
-}
-
-.mm-about__copy {
-  min-width: 0;
 }
 
 .mm-about__heading {
@@ -63,10 +79,53 @@
   max-height: none;
 }
 
+.mm-about__link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  margin-top: 20px;
+  padding: 10px 18px;
+  border: 1px solid #214d43;
+  border-radius: var(--mm-radius-button, 8px);
+  background: transparent;
+  color: #214d43;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-ui, 15px);
+  font-weight: var(--mm-font-weight-semibold, 600);
+  line-height: var(--mm-line-height-heading, 1.25);
+  letter-spacing: normal;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition:
+    background-color 180ms ease-out,
+    color 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+.mm-about__link:hover {
+  background: #214d43;
+  color: #ffffff;
+}
+
+.mm-about__link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+  background: #214d43;
+  color: #ffffff;
+}
+
+.mm-about__link:active {
+  background: #173b33;
+  border-color: #173b33;
+  color: #ffffff;
+}
+
 .mm-about__media {
+  position: relative;
   min-width: 0;
   margin: 0;
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   background: #eaf1ec;
   aspect-ratio: 4 / 3;
@@ -78,5 +137,5 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: var(--mm-about-focal);
 }

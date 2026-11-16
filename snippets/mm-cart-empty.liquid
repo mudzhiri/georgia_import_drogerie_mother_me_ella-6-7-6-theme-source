@@ -1,0 +1,52 @@
+{{ 'mm-cart-empty.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign kids_collection = collections['ბავშვი']
+  assign mamas_collection = collections['დედა']
+  assign show_kids = false
+  assign show_mamas = false
+  if kids_collection != blank and kids_collection.url != blank
+    assign show_kids = true
+  endif
+  if mamas_collection != blank and mamas_collection.url != blank
+    assign show_mamas = true
+  endif
+-%}
+
+<section
+  class="mm-cart-empty"
+  aria-labelledby="mm-cart-empty-heading"
+>
+  <div class="mm-cart-empty__inner">
+    <div class="mm-cart-empty__icon" aria-hidden="true">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" focusable="false">
+        <path d="M6.5 8h11l-.7 9.1a2 2 0 0 1-2 1.9H9.2a2 2 0 0 1-2-1.9L6.5 8Z" stroke-linejoin="round"/>
+        <path d="M9 8V6.5a3 3 0 0 1 6 0V8" stroke-linecap="round"/>
+        <path d="M4.5 8h15" stroke-linecap="round"/>
+      </svg>
+    </div>
+
+    <h1 id="mm-cart-empty-heading" class="mm-cart-empty__heading">
+      {{ 'sections.cart.empty' | t }}
+    </h1>
+
+    {%- if show_kids or show_mamas -%}
+      <ul class="mm-cart-empty__actions">
+        {%- if show_kids -%}
+          <li>
+            <a class="mm-cart-empty__button" href="{{ kids_collection.url }}">
+              {{ 'sections.cart.empty_kids' | t }}
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if show_mamas -%}
+          <li>
+            <a class="mm-cart-empty__button mm-cart-empty__button--secondary" href="{{ mamas_collection.url }}">
+              {{ 'sections.cart.empty_mamas' | t }}
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>

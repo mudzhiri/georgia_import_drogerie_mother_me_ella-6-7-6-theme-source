@@ -10,7 +10,8 @@
 {
   "general": {
     "breadcrumb": {
-      "home": "Home"
+      "home": "მთავარი",
+      "label": "ნავიგაციის გზა"
     },
     "common": {
       "close": "დახურვა",
@@ -87,6 +88,11 @@
       "search_more": "მეტის ძებნა",
       "view_all": "ყველა შედეგის ნახვა ({{ count }})",
       "mm_no_results": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_title": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_query": "„{{ terms }}“",
+      "mm_empty_hint": "სცადე სხვა სიტყვა ან მოძებნე ბრენდის სახელით.",
+      "mm_empty_kids": "ბავშვებისთვის",
+      "mm_empty_mamas": "დედებისთვის",
       "mm_view_all": "ყველა შედეგის ნახვა",
       "submit": "ძებნა",
       "placeholder": "ძებნა",
@@ -194,7 +200,9 @@
     "previous_slide": "Slide left",
     "loading": "იტვირთება...",
     "menu": "მენიუ",
-    "search": "ძებნა"
+    "search": "ძებნა",
+    "submenu_expand": "{{ title }} — ქვემენიუს გახსნა",
+    "submenu_collapse": "{{ title }} — ქვემენიუს დახურვა"
   },
   "blogs": {
     "article": {
@@ -308,12 +316,21 @@
       "unavailable": "Unavailable",
       "unavailable_message": "This variant is unavailable!",
       "value_unavailable": "{{ option_value }} (unavailable)",
-      "out_of_stock": "Out Of Stock",
+      "out_of_stock": "არ არის მარაგში",
       "vendor": "Vendor",
       "video_exit_message": "{{ title }} opens full screen video in same window.",
       "xr_button": "View in your space",
       "xr_button_label": "View in your space, loads item in augmented reality window",
-      "pre_order": "Pre-order",
+      "pre_order": "წინასწარი შეკვეთა",
+      "availability_status": {
+        "in_stock": "მარაგშია",
+        "out_of_stock": "არ არის მარაგში",
+        "preorder": "წინასწარი შეკვეთა"
+      },
+      "shipping_note": {
+        "text_html": "მიწოდება საქართველოში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
+        "text_with_free_html": "მიწოდება საქართველოში: {{ price }}; უფასო {{ threshold }}-დან. <a href=\"{{ link }}\">{{ policy }}</a>"
+      },
       "quick_view": "Quick view",
       "quick_view_2": "Quick view",
       "quick_shop": "Quick add",
@@ -325,7 +342,7 @@
       "hot_stock": "Hurry up! Only {{ inventory }} left",
       "hot_stock_2": "Please hurry! Only {{ inventory }} left in stock",
       "warning_quantity": "Maximum quantity: {{ inventory}}",
-      "in_stock": "In stock",
+      "in_stock": "მარაგშია",
       "many_in_stock": "Many In Stock",
       "on_sale_text": "Sale",
       "off_text": " off",
@@ -408,21 +425,30 @@
       "cart": "Cart"
     },
     "contact": {
+      "title": "დაგვიკავშირდი",
+      "info": {
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "address": "მისამართი"
+      },
       "form": {
-        "name": "Name",
-        "email": "Email",
-        "phone": "Phone number",
-        "comment": "Comment",
-        "send": "Submit contact",
-        "post_success": "Thanks for contacting us. We'll get back to you as soon as possible.",
-        "error_heading": "Please adjust the following:"
+        "name": "სახელი",
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "comment": "შეტყობინება",
+        "message": "შეტყობინება",
+        "send": "გაგზავნა",
+        "post_success": "გმადლობთ შეტყობინებისთვის.",
+        "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:"
       }
     },
     "404": {
-      "title": "Oops! Page not found",
+      "title": "გვერდი ვერ მოიძებნა",
       "subtext": "404",
-      "description": "Sorry! The page you're looking for clocked out!",
-      "button": "Return to store"
+      "description": "შესაძლოა ბმული შეიცვალა ან გვერდი აღარ არსებობს.",
+      "button": "მთავარ გვერდზე დაბრუნება",
+      "kids": "ბავშვებისთვის",
+      "mamas": "დედებისთვის"
     }
   },
   "faqs": {
@@ -468,6 +494,8 @@
       "shipping": "Shipping",
       "shipping_text": "Taxes and shipping fee will be calculated at checkout",
       "empty": "თქვენი კალათა ცარიელია",
+      "empty_kids": "ბავშვებისთვის",
+      "empty_mamas": "დედებისთვის",
       "title_collection": "You may also like",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add [quantity] of this item to your cart.",
@@ -532,12 +560,15 @@
         "other": "{{ count }} პროდუქტი"
       },
       "item_per_page": "Items per page",
-      "load_more": "Load more",
-      "show_more": "Show more",
-      "show_less": "Show less",
-      "show_all": "Show all",
-      "loading_more": "Loading more",
-      "no_more": "No more product",
+      "load_more": "მეტის ნახვა",
+      "show_more": "მეტის ნახვა",
+      "show_less": "ნაკლების ნახვა",
+      "show_all": "ყველას ნახვა",
+      "loading_more": "იტვირთება…",
+      "load_error": "პროდუქტების ჩატვირთვა ვერ მოხერხდა. სცადე თავიდან.",
+      "load_retry": "თავიდან ცდა",
+      "load_success": "დაემატა {{ count }} პროდუქტი.",
+      "no_more": "მეტი პროდუქტი არ არის",
       "max": "Max",
       "max_price": "The highest price is {{ price }}",
       "min": "Min",

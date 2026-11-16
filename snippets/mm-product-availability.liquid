@@ -1,0 +1,61 @@
+{% comment %}
+  MOTHER & ME — PDP availability under price.
+  Status comes from the selected Shopify variant only.
+  Pre-order only when continue-selling is enabled at zero stock.
+{% endcomment %}
+{%- liquid
+  assign mm_variant = current_variant
+  if mm_variant == blank
+    assign mm_variant = product.selected_or_first_available_variant
+  endif
+
+  assign mm_status = 'out_of_stock'
+  if mm_variant == blank
+    assign mm_status = 'out_of_stock'
+  elsif mm_variant.available == false
+    assign mm_status = 'out_of_stock'
+  elsif mm_variant.inventory_management == blank
+    assign mm_status = 'in_stock'
+  elsif mm_variant.inventory_quantity > 0
+    assign mm_status = 'in_stock'
+  elsif mm_variant.inventory_policy == 'continue'
+    assign mm_status = 'preorder'
+  else
+    assign mm_status = 'out_of_stock'
+  endif
+
+  assign mm_label = 'products.product.availability_status.out_of_stock' | t
+  if mm_status == 'in_stock'
+    assign mm_label = 'products.product.availability_status.in_stock' | t
+  elsif mm_status == 'preorder'
+    assign mm_label = 'products.product.availability_status.preorder' | t
+  endif
+-%}
+
+{{ 'mm-product-availability.css' | asset_url | stylesheet_tag }}
+
+<div
+  class="mm-product-availability"
+  data-mm-availability
+  data-product-id="{{ product.id }}"
+  data-status="{{ mm_status }}"
+  role="status"
+  aria-live="polite"
+  aria-atomic="true"
+>
+  <span
+    class="mm-product-availability__dot{% if mm_status == 'in_stock' %} is-visible{% endif %}"
+    data-mm-availability-dot
+    aria-hidden="true"
+  ></span>
+  <span class="mm-product-availability__text" data-mm-availability-text>{{ mm_label }}</span>
+</div>
+
+<script type="application/json" data-mm-availability-i18n>
+  {
+    "in_stock": {{ 'products.product.availability_status.in_stock' | t | json }},
+    "out_of_stock": {{ 'products.product.availability_status.out_of_stock' | t | json }},
+    "preorder": {{ 'products.product.availability_status.preorder' | t | json }}
+  }
+</script>
+<script src="{{ 'mm-product-availability.js' | asset_url }}" defer="defer"></script>

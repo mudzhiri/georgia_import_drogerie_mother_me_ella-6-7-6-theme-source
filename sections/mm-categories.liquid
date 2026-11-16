@@ -17,7 +17,6 @@
           assign label = block.settings.label
           assign link = block.settings.link
           assign image = block.settings.image
-          assign image_alt = block.settings.image_alt | default: label
           assign tone = block.settings.tone | default: 'kids'
           if tone != 'kids' and tone != 'mamas'
             assign tone = 'kids'
@@ -119,13 +118,7 @@
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Optional. Without an image a compact text tile is shown. Focal point from the image editor is respected."
-        },
-        {
-          "type": "text",
-          "id": "image_alt",
-          "label": "Image alt text (unused when label is visible)",
-          "info": "Decorative when the tile label is shown; leave blank."
+          "info": "Optional. Without an image a compact text tile is shown. Focal point from the image editor is respected. Images are decorative because the tile label is visible."
         }
       ]
     }

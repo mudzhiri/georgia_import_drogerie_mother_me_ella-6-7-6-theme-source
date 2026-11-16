@@ -64,9 +64,11 @@
                 {% render 'breadcrumb', alignment: breadcrumb_alignment %}
             {%- endif -%}
             {%- if show_page_title -%}
-                <h1 class="page-header text-{{ page_title_alignment }}">{{ 'sections.cart.title' | t }}</h1>
+                {%- if cart.item_count > 0 -%}
+                    <h1 class="page-header text-{{ page_title_alignment }}">{{ 'sections.cart.title' | t }}</h1>
+                {%- endif -%}
             {%- endif -%}
-            {%- if settings.show_calculator_free_shipping_message -%}
+            {%- if cart.item_count > 0 and settings.show_calculator_free_shipping_message -%}
                 {{ 'component-calculator-shipping.css' | asset_url | stylesheet_tag }}
                 <div class="cart-message">{% render 'free-shipping-component' %}</div>
             {%- endif -%}
@@ -76,16 +78,12 @@
                     assign cartDiscounts = cart.cart_level_discount_applications
                 endif
             -%}
-            {%- if show_cart_countdown -%}
+            {%- if cart.item_count > 0 and show_cart_countdown -%}
                 <div class="cart-countdown alertBox alertBox--info d-flex flex-align-center flex-jc-center{% if hidden_when_empty %} hidden-when-empty{% endif %}" data-cart-countdown="{{ cart_countdown_time }}" data-coundown-text-empty-1="{{ section.settings.cart_countdown_text_empty_1 }}" data-coundown-text-empty-2="{{ section.settings.cart_countdown_text_empty_2 }}" data-coundown-prd-empty-url="{{ cart_countdown_product.url }}" data-coundown-prd-empty-title="{{ cart_countdown_product.title }}" id="CartCountdown-{{ section.id }}">
                     {% render 'icon-important-note', class: 'w-h-21 mr-10' %}
                     <div class="text alertBox-message">
                         <div class="text-wrap d-inline-block">
-                        {%- if cart.item_count > 0 -%}
                             {{ section.settings.cart_countdown_text_item }}
-                        {%- else -%}
-                            {{ section.settings.cart_countdown_text_empty_1 }}{% if cart_countdown_product != blank %} <a href="{{ cart_countdown_product.url }}" class="cart-countdown-product link-effect p-relative"><span class="text">{{ cart_countdown_product.title }}</span></a>{% endif %} {{ section.settings.cart_countdown_text_empty_2 }}
-                        {%- endif -%}
                         </div>
                         <span class="time d-inline-block"></span> {{ 'general.cart.cart_countdown_minutes' | t }}
                     </div>
@@ -600,15 +598,8 @@
                         </div>
                     </div>
                 {%- else -%}
-                    <div class="cart-content-empty text-center">
-                        <span class="cart-text">{{ 'sections.cart.empty' | t }}</span>
-                        <div class="cart-actions">
-                            {%- if continue_button_action == "1" -%}
-                                <a class="button button-2 button-continue"{% if custom_button_link == blank %} role="link" aria-disabled="true"{% else %} href="{{ custom_button_link }}"{% endif %} role="button">{{ 'general.continue_shopping' | t }}</a>
-                            {%- else -%}
-                                <a class="button button-2 button-continue" role="link" aria-disabled="true" onclick="window.history.back();" role="button" id="cart-previous-page-btn">{{ 'general.back_to_previous_page' | t }}</a>
-                            {%- endif -%}
-                        </div>
+                    <div class="cart-content-empty" data-mm-cart-empty>
+                        {% render 'mm-cart-empty' %}
                     </div>
                 {%- endif -%}
             </div>

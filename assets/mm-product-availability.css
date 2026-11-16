@@ -1,0 +1,47 @@
+/* MOTHER & ME — PDP availability under price */
+
+.mm-product-availability {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #59665f;
+}
+
+.mm-product-availability__dot {
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background-color: #3d7a5a;
+}
+
+.mm-product-availability__dot.is-visible {
+  display: inline-block;
+}
+
+.mm-product-availability__text {
+  font-size: 14px;
+  line-height: 1.45;
+  color: #59665f;
+}
+
+.mm-product-availability[data-status='preorder'] .mm-product-availability__text {
+  color: #59665f;
+}
+
+.mm-product-availability[data-status='out_of_stock'] .mm-product-availability__text {
+  color: #59665f;
+}
+
+/* Avoid duplicate Ella availability + scarcity copy on PDP */
+.template-product .productView-info-item[data-inventory],
+.template-product .productView-hotStock {
+  display: none !important;
+}

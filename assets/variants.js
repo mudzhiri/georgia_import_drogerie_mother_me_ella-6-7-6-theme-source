@@ -516,6 +516,15 @@ class VariantSelects extends HTMLElement {
                 }
             }
         }
+
+        if (typeof window.mmUpdateProductAvailability === 'function') {
+            window.mmUpdateProductAvailability({
+                productId: this.dataset.product,
+                variant: this.currentVariant,
+                unavailable: unavailable,
+                soldOut: !unavailable && disable
+            });
+        }
     }
 
     updateStickyAddToCart(unavailable = true, disable = true){
