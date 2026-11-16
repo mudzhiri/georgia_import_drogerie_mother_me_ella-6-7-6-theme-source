@@ -1,181 +1,97 @@
-<template id="HaloQuickAddTemplate">
-  {%- render 'quick-add' -%}
-</template>
-
-{%- if settings.enable_quick_view -%}
-    <link rel="stylesheet" href="{{ 'quick-view.css' | asset_url }}" media="print" fetchpriority="low" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="{{ 'quick-view.css' | asset_url }}"></noscript>
-    {%- render 'quick-view' -%}
-    <script src="{{ 'quick-view.js' | asset_url }}" defer="defer"></script>
+{%- if settings.show_someone_purchase or settings.show_gdpr_cookie_consent -%}
+<div class="footbar-fixed">
+	<div class="footbar-fixed-right">
+        {%- if settings.someone_purchase_position == 'right' -%}
+            {% render 'halo-someone-purchase' %}
+        {%- endif -%}
+        {%- if settings.gdpr_cookie_consent_type == 'right' -%}
+            {% render 'halo-gdpr-cookie-consent' %}
+        {%- endif -%}
+    </div>
+	<div class="clearfix"></div>
+    <div class="footbar-fixed-left{% if settings.gdpr_cookie_consent_type == 'right' and settings.someone_purchase_position == 'left' %} cookie_someone_right{% endif %}">
+        {%- if settings.someone_purchase_position == 'left' -%}
+            {% render 'halo-someone-purchase' %}
+        {%- endif -%}
+        {%- if settings.gdpr_cookie_consent_type == 'left' -%}
+            {% render 'halo-gdpr-cookie-consent' %}
+        {%- endif -%}
+    </div>
+</div>
 {%- endif -%}
 
-{%- render 'lookbook-modal' -%}
+{% unless settings.show_newsletter_popup and settings.style_popup == 'default' %}
+{% render 'halo-newsletter-success-popup' %}
+{% endunless %}
 
-{%- if settings.enable_compare -%}
-    {% render 'compare-popup' %}
-    <script src="{{ 'product-compare.js' | asset_url }}" defer="defer"></script>
+{% if settings.show_age_verification_popup %}
+    {% render 'halo-age-verification-popup' %}
+{% endif %}
+
+{% render 'halo-lookbook-popup' %}
+
+{% render 'halo-lookbook-popup-mobile' %}
+
+{% render 'halo-video-popup' %}
+
+{% render 'halo-product-list-view-popup' %}
+
+{% render 'halo-product-custom-information' %}
+
+{%- if settings.show_newsletter_popup -%}
+    {% if settings.style_popup == 'default' %}
+        {% render 'halo-newsletter-popup' %}
+    {% else %}
+        {% render 'halo-promotion-popup' %}
+    {% endif %}
+{%- endif -%}
+
+{%- if settings.show_recently_viewed_popup or settings.show_recently_viewed_share or settings.show_recently_viewed_top -%}
+	{% render 'halo-recently-viewed-popup' %}
 {%- endif -%}
 
 {%- if settings.show_quick_edit_cart -%}
-  {% render 'edit-cart-popup' %}
+    {% render 'halo-edit-cart-popup' %}
 {%- endif -%}
 
-<script>
-  (function () {
-    const urls = {
-      quickAddModalCss: "{{ 'quick-add-modal.css' | asset_url }}",
-      quantityPopoverCss: "{{ 'quantity-popover.css' | asset_url }}",
-      quickOrderListCss: "{{ 'quick-order-list.css' | asset_url }}",
-      productForm: "{{ 'product-form.js' | asset_url }}",
-      quickAdd: "{{ 'quick-add.js' | asset_url }}",
-      quickAddBulk: "{{ 'quick-add-bulk.js' | asset_url }}",
-      quantityPopover: "{{ 'quantity-popover.js' | asset_url }}",
-      pricePerItem: "{{ 'price-per-item.js' | asset_url }}",
-      quickOrderList: "{{ 'quick-order-list.js' | asset_url }}",
-      editCartPopup: "{{ 'edit-cart.js' | asset_url }}",
-    };
+{%- if settings.show_ask_an_expert -%}
+	{% render 'halo-ask-an-expert-popup' %}
+{%- endif -%}
 
-    window.__haloLoadedScripts = window.__haloLoadedScripts || {};
-    window.__haloLoadedStyles = window.__haloLoadedStyles || {};
+{%- if settings.show_notify_form -%}
+	{% render 'halo-notify-me-popup' %}
+{%- endif -%}
 
-    const hasQuickOrderListSection = Boolean(
-      document.querySelector('quick-order-list')
-    );
-    const hasEditCartPopup = Boolean(
-      document.querySelector('[data-edit-cart-popup]')
-    );
+{%- if settings.after_add_to_cart == 'popup_cart_1' -%}
+	{% render 'halo-cart-popup-1' %}
+{%- endif -%}
 
-    if (hasEditCartPopup) {
-      if (!isDefined('edit-cart-popup')) loadScriptOnce(urls.editCartPopup);
-    }
+{%- if settings.show_compare -%}
+	{% render 'halo-compare-popup' %}
+{%- endif -%}
 
-    if (hasQuickOrderListSection) {
-      if (!isDefined('quick-order-list')) loadScriptOnce(urls.quickOrderList);
-    }
+{%- if settings.show_quick_view -%}
+	{% render 'halo-quick-view-popup' %}
+{%- endif -%}
 
-    function isDefined(name) {
-      return typeof customElements !== 'undefined' && customElements.get(name);
-    }
+{%- if settings.show_global_checkbox -%}
+    {% render 'halo-term-condition-popup' %}
+{%- endif -%}
 
-    function loadScriptOnce(src) {
-      if (!src || window.__haloLoadedScripts[src]) return Promise.resolve();
-      window.__haloLoadedScripts[src] = true;
+{%- if settings.quick_shop_type == '1' or settings.quick_shop_type == '2' -%}
+    {% render 'halo-popup-card-mobile' %}
+{%- elsif settings.quick_shop_type == '3' -%}
+    {% render 'halo-quickshop-popup' %}
+{%- elsif settings.quick_shop_type == '4' -%}
+    {% render 'halo-quick-bulk-popup' %}
+{%- endif -%}
 
-      return new Promise((resolve, reject) => {
-        const s = document.createElement('script');
-        s.src = src;
-        s.defer = true;
-        s.onload = resolve;
-        s.onerror = reject;
-        document.head.appendChild(s);
-      });
-    }
+{%- if settings.enable_sticky_notification or settings.enable_sticky_notification_mb -%}
+    {% render 'sticky-notification' %}
+{%- endif -%} 
 
-    function loadStyleOnce(href) {
-      if (!href || window.__haloLoadedStyles[href]) return;
-      window.__haloLoadedStyles[href] = true;
-      const l = document.createElement('link');
-      l.rel = 'stylesheet';
-      l.href = href;
-      document.head.appendChild(l);
-    }
+{% render 'halo-popup-warning' %}
 
-    function ensureQuickAddMarkup() {
-      if (document.getElementById('QuickAddStandard') || document.getElementById('QuickAddBulk')) return;
-      const tpl = document.getElementById('HaloQuickAddTemplate');
-      if (!tpl || !('content' in tpl)) return;
-      document.body.appendChild(tpl.content.cloneNode(true));
-    }
-
-    function buildQueueForQuickAdd(type) {
-      // Modal base class is defined by details-disclosure.js (already included in theme.liquid with defer)
-      const queue = [];
-
-      // Shared styles used inside quick add / bulk quick order list
-      loadStyleOnce(urls.quickAddModalCss);
-      loadStyleOnce(urls.quantityPopoverCss);
-      if (type === 'bulk') loadStyleOnce(urls.quickOrderListCss);
-
-      if (!isDefined('product-form-component')) queue.push(urls.productForm);
-      if (!isDefined('quantity-popover')) queue.push(urls.quantityPopover);
-      if (!isDefined('price-per-item')) queue.push(urls.pricePerItem);
-
-      if (type === 'standard' && !isDefined('quick-add-modal')) queue.push(urls.quickAdd);
-
-      // Bulk modal element is defined in quick-order-list.js
-      if (type === 'bulk') {
-        if (!isDefined('quick-add-bulk')) queue.push(urls.quickAddBulk);
-        if (!isDefined('quick-order-list')) queue.push(urls.quickOrderList);
-      }
-
-      return queue;
-    }
-
-    async function ensureQuickAddReady(type) {
-      try {
-        if (typeof customElements !== 'undefined' && customElements.whenDefined) {
-          // Ensure ModalDialog is available before loading quick add elements
-          await customElements.whenDefined('modal-dialog');
-        }
-      } catch (e) {}
-
-      const queue = buildQueueForQuickAdd(type);
-      if (queue.length) {
-        await queue.reduce((p, src) => p.then(() => loadScriptOnce(src)), Promise.resolve());
-      }
-      ensureQuickAddMarkup();
-    }
-
-    function prefetchQuickAddAssets(type) {
-      const queue = buildQueueForQuickAdd(type);
-      if (!queue.length) return;
-      queue.reduce((p, src) => p.then(() => loadScriptOnce(src)), Promise.resolve()).catch(() => {});
-    }
-
-    const hasQuickAddStandardOpener = Boolean(
-      document.querySelector('modal-opener[data-modal="#QuickAddStandard"]')
-    );
-    const hasQuickAddBulkOpener = Boolean(
-      document.querySelector('modal-opener[data-modal="#QuickAddBulk"]')
-    );
-
-    if (hasQuickAddStandardOpener || hasQuickAddBulkOpener) {
-      const runIdle = (cb) => {
-        if ('requestIdleCallback' in window) return requestIdleCallback(cb, { timeout: 2000 });
-        return setTimeout(cb, 250);
-      };
-
-      if (hasQuickAddStandardOpener) runIdle(() => prefetchQuickAddAssets('standard'));
-      if (hasQuickAddBulkOpener) runIdle(() => prefetchQuickAddAssets('bulk'));
-    }
-
-    document.addEventListener(
-      'click',
-      (event) => {
-        const btn = event.target.closest(
-          'modal-opener[data-modal="#QuickAddStandard"] button, modal-opener[data-modal="#QuickAddBulk"] button'
-        );
-        if (!btn) return;
-
-        const openerEl = btn.closest('modal-opener');
-        const modalSelector = openerEl?.getAttribute('data-modal');
-        const type = modalSelector === '#QuickAddBulk' ? 'bulk' : 'standard';
-
-        // If the modal is already in the DOM, let the normal handler run.
-        if (modalSelector && document.querySelector(modalSelector)) return;
-
-        // Intercept click, lazy-mount + lazy-load assets, then open.
-        event.preventDefault();
-        event.stopImmediatePropagation();
-
-        ensureQuickAddReady(type)
-          .then(() => {
-            const modal = modalSelector ? document.querySelector(modalSelector) : null;
-            if (modal && typeof modal.show === 'function') modal.show(btn);
-          })
-          .catch(() => {});
-      },
-      true
-    );
-  })();
-</script>
+{%- if settings.show_scroll_down_section -%}
+    {% render 'halo-arrow-scroll-down' %}
+{%- endif -%}

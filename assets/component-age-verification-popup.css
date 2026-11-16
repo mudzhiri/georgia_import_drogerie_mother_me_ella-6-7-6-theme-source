@@ -1,88 +1,124 @@
-.modal--popup.age-verification-popup .popup__inner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: var(--age-verification-content-actions-gap, 66px);
-  padding: var(--p, 5rem 1rem);
-  text-align: center;
+body.age-verification-show{
+    overflow-y: hidden;
 }
 
-.age-verification-popup__content {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
+body.age-verification-show .halo-age-verification-popup{
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translate3d(-50%, -50%, 0);
 }
 
-.age-verification-popup__logo {
-  width: var(--age-verification-logo-width);
-  margin-bottom: var(--age-verification-logo-mg-bottom);
+body.age-verification-show .background-overlay, body.age-verification-message-show .background-overlay {
+    opacity: 1;
+    pointer-events: all;
 }
 
-.age-verification-popup__logo-image {
-  width: var(--age-verification-logo-width);
-  height: auto;
-  margin-inline: auto;
+body.age-verification-show .background-cursor-wrapper{
+    display: none;
 }
 
-.age-verification-popup__heading {
-  color: var(--age-verification-title-color, var(--color-foreground));
-  font-size: var(--age-verification-title-font-size);
-  font-weight: 700;
-  line-height: 1.5;
-  margin: 0 0 var(--age-verification-title-mg-bottom);
+body.age-verification-show:not(.safari).show_effect_close .background-overlay:hover{
+    cursor: default;
 }
 
-.age-verification-popup__description {
-  color: var(--age-verification-desc-color, var(--color-foreground));
-  font-size: var(--age-verification-desc-font-size);
-  font-weight: 400;
-  line-height: 1.5;
+.halo-age-verification-popup{
+    display: flex;
+    min-width: 1000px;
+    height: 640px;
+    padding: 67px 65px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 66px;
+    flex-shrink: 0;
+    border-radius: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.10);
+    background: #FFF;
+    box-shadow: 33px 33px 33px 0px rgba(0, 0, 0, 0.08);
 }
 
-.age-verification-popup__actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: center;
-  gap: 1.6rem;
-  width: 100%;
+.halo-age-verification-popup .logo{
+    margin-bottom: var(--age_verification_logo_mg_bottom);
 }
 
-@media screen and (max-width: 1024px) {
-  .age-verification-popup__button {
-    min-width: calc(50% - 0.8rem);
-    flex: 1 1 calc(50% - 0.8rem);
-  }
+.halo-age-verification-popup .logo img{
+    width: var(--age_verification_logo_width);
+    margin: auto;
 }
 
-@media screen and (max-width: 749px) {
-  .age-verification-popup.popup__inner {
-    gap: var(--age-verification-content-actions-gap-mobile, var(--age-verification-content-actions-gap, 33px));
-    padding: 3.5rem;
-  }
-
-  .age-verification-popup__logo-image {
-    width: calc(var(--age-verification-logo-width) * 0.75);
-  }
-
-  .age-verification-popup__heading {
-    font-size: calc(var(--age-verification-title-font-size) * 0.75);
-  }
-
-  .age-verification-popup__description {
-    font-size: calc(var(--age-verification-desc-font-size) * 0.75);
-  }
+.halo-age-verification-popup .heading{
+    color: var(--age_verification_popup_title_color);
+    font-size: var(--age_verification_title_font_size);
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: var(--age_verification_title_mg_bottom);
 }
 
-@media screen and (max-width: 551px) {
-  .age-verification-popup__actions {
-    gap: 0.8rem;
-  }
+.halo-age-verification-popup .description{
+    color: var(--age_verification_popup_desc_color);
+    font-size: var(--age_verification_desc_font_size);
+    font-weight: 400;
+    line-height: 1.5;
+}
 
-  .age-verification-popup__button {
-    min-width: calc(50% - 0.4rem);
-    flex: 1 1 calc(50% - 0.4rem);
-  }
+.halo-age-verification-popup .popup-action{
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.halo-age-verification-popup .popup-action .button{
+    min-width: 340px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 29px;
+    text-transform: inherit;
+    padding: 23px 15px;
+    border-radius: 50px;
+}
+
+@media(max-width: 1024px){
+    .halo-age-verification-popup{
+        min-width: calc(100% - 30px);
+    }
+
+    .halo-age-verification-popup .popup-action .button{
+        min-width: calc(50% - 8px);
+    }
+
+    .halo-age-verification-popup .popup-action{
+        width: 100%;
+    }
+}
+
+@media(max-width: 767px){
+    .halo-age-verification-popup{
+        padding: 35px;
+        gap: 33px;
+    }
+
+    .halo-age-verification-popup .logo img{
+        width: calc(var(--age_verification_logo_width) * .75);
+        height: calc(var(--age_verification_logo_width) * .75);
+    }
+
+    .halo-age-verification-popup .heading{
+        font-size: calc(var(--age_verification_title_font_size) * .75);
+    }
+
+    .halo-age-verification-popup .description{
+        font-size: calc(var(--age_verification_desc_font_size) * .75);
+    }
+}
+
+@media(max-width: 551px){
+    .halo-age-verification-popup .popup-action{
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .halo-age-verification-popup .popup-action .button{
+        min-width: calc(50% - 4px);
+    }
 }
