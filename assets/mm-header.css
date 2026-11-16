@@ -195,9 +195,12 @@
     gap: 16px;
   }
 
-  .header-nav-hamburger .header-logo {
+  .header-nav-hamburger .header-logo,
+  .header-nav-hamburger .header-logo.header-item--side {
+    flex: 0 0 auto !important;
+    width: max-content !important;
     max-width: var(--logo_width, 180px) !important;
-    width: auto !important;
+    min-width: 0 !important;
   }
 
   .header-nav-hamburger .main-menu {
