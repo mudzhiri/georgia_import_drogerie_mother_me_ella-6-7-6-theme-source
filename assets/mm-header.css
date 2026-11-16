@@ -1,24 +1,24 @@
-/* MOTHER & ME — refined header */
+/* MOTHER & ME — header (logo stays brand teal; chrome is calm neutral) */
 :root {
-  --mm-ink: #14201c;
-  --mm-forest: #1f4d42;
-  --mm-forest-soft: #2a5f53;
+  --mm-ink: #1a1a1a;
+  --mm-muted: #5c5c5c;
+  --mm-logo: #1f4d42; /* logo only */
   --mm-rose: #a86b74;
-  --mm-mist: #eef3f0;
-  --mm-cream: #f7faf8;
-  --mm-line: rgba(20, 32, 28, 0.1);
+  --mm-paper: #ffffff;
+  --mm-soft: #f5f4f2;
+  --mm-line: rgba(26, 26, 26, 0.1);
   --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --mm-display: "Cormorant Garamond", Georgia, serif;
   --mm-body: Manrope, system-ui, sans-serif;
 }
 
-/* Announcement */
+/* Announcement — light, quiet */
 .announcement-bar,
 .section-announcement-bar,
 #shopify-section-sections-announcement-bar,
 .shopify-section-group-header-group .announcement-bar {
-  background: linear-gradient(90deg, var(--mm-forest) 0%, var(--mm-forest-soft) 52%, var(--mm-rose) 100%) !important;
-  border: 0 !important;
+  background: var(--mm-soft) !important;
+  border-bottom: 1px solid var(--mm-line) !important;
 }
 
 .announcement-bar,
@@ -27,29 +27,28 @@
 .announcement-bar span,
 .announcement-bar svg,
 .announcement-bar * {
-  color: #f7faf8 !important;
+  color: var(--mm-muted) !important;
   fill: currentColor !important;
   font-family: var(--mm-body) !important;
   font-size: 0.8125rem !important;
-  letter-spacing: 0.04em !important;
+  letter-spacing: 0.03em !important;
   font-weight: 500 !important;
 }
 
 .announcement-bar svg {
-  opacity: 0.85;
+  opacity: 0.7;
   width: 14px !important;
   height: 14px !important;
   margin: 0 8px 0 0 !important;
 }
 
-/* Top classic row */
+/* Top header — clean white */
 .header-classic,
 .header.header-classic {
-  background: rgba(247, 250, 248, 0.94) !important;
-  backdrop-filter: blur(14px) saturate(1.05);
-  -webkit-backdrop-filter: blur(14px) saturate(1.05);
-  border-bottom: 1px solid transparent !important;
-  --bg-color: transparent !important;
+  background: var(--mm-paper) !important;
+  border-bottom: 1px solid var(--mm-line) !important;
+  box-shadow: none !important;
+  --bg-color: #ffffff !important;
 }
 
 .header-classic__content {
@@ -69,7 +68,7 @@
   font-weight: 600 !important;
   letter-spacing: 0.16em !important;
   text-transform: uppercase !important;
-  color: var(--mm-forest) !important;
+  color: var(--mm-logo) !important;
   font-size: clamp(1.45rem, 2.6vw, 2rem) !important;
   line-height: 1 !important;
 }
@@ -81,14 +80,14 @@
 .header-classic .free-shipping-text p {
   font-family: var(--mm-body) !important;
   font-size: 0.8125rem !important;
-  color: var(--mm-ink) !important;
+  color: var(--mm-muted) !important;
   letter-spacing: 0.02em;
   font-weight: 500 !important;
 }
 
 .header-classic .header__search .search__input,
 .header-classic .search-modal__form .search__input {
-  background: #fff !important;
+  background: var(--mm-soft) !important;
   border: 1px solid var(--mm-line) !important;
   border-radius: 999px !important;
   font-family: var(--mm-body) !important;
@@ -102,7 +101,7 @@
   color: var(--mm-ink) !important;
 }
 
-/* Icons — always dark ink */
+/* Icons — black */
 .header__icon,
 .header__icon svg,
 .header-classic .header__icon,
@@ -132,19 +131,20 @@
 .cart-count-bubble,
 .wishlist-count-bubble,
 .header__icon .cart-count-bubble {
-  background: var(--mm-forest) !important;
+  background: var(--mm-ink) !important;
   color: #fff !important;
   border: 0 !important;
 }
 
-/* Navigation bar — soft forest instead of harsh black */
+/* Menu — light bar, dark text (no green/black strip) */
 .header-navigation,
 .header-bottom,
 .section-header-navigation-plain,
 [class*="header-navigation-plain"],
 .header-navigation-plain {
-  background: var(--mm-forest) !important;
-  border: 0 !important;
+  background: var(--mm-paper) !important;
+  border-top: 1px solid var(--mm-line) !important;
+  border-bottom: 1px solid var(--mm-line) !important;
 }
 
 .header-navigation a,
@@ -156,21 +156,19 @@
   font-family: var(--mm-body) !important;
   font-size: 0.9375rem !important;
   font-weight: 500 !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.02em !important;
   text-transform: none !important;
-  color: rgba(247, 250, 248, 0.92) !important;
-  transition: color 0.3s var(--mm-ease), opacity 0.3s var(--mm-ease);
+  color: var(--mm-ink) !important;
+  transition: color 0.3s var(--mm-ease);
 }
 
 .header-navigation a:hover,
 .header-navigation-plain a:hover,
 .header-bottom .menu-lv-1 > a:hover,
 .menu-lv-1 > a.menu__link:hover {
-  color: #fff !important;
-  opacity: 1;
+  color: var(--mm-rose) !important;
 }
 
-/* subtle underline on nav hover */
 .header-navigation-plain .menu-lv-1 > a,
 .header-bottom .menu-lv-1 > a {
   position: relative;
@@ -195,13 +193,11 @@
   transform: scaleX(1);
 }
 
-/* Mobile header */
+/* Mobile */
 .header-mobile,
 .section-header-mobile {
-  background: rgba(247, 250, 248, 0.96) !important;
+  background: var(--mm-paper) !important;
   border-bottom: 1px solid var(--mm-line) !important;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
 }
 
 .header-mobile .mm-logo {
@@ -210,9 +206,8 @@
   margin: 0 auto;
 }
 
-/* Sticky polish */
 .shopify-section-group-header-group.is-sticky,
 .header-sticky,
 sticky-header {
-  box-shadow: 0 10px 30px rgba(20, 32, 28, 0.08);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
 }

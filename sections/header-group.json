@@ -18,9 +18,9 @@
           "type": "announcement",
           "settings": {
             "text": "<p><span>მიწოდება საქართველოში 8 ₾ · თვითგატანა თბილისში უფასო · MOTHER &amp; ME</span></p>",
-            "btn_color": "#f7faf8",
-            "btn_border_color": "#f7faf8",
-            "btn_bg_color": "#1f4d42",
+            "btn_color": "#5c5c5c",
+            "btn_border_color": "#f5f4f2",
+            "btn_bg_color": "#f5f4f2",
             "btn_bg_color_gradient": ""
           }
         }
@@ -31,8 +31,8 @@
       "settings": {
         "layout": "scroll",
         "enable_close": false,
-        "color_text": "#f7faf8",
-        "bg_color_text": "#1f4d42",
+        "color_text": "#5c5c5c",
+        "bg_color_text": "#f5f4f2",
         "bg_color_text_gradient": "",
         "font_size_text": 13,
         "font_style_text": "normal",
@@ -63,14 +63,14 @@
           "type": "service",
           "settings": {
             "customer_service_text": "<p>თბილისი · დედა და ბავშვი</p>",
-            "text_color": "#14201c",
+            "text_color": "#5c5c5c",
             "show_language_currency": false,
-            "language_currency_color": "#14201c",
+            "language_currency_color": "#1a1a1a",
             "show_search": true,
-            "search_color": "#14201c",
-            "bg_search_color": "#ffffff",
-            "search_border_color": "#d5e0db",
-            "search_icon_color": "#14201c",
+            "search_color": "#1a1a1a",
+            "bg_search_color": "#f5f4f2",
+            "search_border_color": "#e8e6e3",
+            "search_icon_color": "#1a1a1a",
             "spacing": 14
           }
         },
@@ -78,7 +78,7 @@
           "type": "text",
           "settings": {
             "free_shipping_text": "<p>მიწოდება საქართველოში 8 ₾</p>",
-            "text_color": "#14201c",
+            "text_color": "#5c5c5c",
             "spacing": 15
           }
         },
@@ -86,13 +86,13 @@
           "type": "group",
           "settings": {
             "show_cart": true,
-            "cart_color": "#14201c",
+            "cart_color": "#1a1a1a",
             "cart_color_item": "#ffffff",
-            "cart_bg_item": "#1f4d42",
+            "cart_bg_item": "#1a1a1a",
             "show_wishlist": true,
-            "wishlist_color": "#14201c",
+            "wishlist_color": "#1a1a1a",
             "show_customer": true,
-            "customer_color": "#14201c",
+            "customer_color": "#1a1a1a",
             "spacing": 0
           }
         }
@@ -106,7 +106,7 @@
       "settings": {
         "container": "default",
         "padding_full_width": 0,
-        "background": "#f7faf8",
+        "background": "#ffffff",
         "gradient": "",
         "padding_top": 18,
         "padding_bottom": 18
@@ -126,7 +126,7 @@
             "logo_font_size": 22,
             "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#f7faf8"
+            "logo_color": "#1f4d42"
           }
         },
         "sections--14682829619277__9c03747e-b054-4db8-8194-5a35c71f82ca-1680876693acfad79f-1": {
@@ -139,10 +139,10 @@
             "alignment": "left",
             "bg_mega_menu": "#ffffff",
             "bg_mega_menu_gradient": "",
-            "lv_1_color": "#f7faf8",
-            "lv_1_color_hover": "#ffffff",
-            "lv_2_color": "#14201c",
-            "lv_2_color_hover": "#1f4d42",
+            "lv_1_color": "#1a1a1a",
+            "lv_1_color_hover": "#a86b74",
+            "lv_2_color": "#1a1a1a",
+            "lv_2_color_hover": "#a86b74",
             "lv_3_color": "#3d4a45",
             "lv_3_color_hover": "#1f4d42",
             "sale_item_1": "",
@@ -325,13 +325,13 @@
       "settings": {
         "container": "1170",
         "padding_full_width": 0,
-        "header_navigation_bg": "#1f4d42",
+        "header_navigation_bg": "#ffffff",
         "header_navigation_bg_gradient": "",
         "sticky_header_type": "on_scroll",
         "sticky_header_width": "full",
         "enable_transparent": false,
-        "transparent_color": "#f7faf8",
-        "transparent_color_hover": "#ffffff"
+        "transparent_color": "#1a1a1a",
+        "transparent_color_hover": "#a86b74"
       }
     },
     "header-mobile": {
@@ -340,13 +340,13 @@
         "7de2266e-0cd4-4fda-9f09-06f75a17f944": {
           "type": "menu",
           "settings": {
-            "color": "#14201c"
+            "color": "#1a1a1a"
           }
         },
         "163e2cb5-14f2-4af6-9ac3-77193c082f53": {
           "type": "search",
           "settings": {
-            "color": "#14201c"
+            "color": "#1a1a1a"
           }
         },
         "550fbd21-75fb-4051-9dee-77d91b5239f0": {
@@ -366,16 +366,16 @@
           "type": "customer",
           "settings": {
             "icon": "1",
-            "color": "#14201c"
+            "color": "#1a1a1a"
           }
         },
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d": {
           "type": "cart",
           "settings": {
             "icon": "2",
-            "color": "#14201c",
+            "color": "#1a1a1a",
             "color_bubble": "#ffffff",
-            "bg_bubble": "#1f4d42"
+            "bg_bubble": "#1a1a1a"
           }
         }
       },
@@ -387,7 +387,7 @@
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d"
       ],
       "settings": {
-        "background": "#f7faf8",
+        "background": "#ffffff",
         "gradient": "",
         "sticky_header_type": "on_scroll",
         "padding_top": 0,
