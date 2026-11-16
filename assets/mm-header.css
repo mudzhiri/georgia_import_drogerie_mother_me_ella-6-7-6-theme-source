@@ -103,20 +103,141 @@
   font-weight: 500 !important;
 }
 
-.header-classic .header__search .search__input,
-.header-classic .search-modal__form .search__input {
-  background: var(--mm-soft) !important;
-  border: 1px solid var(--mm-line) !important;
-  border-radius: 999px !important;
-  font-family: var(--mm-body) !important;
-  color: var(--mm-ink) !important;
-  min-height: 42px;
-  padding-inline: 1rem 2.5rem !important;
+/* Header search field — look only; keeps native form submit */
+.header-nav-hamburger .header__search-input.style-2 .search.search-modal__form,
+.mm-search-form {
+  width: 100% !important;
+  max-width: 560px;
+  height: 46px !important;
+  border: 1px solid #eaf1ec !important;
+  background: #eaf1ec !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.header-classic .header__search .search__button,
-.header-classic .search__button {
-  color: var(--mm-ink) !important;
+.header-nav-hamburger .header__search-input .search-modal__form .field,
+.mm-search-form .field {
+  display: flex !important;
+  align-items: center;
+  height: 100%;
+  padding: 0 !important;
+  margin: 0 !important;
+  position: relative;
+}
+
+.header-nav-hamburger .header__search-input .search__input,
+.mm-search-form .search__input {
+  flex: 1 1 auto;
+  width: 100% !important;
+  min-width: 0 !important;
+  height: 46px !important;
+  min-height: 46px !important;
+  padding: 0 44px 0 16px !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  background: transparent !important;
+  color: #214d43 !important;
+  font-size: 16px !important;
+  line-height: 1.25 !important;
+  box-shadow: none !important;
+  text-transform: none !important;
+}
+
+.header-nav-hamburger .header__search-input .search__input::placeholder,
+.mm-search-form .search__input::placeholder {
+  color: #214d43 !important;
+  opacity: 0.72;
+  text-transform: none !important;
+}
+
+.header-nav-hamburger .header__search-input .search__button,
+.mm-search-form .search__button {
+  position: absolute !important;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px !important;
+  min-width: 40px !important;
+  height: 40px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  color: #214d43 !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-nav-hamburger .header__search-input .search__button svg,
+.mm-search-form .search__button svg {
+  width: 20px !important;
+  height: 20px !important;
+  fill: currentColor !important;
+  color: #214d43 !important;
+  stroke: #214d43;
+}
+
+.header-nav-hamburger .header__search-input .search__input:focus,
+.mm-search-form .search__input:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.header-nav-hamburger .header__search-input.style-2 .search.search-modal__form:focus-within,
+.mm-search-form:focus-within {
+  border-color: #214d43 !important;
+  box-shadow: 0 0 0 2px rgba(33, 77, 67, 0.35) !important;
+}
+
+@media screen and (min-width: 1025px) {
+  .header-nav-hamburger > .container {
+    gap: 16px;
+  }
+
+  .header-nav-hamburger .header-icons {
+    flex: 1 1 0 !important;
+    min-width: 0;
+    max-width: none !important;
+    justify-content: flex-end !important;
+    gap: 14px;
+  }
+
+  .header-nav-hamburger .header__search-input {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: 560px;
+    min-width: 0;
+    margin-inline-end: auto;
+  }
+
+  .header-nav-hamburger .header__search-input .search-modal__form,
+  .header-nav-hamburger .header__search-input.style-2 .search.search-modal__form {
+    width: 100% !important;
+    max-width: 560px;
+  }
+
+  .mm-header-search-row {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .header-mobile__item--search {
+    display: none !important;
+  }
+
+  .mm-header-search-row {
+    display: block;
+    width: 100%;
+    padding: 8px 16px 12px;
+    box-sizing: border-box;
+  }
+
+  .mm-header-search-row .mm-search-form {
+    max-width: none;
+    width: 100% !important;
+  }
 }
 
 /* Icons — black */
