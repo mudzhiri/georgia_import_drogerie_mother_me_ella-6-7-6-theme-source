@@ -11,17 +11,25 @@
     }
   })();
 
-  function formatMoney(cents) {
-    const amount = Number(cents);
-    if (!Number.isFinite(amount)) return '';
+  function toCents(price) {
+    // /search/suggest.json returns prices in major currency units (e.g. "12.99" or 12.99)
+    if (price == null || price === '') return NaN;
+    const n = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : Number(price);
+    if (!Number.isFinite(n)) return NaN;
+    return Math.round(n * 100);
+  }
+
+  function formatMoney(price) {
+    const cents = toCents(price);
+    if (!Number.isFinite(cents)) return '';
     if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
-      return Shopify.formatMoney(amount, i18n.moneyFormat || window.money_format || '{{amount}}');
+      return Shopify.formatMoney(cents, i18n.moneyFormat || window.money_format || '{{amount}}');
     }
-    const value = (amount / 100).toFixed(2);
+    const value = (cents / 100).toFixed(2);
     const fmt = i18n.moneyFormat || window.money_format || '{{amount}}';
     return fmt
       .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, value.replace('.', ','))
-      .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, String(Math.round(amount / 100)))
+      .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, String(Math.round(cents / 100)))
       .replace(/\{\{\s*amount\s*\}\}/g, value);
   }
 
