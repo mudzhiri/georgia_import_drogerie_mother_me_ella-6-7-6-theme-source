@@ -75,7 +75,8 @@ h1, h2, h3, h4, h5, h6,
 .header__heading {
   letter-spacing: 0.12em !important;
   text-transform: uppercase;
-  font-size: clamp(1.05rem, 1.5vw, 1.35rem) !important;
+  font-size: clamp(1.6rem, 2.2vw, 2.2rem) !important;
+  color: #14201c !important;
 }
 
 p, .rte, .text-body, .product__description, a, span, li, button, input {
@@ -91,25 +92,96 @@ sticky-header,
 .shopify-section-header-sticky {
   backdrop-filter: blur(16px) saturate(1.1);
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
-  background: rgba(238, 243, 240, 0.78) !important;
+  background: rgba(238, 243, 240, 0.92) !important;
   border-bottom: 1px solid var(--mm-line) !important;
   box-shadow: none !important;
 }
 
+/* Menu + breadcrumbs: html root is 10px — use rem that reads as ~15–16px */
 .header__menu-item,
 .menu-list__link,
 .header-menu a,
-nav a {
-  font-size: 0.84rem !important;
+.header__inline-menu a,
+.list-menu--inline a,
+.list-menu__item,
+.menu-drawer__menu-item,
+.menu-drawer a,
+.header-drawer a,
+.mobile-nav a,
+.breadcrumb a,
+.breadcrumb__link,
+.breadcrumbs a,
+nav.breadcrumb a,
+.breadcrumb span,
+.breadcrumbs span {
+  font-size: 1.5rem !important; /* 15px @ 10px root */
   font-weight: 500 !important;
   letter-spacing: 0.01em;
+  line-height: 1.35 !important;
+  color: #14201c !important;
   transition: color 0.25s ease, opacity 0.25s ease;
 }
 
 .header__menu-item:hover,
 .menu-list__link:hover,
-nav a:hover {
+.header__inline-menu a:hover,
+.breadcrumb a:hover,
+.breadcrumbs a:hover {
   color: var(--mm-accent) !important;
+}
+
+/* Right-side header icons → always black (visible on light pages) */
+.header__icon,
+.header__icon--menu,
+.header__icon--search,
+.header__icon--account,
+.header__icon--cart,
+.header__icons .header__icon,
+.header__column-action,
+.header-wishlist,
+.cart-icon--drawer,
+#header-group .header__icon,
+#header-group .header__icon svg,
+#header-group .header__icon path,
+#header-group .header__icon use,
+.header__icons svg,
+.header__icons path,
+.header__column-action svg,
+.header__column-action path {
+  color: #14201c !important;
+  fill: currentColor !important;
+  stroke: currentColor !important;
+}
+
+#header-group .header__icon svg[fill="none"],
+.header__icons svg[fill="none"],
+.header__column-action svg[fill="none"] {
+  fill: none !important;
+  stroke: #14201c !important;
+  color: #14201c !important;
+}
+
+#header-group .header__icon svg *,
+.header__icons svg *,
+.header__column-action svg * {
+  stroke: #14201c !important;
+}
+
+#header-group .header__icon svg *[fill]:not([fill="none"]),
+.header__icons svg *[fill]:not([fill="none"]) {
+  fill: #14201c !important;
+}
+
+.header__icon .svg-wrapper,
+.header__icon .icon {
+  color: #14201c !important;
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+}
+
+.header__icon svg {
+  width: 2.4rem !important;
+  height: 2.4rem !important;
 }
 
 /* Announcement */
