@@ -18,6 +18,22 @@
   endif
   assign results_count = collection.products_count
   assign clear_url = collection.url
+
+  assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,UYU,VES,VND' | split: ','
+  assign uses_comma_decimals = false
+  if currencies_using_comma_decimals contains cart.currency.iso_code
+    assign uses_comma_decimals = true
+  endif
+  assign shop_money_format = 'amount'
+  if shop.money_format contains 'amount_with_comma_separator'
+    assign shop_money_format = 'amount_with_comma_separator'
+  elsif shop.money_format contains 'amount_no_decimals_with_comma_separator'
+    assign shop_money_format = 'amount_no_decimals_with_comma_separator'
+  elsif shop.money_format contains 'amount_with_apostrophe_separator'
+    assign shop_money_format = 'amount_with_apostrophe_separator'
+  elsif shop.money_format contains 'amount_no_decimals'
+    assign shop_money_format = 'amount_no_decimals'
+  endif
 -%}
 
 <div
@@ -52,12 +68,28 @@
             {%- for value in filter.active_values -%}
               <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
             {%- endfor -%}
-            {%- if filter.type == 'price_range' -%}
+                        {%- if filter.type == 'price_range' -%}
+              {%- liquid
+                assign mm_price_min = filter.min_value.value | money_without_currency | replace: ',', ''
+                assign mm_price_max = filter.max_value.value | money_without_currency | replace: ',', ''
+                if uses_comma_decimals
+                  assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                  assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                endif
+                if shop_money_format == 'amount_with_comma_separator' or shop_money_format == 'amount_no_decimals_with_comma_separator'
+                  assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', ''
+                  assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', ''
+                endif
+                if shop_money_format == 'amount_with_apostrophe_separator'
+                  assign mm_price_min = filter.min_value.value | money_without_currency | replace: "'", ""
+                  assign mm_price_max = filter.max_value.value | money_without_currency | replace: "'", ""
+                endif
+              -%}
               {%- if filter.min_value.value != nil -%}
-                <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+                <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ mm_price_min }}">
               {%- endif -%}
               {%- if filter.max_value.value != nil -%}
-                <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+                <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ mm_price_max }}">
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
@@ -129,6 +161,27 @@
                     </ul>
 
                   {%- when 'price_range' -%}
+                    {%- liquid
+                      assign mm_price_min = filter.min_value.value | money_without_currency | replace: ',', ''
+                      assign mm_price_max = filter.max_value.value | money_without_currency | replace: ',', ''
+                      assign mm_price_range_max = filter.range_max | money_without_currency | replace: ',', ''
+                      if uses_comma_decimals
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'
+                      endif
+                      if shop_money_format == 'amount_with_comma_separator' or shop_money_format == 'amount_no_decimals_with_comma_separator'
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', ''
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', ''
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', ''
+                      endif
+                      if shop_money_format == 'amount_with_apostrophe_separator'
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: "'", ""
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: "'", ""
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: "'", ""
+                      endif
+                    -%}
+
                     <div class="mm-filters__price">
                       <label class="visually-hidden" for="mm-filter-price-gte-{{ section.id }}">
                         {{ 'sections.collection_template.from' | t }}
@@ -141,9 +194,9 @@
                         inputmode="decimal"
                         placeholder="{{ 'sections.collection_template.from' | t | escape }}"
                         min="0"
-                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        max="{{ mm_price_range_max }}"
                         {% if filter.min_value.value %}
-                          value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                          value="{{ mm_price_min }}"
                         {% endif %}
                       >
                       <span aria-hidden="true">–</span>
@@ -158,9 +211,9 @@
                         inputmode="decimal"
                         placeholder="{{ 'sections.collection_template.to' | t | escape }}"
                         min="0"
-                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        max="{{ mm_price_range_max }}"
                         {% if filter.max_value.value %}
-                          value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                          value="{{ mm_price_max }}"
                         {% endif %}
                       >
                     </div>
@@ -306,6 +359,27 @@
                   </ul>
 
                 {%- when 'price_range' -%}
+                    {%- liquid
+                      assign mm_price_min = filter.min_value.value | money_without_currency | replace: ',', ''
+                      assign mm_price_max = filter.max_value.value | money_without_currency | replace: ',', ''
+                      assign mm_price_range_max = filter.range_max | money_without_currency | replace: ',', ''
+                      if uses_comma_decimals
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'
+                      endif
+                      if shop_money_format == 'amount_with_comma_separator' or shop_money_format == 'amount_no_decimals_with_comma_separator'
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', ''
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', ''
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', ''
+                      endif
+                      if shop_money_format == 'amount_with_apostrophe_separator'
+                        assign mm_price_min = filter.min_value.value | money_without_currency | replace: "'", ""
+                        assign mm_price_max = filter.max_value.value | money_without_currency | replace: "'", ""
+                        assign mm_price_range_max = filter.range_max | money_without_currency | replace: "'", ""
+                      endif
+                    -%}
+
                   <div class="mm-filters__price">
                     <input
                       class="mm-filters__price-input"
@@ -314,9 +388,9 @@
                       inputmode="decimal"
                       placeholder="{{ 'sections.collection_template.from' | t | escape }}"
                       min="0"
-                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      max="{{ mm_price_range_max }}"
                       {% if filter.min_value.value %}
-                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                        value="{{ mm_price_min }}"
                       {% endif %}
                     >
                     <span aria-hidden="true">–</span>
@@ -327,9 +401,9 @@
                       inputmode="decimal"
                       placeholder="{{ 'sections.collection_template.to' | t | escape }}"
                       min="0"
-                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      max="{{ mm_price_range_max }}"
                       {% if filter.max_value.value %}
-                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                        value="{{ mm_price_max }}"
                       {% endif %}
                     >
                   </div>
