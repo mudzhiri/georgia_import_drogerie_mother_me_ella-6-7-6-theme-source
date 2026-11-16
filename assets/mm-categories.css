@@ -96,9 +96,13 @@
 
 .mm-categories__label {
   margin: 0;
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-section);
+  font-weight: var(--mm-font-weight-bold);
+  line-height: var(--mm-line-height-heading);
+  letter-spacing: normal;
   color: var(--mm-cat-text);
+  overflow-wrap: anywhere;
+  height: auto;
+  max-height: none;
 }

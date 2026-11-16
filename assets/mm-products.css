@@ -19,11 +19,15 @@
 .mm-products__heading {
   margin: 0 0 var(--mm-heading-gap, 24px);
   color: var(--mm-prod-heading);
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-section);
+  font-weight: var(--mm-font-weight-bold);
+  line-height: var(--mm-line-height-heading);
+  letter-spacing: normal;
   text-align: left;
+  overflow-wrap: anywhere;
+  height: auto;
+  max-height: none;
 }
 
 .mm-products__grid {
@@ -370,10 +374,11 @@
   min-height: 44px;
   padding: 10px 4px;
   color: #214d43;
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: 15px;
-  font-weight: 600;
-  line-height: 1.3;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-ui);
+  font-weight: var(--mm-font-weight-semibold);
+  line-height: var(--mm-line-height-heading);
+  letter-spacing: normal;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -398,9 +403,11 @@
   border-radius: 12px;
   background: #faf8f4;
   color: #59665f;
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: 15px;
-  line-height: 1.5;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-body);
+  font-weight: var(--mm-font-weight-regular);
+  line-height: var(--mm-line-height-body);
+  letter-spacing: normal;
 }
 
 .mm-products__setup strong {

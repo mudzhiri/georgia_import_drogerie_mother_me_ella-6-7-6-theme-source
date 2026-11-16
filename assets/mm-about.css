@@ -40,28 +40,27 @@
 .mm-about__heading {
   margin: 0 0 var(--mm-heading-gap, 24px);
   color: var(--mm-about-heading);
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);
-  font-weight: 700;
-  line-height: 1.25;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-section);
+  font-weight: var(--mm-font-weight-bold);
+  line-height: var(--mm-line-height-heading);
+  letter-spacing: normal;
   overflow-wrap: anywhere;
+  height: auto;
+  max-height: none;
 }
 
 .mm-about__text {
   margin: 0;
   color: var(--mm-about-text);
-  font-family: Manrope, system-ui, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-body);
+  font-weight: var(--mm-font-weight-regular);
+  line-height: var(--mm-line-height-body);
+  letter-spacing: normal;
   overflow-wrap: anywhere;
-}
-
-@media screen and (min-width: 768px) {
-  .mm-about__text {
-    font-size: 17px;
-    line-height: 1.65;
-  }
+  height: auto;
+  max-height: none;
 }
 
 .mm-about__media {

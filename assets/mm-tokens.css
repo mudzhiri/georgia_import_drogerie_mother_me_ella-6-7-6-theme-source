@@ -39,6 +39,20 @@
   --mm-section-y: 20px;
   --mm-heading-gap: 24px;
 
+  /* Typography — homepage (KA / RU / DE / EN)
+     Noto Sans Georgian for Mkhedruli; Noto Sans for Latin + Cyrillic. */
+  --mm-font-sans: 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif;
+  --mm-font-size-hero: 30px;
+  --mm-font-size-section: 24px;
+  --mm-font-size-body: 16px;
+  --mm-font-size-ui: 15px;
+  --mm-line-height-heading: 1.25;
+  --mm-line-height-body: 1.6;
+  --mm-font-weight-regular: 400;
+  --mm-font-weight-medium: 500;
+  --mm-font-weight-semibold: 600;
+  --mm-font-weight-bold: 700;
+
   /* Align with Ella global vars when custom CSS references them */
   --color-background: var(--mm-page);
   --bg-white: var(--mm-surface);
@@ -50,7 +64,35 @@
   :root {
     --mm-page-gutter: 32px;
     --mm-section-y: 32px;
+    --mm-font-size-hero: 48px;
+    --mm-font-size-section: 32px;
+    --mm-font-size-body: 17px;
   }
+}
+
+/* Homepage text: wrap long words, never clip, no artificial tracking */
+.mm-hero,
+.mm-categories,
+.mm-products__heading,
+.mm-products__footer,
+.mm-products__setup,
+.mm-info-strip,
+.mm-about {
+  font-family: var(--mm-font-sans);
+  letter-spacing: normal;
+}
+
+.mm-hero :where(h1, h2, h3, p, a, button, span, li),
+.mm-categories :where(h1, h2, h3, p, a, span),
+.mm-info-strip :where(h1, h2, h3, p, a, span, li),
+.mm-about :where(h1, h2, h3, p, a, span),
+.mm-products__heading,
+.mm-products__view-all,
+.mm-products__setup {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: manual;
+  letter-spacing: normal;
 }
 
 body {
