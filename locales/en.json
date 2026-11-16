@@ -1129,5 +1129,9 @@
       "close": "დახურვა",
       "cart": "კალათა"
     }
+  },
+  "onboarding": {
+    "product_title": "მაგალითის პროდუქტი",
+    "collection_title": "კოლექცია"
   }
 }
