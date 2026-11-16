@@ -126,12 +126,12 @@
         "border_layout_card": "full",
         "border_width_card": 5,
         "border_color_card": "#f0f1f4",
-        "mg_top_desktop": 20,
-        "mg_top_tablet": 15,
-        "mg_top_mobile": 15,
-        "mg_bottom_desktop": 55,
-        "mg_bottom_tablet": 50,
-        "mg_bottom_mobile": 5
+        "mg_top_desktop": 30,
+        "mg_top_tablet": 25,
+        "mg_top_mobile": 20,
+        "mg_bottom_desktop": 30,
+        "mg_bottom_tablet": 25,
+        "mg_bottom_mobile": 20
       }
     },
     "1632296224c9e90203": {
@@ -372,12 +372,12 @@
         "shadow_spread": 0,
         "shadow_color": "transparent",
         "shadow_inset": "no",
-        "mg_top_desktop": 20,
-        "mg_top_tablet": 0,
-        "mg_top_mobile": 25,
-        "mg_bottom_desktop": 65,
-        "mg_bottom_tablet": 85,
-        "mg_bottom_mobile": 70
+        "mg_top_desktop": 30,
+        "mg_top_tablet": 25,
+        "mg_top_mobile": 20,
+        "mg_bottom_desktop": 30,
+        "mg_bottom_tablet": 25,
+        "mg_bottom_mobile": 20
       }
     },
     "1632304586ad9b5b3b": {
@@ -539,11 +539,11 @@
         "fontsize_text_mb": 13,
         "font_weight_title": "400",
         "margin_bottom_title": 0,
-        "mg_top_desktop": 15,
-        "mg_top_tablet": 15,
-        "mg_top_mobile": 15,
-        "mg_bottom_desktop": 20,
-        "mg_bottom_tablet": 20,
+        "mg_top_desktop": 30,
+        "mg_top_tablet": 25,
+        "mg_top_mobile": 20,
+        "mg_bottom_desktop": 30,
+        "mg_bottom_tablet": 25,
         "mg_bottom_mobile": 20
       }
     },
@@ -740,12 +740,12 @@
         "icon_style": "style_1",
         "effects_bg": "",
         "effects_opacity": 0,
-        "mg_top_desktop": 55,
-        "mg_top_tablet": 35,
-        "mg_top_mobile": 35,
-        "mg_bottom_desktop": 70,
-        "mg_bottom_tablet": 50,
-        "mg_bottom_mobile": 50
+        "mg_top_desktop": 30,
+        "mg_top_tablet": 25,
+        "mg_top_mobile": 20,
+        "mg_bottom_desktop": 30,
+        "mg_bottom_tablet": 25,
+        "mg_bottom_mobile": 20
       }
     },
     "mm_hero": {
