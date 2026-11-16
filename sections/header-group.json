@@ -161,7 +161,7 @@
         "header_layout_style": "style_1",
         "header_navigation_bg": "#ffffff",
         "header_navigation_bg_gradient": "",
-        "sticky_header_type": "on_scroll",
+        "sticky_header_type": "always",
         "sticky_header_width": "default",
         "enable_transparent": false,
         "transparent_color": "#fff",
@@ -228,7 +228,7 @@
       "settings": {
         "background": "#ffffff",
         "gradient": "",
-        "sticky_header_type": "on_scroll",
+        "sticky_header_type": "always",
         "enable_transparent": false,
         "transparent_color": "#ffffff",
         "transparent_border_color": "",

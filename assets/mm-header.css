@@ -382,11 +382,13 @@
     row-gap: 0 !important;
   }
 
-  .header-nav-hamburger--style1 > .container > .header-logo {
+  .header-nav-hamburger--style1 > .container > .header-logo,
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-logo {
     order: 1;
   }
 
-  .header-nav-hamburger--style1 > .container > .header-icons {
+  .header-nav-hamburger--style1 > .container > .header-icons,
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-icons {
     order: 2;
     margin-left: auto;
   }
@@ -825,8 +827,153 @@
 }
 
 
-.shopify-section-group-header-group.is-sticky,
-.header-sticky,
-sticky-header {
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+/* Sticky header — pin main/compact row only (toggle via sticky_header_type) */
+html.mm-sticky-header-on .section-header-navigation.mm-sticky-enabled,
+html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled {
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+html.mm-sticky-header-on .section-header-navigation.mm-sticky-enabled.shopify-section-header-sticky,
+html.mm-sticky-header-on .section-header-navigation.mm-sticky-enabled.shopify-section-header-hidden,
+html.mm-sticky-header-on .section-header-navigation.mm-sticky-enabled.shopify-section-header-show,
+html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-section-header-sticky,
+html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-section-header-hidden,
+html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-section-header-show {
+  position: relative !important;
+  top: auto !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+}
+
+.mm-sticky-spacer {
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.mm-sticky-spacer.is-active {
+  flex: 0 0 auto;
+}
+
+@media screen and (min-width: 1025px) {
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row {
+    order: 1;
+    display: flex !important;
+    flex: 0 0 100% !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-sizing: border-box;
+    background: #ffffff;
+  }
+
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-logo {
+    order: 0;
+    flex: 0 0 auto !important;
+  }
+
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-icons {
+    order: 0;
+    margin-left: auto;
+  }
+
+  .header-nav-hamburger--style1 > .container > .main-menu {
+    order: 2 !important;
+  }
+
+  .mm-header-main-row.is-pinned {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100;
+    width: 100% !important;
+    margin: 0 !important;
+    padding-inline: max(16px, calc((100vw - 1770px) / 2));
+    background: #ffffff !important;
+    border-bottom: 1px solid #dee5df !important;
+    box-shadow: none !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* No logo shrink / fade animations while pinned */
+  html.mm-sticky-header-on .section-header-navigation .header-logo .header__heading-logo,
+  html.mm-sticky-header-on .section-header-navigation .header-logo .mm-logo,
+  html.mm-sticky-header-on .mm-header-main-row.is-pinned .header__heading-logo,
+  html.mm-sticky-header-on .mm-header-main-row.is-pinned .mm-logo {
+    width: var(--logo_width, 180px) !important;
+    max-width: var(--logo_width, 180px) !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html.mm-sticky-header-on .section-header-navigation .main-menu .menu-lv-1__action,
+  html.mm-sticky-header-on .section-header-navigation .header-icons .header__icon,
+  html.mm-sticky-header-on .section-header-navigation .sticky_effect {
+    animation: none !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .section-header-mobile.mm-sticky-enabled .header-mobile__wrapper,
+  .section-header-mobile.mm-sticky-enabled .header-mobile--wrapper {
+    background: #ffffff;
+  }
+
+  .section-header-mobile .header-mobile__wrapper.is-pinned,
+  .section-header-mobile .header-mobile--wrapper.is-pinned {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    z-index: 100;
+    width: 100% !important;
+    box-sizing: border-box;
+    padding-inline: 16px;
+    background: #ffffff !important;
+    border-bottom: 1px solid #dee5df !important;
+    box-shadow: none !important;
+    transform: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  html.mm-sticky-header-on .section-header-mobile .header__heading-logo,
+  html.mm-sticky-header-on .section-header-mobile .mm-logo {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Search row stays in normal flow and scrolls away */
+  .section-header-mobile.mm-sticky-enabled .mm-header-search-row {
+    position: relative;
+    z-index: 0;
+  }
+}
+
+/* Keep drawers/overlays above pinned header */
+html.mm-sticky-header-on #navigation-mobile,
+html.mm-sticky-header-on .halo-sidebar,
+html.mm-sticky-header-on #halo-cart-sidebar,
+html.mm-sticky-header-on .background-overlay,
+html.mm-sticky-header-on details[open] > .search-modal,
+html.mm-sticky-header-on .quickSearchResultsWrap {
+  z-index: 120 !important;
+}
+
+html.mm-sticky-header-on .background-overlay {
+  z-index: 110 !important;
 }
