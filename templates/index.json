@@ -922,12 +922,47 @@
         "products_to_show": 8,
         "view_all_label": "ყველა პროდუქტის ნახვა"
       }
+    },
+    "mm_info_strip": {
+      "type": "mm-info-strip",
+      "blocks": {
+        "point_import": {
+          "type": "point",
+          "settings": {
+            "icon": "package",
+            "text": "გერმანიიდან ჩამოტანილი"
+          }
+        },
+        "point_audience": {
+          "type": "point",
+          "settings": {
+            "icon": "heart",
+            "text": "ბავშვებისთვის და დედებისთვის"
+          }
+        },
+        "point_order": {
+          "type": "point",
+          "settings": {
+            "icon": "bag",
+            "text": "მარტივი ონლაინ შეკვეთა"
+          }
+        }
+      },
+      "block_order": [
+        "point_import",
+        "point_audience",
+        "point_order"
+      ],
+      "settings": {
+        "heading": "Information"
+      }
     }
   },
   "order": [
     "mm_hero",
     "mm_categories",
     "mm_products",
+    "mm_info_strip",
     "16323855104e3e74f6",
     "16328142266b504c78",
     "1632296224c9e90203",
