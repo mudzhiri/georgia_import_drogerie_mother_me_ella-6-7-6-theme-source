@@ -116,27 +116,27 @@
                             <div class="previewCartItem-price" data-price="{{ price_to_display }}" data-original-price="{{ item.original_price }}">
                                 <span class="price">
                                     {%- assign current_variant = item.variant -%}
-                                    {% if item.original_price != item.final_price %}
+                                    {% if item.original_line_price != item.final_line_price %}
                                         <span class="previewCartItem-saving-price">
                                             <s class="before-discount-price" data-item-original-price-display>
-                                                {{ item.original_price | money }}
+                                                {{ item.original_line_price | money }}
                                             </s>
                                             <span class="discounted-price" data-item-final-price-display>
-                                                {{ item.final_price | money }}
+                                                {{ item.final_line_price | money }}
                                             </span>
                                         </span>
                                     {% elsif current_variant.compare_at_price > current_variant.price %}
                                         <span class="previewCartItem-saving-price saved_compare_price" data-price-from-compare>
                                             <s class="before-discount-price">
-                                                {{ current_variant.compare_at_price | money }}
+                                                {{ current_variant.compare_at_price | times: item.quantity | money }}
                                             </s>
                                             <span class="discounted-price">
-                                                {{ current_variant.price | money }}
+                                                {{ item.final_line_price | money }}
                                             </span>
                                         </span>
                                     {% else %}  
                                         <span data-item-final-price-display>
-                                            {{ item.price | money }}
+                                            {{ item.final_line_price | money }}
                                         </span>
                                     {% endif %}
                                 </span>
@@ -404,9 +404,9 @@
                 </div>
             {%- endif -%}
             <div class="previewCartGroup">
-                <a class="button button-1 button-checkout" href="{{ routes.root_url }}checkout" id="cart-sidebar-checkout"{% if settings.show_global_checkbox %} aria-disabled="true" tabindex="-1"{% endif %}>
+                <button type="button" class="button button-1 button-checkout" id="cart-sidebar-checkout" onclick="window.location='{{ routes.root_url }}checkout'"{% if settings.show_global_checkbox %} disabled="disabled"{% endif %}>
                     {{ 'sections.cart.checkout' | t }}
-                </a>
+                </button>
                 {% if additional_checkout_buttons and settings.show_additional_checkout_buttons %}
                   {{ content_for_additional_checkout_buttons }}
                 {% endif %}

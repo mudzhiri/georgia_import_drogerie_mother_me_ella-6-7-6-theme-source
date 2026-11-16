@@ -101,6 +101,7 @@
   background: var(--mm-surface, #ffffff);
 }
 
+/* Keep line items + upsell in the scroll pane; footer (totals + checkout) stays pinned */
 #halo-cart-sidebar .previewCart {
   flex: 1 1 auto;
   min-height: 0;
@@ -108,6 +109,15 @@
   overscroll-behavior: contain;
   padding: var(--mm-space-3, 12px) var(--mm-space-4, 16px) var(--mm-space-4, 16px);
   -webkit-overflow-scrolling: touch;
+}
+
+#halo-cart-sidebar .previewCartCollection {
+  display: none;
+}
+
+#halo-cart-sidebar .previewCartTool {
+  flex: 0 0 auto;
+  border-top: 1px solid var(--mm-border, #dee5df);
 }
 
 #halo-cart-sidebar .previewCartList {
@@ -295,15 +305,18 @@
 
 #halo-cart-sidebar .previewCartInfo {
   flex: 0 0 auto;
-  position: sticky;
-  bottom: 0;
+  position: relative;
   z-index: 2;
   margin-top: auto;
-  padding: var(--mm-space-4, 16px) var(--mm-space-4, 16px)
+  padding: var(--mm-space-3, 12px) var(--mm-space-4, 16px)
     calc(var(--mm-space-4, 16px) + env(safe-area-inset-bottom, 0px));
   background: var(--mm-surface, #ffffff);
   border-top: 1px solid var(--mm-border, #dee5df);
   box-shadow: 0 -8px 24px rgba(36, 45, 41, 0.06);
+}
+
+#halo-cart-sidebar .previewCartCheckbox.global-checkbox {
+  margin-bottom: var(--mm-space-3, 12px);
 }
 
 #halo-cart-sidebar .previewCartTotalsPrice {
