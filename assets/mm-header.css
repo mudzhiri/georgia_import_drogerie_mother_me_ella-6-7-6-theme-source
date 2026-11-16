@@ -4,10 +4,40 @@
   --mm-muted: var(--mm-text-secondary, #59665f);
   --mm-paper: var(--mm-surface, #ffffff);
   --mm-soft: var(--mm-page, #faf8f4);
-  --mm-line: var(--mm-border, #dee5df);
+  --mm-line: #dee5df;
   --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --mm-display: "Cormorant Garamond", Georgia, serif;
   --mm-body: Manrope, system-ui, sans-serif;
+  --mm-header-max: 1280px;
+  --mm-header-gutter: 16px;
+  --mm-header-main-min: 64px;
+  --mm-header-cats-min: 48px;
+}
+
+@media screen and (min-width: 768px) {
+  :root {
+    --mm-header-gutter: 32px;
+    --mm-header-main-min: 80px;
+  }
+}
+
+/* Shared header content width + gutters (outer shells only) */
+.header-nav-hamburger > .container,
+.header-mobile > .container {
+  width: 100% !important;
+  max-width: var(--mm-header-max) !important;
+  margin-inline: auto !important;
+  padding-inline: var(--mm-header-gutter) !important;
+  box-sizing: border-box !important;
+}
+
+/* Nested category container inherits outer gutters — no second inset */
+.header-nav-hamburger--style1 .main-menu > .container {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-inline: 0 !important;
+  padding-inline: 0 !important;
+  box-sizing: border-box !important;
 }
 
 /* Announcement bar — static, centered (editor-editable text in header-group) */
@@ -52,15 +82,49 @@
 
 /* Top header — clean white */
 .header-classic,
-.header.header-classic {
-  background: var(--mm-paper) !important;
-  border-bottom: 1px solid var(--mm-line) !important;
+.header.header-classic,
+.header-nav-hamburger,
+.header-nav-hamburger.header-nav-hamburger--style1,
+.section-header-navigation,
+.header-mobile,
+.section-header-mobile {
+  background: #ffffff !important;
   box-shadow: none !important;
   --bg-color: #ffffff !important;
 }
 
+.header-classic,
+.header.header-classic {
+  border-bottom: 1px solid var(--mm-line) !important;
+}
+
 .header-classic__content {
   align-items: center !important;
+}
+
+/* Strip leftover vertical padding from old visible search field */
+.header-nav-hamburger .header-icons,
+.header-nav-hamburger .header-logo,
+.header-nav-hamburger .header-item {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+.header-nav-hamburger .header-icons {
+  flex-wrap: nowrap !important;
+  min-height: 0 !important;
+}
+
+.mm-header-search-row,
+.header-mobile .mm-header-search-row {
+  display: none !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden !important;
 }
 
 /* Logo — editor width via --logo_width / --width-logo-mb; keep SVG colors */
@@ -524,12 +588,14 @@ body.mm-search-open {
   .header-nav-hamburger.header-nav-hamburger--style1 {
     background: #ffffff !important;
     border: 0 !important;
+    box-shadow: none !important;
   }
 
   .header-nav-hamburger.header-nav-hamburger--style1 > .container {
     flex-wrap: wrap !important;
-    align-items: center !important;
+    align-items: stretch !important;
     row-gap: 0 !important;
+    column-gap: 0 !important;
   }
 
   .header-nav-hamburger--style1 > .container > .header-logo,
@@ -549,24 +615,35 @@ body.mm-search-open {
     width: 100% !important;
     max-width: 100% !important;
     min-width: 0 !important;
+    min-height: var(--mm-header-cats-min) !important;
+    height: auto !important;
     background: #ffffff !important;
     border-top: 1px solid #dee5df !important;
     border-bottom: 1px solid #dee5df !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
+    box-shadow: none !important;
   }
 
   .header-nav-hamburger--style1 .main-menu > .container {
     max-width: 100% !important;
     width: 100% !important;
+    min-height: var(--mm-header-cats-min) !important;
     padding-inline: 0 !important;
+    margin-inline: 0 !important;
+    display: flex !important;
+    align-items: center !important;
     overflow: visible !important;
+    box-sizing: border-box !important;
   }
 
   .header-nav-hamburger--style1 .main-menu--wrapper,
   .header-nav-hamburger--style1 .header__inline-menu {
     width: 100%;
+    min-height: var(--mm-header-cats-min);
+    display: flex;
+    align-items: center;
     overflow: visible !important;
   }
 
@@ -579,6 +656,7 @@ body.mm-search-open {
     column-gap: 24px !important;
     margin: 0 !important;
     padding: 0 !important;
+    min-height: var(--mm-header-cats-min);
     overflow: visible !important;
   }
 
@@ -603,7 +681,8 @@ body.mm-search-open {
     text-transform: none !important;
     color: #214d43 !important;
     background: transparent !important;
-    padding: 12px 14px !important;
+    padding: 0 14px !important;
+    min-height: var(--mm-header-cats-min) !important;
     margin: 0 !important;
     white-space: nowrap;
     border-radius: 0;
@@ -888,8 +967,9 @@ body.mm-search-open {
 /* Mobile */
 .header-mobile,
 .section-header-mobile {
-  background: var(--mm-paper) !important;
-  border-bottom: 1px solid var(--mm-line) !important;
+  background: #ffffff !important;
+  border-bottom: 1px solid #dee5df !important;
+  box-shadow: none !important;
 }
 
 .header-mobile .header-mobile__item--logo,
@@ -919,12 +999,21 @@ body.mm-search-open {
 
 /* Mobile: menu | logo | search+cart; account lives in drawer only */
 @media screen and (max-width: 1024px) {
-  .header-mobile__wrapper {
+  .header-mobile > .container {
+    max-width: var(--mm-header-max) !important;
+    padding-inline: var(--mm-header-gutter) !important;
+  }
+
+  .header-mobile__wrapper,
+  .header-mobile--wrapper {
     display: grid !important;
     grid-template-columns: 44px 1fr auto;
     align-items: center;
     column-gap: 4px;
-    min-height: 56px;
+    min-height: var(--mm-header-main-min) !important;
+    height: auto !important;
+    box-sizing: border-box;
+    background: #ffffff !important;
   }
 
   .header-mobile__item--menu {
@@ -1031,11 +1120,14 @@ html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-sectio
     flex: 0 0 100% !important;
     width: 100% !important;
     max-width: 100% !important;
+    min-height: var(--mm-header-main-min) !important;
     align-items: center;
     justify-content: space-between;
     gap: 16px;
     box-sizing: border-box;
     background: #ffffff;
+    padding-block: 0 !important;
+    margin: 0 !important;
   }
 
   .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-logo {
@@ -1059,14 +1151,29 @@ html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-sectio
     right: 0 !important;
     z-index: 100;
     width: 100% !important;
-    margin: 0 !important;
-    padding-inline: max(16px, calc((100vw - 1770px) / 2));
+    max-width: var(--mm-header-max) !important;
+    min-height: var(--mm-header-main-min) !important;
+    margin-inline: auto !important;
+    padding-inline: var(--mm-header-gutter) !important;
     background: #ffffff !important;
     border-bottom: 1px solid #dee5df !important;
     box-shadow: none !important;
     transform: none !important;
     animation: none !important;
     transition: none !important;
+  }
+
+  /* Full-bleed white bar behind pinned row */
+  .mm-header-main-row.is-pinned::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-bottom: 1px solid #dee5df;
+    z-index: -1;
+    pointer-events: none;
   }
 
   /* No logo shrink / fade animations while pinned */
@@ -1101,14 +1208,30 @@ html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-sectio
     right: 0 !important;
     z-index: 100;
     width: 100% !important;
+    max-width: var(--mm-header-max) !important;
+    min-height: var(--mm-header-main-min) !important;
+    margin-inline: auto !important;
     box-sizing: border-box;
-    padding-inline: 16px;
+    padding-inline: var(--mm-header-gutter) !important;
     background: #ffffff !important;
     border-bottom: 1px solid #dee5df !important;
     box-shadow: none !important;
     transform: none !important;
     animation: none !important;
     transition: none !important;
+  }
+
+  .section-header-mobile .header-mobile__wrapper.is-pinned::before,
+  .section-header-mobile .header-mobile--wrapper.is-pinned::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    background: #ffffff;
+    border-bottom: 1px solid #dee5df;
+    z-index: -1;
+    pointer-events: none;
   }
 
   html.mm-sticky-header-on .section-header-mobile .header__heading-logo,
