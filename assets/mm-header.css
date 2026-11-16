@@ -55,8 +55,11 @@
   align-items: center !important;
 }
 
-.header__heading-logo.mm-logo {
-  width: clamp(150px, 20vw, 230px) !important;
+.header__heading-logo.mm-logo,
+.header-logo .mm-logo,
+.header__heading-link .mm-logo {
+  width: clamp(220px, 32vw, 320px) !important;
+  max-width: none !important;
   height: auto !important;
   display: block;
   margin-inline: auto;
@@ -201,7 +204,7 @@
 }
 
 .header-mobile .mm-logo {
-  width: clamp(120px, 42vw, 170px) !important;
+  width: clamp(180px, 55vw, 260px) !important;
   height: auto !important;
   margin: 0 auto;
 }

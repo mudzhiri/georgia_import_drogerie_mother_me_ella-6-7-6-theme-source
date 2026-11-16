@@ -1,14 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 160" role="img" aria-label="MOTHER &amp; ME">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 180" role="img" aria-label="MOTHER &amp; ME">
   <title>MOTHER &amp; ME</title>
   <text
-    x="360"
-    y="88"
+    x="450"
+    y="100"
     text-anchor="middle"
     fill="#1F4D42"
     font-family="Georgia, 'Times New Roman', Times, serif"
-    font-size="58"
+    font-size="78"
     font-weight="600"
-    letter-spacing="12"
+    letter-spacing="14"
   >MOTHER &amp; ME</text>
-  <line x1="278" y1="116" x2="442" y2="116" stroke="#A86B74" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="330" y1="132" x2="570" y2="132" stroke="#A86B74" stroke-width="3" stroke-linecap="round"/>
 </svg>

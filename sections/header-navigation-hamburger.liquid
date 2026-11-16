@@ -244,10 +244,15 @@
                                 {%- if check_transparent -%}
                                     <img srcset="{{ logo_transparent | img_url: logo_width_img }}, {{ logo_transparent | img_url: logo_width_retina }} 2x" src="{{ logo_transparent | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
                                 {%- endif -%}
-                            {%- elsif block.settings.logo_text != blank -%}
-                                <span class="header__heading-text {{ block.settings.logo_text_transform }} d-block">{{ block.settings.logo_text }}</span>
                             {%- else -%}
-                                <span class="header__heading-text {{ block.settings.logo_text_transform }} d-block">{{ shop.name }}</span>
+                                <img
+                                  src="{{ 'mm-logo.svg' | asset_url }}"
+                                  alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
+                                  class="header__heading-logo mm-logo motion-reduce"
+                                  width="{{ block.settings.logo_width | default: 280 }}"
+                                  height="56"
+                                  loading="eager"
+                                >
                             {%- endif -%}
                         </a>
                     </{% if request.page_type == 'index' %}h1{% else %}div{% endif %}>

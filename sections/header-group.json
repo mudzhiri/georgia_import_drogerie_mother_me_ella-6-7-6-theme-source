@@ -56,13 +56,13 @@
           "type": "logo",
           "settings": {
             "logo_position": "always",
-            "logo_width": 70,
-            "logo_width_fixed": 100,
-            "logo_text": "",
-            "logo_font_size": 20,
-            "logo_font_weight": "900",
+            "logo_width": 280,
+            "logo_width_fixed": 220,
+            "logo_text": "MOTHER & ME",
+            "logo_font_size": 36,
+            "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#000000"
+            "logo_color": "#1f4d42"
           }
         },
         "main_menu_eyF3JG": {
@@ -192,12 +192,12 @@
         "550fbd21-75fb-4051-9dee-77d91b5239f0": {
           "type": "logo",
           "settings": {
-            "logo_width_mobile": 65,
-            "logo_text": "",
-            "logo_font_size": 20,
-            "logo_font_weight": "900",
+            "logo_width_mobile": 200,
+            "logo_text": "MOTHER & ME",
+            "logo_font_size": 36,
+            "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#232323",
+            "logo_color": "#1f4d42",
             "alignment": "center"
           }
         },
