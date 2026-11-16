@@ -128,7 +128,8 @@
       "enter_coupo_code": "Gutscheincode eingeben",
       "soldout_text": "Ausverkauft",
       "already_text": "alle",
-      "are_saving": "Rabatt:"
+      "are_saving": "Rabatt:",
+      "cart_error": "Beim Aktualisieren Ihres Warenkorbs ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut."
     },
     "share": {
       "copy_to_clipboard": "Link kopieren",

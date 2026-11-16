@@ -1,4 +1,5 @@
 {{ 'mm-products.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mm-products.js' | asset_url }}" defer></script>
 
 {%- liquid
   assign collection = section.settings.collection

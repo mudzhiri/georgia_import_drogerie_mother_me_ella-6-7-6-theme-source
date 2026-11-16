@@ -128,7 +128,8 @@
       "enter_coupo_code": "Введите код купона",
       "soldout_text": "распроданный",
       "already_text": "все",
-      "are_saving": "Скидка:"
+      "are_saving": "Скидка:",
+      "cart_error": "Не удалось обновить корзину. Попробуйте ещё раз."
     },
     "share": {
       "copy_to_clipboard": "Скопировать ссылку",

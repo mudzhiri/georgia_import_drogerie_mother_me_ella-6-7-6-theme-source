@@ -22,6 +22,13 @@
 
   assign price = variant.price
   assign compare_at = variant.compare_at_price
+
+  assign label_add = 'products.product.add_to_cart' | t
+  assign label_adding = 'products.product.adding_to_cart' | t
+  assign label_added = 'products.product.added_to_cart' | t
+  assign label_error = 'general.cart.cart_error' | t
+  assign label_sold_out = 'products.product.sold_out' | t
+  assign label_select = 'products.product.select_variant' | t
 -%}
 
 <article
@@ -45,7 +52,7 @@
     {%- endif -%}
 
     {%- if sold_out -%}
-      <span class="mm-product-card__badge">ამოიწურა</span>
+      <span class="mm-product-card__badge">{{ label_sold_out }}</span>
     {%- endif -%}
   </a>
 
@@ -75,15 +82,14 @@
           disabled
           aria-disabled="true"
         >
-          ამოიწურა
+          {{ label_sold_out }}
         </button>
       {%- elsif needs_selection -%}
         <a
           class="mm-product-card__btn"
           href="{{ product.url }}"
-          title="Select options"
         >
-          არჩევა
+          {{ label_select }}
         </a>
       {%- else -%}
         <form
@@ -91,6 +97,7 @@
           method="post"
           enctype="multipart/form-data"
           class="mm-product-card__form"
+          data-mm-product-form
           data-product-id="{{ product.id }}"
         >
           <input type="hidden" name="id" value="{{ variant.id }}">
@@ -98,12 +105,18 @@
           <button
             type="submit"
             name="add"
-            class="mm-product-card__btn button-text-change"
-            data-btn-addToCart
+            class="mm-product-card__btn"
+            data-mm-add-to-cart
+            data-label-add="{{ label_add | escape }}"
+            data-label-adding="{{ label_adding | escape }}"
+            data-label-added="{{ label_added | escape }}"
+            data-label-error="{{ label_error | escape }}"
           >
-            კალათაში დამატება
+            <span class="mm-product-card__btn-spinner" aria-hidden="true"></span>
+            <span class="mm-product-card__btn-label">{{ label_add }}</span>
           </button>
         </form>
+        <p class="mm-product-card__error" data-mm-card-error role="alert" hidden></p>
       {%- endif -%}
     </div>
   </div>

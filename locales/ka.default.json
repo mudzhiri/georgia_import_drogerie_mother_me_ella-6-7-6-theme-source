@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "breadcrumb": {
@@ -123,7 +132,8 @@
       "enter_coupo_code": "Enter coupon code",
       "soldout_text": "sold out",
       "already_text": "all",
-      "are_saving": "Discount:"
+      "are_saving": "Discount:",
+      "cart_error": "დამატება ვერ მოხერხდა. სცადეთ თავიდან."
     },
     "share": {
       "copy_to_clipboard": "Copy link",
@@ -221,11 +231,11 @@
   },
   "products": {
     "product": {
-      "add_to_cart": "Add to cart",
-      "adding_to_cart": "Adding to cart...",
+      "add_to_cart": "კალათაში დამატება",
+      "adding_to_cart": "ემატება...",
       "add_all_to_cart": "Add all to cart",
       "adding_all_to_cart": "Adding all to cart...",
-      "added_to_cart": "Added to cart",
+      "added_to_cart": "დაემატა",
       "add_to_cart_message": "You must select at least one products to add!",
       "add_to_cart_success_message": "is added to your shopping cart.",
       "add_to_cart_success_message_2": "Product added to cart successfully",
@@ -235,7 +245,7 @@
       "details": "Details",
       "submit": "Submit",
       "cancel": "Cancel",
-      "select_variant": "Select options",
+      "select_variant": "არჩევა",
       "more_sizes": "More sizes available",
       "measurements": "Measurements",
       "media": {
@@ -288,7 +298,7 @@
       "read_less": "Read less",
       "read_more": "Read more",
       "share": "Share this product",
-      "sold_out": "Sold out",
+      "sold_out": "ამოიწურა",
       "sold_out_message": "This variant is sold out!",
       "custom": "Custom label",
       "new": "New",
