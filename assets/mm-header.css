@@ -10,34 +10,44 @@
   --mm-body: Manrope, system-ui, sans-serif;
 }
 
-/* Announcement — light, quiet */
-.announcement-bar,
-.section-announcement-bar,
-#shopify-section-sections-announcement-bar,
-.shopify-section-group-header-group .announcement-bar {
-  background: var(--mm-soft) !important;
-  border-bottom: 1px solid var(--mm-line) !important;
+/* Announcement bar — static, centered (editor-editable text in header-group) */
+.shopify-section-group-header-group .announcement-bar,
+.section-announcement-bar .announcement-bar {
+  background: #214d43 !important;
+  border: 0 !important;
+  text-align: center !important;
 }
 
-.announcement-bar,
-.announcement-bar a,
-.announcement-bar p,
-.announcement-bar span,
-.announcement-bar svg,
-.announcement-bar * {
-  color: var(--mm-muted) !important;
-  fill: currentColor !important;
-  font-family: var(--mm-body) !important;
-  font-size: 0.8125rem !important;
-  letter-spacing: 0.03em !important;
+.shopify-section-group-header-group .announcement-bar .layout--slider .row,
+.section-announcement-bar .announcement-bar .layout--slider .row {
+  max-width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
+}
+
+.shopify-section-group-header-group .announcement-bar__message,
+.shopify-section-group-header-group .announcement-bar__message .message,
+.shopify-section-group-header-group .announcement-bar__message a,
+.shopify-section-group-header-group .announcement-bar__message p,
+.section-announcement-bar .announcement-bar__message,
+.section-announcement-bar .announcement-bar__message p {
+  color: #ffffff !important;
+  font-size: 14px !important;
+  line-height: 1.45 !important;
   font-weight: 500 !important;
+  letter-spacing: 0 !important;
+  text-align: center !important;
+  white-space: normal !important;
+  margin: 0 auto !important;
+  max-width: 40rem;
+  padding-inline: 16px !important;
 }
 
-.announcement-bar svg {
-  opacity: 0.7;
-  width: 14px !important;
-  height: 14px !important;
-  margin: 0 8px 0 0 !important;
+/* no marquee / infinite scroll animation on this bar */
+.shopify-section-group-header-group .announcement-bar .layout--scroll .announcement-bar__item-scroll,
+.section-announcement-bar .announcement-bar .layout--scroll .announcement-bar__item-scroll {
+  animation: none !important;
+  white-space: normal !important;
 }
 
 /* Top header — clean white */
