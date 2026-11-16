@@ -1,0 +1,214 @@
+/* MOTHER & ME — product variant picker */
+.mm-product-variants,
+.productView-options {
+  --mm-v-ink: #214d43;
+  --mm-v-border: #dee5df;
+  --mm-v-bg: #ffffff;
+  --mm-v-muted: #59665f;
+  --mm-v-radius: 8px;
+}
+
+.productView-options .product-option {
+  max-width: none;
+}
+
+.productView-options .form__label,
+.productView-options legend.form__label {
+  display: block;
+  width: 100%;
+  margin: 0 0 8px;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--mm-font-weight-semibold, 600);
+  line-height: 1.4;
+  letter-spacing: normal;
+  color: var(--mm-v-muted);
+  text-transform: none;
+}
+
+.productView-options .form__label [data-header-option],
+.productView-options legend.form__label [data-header-option] {
+  color: var(--mm-v-ink);
+  font-weight: var(--mm-font-weight-medium, 500);
+}
+
+.productView-options .product-form__input {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 16px;
+  padding: 0;
+  border: 0;
+  max-width: none;
+}
+
+.productView-options .product-form__input--dropdown {
+  display: block;
+  width: 100%;
+  max-width: 28rem;
+}
+
+/* Radio visually hidden but focusable via label */
+.productView-options .product-form__radio {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  margin: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+.productView-options .product-form__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  min-height: 44px;
+  min-width: 44px;
+  max-width: 100%;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.productView-options .product-form__label .text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-height: 44px;
+  min-width: 44px;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--mm-v-border);
+  border-radius: var(--mm-v-radius);
+  background: var(--mm-v-bg);
+  color: var(--mm-v-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--mm-font-weight-medium, 500);
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-align: center;
+  text-transform: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.productView-options .product-form__radio:focus-visible + .product-form__label .text,
+.productView-options .product-form__label:focus-within .text {
+  outline: 2px solid var(--mm-v-ink);
+  outline-offset: 2px;
+}
+
+.productView-options .product-form__radio:checked + .product-form__label .text,
+.productView-options .product-form__radio:checked + .product-form__label:not(.product-form__swatch) .text {
+  background-color: var(--mm-v-ink) !important;
+  border-color: var(--mm-v-ink) !important;
+  color: #ffffff !important;
+}
+
+.productView-options .product-form__radio:not(:checked) + .product-form__label:hover .text {
+  border-color: var(--mm-v-ink);
+  background: #f4f7f5;
+  color: var(--mm-v-ink);
+}
+
+/* Sold out: visible, not orderable styling */
+.productView-options .product-form__label.soldout {
+  opacity: 1;
+  overflow: visible;
+}
+
+.productView-options .product-form__label.soldout::before {
+  display: none;
+}
+
+.productView-options .product-form__label.soldout .text {
+  flex-direction: column;
+  gap: 2px;
+  border-style: dashed;
+  color: var(--mm-v-muted);
+  background: #f7f7f5;
+  text-decoration: line-through;
+  text-decoration-thickness: 1px;
+}
+
+.productView-options .product-form__label.soldout .text::after {
+  content: var(--mm-sold-out-label, 'Sold out');
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+.productView-options .product-form__radio:checked + .product-form__label.soldout .text {
+  background: var(--mm-v-ink) !important;
+  border-color: var(--mm-v-ink) !important;
+  color: #ffffff !important;
+  text-decoration: line-through;
+}
+
+/* Non-existing combinations: keep theme hide behavior */
+.productView-options .product-form__label.unavailable {
+  display: none !important;
+}
+
+/* Dropdown mode */
+.productView-options .product-form__input--dropdown .form__select,
+.productView-options .product-form__input--dropdown .select {
+  width: 100%;
+}
+
+.productView-options .product-form__input--dropdown .select__select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 40px 10px 14px;
+  border: 1px solid var(--mm-v-border);
+  border-radius: var(--mm-v-radius);
+  background: var(--mm-v-bg) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23214D43' d='M1.4 1.2 6 5.8l4.6-4.6L12 2.6 6 8.6 0 2.6z'/%3E%3C/svg%3E") no-repeat right 14px center;
+  color: var(--mm-v-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: var(--mm-font-weight-medium, 500);
+  letter-spacing: normal;
+  appearance: none;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.productView-options .product-form__input--dropdown .select__select:focus-visible {
+  outline: 2px solid var(--mm-v-ink);
+  outline-offset: 2px;
+}
+
+.productView-options .product-form__input--dropdown .select__select option:disabled {
+  color: var(--mm-v-muted);
+}
+
+/* Color/swatch buttons keep size, get MM border */
+.productView-options .product-form__swatch .product-form__label {
+  min-width: 44px;
+  min-height: 44px;
+  width: 44px;
+  height: 44px;
+  padding: 3px;
+  border: 1px solid var(--mm-v-border);
+  border-radius: var(--mm-v-radius);
+  background: var(--mm-v-bg);
+}
+
+.productView-options .product-form__swatch .product-form__radio:checked + .product-form__label {
+  border-color: var(--mm-v-ink);
+  box-shadow: 0 0 0 1px var(--mm-v-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .productView-options .product-form__label .text {
+    transition: none;
+  }
+}

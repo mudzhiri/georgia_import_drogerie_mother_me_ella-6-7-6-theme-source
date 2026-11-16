@@ -3,9 +3,19 @@
     assign enable_border_bottom = block.settings.enable_border_bottom
     assign color_border = block.settings.color_border
     assign picker_type = block.settings.picker_type
+    assign mm_max_option_values = 0
+    for option in product.options_with_values
+      if option.values.size > mm_max_option_values
+        assign mm_max_option_values = option.values.size
+      endif
+    endfor
+    # Many values → dropdown for readability; otherwise keep button chips
+    if mm_max_option_values > 8
+      assign picker_type = 'dropdown'
+    endif
 -%}
-<div class="productView-options{% if enable_border_top %} has-border-top{% endif %}{% if enable_border_bottom %} has-border-bottom{% endif %}" style="--color-border: {{ color_border }}" data-lang="{{ request.locale.iso_code | downcase }}" data-default-lang="{{ localization.country.iso_code | downcase }}">
-    {%- if variantCount > 0  and product.has_only_default_variant != true -%}
+<div class="productView-options mm-product-variants{% if enable_border_top %} has-border-top{% endif %}{% if enable_border_bottom %} has-border-bottom{% endif %}" style="--color-border: {{ color_border }}; --mm-sold-out-label: '{{ 'products.product.sold_out' | t | escape }}';" data-lang="{{ request.locale.iso_code | downcase }}" data-default-lang="{{ localization.country.iso_code | downcase }}">
+    {%- if variantCount > 0 and product.has_only_default_variant != true -%}
         <div class="productView-variants halo-productOptions" id="product-option-{{ product.id }}"  data-type="{{ picker_type }}">
             {%- if picker_type == 'button' -%}
                 {%- assign product_swatch_option = settings.swatch | downcase -%}
@@ -133,7 +143,7 @@
                                         </label>
                                     {%- else -%}   
                                         <label class="product-form__label {{ option_stock }}" for="option-{{ product.id }}-{{ option.name }}-{{ forloop.index0 }}" data-variant-id="{{ variant.id }}">
-                                            <span class="text">{{ value }}</span>
+                                            <span class="text">{{ value | escape }}</span>
                                         </label>
                                     {%- endif -%}
                                 {%- endunless -%}
@@ -161,7 +171,7 @@
                                 >
                                     {%- for value in option.values -%}
                                         <option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>
-                                            {{ value }}
+                                            {{ value | escape }}
                                         </option>
                                     {%- endfor -%}
                                 </select>
