@@ -34,15 +34,12 @@
         </h2>
       {%- endif -%}
 
-      <ul class="mm-products__grid productListing" role="list">
+      <ul class="mm-products__grid" role="list">
         {%- for product in collection.products limit: limit -%}
           <li class="mm-products__item">
-            {% render 'product-card',
-              product_card_product: product,
-              serial: forloop.index,
-              sectionId: section.id,
-              media_size: settings.product_block_image_ratio,
-              portrait_aspect_ratio: settings.portrait_height
+            {% render 'mm-product-card',
+              product: product,
+              section_id: section.id
             %}
           </li>
         {%- endfor -%}

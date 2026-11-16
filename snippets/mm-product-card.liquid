@@ -1,0 +1,110 @@
+{%- comment -%}
+  MOTHER & ME product card for the homepage MM Products section only.
+  Accepts: product {Object}, section_id {String}
+{%- endcomment -%}
+
+{%- liquid
+  assign variant = product.selected_or_first_available_variant
+  assign sold_out = false
+  if product.available == false
+    assign sold_out = true
+  endif
+
+  assign needs_selection = false
+  if product.has_only_default_variant == false
+    assign needs_selection = true
+  endif
+
+  assign image = product.featured_media
+  if image == blank and product.featured_image
+    assign image = product.featured_image
+  endif
+
+  assign price = variant.price
+  assign compare_at = variant.compare_at_price
+-%}
+
+<article
+  class="mm-product-card product-item{% if sold_out %} mm-product-card--sold-out{% endif %}"
+  data-product-id="{{ product.id }}"
+>
+  <a class="mm-product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+    {%- if image != blank -%}
+      {{
+        image
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          widths: '200, 300, 400, 600, 800',
+          sizes: '(min-width: 900px) 25vw, 50vw',
+          class: 'mm-product-card__image',
+          alt: product.title
+      }}
+    {%- else -%}
+      <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
+    {%- endif -%}
+
+    {%- if sold_out -%}
+      <span class="mm-product-card__badge">ამოიწურა</span>
+    {%- endif -%}
+  </a>
+
+  <div class="mm-product-card__body">
+    {%- if product.vendor != blank -%}
+      <p class="mm-product-card__vendor">{{ product.vendor | escape }}</p>
+    {%- endif -%}
+
+    <h3 class="mm-product-card__title">
+      <a href="{{ product.url }}">{{ product.title | escape }}</a>
+    </h3>
+
+    <div class="mm-product-card__price">
+      {%- if compare_at != blank and compare_at > price -%}
+        <span class="mm-product-card__price-sale">{{ price | money }}</span>
+        <s class="mm-product-card__price-compare">{{ compare_at | money }}</s>
+      {%- else -%}
+        <span class="mm-product-card__price-regular">{{ price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    <div class="mm-product-card__actions">
+      {%- if sold_out -%}
+        <button
+          type="button"
+          class="mm-product-card__btn mm-product-card__btn--disabled"
+          disabled
+          aria-disabled="true"
+        >
+          ამოიწურა
+        </button>
+      {%- elsif needs_selection -%}
+        <a
+          class="mm-product-card__btn"
+          href="{{ product.url }}"
+          title="Select options"
+        >
+          არჩევა
+        </a>
+      {%- else -%}
+        <form
+          action="{{ routes.cart_add_url }}"
+          method="post"
+          enctype="multipart/form-data"
+          class="mm-product-card__form"
+          data-product-id="{{ product.id }}"
+        >
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            name="add"
+            class="mm-product-card__btn button-text-change"
+            data-btn-addToCart
+          >
+            კალათაში დამატება
+          </button>
+        </form>
+      {%- endif -%}
+    </div>
+  </div>
+</article>
