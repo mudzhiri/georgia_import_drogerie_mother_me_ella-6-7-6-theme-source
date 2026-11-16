@@ -379,13 +379,13 @@
   },
   "templates": {
     "search": {
-      "no_results": "No results found for “{{ terms }}”. Check the spelling or use a different word or phrase.",
+      "no_results": "“{{ terms }}”-სთვის შედეგი ვერ მოიძებნა. შეამოწმე მართლწერა ან გამოიყენე სხვა სიტყვა.",
       "search_result_title_2": "There are {{ count }} Page(s) and article(s) for '{{ terms }}'",
       "view": "View {{ type }}",
       "page": "Page",
       "results_with_count": {
-        "one": "{{ count }} result found for “{{ terms }}”",
-        "other": "{{ count }} results found for “{{ terms }}”"
+        "one": "“{{ terms }}”-სთვის ნაპოვნია {{ count }} შედეგი",
+        "other": "“{{ terms }}”-სთვის ნაპოვნია {{ count }} შედეგი"
       },
       "results_pages_with_count": {
         "one": "{{ count }} page",
@@ -396,7 +396,7 @@
         "other": "{{ count }} suggestions"
       },
       "title": "მოძებნე პროდუქტები ჩვენს საიტზე",
-      "search_product_for": "No results found for “{{ terms }}”",
+      "search_product_for": "“{{ terms }}”-სთვის შედეგი ვერ მოიძებნა",
       "search_product_check": "Check the spelling or use a different word or phrase",
       "search_for": "Search for “{{ terms }}”",
       "suggestions": "Suggestions",
