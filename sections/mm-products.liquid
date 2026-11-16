@@ -1,0 +1,110 @@
+{{ 'mm-products.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign limit = section.settings.products_to_show | default: 8
+  if limit > 8
+    assign limit = 8
+  endif
+  if limit < 1
+    assign limit = 1
+  endif
+  assign heading = section.settings.heading
+  assign view_all_label = section.settings.view_all_label
+  assign has_collection = false
+  if collection != blank
+    assign has_collection = true
+  endif
+  assign product_count = 0
+  if has_collection
+    assign product_count = collection.products_count
+  endif
+-%}
+
+{%- if has_collection and product_count > 0 -%}
+  <section
+    id="mm-products-{{ section.id }}"
+    class="mm-products"
+    aria-labelledby="mm-products-heading-{{ section.id }}"
+  >
+    <div class="mm-products__inner">
+      {%- if heading != blank -%}
+        <h2 id="mm-products-heading-{{ section.id }}" class="mm-products__heading">
+          {{ heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      <ul class="mm-products__grid productListing" role="list">
+        {%- for product in collection.products limit: limit -%}
+          <li class="mm-products__item">
+            {% render 'product-card',
+              product_card_product: product,
+              serial: forloop.index,
+              sectionId: section.id,
+              media_size: settings.product_block_image_ratio,
+              portrait_aspect_ratio: settings.portrait_height
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if view_all_label != blank -%}
+        <div class="mm-products__footer">
+          <a class="mm-products__view-all" href="{{ collection.url }}">
+            {{ view_all_label | escape }}
+          </a>
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <div class="mm-products__setup" {{ section.shopify_attributes }}>
+    <p>
+      <strong>MM Products:</strong>
+      Select a Shopify collection in the theme editor to show up to 8 real products here.
+      Without a collection this section stays hidden on the live storefront.
+    </p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM Products",
+  "tag": "section",
+  "class": "section-mm-products",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "აღმოაჩინე ჩვენი პროდუქტები"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection",
+      "info": "Required. Without a collection the section is hidden on the live store."
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "default": 8,
+      "label": "Maximum products"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all link label",
+      "default": "ყველა პროდუქტის ნახვა"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Products"
+    }
+  ]
+}
+{% endschema %}

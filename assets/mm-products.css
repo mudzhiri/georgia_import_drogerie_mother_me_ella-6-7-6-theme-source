@@ -1,0 +1,106 @@
+/* MOTHER & ME — featured products under category tiles */
+.mm-products {
+  --mm-prod-max: 1280px;
+  --mm-prod-gutter: 16px;
+  --mm-prod-heading: #214d43;
+  background: #ffffff;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-products {
+    --mm-prod-gutter: 32px;
+  }
+}
+
+.mm-products__inner {
+  width: 100%;
+  max-width: var(--mm-prod-max);
+  margin: 0 auto;
+  padding: 24px var(--mm-prod-gutter) 48px;
+  box-sizing: border-box;
+}
+
+.mm-products__heading {
+  margin: 0 0 24px;
+  color: var(--mm-prod-heading);
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: clamp(1.35rem, 1.1rem + 1vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.25;
+  text-align: left;
+}
+
+.mm-products__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@media screen and (min-width: 900px) {
+  .mm-products__grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px 20px;
+  }
+}
+
+.mm-products__item {
+  min-width: 0;
+  margin: 0;
+}
+
+.mm-products__item .product-item,
+.mm-products__item .card {
+  width: 100%;
+}
+
+.mm-products__footer {
+  margin-top: 28px;
+  text-align: center;
+}
+
+.mm-products__view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 4px;
+  color: #214d43;
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mm-products__view-all:hover,
+.mm-products__view-all:focus-visible {
+  color: #173b33;
+  outline: none;
+}
+
+.mm-products__view-all:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.mm-products__setup {
+  max-width: var(--mm-prod-max);
+  margin: 0 auto;
+  padding: 32px var(--mm-prod-gutter);
+  border: 1px dashed #dee5df;
+  border-radius: 12px;
+  background: #faf8f4;
+  color: #59665f;
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.mm-products__setup strong {
+  color: #214d43;
+}
