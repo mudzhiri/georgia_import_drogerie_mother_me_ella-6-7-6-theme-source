@@ -94,7 +94,7 @@
     "cart": {
       "cart": "Cart",
       "shopping_cart": "Shopping cart",
-      "my_cart": "კალათა",
+      "my_cart": "Cart",
       "view": "View my cart ({{ count }})",
       "item_added": "Item added to your cart",
       "shipping_calculator_button": "Calculate shipping",
@@ -395,7 +395,7 @@
         "one": "{{ count }} suggestion",
         "other": "{{ count }} suggestions"
       },
-      "title": "Search for products on our site",
+      "title": "მოძებნე პროდუქტები ჩვენს საიტზე",
       "search_product_for": "No results found for “{{ terms }}”",
       "search_product_check": "Check the spelling or use a different word or phrase",
       "search_for": "Search for “{{ terms }}”",
@@ -448,7 +448,7 @@
     "cart": {
       "title": "Your cart",
       "caption": "Cart items",
-      "checkout": "შეკვეთის გაფორმება",
+      "checkout": "Checkout",
       "proceed_to_checkout": "Proceed to checkout",
       "my_cart": "კალათა",
       "items": "ნივთი",
@@ -493,10 +493,7 @@
       "update": "Update",
       "upsell": "The following items has been added to your cart:",
       "your_order": "Your order",
-      "more_than_99": "99+",
-      "heading": {
-        "quantity": "რაოდენობა"
-      }
+      "more_than_99": "99+"
     },
     "footer": {
       "payment": "Payment methods"

@@ -393,7 +393,7 @@
         "one": "{{ count }} Anregung",
         "other": "{{ count }} Vorschläge"
       },
-      "title": "Suchen Sie auf unserer Website nach Produkten",
+      "title": "Suche nach Produkten in unserem Shop",
       "search_product_for": "Keine Ergebnisse gefunden für „{{ terms }}”",
       "search_product_check": "Überprüfen Sie die Rechtschreibung oder verwenden Sie ein anderes Wort oder eine andere Phrase",
       "search_for": "Suchen nach \"{{ terms }}”",
