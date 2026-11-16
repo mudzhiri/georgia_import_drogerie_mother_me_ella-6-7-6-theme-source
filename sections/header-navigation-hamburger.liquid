@@ -411,6 +411,7 @@
                             </details>
                         </details-modal>
                     {%- endif -%}
+                    {% render 'mm-language-switcher', id_suffix: 'desktop' %}
                 {%- endif -%}
                 {%- unless block.settings.customer_icon == '1' -%}
                     {%- if shop.customer_accounts_enabled -%}

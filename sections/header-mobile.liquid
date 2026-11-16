@@ -36,6 +36,7 @@
                                     </summary>
                                 </details>
                             </details-modal>
+                            {% render 'mm-language-switcher', id_suffix: 'mobile' %}
                         {%-  when 'logo' -%}
                             <div class="header-mobile--icon" style="--logo-font-size: {{ block.settings.logo_font_size }}px; --logo-font-weight: {{ block.settings.logo_font_weight }}; --logo-color: {{ block.settings.logo_color }}">
                                 {%- if menu_tab.size > 0 -%}
