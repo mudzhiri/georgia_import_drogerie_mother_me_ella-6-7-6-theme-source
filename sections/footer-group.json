@@ -17,13 +17,13 @@
         "logo_width": 180,
         "brand_text": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის.",
         "show_contact": true,
-        "show_social": true,
+        "show_social": false,
         "customers_heading": "მომხმარებლისთვის",
-        "menu_customers": "customer-service",
-        "show_policies_customers": true,
+        "menu_customers": "mm-footer-customers",
+        "show_policies_customers": false,
         "info_heading": "ინფორმაცია",
-        "menu_info": "information",
-        "show_policies_info": true,
+        "menu_info": "mm-footer-info",
+        "show_policies_info": false,
         "show_payments": true
       }
     }
