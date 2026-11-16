@@ -195,26 +195,40 @@
     gap: 16px;
   }
 
-  .header-nav-hamburger .header-icons {
-    flex: 1 1 0 !important;
-    min-width: 0;
+  .header-nav-hamburger .header-logo {
+    max-width: var(--logo_width, 180px) !important;
+    width: auto !important;
+  }
+
+  .header-nav-hamburger .main-menu {
+    flex: 1 1 auto !important;
+    width: auto !important;
     max-width: none !important;
+    min-width: 0;
+  }
+
+  .header-nav-hamburger .header-icons {
+    flex: 1 1 560px !important;
+    min-width: 0;
+    max-width: 680px !important;
+    width: auto !important;
     justify-content: flex-end !important;
+    flex-wrap: nowrap !important;
     gap: 14px;
   }
 
   .header-nav-hamburger .header__search-input {
-    flex: 1 1 auto;
-    width: 100%;
-    max-width: 560px;
-    min-width: 0;
-    margin-inline-end: auto;
+    flex: 1 1 560px !important;
+    width: auto !important;
+    max-width: 560px !important;
+    min-width: 200px;
+    margin-inline-end: 4px;
   }
 
   .header-nav-hamburger .header__search-input .search-modal__form,
   .header-nav-hamburger .header__search-input.style-2 .search.search-modal__form {
     width: 100% !important;
-    max-width: 560px;
+    max-width: 560px !important;
   }
 
   .mm-header-search-row {
