@@ -871,7 +871,8 @@
       "close": "დახურვა",
       "account": "ანგარიში",
       "search": "ძებნა",
-      "log_in": "შესვლა"
+      "log_in": "შესვლა",
+      "lang_cur": "ენა / ვალუტა"
     },
     "navigation": {
       "go_to": "გადასვლა"
@@ -1121,6 +1122,12 @@
       "free_shipping_message_4": "უფასო მიწოდებამდე",
       "free_shipping_1": "Free",
       "free_shipping_2": "TBD"
+    }
+  },
+  "cart": {
+    "ajax_cart": {
+      "close": "დახურვა",
+      "cart": "კალათა"
     }
   }
 }

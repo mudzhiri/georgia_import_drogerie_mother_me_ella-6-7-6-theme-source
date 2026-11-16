@@ -23,7 +23,7 @@
       "video": "Click to watch video",
       "video_alt": "Video alt",
       "scroll_down": "Scroll down",
-      "lang_cur": "Language/Currency sidebar"
+      "lang_cur": "ენა / ვალუტა"
     },
     "password_page": {
       "login_form_heading": "Enter store using password:",
@@ -898,6 +898,12 @@
     "promotion": {
       "copy": "Copy",
       "success_message_copy": "Copied"
+    }
+  },
+  "cart": {
+    "ajax_cart": {
+      "close": "დახურვა",
+      "cart": "კალათა"
     }
   }
 }
