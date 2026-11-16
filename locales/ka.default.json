@@ -362,7 +362,11 @@
       "step_by_step": {
         "next": "Next step",
         "previous": "Previous step"
-      }
+      },
+      "media_gallery": "პროდუქტის გალერეა",
+      "media_load": "სურათის გახსნა",
+      "thumbnail_label": "სურათი {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}"
     },
     "modal": {
       "label": "Media gallery"

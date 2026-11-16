@@ -856,7 +856,11 @@
         "title": "Volume Pricing"
       },
       "xr_button": "View in your space",
-      "xr_button_label": "View in your space, loads item in augmented reality window"
+      "xr_button_label": "View in your space, loads item in augmented reality window",
+      "media_gallery": "Product gallery",
+      "media_load": "Open larger image",
+      "thumbnail_label": "Image {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}"
     }
   },
   "navigation": {

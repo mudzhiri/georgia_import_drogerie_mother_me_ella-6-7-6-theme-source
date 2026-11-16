@@ -493,7 +493,7 @@
                 <div class="page-content" id="ProductContent">
             {%- endif -%}
                 <div class="productView-top">
-                    <div class="halo-productView-left productView-images clearfix{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-image-gallery>
+                    <div class="halo-productView-left productView-images clearfix mm-product-gallery{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-image-gallery data-mm-media-count="{{ product.media.size }}" aria-label="{{ 'products.product.media_gallery' | t | escape }}">
                         {%- if main_image_show_custom_cursor -%}
                             <div class="cursor-wrapper handleMouseLeave">
                                 <div class="custom-cursor custom-cursor__outer">
@@ -542,12 +542,12 @@
                                                         <div 
                                                             class="media" 
                                                             {% if zoomed_image and main_image_show_custom_cursor != true %} data-zoom-image="{{ media.preview_image | img_url: '1000x' }}"{% endif %} 
-                                                            {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | img_url: '1000x' }}" {% endif %}
+                                                            {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | img_url: '1000x' }}" role="button" tabindex="0" aria-label="{{ 'products.product.media_load' | t | escape }}"{% endif %}
                                                         >
                                                             <img id="product-featured-image-{{ media.id }}"
                                                                 {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{{ media.preview_image | img_url: '1000x' }}"
                                                                 {% unless settings.enable_lazyload and forloop.first == false %}src="{{ media | img_url: '1000x' }}"{% endunless %}
-                                                                {% if settings.enable_lazyload %}data-src="{{ media | img_url: '1000x' }}"{% endif %}
+                                                                {% if settings.enable_lazyload and forloop.first == false %}data-src="{{ media | img_url: '1000x' }}"{% endif %}
                                                                 alt="{{ media.preview_image.alt | escape }}"
                                                                 sizes="(min-width: 2000px) 1500px, (min-width: 1200px) 1200px, (min-width: 768px) calc((100vw - 30px) / 2), calc(100vw - 20px)"
                                                                 width="{{ media.width }}"
@@ -556,7 +556,12 @@
                                                                 data-main-image
                                                                 data-index="{{ forloop.index }}"
                                                                 data-cursor-image
-                                                                {% if settings.enable_lazyload and forloop.first == false %}class="lazyload"{% if settings.enable_lazyload %} loading="lazy"{% endif %}{% endif %}
+                                                                {% if forloop.first %}
+                                                                  loading="eager"
+                                                                  fetchpriority="high"
+                                                                {% elsif settings.enable_lazyload %}
+                                                                  class="lazyload" loading="lazy"
+                                                                {% endif %}
                                                             />
                                                             {%- if settings.enable_lazyload and forloop.first == false -%}<span class="data-lazy-loading"></span>{%- endif -%}
                                                         </div>
@@ -742,15 +747,15 @@
                                     </div>
                                 {%- endif -%}
                             </div>
-                            {%- if thumnail_layout != '4' -%}
+                            {%- if thumnail_layout != '4' and product.media.size > 1 -%}
                                 <div class="productView-thumbnail-wrapper{% unless show_thumbnail_mobile %} is-hidden-mobile{% endunless %}">
                                     <div class="productView-for clearfix" data-max-thumbnail-to-show="{{ max_thumbnail_to_show }}">
                                         {%- for media in product.media -%}
                                             {%- case media.media_type -%}
                                                 {%- when 'image' -%}
                                                     <div class="productView-thumbnail{% if show_variant_image_group %} filter-{{ media.alt | escape | downcase | replace: ' ', '-' | replace: '(', '-' | replace: ')', '-' }}{% endif %}" data-media-id="{{ section.id }}-{{ media.id }}">
-                                                        <div class="productView-thumbnail-link" data-image="{{ media | img_url: 'large' }}">
-                                                            <img {% if settings.enable_lazyload and forloop.index > 4 %}data-{% endif %}srcset="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}" {% unless settings.enable_lazyload and forloop.index > 4 %}src="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}"{% endunless %} alt="{{ media.alt | escape }}" {% if settings.enable_lazyload and forloop.index > 4 %}class="lazyload"{% if settings.enable_lazyload %} loading="lazy"{% endif %}{% endif %} />
+                                                        <div class="productView-thumbnail-link" data-image="{{ media | img_url: 'large' }}" role="button" tabindex="0" aria-label="{{ 'products.product.thumbnail_label' | t: index: forloop.index | escape }}">
+                                                            <img {% if settings.enable_lazyload and forloop.index > 4 %}data-{% endif %}srcset="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}" {% unless settings.enable_lazyload and forloop.index > 4 %}src="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}"{% endunless %} alt="{{ media.alt | escape }}" {% if settings.enable_lazyload and forloop.index > 4 %}class="lazyload" loading="lazy"{% elsif forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} />
                                                             {%- if settings.enable_lazyload and forloop.index > 4 -%}<span class="data-lazy-loading"></span>{%- endif -%}
                                                         </div>
                                                     </div>

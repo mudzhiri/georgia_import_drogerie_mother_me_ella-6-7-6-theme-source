@@ -354,7 +354,11 @@
       "step_by_step": {
         "next": "Nächster Schritt",
         "previous": "Vorheriger Schritt"
-      }
+      },
+      "media_gallery": "Produktgalerie",
+      "media_load": "Bild vergrößern",
+      "thumbnail_label": "Bild {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}"
     },
     "modal": {
       "label": "Mediengalerie"

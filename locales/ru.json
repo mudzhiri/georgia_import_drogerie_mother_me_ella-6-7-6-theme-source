@@ -354,7 +354,11 @@
       "step_by_step": {
         "next": "Следующий шаг",
         "previous": "Предыдущий шаг"
-      }
+      },
+      "media_gallery": "Галерея товара",
+      "media_load": "Открыть изображение",
+      "thumbnail_label": "Изображение {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}"
     },
     "modal": {
       "label": "Медиа-галерея"
