@@ -25,15 +25,16 @@
       trigger.setAttribute('aria-haspopup', 'true');
       trigger.setAttribute('aria-expanded', item.classList.contains('is-open') ? 'true' : 'false');
 
-      trigger.addEventListener('click', (event) => {
+      const toggle = (event) => {
         if (!DESKTOP_MQ.matches) return;
-        // Toggle dropdown on click; allow plain links without children to navigate.
         if (!item.querySelector(':scope > .header__submenu')) return;
         event.preventDefault();
+        event.stopPropagation();
         const open = item.classList.toggle('is-open');
         trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
         if (open) closeAll(item);
-      });
+      };
+      trigger.addEventListener('click', toggle, true);
 
       trigger.addEventListener('keydown', (event) => {
         if (!DESKTOP_MQ.matches) return;
