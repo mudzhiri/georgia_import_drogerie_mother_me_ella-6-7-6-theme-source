@@ -1536,6 +1536,10 @@
                         sticky_add_to_cart_always_mb: sticky_add_to_cart_always_mb
                     %}
                 {%- endif -%}
+                {% render 'mm-sticky-buybar',
+                    product: product,
+                    current_variant: current_variant
+                %}
             {%- endunless -%}
         </div>
     </div>

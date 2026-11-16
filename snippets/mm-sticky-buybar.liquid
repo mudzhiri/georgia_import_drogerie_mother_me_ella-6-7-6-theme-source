@@ -1,0 +1,35 @@
+{%- comment -%}
+  MOTHER & ME — compact mobile sticky buy bar (PDP only).
+  Proxies the main product form ATC; no second cart logic.
+{%- endcomment -%}
+{{ 'mm-sticky-buybar.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'mm-sticky-buybar.js' | asset_url }}" defer="defer"></script>
+
+<div
+  class="mm-sticky-buybar"
+  id="mm-sticky-buybar"
+  data-mm-sticky-buybar
+  hidden
+  aria-hidden="true"
+>
+  <div class="mm-sticky-buybar__inner">
+    <div class="mm-sticky-buybar__price" data-mm-sticky-price>
+      {{ current_variant.price | money }}
+    </div>
+    <button
+      type="button"
+      class="mm-sticky-buybar__btn"
+      data-mm-sticky-atc
+      {% unless current_variant.available %}disabled{% endunless %}
+    >
+      <span class="mm-sticky-buybar__btn-label" data-mm-sticky-label>
+        {%- if current_variant.available -%}
+          {{ 'products.product.add_to_cart' | t }}
+        {%- else -%}
+          {{ 'products.product.sold_out' | t }}
+        {%- endif -%}
+      </span>
+      <span class="mm-sticky-buybar__spinner" aria-hidden="true"></span>
+    </button>
+  </div>
+</div>
