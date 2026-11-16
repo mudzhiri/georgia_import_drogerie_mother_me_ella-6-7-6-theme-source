@@ -1,26 +1,16 @@
 /* MOTHER & ME — about strip under info points */
 .mm-about {
-  --mm-about-max: 1280px;
-  --mm-about-gutter: 24px;
-  --mm-about-pad-y: 48px;
   --mm-about-bg: #faf8f4;
   --mm-about-heading: #214d43;
   --mm-about-text: #59665f;
   background: var(--mm-about-bg);
 }
 
-@media screen and (min-width: 768px) {
-  .mm-about {
-    --mm-about-gutter: 32px;
-    --mm-about-pad-y: 72px;
-  }
-}
-
 .mm-about__inner {
   width: 100%;
-  max-width: var(--mm-about-max);
+  max-width: var(--mm-content-max, 1280px);
   margin: 0 auto;
-  padding: var(--mm-about-pad-y) var(--mm-about-gutter);
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
   box-sizing: border-box;
 }
 
@@ -48,7 +38,7 @@
 }
 
 .mm-about__heading {
-  margin: 0 0 16px;
+  margin: 0 0 var(--mm-heading-gap, 24px);
   color: var(--mm-about-heading);
   font-family: Manrope, system-ui, sans-serif;
   font-size: clamp(1.5rem, 1.25rem + 1vw, 2rem);

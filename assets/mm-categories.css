@@ -1,24 +1,16 @@
 /* MOTHER & ME — category tiles under hero */
 .mm-categories {
-  --mm-cat-max: 1280px;
-  --mm-cat-gutter: 16px;
   --mm-cat-gap: 24px;
   --mm-cat-bg: #eaf1ec;
   --mm-cat-text: #214d43;
   background: transparent;
 }
 
-@media screen and (min-width: 768px) {
-  .mm-categories {
-    --mm-cat-gutter: 32px;
-  }
-}
-
 .mm-categories__inner {
   width: 100%;
-  max-width: var(--mm-cat-max);
+  max-width: var(--mm-content-max, 1280px);
   margin: 0 auto;
-  padding: 8px var(--mm-cat-gutter) 40px;
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
   box-sizing: border-box;
 }
 

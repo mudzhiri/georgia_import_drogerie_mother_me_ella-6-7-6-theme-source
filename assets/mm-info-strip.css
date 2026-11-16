@@ -1,24 +1,16 @@
 /* MOTHER & ME — compact info strip under products */
 .mm-info-strip {
-  --mm-info-max: 1280px;
-  --mm-info-pad: 24px;
   --mm-info-bg: #eaf1ec;
   --mm-info-ink: #214d43;
   background: var(--mm-info-bg);
   color: var(--mm-info-ink);
 }
 
-@media screen and (min-width: 768px) {
-  .mm-info-strip {
-    --mm-info-pad: 32px;
-  }
-}
-
 .mm-info-strip__inner {
   width: 100%;
-  max-width: var(--mm-info-max);
+  max-width: var(--mm-content-max, 1280px);
   margin: 0 auto;
-  padding: var(--mm-info-pad);
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
   box-sizing: border-box;
 }
 

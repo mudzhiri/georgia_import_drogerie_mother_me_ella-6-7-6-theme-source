@@ -3,23 +3,15 @@
   --mm-hero-bg: #faf8f4;
   --mm-hero-heading: #214d43;
   --mm-hero-text: #59665f;
-  --mm-hero-max: 1280px;
-  --mm-hero-gutter: 16px;
   background: var(--mm-hero-bg);
   color: var(--mm-hero-text);
 }
 
-@media screen and (min-width: 768px) {
-  .mm-hero {
-    --mm-hero-gutter: 32px;
-  }
-}
-
 .mm-hero__inner {
   width: 100%;
-  max-width: var(--mm-hero-max);
+  max-width: var(--mm-content-max, 1280px);
   margin: 0 auto;
-  padding: 40px var(--mm-hero-gutter);
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: 1fr;
@@ -29,7 +21,6 @@
 
 @media screen and (min-width: 900px) {
   .mm-hero__inner {
-    padding-block: 56px;
     gap: 48px;
   }
 
