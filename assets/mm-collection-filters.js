@@ -47,10 +47,27 @@
     }
   });
 
+  const prepareForm = (form) => {
+    if (!form) return;
+    form.querySelectorAll('.mm-filters__price-input').forEach((input) => {
+      if (!input.value || !String(input.value).trim()) {
+        input.disabled = true;
+      }
+    });
+  };
+
   const submitNearestForm = (el) => {
     const form = el.closest('form');
-    if (form) form.requestSubmit ? form.requestSubmit() : form.submit();
+    if (!form) return;
+    prepareForm(form);
+    if (form.requestSubmit) form.requestSubmit();
+    else form.submit();
   };
+
+  [desktopForm, panelForm].forEach((form) => {
+    if (!form) return;
+    form.addEventListener('submit', () => prepareForm(form));
+  });
 
   if (desktopForm) {
     desktopForm.addEventListener('change', (event) => {
