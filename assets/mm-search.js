@@ -231,17 +231,30 @@
 
       if (this.status) this.status.textContent = i18n.loading || '';
 
-      const base = i18n.predictiveUrl || window.routes?.predictive_search_url || '/search/suggest';
-      const url =
-        `${base}.json?q=${encodeURIComponent(q)}` +
+      // Some buyer locales (e.g. ka) return 417 Unsupported buyer locale on /search/suggest.json.
+      // Retry via /en/… which still returns localized product titles for this shop.
+      const primaryBase = i18n.predictiveUrl || window.routes?.predictive_search_url || '/search/suggest';
+      const bases = [primaryBase];
+      if (!String(primaryBase).startsWith('/en/')) bases.push('/en/search/suggest');
+
+      const query =
+        `q=${encodeURIComponent(q)}` +
         `&resources[type]=product&resources[limit]=${LIMIT}` +
         `&resources[options][unavailable_products]=last` +
         `&resources[options][fields]=title,product_type,vendor,variants.title,variants.sku`;
 
       try {
-        const res = await fetch(url, { signal: this.abort.signal, headers: { Accept: 'application/json' } });
-        if (!res.ok) throw new Error(String(res.status));
-        const data = await res.json();
+        let data = null;
+        for (const base of bases) {
+          const clean = String(base).replace(/\.json$/i, '');
+          const url = `${clean}.json?${query}`;
+          const res = await fetch(url, { signal: this.abort.signal, headers: { Accept: 'application/json' } });
+          if (res.ok) {
+            data = await res.json();
+            break;
+          }
+          if (res.status !== 417) throw new Error(String(res.status));
+        }
         if (id !== this.requestId) return; // stale
         this.renderProducts(q, data?.resources?.results?.products || []);
       } catch (err) {
