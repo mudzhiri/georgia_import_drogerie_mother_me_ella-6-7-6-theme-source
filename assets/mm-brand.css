@@ -411,16 +411,34 @@ button.button,
   font-variant-numeric: tabular-nums;
 }
 
-/* Collection tiles */
+/* Collection / category tiles — compact square */
 .collection-list .card__media,
-.collection-card .media {
-  aspect-ratio: 4 / 5;
+.collection-list .ratio,
+.collection-card .media,
+.collection-card .ratio,
+.list-collections .card__media,
+.list-collections .ratio {
+  aspect-ratio: 1 / 1 !important;
+  --ratio-percent: 100% !important;
+  overflow: hidden !important;
+  background: #ffffff !important;
+  border-radius: 14px !important;
+}
+
+.collection-list .card__media img,
+.collection-list .media img,
+.list-collections .card__media img,
+.list-collections .media img,
+.collection-card img {
+  object-fit: contain !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 .collection-list .card__heading,
 .collection-card__title {
-  margin-top: 0.85rem;
-  font-size: clamp(1.35rem, 2vw, 1.8rem) !important;
+  margin-top: 0.55rem;
+  font-size: clamp(1.1rem, 1.8vw, 1.4rem) !important;
 }
 
 /* ---------- Sections ---------- */

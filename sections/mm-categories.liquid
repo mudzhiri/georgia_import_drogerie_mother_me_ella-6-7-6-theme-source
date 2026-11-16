@@ -14,9 +14,9 @@
             <a class="mm-cats__card" href="{{ col.url }}">
               <span class="mm-cats__visual">
                 {% if col.image %}
-                  {{ col.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: col.title }}
+                  {{ col.image | image_url: width: 600 | image_tag: loading: 'lazy', alt: col.title }}
                 {% elsif col.products.first and col.products.first.featured_image %}
-                  {{ col.products.first.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: col.title }}
+                  {{ col.products.first.featured_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: col.title }}
                 {% else %}
                   <span class="mm-cats__fallback"></span>
                 {% endif %}
@@ -40,26 +40,26 @@
 <style>
   .mm-cats {
     background: #eef3f0;
-    padding: clamp(3rem, 7vw, 5.5rem) clamp(1.25rem, 4vw, 3rem);
+    padding: clamp(2.5rem, 5vw, 4rem) clamp(1.25rem, 4vw, 3rem);
   }
   .mm-cats__inner {
-    max-width: 1200px;
+    max-width: 1100px;
     margin: 0 auto;
   }
   .mm-cats__head {
-    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
     max-width: 36rem;
   }
   .mm-cats__head h2 {
     margin: 0;
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(2.2rem, 4.5vw, 3.4rem);
+    font-size: clamp(2rem, 4vw, 3rem);
     line-height: 1.05;
     color: #14201c;
     letter-spacing: -0.02em;
   }
   .mm-cats__head p {
-    margin: 0.7rem 0 0;
+    margin: 0.55rem 0 0;
     font-family: Manrope, system-ui, sans-serif;
     color: #3d4a45;
     line-height: 1.55;
@@ -69,8 +69,8 @@
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: clamp(0.85rem, 2vw, 1.35rem);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.7rem, 1.6vw, 1.1rem);
   }
   .mm-cats__card {
     display: block;
@@ -79,16 +79,17 @@
   }
   .mm-cats__visual {
     display: block;
-    aspect-ratio: 4 / 5;
+    aspect-ratio: 1 / 1;
     overflow: hidden;
-    border-radius: 18px;
-    background: #f7faf8;
+    border-radius: 14px;
+    background: #ffffff;
   }
   .mm-cats__visual img,
   .mm-cats__fallback {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     display: block;
     transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -99,21 +100,22 @@
   }
   .mm-cats__card:hover .mm-cats__visual img,
   .mm-cats__card:hover .mm-cats__fallback {
-    transform: scale(1.05);
+    transform: scale(1.04);
   }
   .mm-cats__title {
     display: block;
-    margin-top: 0.85rem;
+    margin-top: 0.55rem;
     font-family: "Cormorant Garamond", Georgia, serif;
-    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    font-size: clamp(1.05rem, 1.6vw, 1.3rem);
     color: #14201c;
     letter-spacing: -0.01em;
   }
   @media (max-width: 989px) {
-    .mm-cats__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mm-cats__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   }
-  @media (max-width: 549px) {
-    .mm-cats__grid { grid-template-columns: 1fr 1fr; gap: 0.7rem; }
+  @media (max-width: 649px) {
+    .mm-cats__grid { grid-template-columns: 1fr 1fr; gap: 0.65rem; }
+    .mm-cats__visual { border-radius: 12px; }
   }
 </style>
 
