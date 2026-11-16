@@ -1,0 +1,505 @@
+{{ 'mm-footer.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign brand_text = section.settings.brand_text
+  assign customers_heading = section.settings.customers_heading
+  assign info_heading = section.settings.info_heading
+  assign customers_menu = section.settings.menu_customers
+  assign info_menu = section.settings.menu_info
+  assign show_contact = section.settings.show_contact
+  assign show_social = section.settings.show_social
+  assign show_payments = section.settings.show_payments
+  assign show_policies_customers = section.settings.show_policies_customers
+  assign show_policies_info = section.settings.show_policies_info
+  assign logo = section.settings.logo
+  assign logo_width = section.settings.logo_width | default: 180
+
+  assign has_customers_menu = false
+  if customers_menu != blank and customers_menu.links.size > 0
+    assign has_customers_menu = true
+  endif
+
+  assign has_info_menu = false
+  if info_menu != blank and info_menu.links.size > 0
+    assign has_info_menu = true
+  endif
+
+  assign shipping_policy = shop.shipping_policy
+  assign refund_policy = shop.refund_policy
+  assign privacy_policy = shop.privacy_policy
+  assign terms_policy = shop.terms_of_service
+
+  assign show_shipping = false
+  assign show_refund = false
+  if show_policies_customers
+    if shipping_policy != blank and shipping_policy.url != blank
+      assign show_shipping = true
+    endif
+    if refund_policy != blank and refund_policy.url != blank
+      assign show_refund = true
+    endif
+  endif
+
+  assign show_privacy = false
+  assign show_terms = false
+  if show_policies_info
+    if privacy_policy != blank and privacy_policy.url != blank
+      assign show_privacy = true
+    endif
+    if terms_policy != blank and terms_policy.url != blank
+      assign show_terms = true
+    endif
+  endif
+
+  comment
+    Suppress policy links that already appear in the selected menus.
+  endcomment
+  if has_customers_menu
+    for link in customers_menu.links
+      if show_shipping and link.url == shipping_policy.url
+        assign show_shipping = false
+      endif
+      if show_refund and link.url == refund_policy.url
+        assign show_refund = false
+      endif
+    endfor
+  endif
+
+  if has_info_menu
+    for link in info_menu.links
+      if show_privacy and link.url == privacy_policy.url
+        assign show_privacy = false
+      endif
+      if show_terms and link.url == terms_policy.url
+        assign show_terms = false
+      endif
+    endfor
+  endif
+
+  assign has_customers_links = false
+  if has_customers_menu or show_shipping or show_refund
+    assign has_customers_links = true
+  endif
+
+  assign has_info_links = false
+  if has_info_menu or show_privacy or show_terms
+    assign has_info_links = true
+  endif
+
+  assign contact_email = shop.email
+  assign contact_phone = shop.phone
+  assign has_address = false
+  if shop.address != blank
+    if shop.address.address1 != blank or shop.address.city != blank or shop.address.company != blank
+      assign has_address = true
+    endif
+  endif
+
+  assign has_contact = false
+  if show_contact
+    if contact_email != blank or contact_phone != blank or has_address
+      assign has_contact = true
+    endif
+  endif
+
+  assign has_social = false
+  if show_social
+    if settings.social_facebook_link != blank or settings.social_instagram_link != blank or settings.social_pinterest_link != blank or settings.social_tiktok_link != blank or settings.social_youtube_link != blank or settings.social_twitter_link != blank or settings.social_vimeo_link != blank or settings.social_tumblr_link != blank or settings.social_snapchat_link != blank
+      assign has_social = true
+    endif
+  endif
+
+  assign payment_types = shop.enabled_payment_types
+  assign has_payments = false
+  if show_payments and payment_types.size > 0
+    assign has_payments = true
+  endif
+
+  assign year_now = 'now' | date: '%Y'
+-%}
+
+<footer
+  id="mm-footer-{{ section.id }}"
+  class="mm-footer"
+  data-mm-footer
+  role="contentinfo"
+>
+  <div class="mm-footer__inner">
+    <div class="mm-footer__grid">
+      <div class="mm-footer__brand">
+        <a class="mm-footer__logo-link" href="{{ routes.root_url }}">
+          {%- if logo != blank -%}
+            {{
+              logo
+              | image_url: width: logo_width
+              | image_tag:
+                class: 'mm-footer__logo-img',
+                widths: '120, 180, 240, 360',
+                sizes: '(max-width: 767px) 160px, 180px',
+                alt: shop.name,
+                loading: 'lazy'
+            }}
+          {%- else -%}
+            <img
+              class="mm-footer__logo-img"
+              src="{{ 'mm-logo.svg' | asset_url }}"
+              alt="{{ shop.name | escape }}"
+              width="{{ logo_width }}"
+              height="{{ logo_width | times: 180 | divided_by: 900 }}"
+              loading="lazy"
+            >
+          {%- endif -%}
+        </a>
+
+        {%- if brand_text != blank -%}
+          <p class="mm-footer__tagline">{{ brand_text | escape }}</p>
+        {%- endif -%}
+
+        {%- if has_contact -%}
+          <ul class="mm-footer__contact">
+            {%- if contact_email != blank -%}
+              <li>
+                <a class="mm-footer__contact-link" href="mailto:{{ contact_email | escape }}">
+                  {{ contact_email | escape }}
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if contact_phone != blank -%}
+              <li>
+                <a class="mm-footer__contact-link" href="tel:{{ contact_phone | replace: ' ', '' | escape }}">
+                  {{ contact_phone | escape }}
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if has_address -%}
+              <li>
+                <span class="mm-footer__contact-text">
+                  {%- if shop.address.company != blank -%}{{ shop.address.company | escape }}{%- if shop.address.address1 != blank or shop.address.city != blank -%}, {% endif %}{%- endif -%}
+                  {%- if shop.address.address1 != blank -%}{{ shop.address.address1 | escape }}{%- endif -%}
+                  {%- if shop.address.address2 != blank -%}, {{ shop.address.address2 | escape }}{%- endif -%}
+                  {%- if shop.address.city != blank -%}{%- if shop.address.address1 != blank or shop.address.address2 != blank -%}, {% endif %}{{ shop.address.city | escape }}{%- endif -%}
+                  {%- if shop.address.country != blank -%}, {{ shop.address.country | escape }}{%- endif -%}
+                </span>
+              </li>
+            {%- endif -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if has_social -%}
+          <ul class="mm-footer__social" role="list">
+            {%- if settings.social_facebook_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_facebook_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-facebook' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_instagram_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_instagram_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-instagram' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_pinterest_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_pinterest_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-pinterest' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_tiktok_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_tiktok_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-tiktok' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_youtube_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_youtube_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-youtube' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_twitter_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_twitter_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-twitter' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_vimeo_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_vimeo_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-vimeo' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_tumblr_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_tumblr_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-tumblr' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if settings.social_snapchat_link != blank -%}
+              <li>
+                <a
+                  class="mm-footer__social-link"
+                  href="{{ settings.social_snapchat_link }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  {%- render 'icon-snapchat' -%}
+                  <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        {%- endif -%}
+      </div>
+
+      <details class="mm-footer__accordion" data-mm-footer-accordion>
+        <summary class="mm-footer__summary">
+          <span>{{ customers_heading | escape }}</span>
+          <svg class="mm-footer__chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4Z"/>
+          </svg>
+        </summary>
+        {%- if has_customers_links -%}
+          <ul class="mm-footer__nav-list" role="list">
+            {%- if has_customers_menu -%}
+              {%- for link in customers_menu.links -%}
+                <li>
+                  <a class="mm-footer__nav-link" href="{{ link.url }}">{{ link.title | escape }}</a>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if show_shipping -%}
+              <li>
+                <a class="mm-footer__nav-link" href="{{ shipping_policy.url }}">{{ shipping_policy.title | escape }}</a>
+              </li>
+            {%- endif -%}
+            {%- if show_refund -%}
+              <li>
+                <a class="mm-footer__nav-link" href="{{ refund_policy.url }}">{{ refund_policy.title | escape }}</a>
+              </li>
+            {%- endif -%}
+          </ul>
+        {%- else -%}
+          <p class="mm-footer__empty">—</p>
+        {%- endif -%}
+      </details>
+
+      <details class="mm-footer__accordion" data-mm-footer-accordion>
+        <summary class="mm-footer__summary">
+          <span>{{ info_heading | escape }}</span>
+          <svg class="mm-footer__chevron" viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+            <path fill="currentColor" d="M5.3 7.3a1 1 0 0 1 1.4 0L10 10.6l3.3-3.3a1 1 0 1 1 1.4 1.4l-4 4a1 1 0 0 1-1.4 0l-4-4a1 1 0 0 1 0-1.4Z"/>
+          </svg>
+        </summary>
+        {%- if has_info_links -%}
+          <ul class="mm-footer__nav-list" role="list">
+            {%- if has_info_menu -%}
+              {%- for link in info_menu.links -%}
+                <li>
+                  <a class="mm-footer__nav-link" href="{{ link.url }}">{{ link.title | escape }}</a>
+                </li>
+              {%- endfor -%}
+            {%- endif -%}
+            {%- if show_privacy -%}
+              <li>
+                <a class="mm-footer__nav-link" href="{{ privacy_policy.url }}">{{ privacy_policy.title | escape }}</a>
+              </li>
+            {%- endif -%}
+            {%- if show_terms -%}
+              <li>
+                <a class="mm-footer__nav-link" href="{{ terms_policy.url }}">{{ terms_policy.title | escape }}</a>
+              </li>
+            {%- endif -%}
+          </ul>
+        {%- else -%}
+          <p class="mm-footer__empty">—</p>
+        {%- endif -%}
+      </details>
+    </div>
+
+    <div class="mm-footer__bottom">
+      <p class="mm-footer__copyright">
+        &copy; {{ year_now }} {{ shop.name | escape }}
+      </p>
+
+      {%- if has_payments -%}
+        <ul class="mm-footer__payments" role="list">
+          <li class="visually-hidden">{{ 'sections.footer.payment' | t }}</li>
+          {%- for type in payment_types -%}
+            <li class="mm-footer__payment-item">
+              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+<script src="{{ 'mm-footer.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "MM Footer",
+  "tag": "section",
+  "class": "section-mm-footer",
+  "enabled_on": {
+    "groups": ["footer"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Brand"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo",
+      "info": "Optional. Falls empty, the theme MOTHER & ME logo is used."
+    },
+    {
+      "type": "range",
+      "id": "logo_width",
+      "min": 100,
+      "max": 280,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo width",
+      "default": 180
+    },
+    {
+      "type": "textarea",
+      "id": "brand_text",
+      "label": "Brand text",
+      "default": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_contact",
+      "label": "Show shop contact details",
+      "default": true,
+      "info": "Uses only confirmed shop email, phone, and address when available."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social icons",
+      "default": true,
+      "info": "Icons appear only for profiles set under Theme settings → Social media."
+    },
+    {
+      "type": "header",
+      "content": "For customers"
+    },
+    {
+      "type": "text",
+      "id": "customers_heading",
+      "label": "Heading",
+      "default": "მომხმარებლისთვის"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_customers",
+      "label": "Menu",
+      "info": "Recommended links: contact, delivery, returns, FAQ."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies_customers",
+      "label": "Include shipping and refund policies",
+      "default": true,
+      "info": "Adds published Shopify shipping and refund policies when they exist."
+    },
+    {
+      "type": "header",
+      "content": "Information"
+    },
+    {
+      "type": "text",
+      "id": "info_heading",
+      "label": "Heading",
+      "default": "ინფორმაცია"
+    },
+    {
+      "type": "link_list",
+      "id": "menu_info",
+      "label": "Menu",
+      "info": "Recommended links: about us and other info pages."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_policies_info",
+      "label": "Include privacy and terms policies",
+      "default": true,
+      "info": "Adds published Shopify privacy and terms policies when they exist."
+    },
+    {
+      "type": "header",
+      "content": "Bottom bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payments",
+      "label": "Show enabled payment icons",
+      "default": true,
+      "info": "Uses only payment methods activated in Shopify Payments / checkout."
+    }
+  ]
+}
+{% endschema %}
