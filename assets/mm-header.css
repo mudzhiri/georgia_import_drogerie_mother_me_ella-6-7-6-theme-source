@@ -1018,13 +1018,17 @@ body.mm-search-open {
 
   .header-mobile__item--menu {
     grid-column: 1;
+    grid-row: 1;
     justify-self: start;
+    align-self: center;
     z-index: 2;
   }
 
   .header-mobile__item--logo {
     grid-column: 2;
+    grid-row: 1;
     justify-self: center;
+    align-self: center;
     z-index: 1;
     max-width: 100%;
     pointer-events: none;
@@ -1034,10 +1038,13 @@ body.mm-search-open {
     pointer-events: auto;
   }
 
+  /* Keep search + cart on one row (avoid leftover stacked gap from old search field) */
   .header-mobile__item--search,
   .header-mobile__item--cart {
     grid-column: 3;
+    grid-row: 1;
     z-index: 2;
+    align-self: center;
   }
 
   .header-mobile__item--search {
