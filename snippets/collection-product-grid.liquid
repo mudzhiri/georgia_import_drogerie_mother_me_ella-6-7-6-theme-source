@@ -19,7 +19,7 @@
     endif
     for block in section.blocks
         case block.type
-            when 'filter' 'category', 'product_block', 'image', 'text'
+            when 'filter', 'category', 'product_block', 'image', 'text'
                 assign has_sidebar = true
         endcase
     endfor
