@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 140" role="img" aria-label="MOTHER &amp; ME">
+  <title>MOTHER &amp; ME</title>
+  <text
+    x="320"
+    y="78"
+    text-anchor="middle"
+    fill="#1F4D42"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="52"
+    font-weight="600"
+    letter-spacing="10"
+  >MOTHER &amp; ME</text>
+  <line x1="250" y1="102" x2="390" y2="102" stroke="#A86B74" stroke-width="2" stroke-linecap="round"/>
+</svg>

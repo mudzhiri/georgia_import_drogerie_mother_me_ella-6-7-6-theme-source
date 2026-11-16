@@ -17,10 +17,10 @@
         "60fe30b1-fa66-4bd9-9d3f-21fc97aa738c": {
           "type": "announcement",
           "settings": {
-            "text": "<p>\n    <svg style=\"margin: 0 10px 0 100px\" xmlns=\"http://www.w3.org/2000/svg\" viewbox=\"0 0 506.53 510.69\"><g id=\"Layer_2\" data-name=\"Layer 2\"><g id=\"Layer_1-2\" data-name=\"Layer 1\"><path d=\"M500.7,27.62q-36.6,35-73.12,70.12-51.12,49.06-102.29,98.1a55.94,55.94,0,0,1-5.33,4c3.14,2.3,5.08,3.77,7.06,5.18,29.3,21,58.69,42,87.82,63.22a21,21,0,0,1,7.21,10.15c2.13,7-1.16,12.82-8.35,16.79Q383.18,312,352.54,328.66L59.88,488.36a297,297,0,0,1-35,20A23.59,23.59,0,0,1,20,510.11h0a19.7,19.7,0,0,1-4.67.58,15.23,15.23,0,0,1-9.59-3.19c-.18-.13-.34-.28-.51-.43a1.49,1.49,0,0,1-.14-.12l-.58-.55L4.19,506a16.25,16.25,0,0,1-4.08-9.31,16.08,16.08,0,0,1-.11-1.8A13.51,13.51,0,0,1,.57,491a18.36,18.36,0,0,1,5.26-7.94q33.48-32,66.89-64.15,67.46-65.28,135-130.49a49.09,49.09,0,0,1,5.42-3.89c-8.41-6.07-15.5-11.2-22.62-16.3l-79.41-57c-12.42-8.92-11.34-21.75,2.4-28.48L481.61,2.37C493.53-3.47,505,1.88,506.42,14,507.08,19.56,504.66,23.84,500.7,27.62Z\"></path></g></g></svg>\n    <a href=\"#\">\n        <span>Clearance Sale Event: Up to 50% Off Select Items!</span>\n    </a>\n</p>",
-            "btn_color": "#f84248",
+            "text": "<p><span>მიწოდება საქართველოში 8 ₾ · თვითგატანა თბილისში უფასო · MOTHER &amp; ME</span></p>",
+            "btn_color": "#f7faf8",
             "btn_border_color": "#ffffff",
-            "btn_bg_color": "#ffffff",
+            "btn_bg_color": "#1f4d42",
             "btn_bg_color_gradient": ""
           }
         }
@@ -31,10 +31,10 @@
       "settings": {
         "layout": "scroll",
         "enable_close": false,
-        "color_text": "#b05d5d",
-        "bg_color_text": "#ffe8e8",
+        "color_text": "#f7faf8",
+        "bg_color_text": "#1f4d42",
         "bg_color_text_gradient": "",
-        "font_size_text": 12,
+        "font_size_text": 13,
         "font_style_text": "normal",
         "font_weight_text": "500",
         "arrow_active": false,
@@ -49,36 +49,36 @@
         "a2e4ea2e-73e5-4452-8129-d86dbbae584d": {
           "type": "logo",
           "settings": {
-            "logo": "shopify://shop_images/ella-logo-black-compressor.png",
-            "logo_width": 90,
-            "logo_text": "",
-            "logo_font_size": 30,
-            "logo_font_weight": "900",
+            "logo": "",
+            "logo_width": 200,
+            "logo_text": "MOTHER & ME",
+            "logo_font_size": 28,
+            "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#232323",
+            "logo_color": "#1f4d42",
             "spacing": 5
           }
         },
         "fde2cc21-cbc9-4c9a-ad68-7cc53ec68280": {
           "type": "service",
           "settings": {
-            "customer_service_text": "<p>Customer Service 091 234-ELLA</p>",
-            "text_color": "#323232",
+            "customer_service_text": "<p>თბილისი · დედა და ბავშვი</p>",
+            "text_color": "#14201c",
             "show_language_currency": true,
-            "language_currency_color": "#323232",
+            "language_currency_color": "#14201c",
             "show_search": true,
-            "search_color": "#323232",
-            "bg_search_color": "#fafafa",
-            "search_border_color": "#e7e7e7",
-            "search_icon_color": "#323232",
+            "search_color": "#14201c",
+            "bg_search_color": "#eef3f0",
+            "search_border_color": "#d5e0db",
+            "search_icon_color": "#14201c",
             "spacing": 14
           }
         },
         "5939cbc0-a9fd-48e0-adcd-1d945e05dc99": {
           "type": "text",
           "settings": {
-            "free_shipping_text": "<p>Free shipping on All Orders. No Minimum Purchase</p>",
-            "text_color": "#232323",
+            "free_shipping_text": "<p>მიწოდება საქართველოში 8 ₾</p>",
+            "text_color": "#14201c",
             "spacing": 15
           }
         },
@@ -106,7 +106,7 @@
       "settings": {
         "container": "default",
         "padding_full_width": 0,
-        "background": "#ffffff",
+        "background": "#f7faf8",
         "gradient": "",
         "padding_top": 15,
         "padding_bottom": 16
@@ -119,14 +119,14 @@
           "type": "logo",
           "settings": {
             "logo_position": "sticky_menu",
-            "logo": "shopify://shop_images/logo-fixed.png",
-            "logo_width": 90,
-            "logo_width_fixed": 55,
-            "logo_text": "",
-            "logo_font_size": 20,
-            "logo_font_weight": "900",
+            "logo": "",
+            "logo_width": 160,
+            "logo_width_fixed": 120,
+            "logo_text": "MOTHER & ME",
+            "logo_font_size": 22,
+            "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#ffffff"
+            "logo_color": "#1f4d42"
           }
         },
         "sections--14682829619277__9c03747e-b054-4db8-8194-5a35c71f82ca-1680876693acfad79f-1": {
@@ -139,13 +139,13 @@
             "alignment": "left",
             "bg_mega_menu": "#ffffff",
             "bg_mega_menu_gradient": "",
-            "lv_1_color": "#ffffff",
-            "lv_1_color_hover": "#ffffff",
+            "lv_1_color": "#14201c",
+            "lv_1_color_hover": "#a86b74",
             "lv_2_color": "#232323",
             "lv_2_color_hover": "#232323",
             "lv_3_color": "#3c3c3c",
             "lv_3_color_hover": "#3c3c3c",
-            "sale_item_1": "ELLA 30% OFF",
+            "sale_item_1": "",
             "sale_item_2": "",
             "sale_item_3": "",
             "sale_item_color": "#ff002c",
@@ -340,41 +340,42 @@
         "7de2266e-0cd4-4fda-9f09-06f75a17f944": {
           "type": "menu",
           "settings": {
-            "color": "#232323"
+            "color": "#14201c"
           }
         },
         "163e2cb5-14f2-4af6-9ac3-77193c082f53": {
           "type": "search",
           "settings": {
-            "color": "#232323"
+            "color": "#14201c"
           }
         },
         "550fbd21-75fb-4051-9dee-77d91b5239f0": {
           "type": "logo",
           "settings": {
-            "logo_mobile": "shopify://shop_images/ella-logo-black-home-5.png",
-            "logo_width_mobile": 65,
-            "logo_text": "",
-            "logo_font_size": 20,
-            "logo_font_weight": "900",
+            "logo_mobile": "",
+            "logo_width_mobile": 150,
+            "logo_text": "MOTHER & ME",
+            "logo_font_size": 18,
+            "logo_font_weight": "600",
             "logo_text_transform": "uppercase",
-            "logo_color": "#232323"
+            "logo_color": "#1f4d42",
+            "logo": ""
           }
         },
         "20dae707-64c0-4ea3-a05e-561cae9836d8": {
           "type": "customer",
           "settings": {
             "icon": "1",
-            "color": "#232323"
+            "color": "#14201c"
           }
         },
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d": {
           "type": "cart",
           "settings": {
             "icon": "2",
-            "color": "#232323",
+            "color": "#14201c",
             "color_bubble": "#ffffff",
-            "bg_bubble": "#232323"
+            "bg_bubble": "#1f4d42"
           }
         }
       },
@@ -386,7 +387,7 @@
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d"
       ],
       "settings": {
-        "background": "#ffffff",
+        "background": "#f7faf8",
         "gradient": "",
         "sticky_header_type": "on_scroll",
         "padding_top": 0,

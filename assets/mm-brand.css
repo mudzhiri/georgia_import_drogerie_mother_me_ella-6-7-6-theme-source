@@ -1,0 +1,140 @@
+/* MOTHER & ME — brand layer (Ella 6.7.6) */
+:root {
+  --mm-ink: #14201c;
+  --mm-forest: #1f4d42;
+  --mm-forest-soft: #2a5f53;
+  --mm-rose: #a86b74;
+  --mm-mist: #eef3f0;
+  --mm-cream: #f7faf8;
+  --mm-line: rgba(20, 32, 28, 0.12);
+  --mm-font-display: "Cormorant Garamond", Georgia, serif;
+  --mm-font-body: Manrope, system-ui, sans-serif;
+}
+
+body,
+.template-index,
+.shopify-section {
+  font-family: var(--mm-font-body);
+}
+
+h1, h2, h3, h4, h5, h6,
+.header__heading-link .h2,
+.header__heading .h2 {
+  font-family: var(--mm-font-display) !important;
+}
+
+/* Header surface */
+.header,
+.header-classic,
+.header-basic,
+.header-minimal,
+.header-simple,
+.header-wrapper,
+.section-header {
+  background: rgba(247, 250, 248, 0.96) !important;
+  border-bottom: 1px solid var(--mm-line) !important;
+  box-shadow: none !important;
+}
+
+.header-classic {
+  --bg-color: #f7faf8 !important;
+}
+
+/* Logo */
+.header__heading-logo.mm-logo,
+.header__heading-link img.mm-logo {
+  width: clamp(140px, 18vw, 220px) !important;
+  height: auto !important;
+  max-width: 100%;
+  display: block;
+}
+
+.header__heading-link .h2,
+.header__logo .h2 {
+  font-family: var(--mm-font-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.14em !important;
+  text-transform: uppercase !important;
+  color: var(--mm-forest) !important;
+  font-size: clamp(1.35rem, 2.4vw, 1.85rem) !important;
+  line-height: 1.1 !important;
+}
+
+/* Icons & links in header */
+.header__icon,
+.header__icon svg,
+.header-icons svg,
+.header-classic svg,
+.header .icon,
+.halo-top-language,
+.halo-top-currency,
+.customer-service-text,
+.header-language_currency {
+  color: var(--mm-ink) !important;
+  fill: currentColor;
+}
+
+.header a,
+.header .menu-lv-1 > a,
+.header .site-nav > li > a,
+.header-bottom a {
+  color: var(--mm-ink) !important;
+  font-family: var(--mm-font-body) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.02em;
+}
+
+.header a:hover,
+.header .menu-lv-1 > a:hover {
+  color: var(--mm-rose) !important;
+}
+
+/* Announcement */
+.announcement-bar,
+.section-announcement-bar,
+.announcement-bar__announcement {
+  background: linear-gradient(90deg, var(--mm-forest), var(--mm-forest-soft) 55%, var(--mm-rose)) !important;
+  color: #f7faf8 !important;
+}
+
+.announcement-bar a,
+.announcement-bar span,
+.announcement-bar p,
+.announcement-bar * {
+  color: #f7faf8 !important;
+}
+
+/* Buttons */
+.button,
+button.button,
+.btn,
+.shopify-payment-button button {
+  border-radius: 999px !important;
+}
+
+.button--primary,
+.button[name="add"],
+.product-form__submit,
+.cart__checkout-button {
+  background: var(--mm-forest) !important;
+  border-color: var(--mm-forest) !important;
+  color: #fff !important;
+}
+
+.button--primary:hover,
+.button[name="add"]:hover {
+  background: var(--mm-forest-soft) !important;
+  border-color: var(--mm-forest-soft) !important;
+}
+
+/* Sale accent */
+.price--on-sale .price-item--sale,
+.badge.badge--sale,
+.sale-badge {
+  color: var(--mm-forest) !important;
+}
+
+body {
+  background: var(--mm-mist) !important;
+  color: var(--mm-ink);
+}
