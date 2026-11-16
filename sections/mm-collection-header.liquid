@@ -1,0 +1,102 @@
+{{ 'mm-collection-header.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign submenu = section.settings.submenu
+  if submenu == blank
+    case collection.handle
+      when 'ბავშვი'
+        assign submenu = linklists['sub-baby']
+      when 'ბავშვები'
+        assign submenu = linklists['sub-kids']
+      when 'დედა'
+        assign submenu = linklists['sub-mama']
+    endcase
+  endif
+
+  assign home_label = section.settings.home_label | strip
+  if home_label == blank
+    assign home_label = 'general.breadcrumb.home' | t
+  endif
+
+  assign has_description = false
+  if collection.description != blank
+    assign has_description = true
+  endif
+
+  assign has_subnav = false
+  if submenu != blank and submenu.links.size > 0
+    assign has_subnav = true
+  endif
+-%}
+
+<header
+  id="mm-collection-header-{{ section.id }}"
+  class="mm-collection-header"
+  data-mm-collection-header
+>
+  <div class="mm-collection-header__inner">
+    <nav aria-label="Breadcrumb">
+      <ol class="mm-collection-header__breadcrumb">
+        <li>
+          <a class="mm-collection-header__breadcrumb-link" href="{{ routes.root_url }}">
+            {{ home_label | escape }}
+          </a>
+        </li>
+        <li class="mm-collection-header__breadcrumb-sep" aria-hidden="true">→</li>
+        <li>
+          <span class="mm-collection-header__breadcrumb-current" aria-current="page">
+            {{ collection.title | escape }}
+          </span>
+        </li>
+      </ol>
+    </nav>
+
+    <h1 class="mm-collection-header__title">{{ collection.title | escape }}</h1>
+
+    {%- if has_description -%}
+      <div class="mm-collection-header__description rte">
+        {{ collection.description }}
+      </div>
+    {%- endif -%}
+
+    {%- if has_subnav -%}
+      <ul class="mm-collection-header__subnav" role="list">
+        {%- for link in submenu.links -%}
+          {%- if link.url != blank and link.url != '#' -%}
+            <li>
+              <a
+                class="mm-collection-header__chip"
+                href="{{ link.url }}"
+                {% if link.active or link.child_active %}aria-current="page"{% endif %}
+              >
+                {{ link.title | escape }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "MM Collection Header",
+  "tag": "section",
+  "class": "section-mm-collection-header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "home_label",
+      "label": "Breadcrumb home label",
+      "info": "Leave blank to use the theme translation for Home."
+    },
+    {
+      "type": "link_list",
+      "id": "submenu",
+      "label": "Subcategory menu",
+      "info": "Optional override. By default: sub-baby for ბავშვი, sub-kids for ბავშვები, sub-mama for დედა."
+    }
+  ]
+}
+{% endschema %}
