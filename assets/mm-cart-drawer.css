@@ -111,13 +111,10 @@
   -webkit-overflow-scrolling: touch;
 }
 
-#halo-cart-sidebar .previewCartCollection {
-  display: none;
-}
-
-#halo-cart-sidebar .previewCartTool {
-  flex: 0 0 auto;
-  border-top: 1px solid var(--mm-border, #dee5df);
+#halo-cart-sidebar .previewCartCollection,
+#halo-cart-sidebar .previewCartTool,
+#halo-cart-sidebar .popup-toolDowns {
+  display: none !important;
 }
 
 #halo-cart-sidebar .previewCartList {
