@@ -22,6 +22,17 @@
 }
 
 .mm-product-gallery .productView-image .productView-img-container {
+  overflow: hidden;
+}
+
+.mm-product-gallery .productView-image.fit-contain .productView-img-container .media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--mm-g-bg);
+}
+
+.mm-product-gallery .productView-image .productView-img-container {
   background: var(--mm-g-bg);
 }
 
