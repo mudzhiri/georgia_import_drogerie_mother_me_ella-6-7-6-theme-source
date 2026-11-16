@@ -1,0 +1,218 @@
+/* MOTHER & ME — refined header */
+:root {
+  --mm-ink: #14201c;
+  --mm-forest: #1f4d42;
+  --mm-forest-soft: #2a5f53;
+  --mm-rose: #a86b74;
+  --mm-mist: #eef3f0;
+  --mm-cream: #f7faf8;
+  --mm-line: rgba(20, 32, 28, 0.1);
+  --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --mm-display: "Cormorant Garamond", Georgia, serif;
+  --mm-body: Manrope, system-ui, sans-serif;
+}
+
+/* Announcement */
+.announcement-bar,
+.section-announcement-bar,
+#shopify-section-sections-announcement-bar,
+.shopify-section-group-header-group .announcement-bar {
+  background: linear-gradient(90deg, var(--mm-forest) 0%, var(--mm-forest-soft) 52%, var(--mm-rose) 100%) !important;
+  border: 0 !important;
+}
+
+.announcement-bar,
+.announcement-bar a,
+.announcement-bar p,
+.announcement-bar span,
+.announcement-bar svg,
+.announcement-bar * {
+  color: #f7faf8 !important;
+  fill: currentColor !important;
+  font-family: var(--mm-body) !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: 0.04em !important;
+  font-weight: 500 !important;
+}
+
+.announcement-bar svg {
+  opacity: 0.85;
+  width: 14px !important;
+  height: 14px !important;
+  margin: 0 8px 0 0 !important;
+}
+
+/* Top classic row */
+.header-classic,
+.header.header-classic {
+  background: rgba(247, 250, 248, 0.94) !important;
+  backdrop-filter: blur(14px) saturate(1.05);
+  -webkit-backdrop-filter: blur(14px) saturate(1.05);
+  border-bottom: 1px solid transparent !important;
+  --bg-color: transparent !important;
+}
+
+.header-classic__content {
+  align-items: center !important;
+}
+
+.header__heading-logo.mm-logo {
+  width: clamp(150px, 20vw, 230px) !important;
+  height: auto !important;
+  display: block;
+  margin-inline: auto;
+}
+
+.header__logo .h2,
+.header__heading-link .h2 {
+  font-family: var(--mm-display) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase !important;
+  color: var(--mm-forest) !important;
+  font-size: clamp(1.45rem, 2.6vw, 2rem) !important;
+  line-height: 1 !important;
+}
+
+.customer-service-text,
+.customer-service-text p,
+.header-classic .text,
+.header-classic .free-shipping-text,
+.header-classic .free-shipping-text p {
+  font-family: var(--mm-body) !important;
+  font-size: 0.8125rem !important;
+  color: var(--mm-ink) !important;
+  letter-spacing: 0.02em;
+  font-weight: 500 !important;
+}
+
+.header-classic .header__search .search__input,
+.header-classic .search-modal__form .search__input {
+  background: #fff !important;
+  border: 1px solid var(--mm-line) !important;
+  border-radius: 999px !important;
+  font-family: var(--mm-body) !important;
+  color: var(--mm-ink) !important;
+  min-height: 42px;
+  padding-inline: 1rem 2.5rem !important;
+}
+
+.header-classic .header__search .search__button,
+.header-classic .search__button {
+  color: var(--mm-ink) !important;
+}
+
+/* Icons — always dark ink */
+.header__icon,
+.header__icon svg,
+.header-classic .header__icon,
+.header-classic svg,
+.header-mobile--icon,
+.header-mobile svg,
+.header-mobile .header__icon,
+.top-language-currency,
+.top-language-currency a,
+.top-language-currency button {
+  color: var(--mm-ink) !important;
+  fill: currentColor !important;
+}
+
+.header__icon svg,
+.header-mobile svg {
+  width: 22px !important;
+  height: 22px !important;
+}
+
+.header__icon:hover,
+.header-mobile--icon a:hover,
+.header-classic a:hover {
+  color: var(--mm-rose) !important;
+}
+
+.cart-count-bubble,
+.wishlist-count-bubble,
+.header__icon .cart-count-bubble {
+  background: var(--mm-forest) !important;
+  color: #fff !important;
+  border: 0 !important;
+}
+
+/* Navigation bar — soft forest instead of harsh black */
+.header-navigation,
+.header-bottom,
+.section-header-navigation-plain,
+[class*="header-navigation-plain"],
+.header-navigation-plain {
+  background: var(--mm-forest) !important;
+  border: 0 !important;
+}
+
+.header-navigation a,
+.header-navigation-plain a,
+.header-bottom .menu-lv-1 > a,
+.header-bottom .site-nav > li > a,
+.menu-lv-1 > a.menu__link,
+.header-navigation-plain .menu-lv-1 > a {
+  font-family: var(--mm-body) !important;
+  font-size: 0.9375rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.03em !important;
+  text-transform: none !important;
+  color: rgba(247, 250, 248, 0.92) !important;
+  transition: color 0.3s var(--mm-ease), opacity 0.3s var(--mm-ease);
+}
+
+.header-navigation a:hover,
+.header-navigation-plain a:hover,
+.header-bottom .menu-lv-1 > a:hover,
+.menu-lv-1 > a.menu__link:hover {
+  color: #fff !important;
+  opacity: 1;
+}
+
+/* subtle underline on nav hover */
+.header-navigation-plain .menu-lv-1 > a,
+.header-bottom .menu-lv-1 > a {
+  position: relative;
+}
+
+.header-navigation-plain .menu-lv-1 > a::after,
+.header-bottom .menu-lv-1 > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 1px;
+  background: var(--mm-rose);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.35s var(--mm-ease);
+}
+
+.header-navigation-plain .menu-lv-1 > a:hover::after,
+.header-bottom .menu-lv-1 > a:hover::after {
+  transform: scaleX(1);
+}
+
+/* Mobile header */
+.header-mobile,
+.section-header-mobile {
+  background: rgba(247, 250, 248, 0.96) !important;
+  border-bottom: 1px solid var(--mm-line) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.header-mobile .mm-logo {
+  width: clamp(120px, 42vw, 170px) !important;
+  height: auto !important;
+  margin: 0 auto;
+}
+
+/* Sticky polish */
+.shopify-section-group-header-group.is-sticky,
+.header-sticky,
+sticky-header {
+  box-shadow: 0 10px 30px rgba(20, 32, 28, 0.08);
+}
