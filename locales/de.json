@@ -90,7 +90,7 @@
     "cart": {
       "cart": "Warenkorb",
       "shopping_cart": "Warenkorb",
-      "my_cart": "Mein Warenkorb",
+      "my_cart": "Warenkorb",
       "view": "Sehen Sie sich meinen Warenkorb an ({{ count }})",
       "item_added": "Artikel wurde Ihrem Warenkorb hinzugefügt",
       "shipping_calculator_button": "Versandkosten berechnen",
@@ -440,7 +440,7 @@
     "cart": {
       "title": "Ihr Warenkorb",
       "caption": "Artikel im Warenkorb",
-      "checkout": "Kasse",
+      "checkout": "Zur Kasse",
       "proceed_to_checkout": "Gehen Sie zur Kasse",
       "my_cart": "Warenkorb",
       "items": "Artikel",

@@ -94,7 +94,7 @@
     "cart": {
       "cart": "Cart",
       "shopping_cart": "Shopping cart",
-      "my_cart": "Cart",
+      "my_cart": "კალათა",
       "view": "View my cart ({{ count }})",
       "item_added": "Item added to your cart",
       "shipping_calculator_button": "Calculate shipping",
@@ -448,7 +448,7 @@
     "cart": {
       "title": "Your cart",
       "caption": "Cart items",
-      "checkout": "Checkout",
+      "checkout": "შეკვეთის გაფორმება",
       "proceed_to_checkout": "Proceed to checkout",
       "my_cart": "კალათა",
       "items": "ნივთი",

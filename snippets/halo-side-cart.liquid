@@ -226,9 +226,10 @@
                             {%- endif -%}
                         </div>
                     </div>
-                    <button type="button" class="previewCartItem-remove{% if has_qty_rules or has_vol_pricing %} has_vol_pricing{% endif %}" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" title="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                    <button type="button" class="previewCartItem-remove{% if has_qty_rules or has_vol_pricing %} has_vol_pricing{% endif %}" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" title="{{ 'sections.cart.remove_title' | t: title: item.title }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
                         {% render 'icon-close' %}
                     </button>
+                    <p class="mm-cart-item-error" role="alert" hidden></p>
                 </li>
             {%- endfor -%}
         </ul>
@@ -272,7 +273,7 @@
 
     </div>
 
-    {%- if settings.show_cart_note or settings.show_cart_gift or settings.show_cart_shipping or settings.show_cart_discount -%}
+    {%- if settings.show_cart_note or settings.show_cart_gift or settings.show_cart_discount -%}
         <cart-item-tool class="previewCartTool">
             {%- if settings.show_cart_note -%}
                 <div class="cartTool-item cart-tool-note" data-popup="popup-tool-note">
@@ -288,13 +289,7 @@
                     </span>
                 </div>
             {%- endif -%}
-            {%- if settings.show_cart_shipping -%}
-                <div class="cartTool-item cart-tool-shipping" data-popup="popup-tool-shipping">
-                    <span>
-                        {% render 'icon-cart-shipping' %}
-                    </span>
-                </div>
-            {%- endif -%}
+            {%- comment -%} MM cart drawer: shipping estimate intentionally omitted (no invented delivery costs) {%- endcomment -%}
             {%- if settings.show_cart_discount -%}
                 <div class="cartTool-item cart-tool-discount" data-popup="popup-tool-discount">
                     <span>
@@ -338,17 +333,6 @@
                     </cart-cancel-popup>
                 </div>
             {%- endif -%}
-          
-            {% if settings.show_cart_shipping %}
-                <div class="popup-toolDown" id="popup-tool-shipping">
-                    {% render 'shipping-rates-calculator' %}
-                    <cart-cancel-popup>
-                        <div class="cart-cancel-popup">
-                            <button type="button" title="{{ 'general.cart.cancel' | t }}" class="button button-2">{{ 'general.cart.cancel' | t }}</button>
-                        </div>
-                    </cart-cancel-popup>
-                </div>
-            {% endif %}
           
             {% if settings.show_cart_discount %}
                 <div class="popup-toolDown" id="popup-tool-discount">
@@ -404,13 +388,6 @@
                     {{ cart.total_price | money }}
                 </div>
             </li>
-            {% if settings.show_shipping_note %}
-                <li class="previewCartTotals shipTotal clearfix">
-                    <div class="previewCartTotals-value">
-                        {{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}
-                    </div>
-                </li>  
-            {% endif %}
         </ul>
         <div class="previewCartAction text-left">
             {%- if settings.show_global_checkbox -%}
@@ -427,15 +404,12 @@
                 </div>
             {%- endif -%}
             <div class="previewCartGroup">
-                <button class="button button-1 button-checkout" onclick="window.location='{{ routes.cart_url | split: '/cart' | first }}/checkout'"{% if settings.show_global_checkbox %} disabled="disabled"{% endif %} id="cart-sidebar-checkout">
+                <a class="button button-1 button-checkout" href="{{ routes.root_url }}checkout" id="cart-sidebar-checkout"{% if settings.show_global_checkbox %} aria-disabled="true" tabindex="-1"{% endif %}>
                     {{ 'sections.cart.checkout' | t }}
-                </button>
+                </a>
                 {% if additional_checkout_buttons and settings.show_additional_checkout_buttons %}
                   {{ content_for_additional_checkout_buttons }}
                 {% endif %}
-                <a class="button button-2 button-view-cart" href="{{ routes.cart_url }}">
-                    {{ 'sections.cart.view_cart' | t }}
-                </a>
             </div>
         </div>
     </div>
@@ -447,17 +421,13 @@
                     {{ 'sections.cart.empty' | t }}
                 </span>
             </div>
-            <a class="button button-2 button-continue"
-                {% if settings.quick_cart_redirect_button == 'go_back' %}
-                    role="link" aria-disabled="true"
-                    onclick="window.history.back();"
-                {% elsif settings.quick_cart_redirect_button == 'link_to' %}
-                    href="{{ settings.quick_cart_redirect_button_link }}"
-                {% else %}
-                    role="link" aria-disabled="true"
-                    onclick="window.location.reload();"
-                {% endif %}
-            >
+            {%- liquid
+              assign mm_continue_url = routes.all_products_collection_url
+              if settings.quick_cart_redirect_button == 'link_to' and settings.quick_cart_redirect_button_link != blank
+                assign mm_continue_url = settings.quick_cart_redirect_button_link
+              endif
+            -%}
+            <a class="button button-2 button-continue" href="{{ mm_continue_url }}">
                 {{ 'sections.cart.continue_shopping' | t }}
             </a>
         </div>
