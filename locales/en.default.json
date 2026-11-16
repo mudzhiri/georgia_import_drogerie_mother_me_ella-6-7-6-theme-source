@@ -7,7 +7,7 @@
       "close": "Close",
       "menu": "Menu",
       "categories": "Categories",
-      "log_in": "Log in",
+      "log_in": "Sign in",
       "account": "Account",
       "search": "Search",
       "wishlist": "Wishlist",
@@ -76,7 +76,9 @@
       "search_result_title": "Product results",
       "search_no_result": "Search for",
       "search_more": "Search more",
-      "view_all": "View all results ({{ count }})"
+      "view_all": "View all results ({{ count }})",
+      "submit": "Search",
+      "placeholder": "Search"
     },
     "cart": {
       "cart": "Cart",
@@ -174,7 +176,11 @@
     "of": "of",
     "next_slide": "Slide right",
     "previous_slide": "Slide left",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "account": "Account",
+    "cart": "Cart",
+    "menu": "Menu",
+    "search": "Search"
   },
   "blogs": {
     "article": {
@@ -428,7 +434,7 @@
       "caption": "Cart items",
       "checkout": "Checkout",
       "proceed_to_checkout": "Proceed to checkout",
-      "my_cart": "Shopping cart",
+      "my_cart": "Cart",
       "items": "items",
       "item": "item",
       "item_99": "99+",
@@ -624,9 +630,9 @@
     },
     "forgot_password": "Forgot your password?",
     "log_in": "Log in",
-    "sign_in": "Sign In",
+    "sign_in": "Sign in",
     "or": "or",
-    "create_account": "Create an account",
+    "create_account": "Create account",
     "log_out": "Log out",
     "hello": "Hello",
     "my_account": "My account",
@@ -881,6 +887,12 @@
     "promotion": {
       "copy": "Copy",
       "success_message_copy": "Copied"
+    }
+  },
+  "cart": {
+    "ajax_cart": {
+      "close": "Close",
+      "cart": "Cart"
     }
   }
 }
