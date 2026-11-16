@@ -13,12 +13,12 @@
       "home": "Home"
     },
     "common": {
-      "close": "Close",
-      "menu": "Menu",
+      "close": "დახურვა",
+      "menu": "მენიუ",
       "categories": "Categories",
-      "log_in": "Log in",
-      "account": "Account",
-      "search": "Search",
+      "log_in": "შესვლა",
+      "account": "ანგარიში",
+      "search": "ძებნა",
       "wishlist": "Wishlist",
       "video": "Click to watch video",
       "video_alt": "Video alt",
@@ -63,7 +63,7 @@
         "whatsapp": "Whatsapp"
       }
     },
-    "continue_shopping": "Continue shopping",
+    "continue_shopping": "შოპინგის გაგრძელება",
     "back_to_previous_page": "Go back to previous page",
     "pagination": {
       "label": "Pagination",
@@ -73,7 +73,7 @@
       "prev": "Prev"
     },
     "search": {
-      "search": "Search",
+      "search": "ძებნა",
       "title": "Search",
       "close": "Close",
       "search_product": "Search products...",
@@ -87,7 +87,9 @@
       "search_more": "Search more",
       "view_all": "View all results ({{ count }})",
       "mm_no_results": "პროდუქტი ვერ მოიძებნა",
-      "mm_view_all": "ყველა შედეგის ნახვა"
+      "mm_view_all": "ყველა შედეგის ნახვა",
+      "submit": "ძებნა",
+      "placeholder": "ძებნა"
     },
     "cart": {
       "cart": "Cart",
@@ -175,7 +177,7 @@
     "skip_to_product_info": "Skip to product information",
     "account": "ანგარიში",
     "cart": "კალათა",
-    "close": "Close",
+    "close": "დახურვა",
     "unit_price_separator": "per",
     "vendor": "Vendor:",
     "error": "Error",
@@ -187,7 +189,9 @@
     "of": "of",
     "next_slide": "Slide right",
     "previous_slide": "Slide left",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "menu": "მენიუ",
+    "search": "ძებნა"
   },
   "blogs": {
     "article": {
@@ -428,8 +432,8 @@
   },
   "sections": {
     "header": {
-      "announcement": "Announcement",
-      "menu": "Menu",
+      "announcement": "განცხადება",
+      "menu": "მენიუ",
       "cart_count": {
         "one": "{{ count }} item",
         "other": "{{ count }} items"
@@ -441,9 +445,9 @@
       "caption": "Cart items",
       "checkout": "Checkout",
       "proceed_to_checkout": "Proceed to checkout",
-      "my_cart": "Shopping cart",
-      "items": "items",
-      "item": "item",
+      "my_cart": "კალათა",
+      "items": "ნივთი",
+      "item": "ნივთი",
       "item_99": "99+",
       "view_cart": "View cart",
       "edit_title": "Edit {{ title }}",
@@ -453,10 +457,10 @@
       "subtotal": "Subtotal",
       "new_subtotal": "New subtotal",
       "note": "Order special instructions",
-      "continue_shopping": "Continue shopping",
+      "continue_shopping": "შოპინგის გაგრძელება",
       "shipping": "Shipping",
       "shipping_text": "Taxes and shipping fee will be calculated at checkout",
-      "empty": "Your cart is empty",
+      "empty": "თქვენი კალათა ცარიელია",
       "title_collection": "You may also like",
       "cart_error": "There was an error while updating your cart. Please try again.",
       "cart_quantity_error_html": "You can only add [quantity] of this item to your cart.",
@@ -584,19 +588,19 @@
   },
   "localization": {
     "country_label": "Country/region",
-    "language_label": "Language",
+    "language_label": "ენა",
     "update_language": "Update language",
     "update_country": "Update country/region"
   },
   "currency": {
     "change_text": "The store's currency changed to",
-    "currency": "Currency"
+    "currency": "ვალუტა"
   },
   "customer": {
     "account": {
       "welcome": "Hi, {{ name }}",
-      "title": "Account",
-      "my_account": "My account",
+      "title": "ანგარიში",
+      "my_account": "ანგარიში",
       "details": "Account details",
       "view_addresses": "View addresses",
       "return": "Return to account details"
@@ -637,10 +641,10 @@
     },
     "forgot_password": "Forgot your password?",
     "log_in": "Log in",
-    "sign_in": "Sign In",
+    "sign_in": "შესვლა",
     "or": "or",
-    "create_account": "Create an account",
-    "log_out": "Log out",
+    "create_account": "ანგარიშის შექმნა",
+    "log_out": "გასვლა",
     "hello": "Hello",
     "my_account": "My account",
     "login_page": {
@@ -734,9 +738,9 @@
   },
   "wishlist": {
     "general": {
-      "wishlist": "Wish lists",
-      "title": "My wish list",
-      "text_icon": "Wishlist",
+      "wishlist": "სურვილების სია",
+      "title": "სურვილების სია",
+      "text_icon": "სურვილების სია",
       "added": "Added to wishlist",
       "product_image": "Image",
       "product_name": "Product name",
@@ -746,7 +750,7 @@
       "remove": "Remove",
       "share": "Share my wish list via email",
       "empty": "No product is added to your wishlist",
-      "continue_shopping": "Continue shopping"
+      "continue_shopping": "შოპინგის გაგრძელება"
     }
   },
   "compare": {
@@ -791,11 +795,11 @@
   },
   "calculator_free_shipping_message": {
     "general": {
-      "free_shipping_message": "Free shipping for all orders over",
-      "free_shipping_message_1": "You qualify for free shipping!",
-      "free_shipping_message_2": "Only",
-      "free_shipping_message_3": "away from",
-      "free_shipping_message_4": "free shipping",
+      "free_shipping_message": "უფასო მიწოდება შეკვეთებზე",
+      "free_shipping_message_1": "თქვენ გაქვთ უფასო მიწოდება!",
+      "free_shipping_message_2": "მხოლოდ",
+      "free_shipping_message_3": "დარჩა",
+      "free_shipping_message_4": "უფასო მიწოდებამდე",
       "free_shipping_1": "Free",
       "free_shipping_2": "TBD"
     }

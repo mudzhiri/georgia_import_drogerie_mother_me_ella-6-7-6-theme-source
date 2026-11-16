@@ -68,7 +68,8 @@
     "total_reviews": "total reviews",
     "unit_price": "ერთეულის ფასი",
     "unit_price_separator": "per",
-    "vendor": "Vendor:"
+    "vendor": "Vendor:",
+    "search": "ძებნა"
   },
   "actions": {
     "add": "Add",
@@ -566,7 +567,8 @@
       "details": "ანგარიში details",
       "return": "Return to ანგარიში details",
       "title": "ანგარიში",
-      "view_addresses": "View addresses"
+      "view_addresses": "View addresses",
+      "my_account": "ანგარიში"
     },
     "account_fallback": "ანგარიში",
     "activate_account": {
@@ -602,7 +604,7 @@
       "zip": "Postal/ZIP code"
     },
     "log_in": "შესვლა",
-    "log_out": "Log out",
+    "log_out": "გასვლა",
     "login_page": {
       "alternate_provider_separator": "or",
       "cancel": "გაუქმება",
@@ -676,7 +678,9 @@
       "submit": "Reset password",
       "subtext": "Enter a new password",
       "title": "Reset account password"
-    }
+    },
+    "create_account": "ანგარიშის შექმნა",
+    "sign_in": "შესვლა"
   },
   "gift_cards": {
     "title": "Gift cards",
@@ -864,16 +868,259 @@
   "general": {
     "common": {
       "menu": "მენიუ",
-      "close": "დახურვა"
+      "close": "დახურვა",
+      "account": "ანგარიში",
+      "search": "ძებნა",
+      "log_in": "შესვლა"
     },
     "navigation": {
       "go_to": "გადასვლა"
     },
     "search": {
       "search_a_product": "მოძებნე პროდუქტი ან ბრენდი",
-      "search": "ძიება",
+      "search": "ძებნა",
       "mm_no_results": "პროდუქტი ვერ მოიძებნა",
-      "mm_view_all": "ყველა შედეგის ნახვა"
+      "mm_view_all": "ყველა შედეგის ნახვა",
+      "submit": "ძებნა",
+      "placeholder": "ძებნა"
+    },
+    "continue_shopping": "შოპინგის გაგრძელება",
+    "cart": {
+      "cart": "Cart",
+      "shopping_cart": "Shopping cart",
+      "my_cart": "Cart",
+      "view": "View my cart ({{ count }})",
+      "item_added": "Item added to your cart",
+      "shipping_calculator_button": "Calculate shipping",
+      "shipping_calculator_calculating": "Calculating...",
+      "shipping_calculator_error_message": "Error: Please enter right shipping information",
+      "shipping_calculator_success_many_rates": {
+        "there_are": "There are",
+        "shipping_rates_available_for": "shipping rates available for",
+        "starting_at": ", starting at"
+      },
+      "shipping_calculator_success_one_rate": "There is one shipping rate available for",
+      "shipping_calculator_success_no_rate": "There is no shipping rate available for this order and destination.",
+      "shipping_calculator_success_at": "at",
+      "cart_countdown": "Please, hurry! Someone has placed an order on one of the items you have in the cart. We'll keep it for you for",
+      "cart_countdown_minutes": "minutes.",
+      "note": "Additional comments",
+      "note_placeholder": "Special instruction for seller...",
+      "secure_text": "Secure shopping guarantee",
+      "save": "Save",
+      "cancel": "Cancel",
+      "gift_cart_add": "Add",
+      "gift_cart_adding": "Adding...",
+      "add_a_gift_wrap": "Add a gift wrap",
+      "order_summary": "Order summary",
+      "subtotal": "Subtotal",
+      "shipping": "Get shipping estimate:",
+      "coupon_code": "Coupon code",
+      "total": "Total:",
+      "coupon_code_text": "Coupon code will be applied on the checkout page",
+      "estimate_shipping": "Estimate shipping rates",
+      "country": "Country/Region",
+      "state": "State",
+      "zip_code": "ZIP code",
+      "postal_code": "Postal code",
+      "enter_coupo_code": "Enter coupon code",
+      "soldout_text": "sold out",
+      "already_text": "all",
+      "are_saving": "Discount:"
+    }
+  },
+  "sections": {
+    "header": {
+      "announcement": "განცხადება",
+      "menu": "მენიუ",
+      "cart_count": {
+        "one": "{{ count }} item",
+        "other": "{{ count }} items"
+      }
+    },
+    "term_condition": "Terms & conditions",
+    "cart": {
+      "title": "Your cart",
+      "caption": "Cart items",
+      "checkout": "Checkout",
+      "proceed_to_checkout": "Proceed to checkout",
+      "my_cart": "კალათა",
+      "items": "ნივთი",
+      "item": "ნივთი",
+      "item_99": "99+",
+      "view_cart": "View cart",
+      "edit_title": "Edit {{ title }}",
+      "edit_cart_title": "Edit option",
+      "remove_title": "Remove {{ title }}",
+      "items_in_your_cart": "{{ count }} items in your shopping cart",
+      "subtotal": "Subtotal",
+      "new_subtotal": "New subtotal",
+      "note": "Order special instructions",
+      "continue_shopping": "შოპინგის გაგრძელება",
+      "shipping": "Shipping",
+      "shipping_text": "Taxes and shipping fee will be calculated at checkout",
+      "empty": "თქვენი კალათა ცარიელია",
+      "title_collection": "You may also like",
+      "cart_error": "There was an error while updating your cart. Please try again.",
+      "cart_quantity_error_html": "You can only add [quantity] of this item to your cart.",
+      "cart_quantity_error_alert": "You can only add {{maxQuantity}} of this product to your cart",
+      "cart_quantity_error_alert_2": "The quantity of this product is insufficient.",
+      "quick_cart": "Quick cart",
+      "taxes_and_shipping_policy_at_checkout_html": "Taxes and <a href=\"{{ link }}\">shipping</a> calculated at checkout",
+      "taxes_included_but_shipping_at_checkout": "Tax included and shipping calculated at checkout",
+      "taxes_included_and_shipping_policy_html": "Tax included. <a href=\"{{ link }}\">Shipping</a> calculated at checkout.",
+      "taxes_and_shipping_at_checkout": "Taxes and shipping calculated at checkout",
+      "taxes_included_shipping_at_checkout_without_policy": "Taxes included. Discounts and shipping calculated at checkout.",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Duties and taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Duties and taxes included. Discounts and shipping calculated at checkout.",
+      "taxes_included_shipping_at_checkout_with_policy_html": "Taxes included. Discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Duties included. Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Duties included. Taxes, discounts and shipping calculated at checkout.",
+      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Taxes, discounts and <a href=\"{{ link }}\">shipping</a> calculated at checkout.",
+      "taxes_at_checkout_shipping_at_checkout_without_policy": "Taxes, discounts and shipping calculated at checkout.",
+      "headings": {
+        "product": "Product",
+        "price": "Price",
+        "total": "Total",
+        "quantity": "Quantity"
+      },
+      "update": "Update",
+      "upsell": "The following items has been added to your cart:",
+      "your_order": "Your order",
+      "more_than_99": "99+"
+    },
+    "footer": {
+      "payment": "Payment methods"
+    },
+    "featured_blog": {
+      "view_all": "View all",
+      "onboarding_title": "Blog post",
+      "onboarding_content": "Give your customers a summary of your blog post"
+    },
+    "featured_collection": {
+      "view_all": "View all",
+      "view_all_label": "View all products in the {{ collection_name }} collection"
+    },
+    "collection_list": {
+      "title": "Collections",
+      "view_all": "View all",
+      "shop_the_collection": "Shop the collection",
+      "count": "{{ count }} products"
+    },
+    "collection_template": {
+      "all_tags": "All products",
+      "apply": "Apply",
+      "clear": "Clear",
+      "clear_all": "Clear all",
+      "empty": "No products found",
+      "end_count": " of {{ count }} total",
+      "from": "From",
+      "filter_and_sort": "Filter and sort",
+      "filter_by_label": "Filter by",
+      "filter_button": "Filter",
+      "filters_selected": "{{ count }} selected",
+      "product_count_simple": {
+        "one": "{{ count }} product",
+        "other": "{{ count }} products"
+      },
+      "item_per_page": "Items per page",
+      "load_more": "Load more",
+      "show_more": "Show more",
+      "show_less": "Show less",
+      "show_all": "Show all",
+      "loading_more": "Loading more",
+      "no_more": "No more product",
+      "max": "Max",
+      "max_price": "The highest price is {{ price }}",
+      "min": "Min",
+      "product_count": "Showing {{ count }} of {{ total }} products",
+      "read_more": "Read more",
+      "read_less": "Read less",
+      "refined_by": "Refined by",
+      "reset": "Clear",
+      "start_count": "Showing",
+      "sort_button": "Sort",
+      "sort_by_label": "Sort by",
+      "title": "Collection",
+      "to": "to",
+      "use_fewer_filters_html": "Use fewer filters or <a class=\"{{ class }}\" href=\"{{ link }}\">clear all</a>",
+      "view_as": "View as",
+      "image": "Images",
+      "product": "Product",
+      "price": "Price",
+      "qty": "Qty",
+      "options": "Options",
+      "show_variants": "Show variants",
+      "results": "results"
+    },
+    "collection_list_template": {
+      "product_count": "{{ count }} products"
+    },
+    "sidebar": {
+      "title": "Sidebar"
+    },
+    "quick_order_list": {
+      "product_total": "Product subtotal",
+      "view_cart": "View cart",
+      "each": "/ea",
+      "product": "Product",
+      "variant": "Variant",
+      "variant_total": "Variant total",
+      "items_added": {
+        "one": "{{ quantity }} item added",
+        "other": "{{ quantity }} items added"
+      },
+      "items_removed": {
+        "one": "{{ quantity }} item removed",
+        "other": "{{ quantity }} items removed"
+      },
+      "product_variants": "Product variants",
+      "total_items": "Total items",
+      "remove_all_single_item_confirmation": "Remove 1 item from your cart?",
+      "remove_all_items_confirmation": "Remove all {{ quantity }} items from your cart?",
+      "remove_all": "Remove all",
+      "cancel": "Cancel",
+      "min_error": "This item has a minimum of {{ min }}",
+      "max_error": "This item has a maximum of {{ max }}",
+      "step_error": "You can only add this item in increments of {{ step }}"
+    }
+  },
+  "wishlist": {
+    "general": {
+      "wishlist": "სურვილების სია",
+      "title": "სურვილების სია",
+      "text_icon": "სურვილების სია",
+      "added": "Added to wishlist",
+      "product_image": "Image",
+      "product_name": "Product name",
+      "price": "Price",
+      "add_1": "Add",
+      "add": "Add to wishlist",
+      "remove": "Remove",
+      "share": "Share my wish list via email",
+      "empty": "No product is added to your wishlist",
+      "continue_shopping": "შოპინგის გაგრძელება"
+    }
+  },
+  "currency": {
+    "change_text": "The store's currency changed to",
+    "currency": "ვალუტა"
+  },
+  "localization": {
+    "country_label": "Country/region",
+    "language_label": "ენა",
+    "update_language": "Update language",
+    "update_country": "Update country/region"
+  },
+  "calculator_free_shipping_message": {
+    "general": {
+      "free_shipping_message": "უფასო მიწოდება შეკვეთებზე",
+      "free_shipping_message_1": "თქვენ გაქვთ უფასო მიწოდება!",
+      "free_shipping_message_2": "მხოლოდ",
+      "free_shipping_message_3": "დარჩა",
+      "free_shipping_message_4": "უფასო მიწოდებამდე",
+      "free_shipping_1": "Free",
+      "free_shipping_2": "TBD"
     }
   }
 }
