@@ -1,12 +1,10 @@
-/* MOTHER & ME — header (logo stays brand teal; chrome is calm neutral) */
+/* MOTHER & ME — header chrome (uses mm-tokens; does not alter logo SVG colors) */
 :root {
-  --mm-ink: #1a1a1a;
-  --mm-muted: #5c5c5c;
-  --mm-logo: #1f4d42; /* logo only */
-  --mm-rose: #a86b74;
-  --mm-paper: #ffffff;
-  --mm-soft: #f5f4f2;
-  --mm-line: rgba(26, 26, 26, 0.1);
+  --mm-ink: var(--mm-text, #242d29);
+  --mm-muted: var(--mm-text-secondary, #59665f);
+  --mm-paper: var(--mm-surface, #ffffff);
+  --mm-soft: var(--mm-page, #faf8f4);
+  --mm-line: var(--mm-border, #dee5df);
   --mm-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --mm-display: "Cormorant Garamond", Georgia, serif;
   --mm-body: Manrope, system-ui, sans-serif;
@@ -71,7 +69,7 @@
   font-weight: 600 !important;
   letter-spacing: 0.16em !important;
   text-transform: uppercase !important;
-  color: var(--mm-logo) !important;
+  color: var(--mm-primary, #214d43) !important;
   font-size: clamp(1.45rem, 2.6vw, 2rem) !important;
   line-height: 1 !important;
 }
@@ -128,7 +126,7 @@
 .header__icon:hover,
 .header-mobile--icon a:hover,
 .header-classic a:hover {
-  color: var(--mm-rose) !important;
+  color: var(--mm-primary, #214d43) !important;
 }
 
 .cart-count-bubble,
@@ -169,7 +167,7 @@
 .header-navigation-plain a:hover,
 .header-bottom .menu-lv-1 > a:hover,
 .menu-lv-1 > a.menu__link:hover {
-  color: var(--mm-rose) !important;
+  color: var(--mm-primary, #214d43) !important;
 }
 
 .header-navigation-plain .menu-lv-1 > a,
@@ -185,7 +183,7 @@
   right: 0;
   bottom: -6px;
   height: 1px;
-  background: var(--mm-rose);
+  background: var(--mm-primary, #214d43);
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.35s var(--mm-ease);

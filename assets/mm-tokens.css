@@ -1,0 +1,65 @@
+/**
+ * MOTHER & ME design tokens
+ * Maps onto Ella CSS vars from snippets/variable.liquid where possible.
+ * Does not change logo artwork colors.
+ */
+:root {
+  /* Brand tokens */
+  --mm-primary: #214d43;
+  --mm-primary-hover: #173b33;
+  --mm-page: #faf8f4;
+  --mm-surface: #ffffff;
+  --mm-surface-soft: #eaf1ec;
+  --mm-accent: #f3d5c3;
+  --mm-text: #242d29;
+  --mm-text-secondary: #59665f;
+  --mm-border: #dee5df;
+  --mm-error: #b42318;
+
+  /* Spacing scale (px) */
+  --mm-space-1: 4px;
+  --mm-space-2: 8px;
+  --mm-space-3: 12px;
+  --mm-space-4: 16px;
+  --mm-space-5: 24px;
+  --mm-space-6: 32px;
+  --mm-space-7: 48px;
+  --mm-space-8: 64px;
+
+  /* Radii */
+  --mm-radius-input: 8px;
+  --mm-radius-button: 8px;
+  --mm-radius-card: 12px;
+
+  /* Layout */
+  --mm-content-max: 1280px;
+  --mm-page-gutter: 16px;
+
+  /* Align with Ella global vars when custom CSS references them */
+  --color-background: var(--mm-page);
+  --bg-white: var(--mm-surface);
+  --form-input-bg: var(--mm-surface);
+  --form-input-border: var(--mm-border);
+}
+
+@media (min-width: 750px) {
+  :root {
+    --mm-page-gutter: 24px;
+  }
+}
+
+@media (min-width: 1100px) {
+  :root {
+    --mm-page-gutter: 32px;
+  }
+}
+
+body {
+  background-color: var(--mm-page);
+  color: var(--mm-text);
+}
+
+.page-width,
+.container {
+  max-width: var(--mm-content-max);
+}
