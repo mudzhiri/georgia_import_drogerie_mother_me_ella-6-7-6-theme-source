@@ -862,6 +862,13 @@
     "search": "ძიება"
   },
   "general": {
+    "common": {
+      "menu": "მენიუ",
+      "close": "დახურვა"
+    },
+    "navigation": {
+      "go_to": "გადასვლა"
+    },
     "search": {
       "search_a_product": "მოძებნე პროდუქტი ან ბრენდი",
       "search": "Search"
