@@ -219,7 +219,6 @@
                 </div>
             {%- endfor -%}
         </div>
-    </div>
         <div class="mm-header-search-row">
             <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form mm-search-form">
                 <div class="field">
@@ -243,6 +242,7 @@
                 </div>
             </form>
         </div>
+    </div>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header-mobile{% else %}div{% endif %}>
 
 {% javascript %}
