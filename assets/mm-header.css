@@ -218,27 +218,15 @@
     justify-content: flex-end !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 0;
+    gap: 12px;
   }
 
   .header-nav-hamburger .header__search-input {
-    flex: 1 1 560px !important;
+    flex: 0 1 560px !important;
     width: auto !important;
     max-width: 560px !important;
     min-width: 200px;
-    margin-inline-end: 12px;
-  }
-
-  .header-nav-hamburger .header__icon--account,
-  .header-nav-hamburger .header__icon--cart {
-    margin-inline-start: 0;
-  }
-
-  .header-nav-hamburger .header__icon--account + .header__icon--wishlist,
-  .header-nav-hamburger .header__icon--account + .header__icon--cart,
-  .header-nav-hamburger .header__icon--wishlist + .header__icon--cart,
-  .header-nav-hamburger .header__icon--cart + .icon-hamburger {
-    margin-inline-start: 0;
+    margin-inline-end: 0 !important;
   }
 
   .header-nav-hamburger .header__search-input .search-modal__form,
