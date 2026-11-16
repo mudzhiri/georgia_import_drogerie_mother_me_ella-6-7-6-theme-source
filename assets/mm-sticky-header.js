@@ -8,12 +8,19 @@
   }
 
   function ensureSpacer(beforeEl, className) {
-    let spacer = beforeEl.parentElement?.querySelector(`:scope > .${className}`);
+    const parent = beforeEl?.parentElement;
+    if (!parent) return null;
+    let spacer = beforeEl.previousElementSibling;
+    if (!(spacer && spacer.classList.contains(className))) {
+      spacer = parent.querySelector(`:scope > .${className}`);
+    }
     if (!spacer) {
       spacer = document.createElement('div');
       spacer.className = className;
       spacer.setAttribute('aria-hidden', 'true');
-      beforeEl.parentElement.insertBefore(spacer, beforeEl);
+      parent.insertBefore(spacer, beforeEl);
+    } else if (spacer.nextElementSibling !== beforeEl) {
+      parent.insertBefore(spacer, beforeEl);
     }
     return spacer;
   }
@@ -100,9 +107,13 @@
 
     pin() {
       if (this.pinned || !this.row) return;
-      const height = Math.ceil(this.row.getBoundingClientRect().height);
+      this.spacer = ensureSpacer(this.row, 'mm-sticky-spacer') || this.spacer;
+      const height = Math.max(
+        1,
+        Math.ceil(this.row.getBoundingClientRect().height || this.row.offsetHeight || 0)
+      );
       if (this.spacer) {
-        this.spacer.style.height = `${height}px`;
+        this.spacer.style.cssText = `display:block;height:${height}px;min-height:${height}px;flex:0 0 ${height}px;width:100%;pointer-events:none;`;
         this.spacer.classList.add('is-active');
       }
       this.row.classList.add('is-pinned');
@@ -116,7 +127,7 @@
       this.row.classList.remove('is-pinned');
       this.section.classList.remove('mm-header-is-pinned');
       if (this.spacer) {
-        this.spacer.style.height = '0px';
+        this.spacer.style.cssText = 'display:block;height:0px;min-height:0;flex:0 0 0px;width:100%;pointer-events:none;';
         this.spacer.classList.remove('is-active');
       }
       this.pinned = false;
