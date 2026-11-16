@@ -1,3 +1,12 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "general": {
     "breadcrumb": {
@@ -626,7 +635,7 @@
     "log_in": "Einloggen",
     "sign_in": "anmelden",
     "or": "oder",
-    "create_account": "Ein Konto erstellen",
+    "create_account": "Konto erstellen",
     "log_out": "Abmelden",
     "hello": "Hallo",
     "my_account": "Mein Konto",
@@ -722,7 +731,7 @@
   "wishlist": {
     "general": {
       "wishlist": "Wunschzettel",
-      "title": "Meine Wunschliste",
+      "title": "Wunschliste",
       "text_icon": "Meine Wunschlisten",
       "added": "Zur Wunschliste hinzugefügt",
       "product_image": "Bild",

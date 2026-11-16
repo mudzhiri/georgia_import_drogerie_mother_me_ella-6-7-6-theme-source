@@ -679,7 +679,7 @@
       "subtext": "Enter a new password",
       "title": "Reset account password"
     },
-    "create_account": "ანგარიშის შექმნა",
+    "create_account": "Create account",
     "sign_in": "შესვლა"
   },
   "gift_cards": {
@@ -1089,7 +1089,7 @@
   "wishlist": {
     "general": {
       "wishlist": "სურვილების სია",
-      "title": "სურვილების სია",
+      "title": "Wishlist",
       "text_icon": "სურვილების სია",
       "added": "Added to wishlist",
       "product_image": "Image",
@@ -1105,11 +1105,11 @@
   },
   "currency": {
     "change_text": "The store's currency changed to",
-    "currency": "ვალუტა"
+    "currency": "Currency"
   },
   "localization": {
     "country_label": "Country/region",
-    "language_label": "ენა",
+    "language_label": "Language",
     "update_language": "Update language",
     "update_country": "Update country/region"
   },
