@@ -420,7 +420,7 @@
                             {%- else -%}
                                 {%- assign is_contained = false -%}
                             {%- endif -%}
-                            <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text{% if block.settings.show_customer_sticky%}{% if block.settings.show_customer %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_customer %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}"{% if is_contained %} data-open-auth-sidebar{% endif %}>
+                            <a href="{{ routes.account_login_url }}" class="header__icon header__icon--account link link--text{% if block.settings.show_customer_sticky%}{% if block.settings.show_customer %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_customer %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}" aria-label="{{ 'accessibility.account' | t }}"{% if is_contained %} data-open-auth-sidebar{% endif %}>
                                 {%- if block.settings.icons_layout == 'text' -%}
                                     {%- if customer and customer.has_avatar? -%}
                                         <account-icon>
@@ -454,15 +454,7 @@
                                                 {% render 'icon-account-6', class: 'icon m-lr-auto', width: width_icons, height: height_icons, stroke: stroke %}
                                         {%- endcase -%}
                                     {%- endif -%}
-                                    <span class="visually-hidden">
-                                        {%- liquid
-                                          if customer
-                                            echo 'customer.account_fallback' | t
-                                          else
-                                            echo 'customer.log_in' | t
-                                          endif
-                                        -%}
-                                    </span>
+                                    <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
                                 {%- endif -%}
                             </a> 
                         {%- endif -%}                              
@@ -489,7 +481,7 @@
                     {%- endif -%}
                 {%- endif -%}
                 {%- if block.settings.show_cart or block.settings.show_cart_sticky -%}
-                    <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble{% if block.settings.show_cart_sticky %}{% if block.settings.show_cart %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_cart %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}" {% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
+                    <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble{% if block.settings.show_cart_sticky %}{% if block.settings.show_cart %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_cart %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}" aria-label="{{ 'accessibility.cart' | t }}" {% if settings.show_quick_cart %} data-cart-sidebar{% endif %}>
                         {%- if block.settings.icons_layout == 'text' -%}
                             <div class="text__icon icon">{{ 'general.cart.my_cart' | t }} (<span class="text" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>) </div>
                         {%- else -%}
@@ -517,7 +509,7 @@
                                 {%-  when '11' -%}
                                     {% render 'icon-cart-14', class: 'm-lr-auto', width: width_icons %}
                             {%- endcase -%}
-                            <span class="visually-hidden">{{ 'templates.cart.cart' | t }}<span class="text" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span></span>
+                            <span class="visually-hidden">{{ 'accessibility.cart' | t }}</span>
                             {% if block.settings.show_cart_number %}
                             <div class="cart-count-bubble{% if block.settings.cart_icon == '7' %} cart-count-bubble-07{% endif %}">
                                 <span class="text" aria-hidden="true" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
