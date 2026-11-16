@@ -1,0 +1,151 @@
+{{ 'mm-hero.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign btn1_label = section.settings.button_1_label
+  assign btn1_link = section.settings.button_1_link
+  assign btn2_label = section.settings.button_2_label
+  assign btn2_link = section.settings.button_2_link
+  assign image = section.settings.image
+  assign image_alt = section.settings.image_alt | default: heading
+  assign has_image = false
+  if image != blank
+    assign has_image = true
+  endif
+-%}
+
+<section
+  id="mm-hero-{{ section.id }}"
+  class="mm-hero"
+  aria-label="{{ heading | escape }}"
+>
+  <div class="mm-hero__inner{% if has_image %} mm-hero__inner--with-image{% endif %}">
+    <div class="mm-hero__content">
+      {%- if heading != blank -%}
+        <h1 class="mm-hero__heading">{{ heading | escape }}</h1>
+      {%- endif -%}
+
+      {%- if text != blank -%}
+        <p class="mm-hero__text">{{ text | escape }}</p>
+      {%- endif -%}
+
+      {%- if btn1_label != blank or btn2_label != blank -%}
+        <div class="mm-hero__actions">
+          {%- if btn1_label != blank -%}
+            <a
+              class="mm-hero__btn mm-hero__btn--primary"
+              {% if btn1_link == blank %}
+                role="link"
+                aria-disabled="true"
+              {% else %}
+                href="{{ btn1_link }}"
+              {% endif %}
+            >
+              {{ btn1_label | escape }}
+            </a>
+          {%- endif -%}
+
+          {%- if btn2_label != blank -%}
+            <a
+              class="mm-hero__btn mm-hero__btn--secondary"
+              {% if btn2_link == blank %}
+                role="link"
+                aria-disabled="true"
+              {% else %}
+                href="{{ btn2_link }}"
+              {% endif %}
+            >
+              {{ btn2_label | escape }}
+            </a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if has_image -%}
+      <div class="mm-hero__media">
+        {{
+          image
+          | image_url: width: 1400
+          | image_tag:
+            loading: 'eager',
+            widths: '400, 600, 800, 1000, 1200, 1400',
+            sizes: '(min-width: 900px) 40vw, 100vw',
+            alt: image_alt,
+            class: 'mm-hero__image'
+        }}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MM Hero",
+  "tag": "section",
+  "class": "section-mm-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ზრუნვა შენზე და შენს პატარაზე"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები."
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_1_label",
+      "label": "Primary button label",
+      "default": "ბავშვებისთვის"
+    },
+    {
+      "type": "url",
+      "id": "button_1_link",
+      "label": "Primary button link",
+      "info": "Use the Kids category from the header menu"
+    },
+    {
+      "type": "text",
+      "id": "button_2_label",
+      "label": "Secondary button label",
+      "default": "დედებისთვის"
+    },
+    {
+      "type": "url",
+      "id": "button_2_link",
+      "label": "Secondary button link",
+      "info": "Use the Mamas category from the header menu"
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Hero image",
+      "info": "Desktop: right. Mobile: below text. Leave empty for text-only."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Hero"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,136 @@
+/* MOTHER & ME — homepage hero (first banner under header) */
+.mm-hero {
+  --mm-hero-bg: #faf8f4;
+  --mm-hero-heading: #214d43;
+  --mm-hero-text: #59665f;
+  --mm-hero-max: 1280px;
+  --mm-hero-gutter: 16px;
+  background: var(--mm-hero-bg);
+  color: var(--mm-hero-text);
+}
+
+@media screen and (min-width: 768px) {
+  .mm-hero {
+    --mm-hero-gutter: 32px;
+  }
+}
+
+.mm-hero__inner {
+  width: 100%;
+  max-width: var(--mm-hero-max);
+  margin: 0 auto;
+  padding: 40px var(--mm-hero-gutter);
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  align-items: center;
+}
+
+@media screen and (min-width: 900px) {
+  .mm-hero__inner {
+    padding-block: 56px;
+    gap: 48px;
+  }
+
+  .mm-hero__inner--with-image {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  }
+}
+
+.mm-hero__content {
+  min-width: 0;
+  max-width: 36rem;
+}
+
+.mm-hero__heading {
+  margin: 0 0 16px;
+  color: var(--mm-hero-heading);
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: clamp(1.75rem, 1.2rem + 2.2vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+.mm-hero__text {
+  margin: 0 0 28px;
+  color: var(--mm-hero-text);
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: clamp(1rem, 0.95rem + 0.3vw, 1.125rem);
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.mm-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.mm-hero__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 12px 22px;
+  border-radius: 8px;
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  text-align: center;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.mm-hero__btn--primary {
+  background: #214d43;
+  color: #ffffff;
+  border: 1px solid #214d43;
+}
+
+.mm-hero__btn--primary:hover,
+.mm-hero__btn--primary:focus-visible {
+  background: #173b33;
+  border-color: #173b33;
+  color: #ffffff;
+  outline: none;
+}
+
+.mm-hero__btn--secondary {
+  background: transparent;
+  color: #214d43;
+  border: 1px solid #214d43;
+}
+
+.mm-hero__btn--secondary:hover,
+.mm-hero__btn--secondary:focus-visible {
+  background: #eaf1ec;
+  color: #214d43;
+  outline: none;
+}
+
+.mm-hero__media {
+  min-width: 0;
+  width: 100%;
+}
+
+.mm-hero__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(560px, 70vh);
+  object-fit: cover;
+  border-radius: 12px;
+  background: #eaf1ec;
+}
+
+@media screen and (max-width: 899px) {
+  .mm-hero__btn {
+    flex: 1 1 calc(50% - 6px);
+    min-width: min(100%, 148px);
+  }
+}
