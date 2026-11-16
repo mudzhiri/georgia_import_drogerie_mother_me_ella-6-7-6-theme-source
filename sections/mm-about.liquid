@@ -1,0 +1,95 @@
+{{ 'mm-about.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign image = section.settings.image
+  assign image_alt = section.settings.image_alt
+  if image_alt == blank and heading != blank
+    assign image_alt = heading
+  endif
+  assign has_image = false
+  if image != blank
+    assign has_image = true
+  endif
+  assign has_content = false
+  if heading != blank or text != blank or has_image
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <section
+    id="mm-about-{{ section.id }}"
+    class="mm-about"
+    {% if heading != blank %}aria-labelledby="mm-about-heading-{{ section.id }}"{% endif %}
+  >
+    <div class="mm-about__inner">
+      <div class="mm-about__layout{% unless has_image %} mm-about__layout--text-only{% endunless %}">
+        <div class="mm-about__copy">
+          {%- if heading != blank -%}
+            <h2 id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
+              {{ heading | escape }}
+            </h2>
+          {%- endif -%}
+          {%- if text != blank -%}
+            <p class="mm-about__text">{{ text | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if has_image -%}
+          <figure class="mm-about__media">
+            {{
+              image
+              | image_url: width: 1400
+              | image_tag:
+                loading: 'lazy',
+                widths: '400, 600, 800, 1000, 1200, 1400',
+                sizes: '(min-width: 900px) 40vw, 100vw',
+                alt: image_alt,
+                class: 'mm-about__image'
+            }}
+          </figure>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM About",
+  "tag": "section",
+  "class": "section-mm-about",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "გერმანიიდან — შენთვის"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Optional. Use a real photo of shopping or packing. Without an image only the text is shown."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM About"
+    }
+  ]
+}
+{% endschema %}
