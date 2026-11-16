@@ -17,13 +17,13 @@
   if has_image and image.presentation.focal_point != blank
     assign focal_point = image.presentation.focal_point
   endif
-  assign image_style = 'object-position: ' | append: focal_point
 -%}
 
 <section
   id="mm-hero-{{ section.id }}"
   class="mm-hero"
   aria-label="{{ heading | escape }}"
+  {% if has_image %}style="--mm-hero-focal: {{ focal_point }};"{% endif %}
 >
   <div class="mm-hero__inner{% if has_image %} mm-hero__inner--with-image{% endif %}">
     <div class="mm-hero__content">
@@ -38,36 +38,33 @@
       {%- if btn1_label != blank or btn2_label != blank -%}
         <div class="mm-hero__actions">
           {%- if btn1_label != blank -%}
-            <a
-              class="mm-hero__btn mm-hero__btn--primary"
-              {% if btn1_link == blank %}
-                role="link"
-                aria-disabled="true"
-              {% else %}
-                href="{{ btn1_link }}"
-              {% endif %}
-            >
-              {{ btn1_label | escape }}
-            </a>
+            {%- if btn1_link != blank -%}
+              <a class="mm-hero__btn mm-hero__btn--primary" href="{{ btn1_link }}">
+                {{- btn1_label | escape -}}
+              </a>
+            {%- else -%}
+              <span class="mm-hero__btn mm-hero__btn--primary" aria-disabled="true">
+                {{- btn1_label | escape -}}
+              </span>
+            {%- endif -%}
           {%- endif -%}
 
           {%- if btn2_label != blank -%}
-            <a
-              class="mm-hero__btn mm-hero__btn--secondary"
-              {% if btn2_link == blank %}
-                role="link"
-                aria-disabled="true"
-              {% else %}
-                href="{{ btn2_link }}"
-              {% endif %}
-            >
-              {{ btn2_label | escape }}
-            </a>
+            {%- if btn2_link != blank -%}
+              <a class="mm-hero__btn mm-hero__btn--secondary" href="{{ btn2_link }}">
+                {{- btn2_label | escape -}}
+              </a>
+            {%- else -%}
+              <span class="mm-hero__btn mm-hero__btn--secondary" aria-disabled="true">
+                {{- btn2_label | escape -}}
+              </span>
+            {%- endif -%}
           {%- endif -%}
         </div>
       {%- endif -%}
     </div>
 
+    {%- comment -%} Only real images — never an empty reserved column {%- endcomment -%}
     {%- if has_image -%}
       <div class="mm-hero__media">
         {{
@@ -77,10 +74,9 @@
             loading: 'eager',
             fetchpriority: 'high',
             widths: '480, 720, 960, 1200, 1600',
-            sizes: '(min-width: 900px) min(704px, 55vw), 100vw',
+            sizes: '(min-width: 900px) min(704px, 55vw), calc(100vw - 32px)',
             alt: image_alt,
-            class: 'mm-hero__image',
-            style: image_style
+            class: 'mm-hero__image'
         }}
       </div>
     {%- endif -%}
@@ -119,7 +115,7 @@
       "type": "url",
       "id": "button_1_link",
       "label": "Primary button link",
-      "info": "Use the Kids category from the header menu"
+      "info": "Kids category from the header menu"
     },
     {
       "type": "text",
@@ -131,7 +127,7 @@
       "type": "url",
       "id": "button_2_link",
       "label": "Secondary button link",
-      "info": "Use the Mamas category from the header menu"
+      "info": "Mamas category from the header menu"
     },
     {
       "type": "header",
@@ -141,7 +137,7 @@
       "type": "image_picker",
       "id": "image",
       "label": "Hero image",
-      "info": "Desktop right, mobile below text. Set focal point in the media editor so faces stay in frame. Leave empty for centered text-only layout."
+      "info": "Desktop: right column. Mobile: below text. Set focal point in media editor. Leave empty for centered text-only layout."
     },
     {
       "type": "text",

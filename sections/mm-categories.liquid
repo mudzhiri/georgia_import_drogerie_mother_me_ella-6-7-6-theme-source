@@ -18,37 +18,50 @@
           assign link = block.settings.link
           assign image = block.settings.image
           assign image_alt = block.settings.image_alt | default: label
+          assign tone = block.settings.tone | default: 'kids'
+          if tone != 'kids' and tone != 'mamas'
+            assign tone = 'kids'
+          endif
           assign has_image = false
           if image != blank
             assign has_image = true
           endif
+          assign focal_point = 'center'
+          if has_image and image.presentation.focal_point != blank
+            assign focal_point = image.presentation.focal_point
+          endif
         -%}
         <a
-          class="mm-categories__tile"
+          class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}"
           {% if link == blank %}
             role="link"
             aria-disabled="true"
+            tabindex="0"
           {% else %}
             href="{{ link }}"
           {% endif %}
+          {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
           {{ block.shopify_attributes }}
         >
+          <div class="mm-categories__body">
+            {%- if label != blank -%}
+              <p class="mm-categories__label">{{ label | escape }}</p>
+            {%- endif -%}
+          </div>
+
           {%- if has_image -%}
-            <div class="mm-categories__media">
+            <div class="mm-categories__media" aria-hidden="true">
               {{
                 image
                 | image_url: width: 1200
                 | image_tag:
                   loading: 'lazy',
-                  widths: '400, 600, 800, 1000, 1200',
-                  sizes: '(min-width: 768px) 40vw, 100vw',
-                  alt: image_alt,
+                  widths: '320, 480, 640, 800, 1000, 1200',
+                  sizes: '(min-width: 768px) 22vw, 80vw',
+                  alt: '',
                   class: 'mm-categories__image'
               }}
             </div>
-          {%- endif -%}
-          {%- if label != blank -%}
-            <p class="mm-categories__label">{{ label | escape }}</p>
           {%- endif -%}
         </a>
       {%- endfor -%}
@@ -61,7 +74,7 @@
   "name": "MM Categories",
   "tag": "section",
   "class": "section-mm-categories",
-  "max_blocks": 4,
+  "max_blocks": 2,
   "settings": [
     {
       "type": "text",
@@ -87,15 +100,32 @@
           "label": "Link"
         },
         {
+          "type": "select",
+          "id": "tone",
+          "label": "Tile color",
+          "default": "kids",
+          "options": [
+            {
+              "value": "kids",
+              "label": "Kids (sage)"
+            },
+            {
+              "value": "mamas",
+              "label": "Mamas (apricot)"
+            }
+          ]
+        },
+        {
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Optional. Without an image a clean text tile is shown."
+          "info": "Optional. Without an image a compact text tile is shown. Focal point from the image editor is respected."
         },
         {
           "type": "text",
           "id": "image_alt",
-          "label": "Image alt text"
+          "label": "Image alt text (unused when label is visible)",
+          "info": "Decorative when the tile label is shown; leave blank."
         }
       ]
     }
@@ -107,13 +137,15 @@
         {
           "type": "tile",
           "settings": {
-            "label": "ბავშვებისთვის"
+            "label": "ბავშვებისთვის",
+            "tone": "kids"
           }
         },
         {
           "type": "tile",
           "settings": {
-            "label": "დედებისთვის"
+            "label": "დედებისთვის",
+            "tone": "mamas"
           }
         }
       ]

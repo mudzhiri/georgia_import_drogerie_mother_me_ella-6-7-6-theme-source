@@ -1,4 +1,11 @@
-/* MOTHER & ME — homepage hero (first banner under header) */
+/* MOTHER & ME — homepage hero
+   Spec: warm two-column banner, no full-bleed height, no empty media column. */
+
+.section-mm-hero {
+  margin: 0;
+  padding: 0;
+}
+
 .section-mm-hero,
 .mm-hero {
   min-height: 0;
@@ -13,8 +20,11 @@
   --mm-hero-text-max: 480px;
   --mm-hero-radius: 20px;
   --mm-hero-pad-y: 48px;
+  --mm-hero-gutter: var(--mm-page-gutter, 16px);
+  --mm-hero-focal: center;
   background: var(--mm-hero-bg);
   color: var(--mm-hero-text);
+  overflow-x: clip;
 }
 
 @media screen and (min-width: 900px) {
@@ -25,17 +35,17 @@
 
 .mm-hero__inner {
   width: 100%;
-  max-width: 1280px;
+  max-width: var(--mm-content-max, 1280px);
   margin: 0 auto;
-  padding: var(--mm-hero-pad-y) var(--mm-page-gutter, 16px);
+  padding: var(--mm-hero-pad-y) var(--mm-hero-gutter);
   box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 24px;
+  gap: var(--mm-space-5, 24px);
   align-items: center;
 }
 
-/* No image: balanced centered text — never reserve an empty media column */
+/* No image → centered text only (no reserved media column) */
 .mm-hero__inner:not(.mm-hero__inner--with-image) {
   justify-items: center;
   text-align: center;
@@ -49,17 +59,21 @@
   justify-content: center;
 }
 
+/* With image: text first, image below on mobile (DOM order) */
+.mm-hero__inner--with-image {
+  text-align: left;
+  justify-items: stretch;
+}
+
 @media screen and (min-width: 900px) {
   .mm-hero__inner {
-    gap: 32px;
+    gap: var(--mm-space-6, 32px);
   }
 
   /* ~45% text / ~55% image */
   .mm-hero__inner--with-image {
     grid-template-columns: minmax(0, 0.45fr) minmax(0, 0.55fr);
-    gap: 48px;
-    text-align: left;
-    justify-items: stretch;
+    gap: var(--mm-space-7, 48px);
   }
 
   .mm-hero__inner--with-image .mm-hero__content {
@@ -78,36 +92,32 @@
 }
 
 .mm-hero__heading {
-  margin: 0 0 16px;
+  margin: 0 0 var(--mm-space-4, 16px);
   color: var(--mm-hero-heading);
-  font-family: var(--mm-font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-hero-heading-size);
   font-weight: var(--mm-font-weight-bold, 700);
-  line-height: 1.25;
+  line-height: var(--mm-line-height-heading, 1.25);
   letter-spacing: normal;
-  text-wrap: balance;
   overflow-wrap: anywhere;
-  height: auto;
-  max-height: none;
 }
 
 .mm-hero__text {
-  margin: 0 0 24px;
+  margin: 0 0 var(--mm-space-5, 24px);
   color: var(--mm-hero-text);
-  font-family: var(--mm-font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-font-size-body, 16px);
   font-weight: var(--mm-font-weight-medium, 500);
-  line-height: 1.6;
+  line-height: var(--mm-line-height-body, 1.6);
   letter-spacing: normal;
   overflow-wrap: anywhere;
-  height: auto;
-  max-height: none;
 }
 
 .mm-hero__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: var(--mm-space-3, 12px);
+  width: 100%;
 }
 
 .mm-hero__btn {
@@ -116,17 +126,22 @@
   justify-content: center;
   min-height: 48px;
   min-width: 44px;
-  padding: 12px 22px;
+  max-width: 100%;
+  padding: 12px 20px;
   border-radius: var(--mm-radius-button, 8px);
-  font-family: var(--mm-font-sans, system-ui, -apple-system, "Segoe UI", sans-serif);
+  font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-font-size-ui, 15px);
   font-weight: var(--mm-font-weight-semibold, 600);
-  line-height: 1.25;
+  line-height: var(--mm-line-height-heading, 1.25);
   letter-spacing: normal;
   text-decoration: none;
   text-align: center;
   box-sizing: border-box;
-  transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    border-color 180ms ease,
+    opacity 180ms ease;
 }
 
 .mm-hero__btn[aria-disabled='true'] {
@@ -190,14 +205,14 @@
   line-height: 0;
 }
 
+/* Rendered only when a real image is set in Liquid */
 .mm-hero__image {
   display: block;
   width: 100%;
   height: auto;
-  max-height: none;
   aspect-ratio: 5 / 4;
   object-fit: cover;
-  object-position: center;
+  object-position: var(--mm-hero-focal);
   border-radius: var(--mm-hero-radius);
   background: #eaf1ec;
 }
@@ -208,10 +223,20 @@
   }
 }
 
-@media screen and (max-width: 899px) {
+@media screen and (max-width: 419px) {
+  .mm-hero__actions {
+    flex-direction: column;
+  }
+
+  .mm-hero__btn {
+    width: 100%;
+  }
+}
+
+@media screen and (min-width: 420px) and (max-width: 899px) {
   .mm-hero__btn {
     flex: 1 1 calc(50% - 6px);
-    min-width: min(100%, 148px);
+    min-width: 0;
   }
 }
 

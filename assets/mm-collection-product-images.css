@@ -1,0 +1,66 @@
+/**
+ * MOTHER & ME — category product-grid images only.
+ * Scoped to collection template product grids; does not affect hero, PDP gallery,
+ * homepage MM cards, text, prices, or purchase actions.
+ */
+
+.template-collection .productListing.productGrid .card-media {
+  --mm-grid-img-pad: 16px;
+  --mm-grid-img-max: 100%;
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+  background-color: #ffffff;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+  .template-collection .productListing.productGrid .card-media {
+    --mm-grid-img-pad: 24px;
+    --mm-grid-img-max: 80%;
+  }
+}
+
+.template-collection .productListing.productGrid .card-media > img,
+.template-collection .productListing.productGrid .card-media > video,
+.template-collection .productListing.productGrid .card-media > .placeholder-svg {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  width: min(var(--mm-grid-img-max), calc(100% - (2 * var(--mm-grid-img-pad))));
+  height: min(var(--mm-grid-img-max), calc(100% - (2 * var(--mm-grid-img-pad))));
+  max-width: min(var(--mm-grid-img-max), calc(100% - (2 * var(--mm-grid-img-pad))));
+  max-height: min(var(--mm-grid-img-max), calc(100% - (2 * var(--mm-grid-img-pad))));
+  margin: 0;
+  object-fit: contain;
+  object-position: center center;
+  transform: translate(-50%, -50%);
+}
+
+/* Keep secondary/hover image on the same box; no scale that would crop packs */
+.template-collection .productListing.productGrid .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+.template-collection .productListing.productGrid .card-product:hover .card-media.media--hover-effect > img + img,
+.template-collection .productListing.productGrid .card-product:hover .card-media.media--hover-effect > img + video {
+  transform: translate(-50%, -50%);
+}
+
+.template-collection .productListing.productGrid .card-product:hover .card-media.media--hover-effect > img + img {
+  transition:
+    opacity 0.25s ease-out,
+    transform 0.25s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .template-collection .productListing.productGrid .card-media > img,
+  .template-collection .productListing.productGrid .card-media > video,
+  .template-collection .productListing.productGrid .card-product:hover .card-media.media--hover-effect > img + img {
+    transition: none;
+  }
+}

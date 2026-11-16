@@ -1315,15 +1315,32 @@ html.mm-sticky-header-on .background-overlay {
 
 .mm-lang__globe {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 24px;
   width: 24px;
   height: 24px;
   color: #214d43;
+  line-height: 0;
 }
 
+/* Override base.css `svg { fill: currentColor }` — outline globe only */
 .mm-lang__globe svg {
   display: block;
-  width: 24px;
-  height: 24px;
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px !important;
+  max-height: 24px !important;
+  fill: none !important;
+  stroke: currentColor !important;
+  color: #214d43;
+  background: transparent !important;
+  transition: none;
+}
+
+.mm-lang__globe svg * {
+  fill: none !important;
+  stroke: currentColor !important;
 }
 
 .mm-lang__code {

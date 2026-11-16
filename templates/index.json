@@ -27,14 +27,16 @@
           "type": "tile",
           "settings": {
             "label": "ბავშვებისთვის",
-            "link": "shopify://collections/ბავშვი"
+            "link": "shopify://collections/ბავშვი",
+            "tone": "kids"
           }
         },
         "tile_mamas": {
           "type": "tile",
           "settings": {
             "label": "დედებისთვის",
-            "link": "shopify://collections/დედა"
+            "link": "shopify://collections/დედა",
+            "tone": "mamas"
           }
         }
       },
@@ -43,7 +45,7 @@
         "tile_mamas"
       ],
       "settings": {
-        "heading": "Categories"
+        "heading": "კატეგორიები"
       }
     },
     "mm_products": {
@@ -86,7 +88,7 @@
         "point_order"
       ],
       "settings": {
-        "heading": "Information"
+        "heading": "ინფორმაცია"
       }
     },
     "mm_about": {

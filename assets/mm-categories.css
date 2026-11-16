@@ -1,8 +1,14 @@
-/* MOTHER & ME — category tiles under hero */
+/* MOTHER & ME — homepage category tiles (Kids / Mamas) */
 .mm-categories {
-  --mm-cat-gap: 24px;
-  --mm-cat-bg: #eaf1ec;
+  --mm-cat-gap: 16px;
+  --mm-cat-pad: 24px;
+  --mm-cat-radius: 16px;
   --mm-cat-text: #214d43;
+  --mm-cat-kids-bg: #eaf1ec;
+  --mm-cat-kids-bg-hover: #dfe9e3;
+  --mm-cat-mamas-bg: #f3d5c3;
+  --mm-cat-mamas-bg-hover: #ebc4ac;
+  --mm-cat-focal: center;
   background: transparent;
 }
 
@@ -18,29 +24,58 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--mm-cat-gap);
+  align-items: stretch;
 }
 
 @media screen and (min-width: 768px) {
+  .mm-categories {
+    --mm-cat-gap: 24px;
+  }
+
   .mm-categories__grid {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
 .mm-categories__tile {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
+  align-items: center;
   min-height: 0;
-  padding: 24px;
-  border-radius: 12px;
-  background: var(--mm-cat-bg);
+  min-width: 0;
+  padding: var(--mm-cat-pad);
+  border-radius: var(--mm-cat-radius);
   color: var(--mm-cat-text);
   text-decoration: none;
   box-sizing: border-box;
   /* Visible by default — hidden only after JS enables reveal */
   opacity: 1;
   transform: none;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    background-color 200ms ease-out,
+    box-shadow 200ms ease-out;
+}
+
+.mm-categories__tile--kids {
+  background: var(--mm-cat-kids-bg);
+}
+
+.mm-categories__tile--mamas {
+  background: var(--mm-cat-mamas-bg);
+}
+
+/* Desktop: text left, image right (equal columns) */
+@media screen and (min-width: 768px) {
+  .mm-categories__tile--with-image {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+  }
+}
+
+/* Compact text-only: no reserved media column */
+.mm-categories__tile--text-only {
+  grid-template-columns: minmax(0, 1fr);
 }
 
 /* JS opt-in: hide pending tiles only when motion is allowed */
@@ -56,8 +91,8 @@
     transition:
       opacity 300ms ease-out,
       transform 300ms ease-out,
-      background-color 0.2s ease,
-      box-shadow 0.2s ease;
+      background-color 200ms ease-out,
+      box-shadow 200ms ease-out;
   }
 
   .mm-categories.is-reveal-enabled .mm-categories__tile.is-revealed:nth-child(2) {
@@ -65,33 +100,53 @@
   }
 }
 
-.mm-categories__tile:hover {
-  background: #dfe9e3;
-  color: var(--mm-cat-text);
-  text-decoration: none;
-  box-shadow: none;
+@media (hover: hover) and (pointer: fine) {
+  .mm-categories__tile--kids:hover {
+    background: var(--mm-cat-kids-bg-hover);
+    color: var(--mm-cat-text);
+    text-decoration: none;
+  }
+
+  .mm-categories__tile--mamas:hover {
+    background: var(--mm-cat-mamas-bg-hover);
+    color: var(--mm-cat-text);
+    text-decoration: none;
+  }
+}
+
+.mm-categories__tile:focus {
+  outline: none;
 }
 
 .mm-categories__tile:focus-visible {
   outline: 2px solid #214d43;
   outline-offset: 3px;
-  background: #dfe9e3;
   color: var(--mm-cat-text);
 }
 
-.mm-categories__media {
-  width: 100%;
-  border-radius: 8px;
-  overflow: hidden;
-  background: #dfe9e3;
-  aspect-ratio: 16 / 10;
+.mm-categories__tile--kids:focus-visible {
+  background: var(--mm-cat-kids-bg-hover);
 }
 
-.mm-categories__media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+.mm-categories__tile--mamas:focus-visible {
+  background: var(--mm-cat-mamas-bg-hover);
+}
+
+.mm-categories__tile:active {
+  color: var(--mm-cat-text);
+  text-decoration: none;
+}
+
+.mm-categories__tile[aria-disabled='true'] {
+  cursor: default;
+  pointer-events: none;
+}
+
+.mm-categories__body {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  z-index: 1;
 }
 
 .mm-categories__label {
@@ -105,4 +160,22 @@
   overflow-wrap: anywhere;
   height: auto;
   max-height: none;
+}
+
+.mm-categories__media {
+  position: relative;
+  width: 100%;
+  min-width: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  aspect-ratio: 1 / 1;
+  background: rgba(33, 77, 67, 0.06);
+}
+
+.mm-categories__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: var(--mm-cat-focal);
 }
