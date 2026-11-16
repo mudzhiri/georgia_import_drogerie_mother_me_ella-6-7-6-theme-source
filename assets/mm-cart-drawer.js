@@ -284,11 +284,24 @@
     observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
   }
 
+  function syncPreviewPad() {
+    const hasBar = !!(
+      window.Shopify?.designMode ||
+      document.getElementById('PBarNextFrameWrapper') ||
+      document.getElementById('PreviewBarButton') ||
+      document.querySelector('iframe#PBarNextFrame') ||
+      document.querySelector('[data-preview-bar]')
+    );
+    document.body.classList.toggle('mm-theme-preview', hasBar);
+  }
+
   function init() {
     patchCartMutations();
     bindItemActionTracking();
     observeBodyClass();
     document.addEventListener('keydown', handleKeydown);
+    syncPreviewPad();
+    window.setTimeout(syncPreviewPad, 800);
 
     document.addEventListener('cart-update', () => {
       setUpdating(false);

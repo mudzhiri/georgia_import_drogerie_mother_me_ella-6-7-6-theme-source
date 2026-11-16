@@ -13,6 +13,11 @@
   z-index: 120;
 }
 
+/* Keep checkout above Shopify draft preview bar when present */
+body.mm-theme-preview #halo-cart-sidebar.halo-cart-sidebar {
+  max-height: calc(100dvh - 56px);
+}
+
 @media screen and (min-width: 750px) {
   #halo-cart-sidebar.halo-cart-sidebar {
     max-width: var(--mm-cart-max);
