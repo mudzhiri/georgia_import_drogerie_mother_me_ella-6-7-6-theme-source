@@ -860,7 +860,10 @@
       "media_gallery": "Product gallery",
       "media_load": "Open larger image",
       "thumbnail_label": "Image {{ index }}",
-      "image_counter": "{{ current }} / {{ total }}"
+      "image_counter": "{{ current }} / {{ total }}",
+      "text": {
+        "vendor": "Brand"
+      }
     }
   },
   "navigation": {

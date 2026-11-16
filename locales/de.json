@@ -330,7 +330,7 @@
       "text": {
         "sku": "Artikelnummer:",
         "barcode": "Barcode:",
-        "vendor": "Verkäufer:",
+        "vendor": "Marke",
         "availability": "Verfügbarkeit:",
         "type": "Produkttyp:"
       },

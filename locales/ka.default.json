@@ -338,7 +338,7 @@
       "text": {
         "sku": "SKU:",
         "barcode": "Barcode:",
-        "vendor": "Vendor:",
+        "vendor": "ბრენდი",
         "availability": "Availability:",
         "type": "Product type:"
       },

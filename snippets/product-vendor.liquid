@@ -3,10 +3,13 @@
     assign color_title = block.settings.color_title
     assign text_transform = block.settings.text_transform
 -%}
+{%- if product.vendor != blank -%}
 <div class="product__vendor" 
     style="--fontsize-text:{{ fontsize_text | append: 'px' }};
     --color-title: {{ color_title }};
     --text-transform: {{ text_transform }}" 
 >
+    <span class="visually-hidden">{{ 'products.product.text.vendor' | t }}</span>
     {{ product.vendor | link_to_vendor }}
 </div>
+{%- endif -%}
