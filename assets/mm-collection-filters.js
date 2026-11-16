@@ -22,7 +22,7 @@
     }
     if (open) {
       lastFocus = document.activeElement;
-      const closeBtn = root.querySelector('[data-mm-filters-close]');
+      const closeBtn = root.querySelector('.mm-filters__panel-close');
       if (closeBtn) closeBtn.focus();
     } else if (lastFocus && typeof lastFocus.focus === 'function') {
       lastFocus.focus();
