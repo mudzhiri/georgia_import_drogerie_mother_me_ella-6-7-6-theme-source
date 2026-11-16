@@ -1,0 +1,27 @@
+{%- layout none -%}
+{%- comment -%}
+  MOTHER & ME — locale-aware predictive search JSON.
+  Fallback when /search/suggest.json fails for the active buyer locale (e.g. ka → 417 Unsupported buyer locale).
+  Titles/URLs come from Shopify for the current request language — never invented in JS.
+{%- endcomment -%}
+{
+  "query": {{ search.terms | json }},
+  "products": [
+    {%- assign shown = 0 -%}
+    {%- for result in search.results -%}
+      {%- if shown >= 5 -%}{%- break -%}{%- endif -%}
+      {%- if result.object_type == 'product' -%}
+        {%- if shown > 0 -%},{%- endif -%}
+        {
+          "title": {{ result.title | json }},
+          "url": {{ result.url | json }},
+          "handle": {{ result.handle | json }},
+          "price_cents": {{ result.price_min | json }},
+          "image": {% if result.featured_media %}{{ result.featured_media | image_url: width: 96 | json }}{% elsif result.featured_image %}{{ result.featured_image | image_url: width: 96 | json }}{% else %}null{% endif %}
+        }
+        {%- assign shown = shown | plus: 1 -%}
+      {%- endif -%}
+    {%- endfor -%}
+  ],
+  "count": {{ search.results_count | json }}
+}

@@ -11,16 +11,50 @@
     }
   })();
 
-  function toCents(price) {
+  function shopRoot() {
+    const fromI18n = i18n.root;
+    const fromShopify = window.Shopify?.routes?.root;
+    const fromRoutes = window.routes?.root;
+    let root = fromI18n || fromShopify || fromRoutes || '/';
+    if (!root.endsWith('/')) root += '/';
+    return root;
+  }
+
+  function searchUrl() {
+    return i18n.searchUrl || window.routes?.search_url || `${shopRoot().replace(/\/$/, '')}/search` || '/search';
+  }
+
+  function predictiveBase() {
+    return i18n.predictiveUrl || window.routes?.predictive_search_url || `${shopRoot().replace(/\/$/, '')}/search/suggest` || '/search/suggest';
+  }
+
+  /** Keep product/result links on the active Shopify language root. */
+  function localizePath(url) {
+    if (!url || typeof url !== 'string') return url || '#';
+    if (/^https?:\/\//i.test(url) || url.startsWith('//')) return url;
+    const root = shopRoot();
+    if (root === '/') return url.startsWith('/') ? url : `/${url}`;
+    const rootNoSlash = root.replace(/\/$/, '');
+    if (url === rootNoSlash || url.startsWith(`${rootNoSlash}/`)) return url;
+    if (url.startsWith('/')) return `${rootNoSlash}${url}`;
+    return `${rootNoSlash}/${url}`;
+  }
+
+  function toCents(price, priceCents) {
+    if (priceCents != null && priceCents !== '' && Number.isFinite(Number(priceCents))) {
+      return Math.round(Number(priceCents));
+    }
     // /search/suggest.json returns prices in major currency units (e.g. "12.99" or 12.99)
     if (price == null || price === '') return NaN;
     const n = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : Number(price);
     if (!Number.isFinite(n)) return NaN;
+    // Heuristic: values >= 1000 without decimals are likely already cents
+    if (Number.isInteger(n) && Math.abs(n) >= 1000) return n;
     return Math.round(n * 100);
   }
 
-  function formatMoney(price) {
-    const cents = toCents(price);
+  function formatMoney(price, priceCents) {
+    const cents = toCents(price, priceCents);
     if (!Number.isFinite(cents)) return '';
     if (typeof Shopify !== 'undefined' && typeof Shopify.formatMoney === 'function') {
       return Shopify.formatMoney(cents, i18n.moneyFormat || window.money_format || '{{amount}}');
@@ -82,8 +116,17 @@
         });
       });
       this.input?.addEventListener('input', this.onInput);
-      this.form?.addEventListener('submit', () => {
-        /* allow native navigation to search results */
+      this.form?.addEventListener('submit', (event) => {
+        // Ensure q is kept and action stays on the locale search route.
+        const q = (this.input?.value || '').trim();
+        if (!q) {
+          event.preventDefault();
+          return;
+        }
+        if (this.form && this.form.action) {
+          this.form.action = searchUrl();
+        }
+        if (this.input) this.input.value = q;
       });
     }
 
@@ -95,14 +138,12 @@
             '.header-nav-hamburger .header__icon--search, .header-nav-hamburger [data-search-menu], .header-mobile [data-search-mobile], .header-mobile__item--search summary, [data-mm-search-open]'
           );
           if (!trigger) return;
-          // Don't intercept submit/close inside our panel
           if (trigger.closest('#mm-search-panel')) return;
 
           event.preventDefault();
           event.stopPropagation();
           if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
 
-          // Prevent Ella <details> from opening
           const details = trigger.closest('details');
           if (details) details.open = false;
 
@@ -124,7 +165,6 @@
       document.documentElement.classList.add('mm-search-open');
       document.body.classList.add('mm-search-open');
 
-      // Force reflow then animate
       void this.panel.offsetWidth;
       this.panel.classList.add('is-open');
 
@@ -218,6 +258,39 @@
       if (this.status) this.status.textContent = '';
     }
 
+    async fetchSuggestJson(q, signal) {
+      const base = predictiveBase();
+      const url =
+        `${base}.json?q=${encodeURIComponent(q)}` +
+        `&resources[type]=product&resources[limit]=${LIMIT}` +
+        `&resources[options][unavailable_products]=last` +
+        `&resources[options][fields]=title,product_type,vendor,variants.title,variants.sku`;
+      const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
+      if (!res.ok) {
+        const err = new Error(String(res.status));
+        err.status = res.status;
+        throw err;
+      }
+      const data = await res.json();
+      return data?.resources?.results?.products || [];
+    }
+
+    async fetchLocaleSearchFallback(q, signal) {
+      // Locale search route + theme view — works when suggest.json rejects the buyer locale (ka → 417).
+      const base = searchUrl();
+      const url =
+        `${base}?q=${encodeURIComponent(q)}` +
+        `&type=product&options%5Bprefix%5D=last&view=ajax_mm_predictive`;
+      const res = await fetch(url, { signal, headers: { Accept: 'application/json' } });
+      if (!res.ok) {
+        const err = new Error(String(res.status));
+        err.status = res.status;
+        throw err;
+      }
+      const data = await res.json();
+      return Array.isArray(data?.products) ? data.products : [];
+    }
+
     async runSearch() {
       const q = (this.input?.value || '').trim();
       if (q.length < MIN_CHARS) {
@@ -228,40 +301,35 @@
       const id = ++this.requestId;
       if (this.abort) this.abort.abort();
       this.abort = new AbortController();
+      const { signal } = this.abort;
 
       if (this.status) this.status.textContent = i18n.loading || '';
 
-      // Some buyer locales (e.g. ka) return 417 Unsupported buyer locale on /search/suggest.json.
-      // Retry via /en/… which still returns localized product titles for this shop.
-      const primaryBase = i18n.predictiveUrl || window.routes?.predictive_search_url || '/search/suggest';
-      const bases = [primaryBase];
-      if (!String(primaryBase).startsWith('/en/')) bases.push('/en/search/suggest');
-
-      const query =
-        `q=${encodeURIComponent(q)}` +
-        `&resources[type]=product&resources[limit]=${LIMIT}` +
-        `&resources[options][unavailable_products]=last` +
-        `&resources[options][fields]=title,product_type,vendor,variants.title,variants.sku`;
-
       try {
-        let data = null;
-        for (const base of bases) {
-          const clean = String(base).replace(/\.json$/i, '');
-          const url = `${clean}.json?${query}`;
-          const res = await fetch(url, { signal: this.abort.signal, headers: { Accept: 'application/json' } });
-          if (res.ok) {
-            data = await res.json();
-            break;
-          }
-          if (res.status !== 417) throw new Error(String(res.status));
+        let products = [];
+        try {
+          products = await this.fetchSuggestJson(q, signal);
+        } catch (suggestErr) {
+          if (suggestErr?.name === 'AbortError') return;
+          // 417 Unsupported buyer locale (observed for ka) or other suggest failures → locale search view
+          products = await this.fetchLocaleSearchFallback(q, signal);
         }
-        if (id !== this.requestId) return; // stale
-        this.renderProducts(q, data?.resources?.results?.products || []);
+        if (id !== this.requestId) return;
+        this.renderProducts(q, products);
       } catch (err) {
         if (err?.name === 'AbortError') return;
         if (id !== this.requestId) return;
-        this.renderProducts(q, []);
+        this.renderError();
       }
+    }
+
+    renderError() {
+      if (!this.results) return;
+      this.results.hidden = false;
+      this.input?.setAttribute('aria-expanded', 'true');
+      const msg = escapeHtml(i18n.error || i18n.noResults || '');
+      this.results.innerHTML = `<p class="mm-search-panel__empty">${msg}</p>`;
+      if (this.status) this.status.textContent = i18n.error || '';
     }
 
     renderProducts(query, products) {
@@ -279,10 +347,10 @@
       const items = list
         .map((product, index) => {
           const title = escapeHtml(product.title);
-          const url = escapeHtml(product.url);
+          const url = escapeHtml(localizePath(product.url));
           const img = productImage(product);
           const priceRaw = product.price ?? product.price_min ?? product.price_max;
-          const price = escapeHtml(formatMoney(priceRaw));
+          const price = escapeHtml(formatMoney(priceRaw, product.price_cents));
           const imgHtml = img
             ? `<img class="mm-search-panel__thumb" src="${escapeHtml(img)}" alt="" width="48" height="48" loading="lazy">`
             : `<span class="mm-search-panel__thumb mm-search-panel__thumb--empty" aria-hidden="true"></span>`;
@@ -296,10 +364,10 @@
         })
         .join('');
 
-      const viewAllUrl = `${i18n.searchUrl || window.routes?.search_url || '/search'}?q=${encodeURIComponent(query)}&type=product&options%5Bprefix%5D=last`;
+      const viewAllUrl = `${searchUrl()}?q=${encodeURIComponent(query)}&type=product&options%5Bprefix%5D=last`;
       const footer = `<a class="mm-search-panel__view-all" href="${escapeHtml(viewAllUrl)}">${escapeHtml(i18n.viewAll || '')}</a>`;
 
-      this.results.innerHTML = `<div class="mm-search-panel__list">${items}</div>${footer}`;
+      this.results.innerHTML = `<div class="mm-search-panel__list" role="presentation">${items}</div>${footer}`;
       if (this.status) this.status.textContent = `${list.length}`;
     }
   }

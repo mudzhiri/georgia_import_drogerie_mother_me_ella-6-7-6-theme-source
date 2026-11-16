@@ -87,7 +87,11 @@
       "search_more": "Search more",
       "view_all": "View all results ({{ count }})",
       "submit": "Search",
-      "placeholder": "Search"
+      "placeholder": "Search",
+      "mm_no_results": "No products found",
+      "mm_view_all": "View all results",
+      "mm_error": "Search failed. Please try again.",
+      "mm_results": "Search results"
     },
     "cart": {
       "cart": "Cart",

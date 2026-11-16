@@ -85,7 +85,11 @@
       "search_result_title": "Produktergebnisse",
       "search_no_result": "Suchen nach",
       "search_more": "Suchen Sie weiter",
-      "view_all": "Alle Ergebnisse anzeigen ({{ count }})"
+      "view_all": "Alle Ergebnisse anzeigen ({{ count }})",
+      "mm_no_results": "Keine Produkte gefunden",
+      "mm_view_all": "Alle Ergebnisse ansehen",
+      "mm_error": "Suche fehlgeschlagen. Bitte erneut versuchen.",
+      "mm_results": "Suchergebnisse"
     },
     "cart": {
       "cart": "Warenkorb",

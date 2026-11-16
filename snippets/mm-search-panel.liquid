@@ -1,5 +1,6 @@
 {%- comment -%}
   MOTHER & ME — header search overlay (icon trigger + predictive products)
+  Locale-aware: form action + predictive URLs use Shopify routes for the active language.
 {%- endcomment -%}
 <div
   id="mm-search-panel"
@@ -64,7 +65,7 @@
       class="mm-search-panel__results"
       data-mm-search-results
       role="listbox"
-      aria-label="{{ 'general.search.search' | t }}"
+      aria-label="{{ 'general.search.mm_results' | t }}"
       hidden
     ></div>
 
@@ -77,8 +78,12 @@
     "noResults": {{ 'general.search.mm_no_results' | t | json }},
     "viewAll": {{ 'general.search.mm_view_all' | t | json }},
     "loading": {{ 'accessibility.loading' | t | json }},
+    "error": {{ 'general.search.mm_error' | t | json }},
+    "results": {{ 'general.search.mm_results' | t | json }},
     "searchUrl": {{ routes.search_url | json }},
     "predictiveUrl": {{ routes.predictive_search_url | json }},
+    "root": {{ routes.root_url | default: '/' | json }},
+    "locale": {{ request.locale.iso_code | json }},
     "moneyFormat": {{ shop.money_format | json }}
   }
 </script>
