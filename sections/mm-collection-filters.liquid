@@ -1,0 +1,369 @@
+{{ 'mm-collection-filters.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign total_active = 0
+  for filter in collection.filters
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign total_active = total_active | plus: 1
+      endif
+    else
+      assign total_active = total_active | plus: filter.active_values.size
+    endif
+  endfor
+  assign has_filters = false
+  if collection.filters.size > 0
+    assign has_filters = true
+  endif
+  assign results_count = collection.products_count
+  assign clear_url = collection.url
+-%}
+
+<div
+  id="mm-filters-{{ section.id }}"
+  class="mm-filters"
+  data-mm-filters
+>
+  <div class="mm-filters__inner">
+    <div class="mm-filters__bar">
+      <p class="mm-filters__count" role="status">
+        {{ 'sections.collection_template.product_count_simple' | t: count: results_count }}
+      </p>
+
+      <div class="mm-filters__mobile-actions">
+        {%- if has_filters -%}
+          <button
+            type="button"
+            class="mm-filters__btn"
+            data-mm-filters-open
+            aria-expanded="false"
+            aria-controls="mm-filters-panel-{{ section.id }}"
+          >
+            {{ 'sections.collection_template.filter_button' | t }}
+            {%- if total_active > 0 -%}
+              <span class="mm-filters__btn-badge">{{ total_active }}</span>
+            {%- endif -%}
+          </button>
+        {%- endif -%}
+
+        <form method="get" action="{{ collection.url }}" class="mm-filters__sort mm-filters__sort--mobile">
+          {%- for filter in collection.filters -%}
+            {%- for value in filter.active_values -%}
+              <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+            {%- endfor -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- if filter.min_value.value != nil -%}
+                <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}">
+              {%- endif -%}
+              {%- if filter.max_value.value != nil -%}
+                <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}">
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <label class="mm-filters__btn mm-filters__sort-trigger" for="mm-sort-mobile-{{ section.id }}">
+            <span class="mm-filters__sort-trigger-label">{{ 'sections.collection_template.sort_button' | t }}</span>
+            <select
+              id="mm-sort-mobile-{{ section.id }}"
+              class="mm-filters__select mm-filters__select--overlay"
+              name="sort_by"
+              data-mm-filters-sort
+              aria-label="{{ 'sections.collection_template.sort_button' | t | escape }}"
+            >
+              {%- for option in collection.sort_options -%}
+                <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
+                  {{ option.name | escape }}
+                </option>
+              {%- endfor -%}
+            </select>
+          </label>
+        </form>
+      </div>
+    </div>
+
+    {%- if has_filters or collection.sort_options.size > 0 -%}
+      <form
+        method="get"
+        action="{{ collection.url }}"
+        class="mm-filters__desktop"
+        data-mm-filters-desktop-form
+      >
+        <div class="mm-filters__groups">
+          {%- for filter in collection.filters -%}
+            {%- liquid
+              assign show_filter_group = false
+              if filter.type == 'price_range'
+                if filter.range_max != blank
+                  assign show_filter_group = true
+                endif
+              elsif filter.values.size > 0
+                assign show_filter_group = true
+              endif
+            -%}
+            {%- if show_filter_group -%}
+              <div class="mm-filters__group">
+                <span class="mm-filters__group-label">{{ filter.label | escape }}</span>
+
+                {%- case filter.type -%}
+                  {%- when 'list', 'boolean' -%}
+                    <ul class="mm-filters__options" role="list">
+                      {%- for value in filter.values -%}
+                        <li>
+                          <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                            <input
+                              type="checkbox"
+                              name="{{ value.param_name }}"
+                              value="{{ value.value }}"
+                              {% if value.active %}checked{% endif %}
+                              {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                            >
+                            <span>
+                              {{ value.label | escape }}
+                              {%- if value.count -%}
+                                <span aria-hidden="true">({{ value.count }})</span>
+                              {%- endif -%}
+                            </span>
+                          </label>
+                        </li>
+                      {%- endfor -%}
+                    </ul>
+
+                  {%- when 'price_range' -%}
+                    <div class="mm-filters__price">
+                      <label class="visually-hidden" for="mm-filter-price-gte-{{ section.id }}">
+                        {{ 'sections.collection_template.from' | t }}
+                      </label>
+                      <input
+                        class="mm-filters__price-input"
+                        id="mm-filter-price-gte-{{ section.id }}"
+                        name="{{ filter.min_value.param_name }}"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="{{ 'sections.collection_template.from' | t | escape }}"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        {% if filter.min_value.value %}
+                          value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                        {% endif %}
+                      >
+                      <span aria-hidden="true">–</span>
+                      <label class="visually-hidden" for="mm-filter-price-lte-{{ section.id }}">
+                        {{ 'sections.collection_template.to' | t }}
+                      </label>
+                      <input
+                        class="mm-filters__price-input"
+                        id="mm-filter-price-lte-{{ section.id }}"
+                        name="{{ filter.max_value.param_name }}"
+                        type="number"
+                        inputmode="decimal"
+                        placeholder="{{ 'sections.collection_template.to' | t | escape }}"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        {% if filter.max_value.value %}
+                          value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                        {% endif %}
+                      >
+                    </div>
+                {%- endcase -%}
+              </div>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <div class="mm-filters__sort">
+          <label class="mm-filters__group-label" for="mm-sort-desktop-{{ section.id }}">
+            {{ 'sections.collection_template.sort_by_label' | t }}
+          </label>
+          <select
+            id="mm-sort-desktop-{{ section.id }}"
+            class="mm-filters__select"
+            name="sort_by"
+            data-mm-filters-sort
+          >
+            {%- for option in collection.sort_options -%}
+              <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
+                {{ option.name | escape }}
+              </option>
+            {%- endfor -%}
+          </select>
+        </div>
+      </form>
+    {%- endif -%}
+
+    {%- if total_active > 0 -%}
+      <ul class="mm-filters__chips" role="list">
+        {%- for filter in collection.filters -%}
+          {%- for value in filter.active_values -%}
+            <li>
+              <a class="mm-filters__chip" href="{{ value.url_to_remove }}">
+                <span>{{ value.label | escape }}</span>
+                <span class="mm-filters__chip-x" aria-hidden="true">×</span>
+                <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
+              </a>
+            </li>
+          {%- endfor -%}
+          {%- if filter.type == 'price_range' -%}
+            {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              <li>
+                <a class="mm-filters__chip" href="{{ filter.url_to_remove }}">
+                  <span>
+                    {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
+                    –
+                    {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                  </span>
+                  <span class="mm-filters__chip-x" aria-hidden="true">×</span>
+                  <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
+                </a>
+              </li>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endfor -%}
+        <li>
+          <a class="mm-filters__reset" href="{{ clear_url }}">
+            {{ 'sections.collection_template.clear_all' | t }}
+          </a>
+        </li>
+      </ul>
+    {%- endif -%}
+
+    {%- if results_count == 0 -%}
+      <div class="mm-filters__empty" role="status">
+        <p style="margin:0 0 8px;">{{ 'sections.collection_template.empty' | t }}</p>
+        {{ 'sections.collection_template.use_fewer_filters_html' | t: class: 'mm-filters__reset', link: clear_url }}
+      </div>
+    {%- endif -%}
+  </div>
+
+  {%- if has_filters -%}
+    <div class="mm-filters__overlay" data-mm-filters-overlay data-mm-filters-close></div>
+    <aside
+      id="mm-filters-panel-{{ section.id }}"
+      class="mm-filters__panel"
+      data-mm-filters-panel
+      aria-hidden="true"
+      aria-labelledby="mm-filters-panel-title-{{ section.id }}"
+    >
+      <div class="mm-filters__panel-header">
+        <h2 id="mm-filters-panel-title-{{ section.id }}" class="mm-filters__panel-title">
+          {{ 'sections.collection_template.filter_button' | t }}
+        </h2>
+        <button
+          type="button"
+          class="mm-filters__panel-close"
+          data-mm-filters-close
+          aria-label="{{ 'accessibility.close' | t | default: 'Close' | escape }}"
+        >
+          ×
+        </button>
+      </div>
+
+      <form
+        method="get"
+        action="{{ collection.url }}"
+        class="mm-filters__panel-body"
+        data-mm-filters-panel-form
+        id="mm-filters-panel-form-{{ section.id }}"
+      >
+        <input type="hidden" name="sort_by" value="{{ sort_by | escape }}">
+
+        {%- for filter in collection.filters -%}
+          {%- liquid
+            assign show_filter_group = false
+            if filter.type == 'price_range'
+              if filter.range_max != blank
+                assign show_filter_group = true
+              endif
+            elsif filter.values.size > 0
+              assign show_filter_group = true
+            endif
+          -%}
+          {%- if show_filter_group -%}
+            <div class="mm-filters__group">
+              <span class="mm-filters__group-label">{{ filter.label | escape }}</span>
+
+              {%- case filter.type -%}
+                {%- when 'list', 'boolean' -%}
+                  <ul class="mm-filters__options" role="list">
+                    {%- for value in filter.values -%}
+                      <li>
+                        <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                          <input
+                            type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            {% if value.active %}checked{% endif %}
+                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                          >
+                          <span>
+                            {{ value.label | escape }}
+                            {%- if value.count -%}
+                              <span aria-hidden="true">({{ value.count }})</span>
+                            {%- endif -%}
+                          </span>
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+
+                {%- when 'price_range' -%}
+                  <div class="mm-filters__price">
+                    <input
+                      class="mm-filters__price-input"
+                      name="{{ filter.min_value.param_name }}"
+                      type="number"
+                      inputmode="decimal"
+                      placeholder="{{ 'sections.collection_template.from' | t | escape }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      {% if filter.min_value.value %}
+                        value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                      {% endif %}
+                    >
+                    <span aria-hidden="true">–</span>
+                    <input
+                      class="mm-filters__price-input"
+                      name="{{ filter.max_value.param_name }}"
+                      type="number"
+                      inputmode="decimal"
+                      placeholder="{{ 'sections.collection_template.to' | t | escape }}"
+                      min="0"
+                      max="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                      {% if filter.max_value.value %}
+                        value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                      {% endif %}
+                    >
+                  </div>
+              {%- endcase -%}
+            </div>
+          {%- endif -%}
+        {%- endfor -%}
+      </form>
+
+      <div class="mm-filters__panel-footer">
+        {%- if total_active > 0 -%}
+          <a class="mm-filters__btn" href="{{ clear_url }}">
+            {{ 'sections.collection_template.clear_all' | t }}
+          </a>
+        {%- endif -%}
+        <button
+          type="submit"
+          class="mm-filters__btn mm-filters__btn--primary"
+          form="mm-filters-panel-form-{{ section.id }}"
+        >
+          {{ 'sections.collection_template.apply' | t }}
+        </button>
+      </div>
+    </aside>
+  {%- endif -%}
+</div>
+
+<script src="{{ 'mm-collection-filters.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "MM Collection Filters",
+  "tag": "section",
+  "class": "section-mm-collection-filters",
+  "settings": []
+}
+{% endschema %}
