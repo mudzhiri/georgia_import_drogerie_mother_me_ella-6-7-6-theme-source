@@ -325,6 +325,11 @@
         "text_html": "Versand innerhalb Georgiens: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
         "text_with_free_html": "Versand innerhalb Georgiens: {{ price }}; kostenlos ab {{ threshold }}. <a href=\"{{ link }}\">{{ policy }}</a>"
       },
+      "atc_error": {
+        "inventory": "Für die gewählte Menge ist nicht genug Bestand verfügbar. Bitte eine kleinere Menge wählen und erneut versuchen.",
+        "network": "Verbindungsproblem. Bitte erneut versuchen.",
+        "generic": "Das Produkt konnte nicht in den Warenkorb gelegt werden. Bitte erneut versuchen."
+      },
       "quick_view": "Schnellansicht",
       "quick_view_2": "Schnellansicht",
       "quick_shop": "Schnell hinzufügen",

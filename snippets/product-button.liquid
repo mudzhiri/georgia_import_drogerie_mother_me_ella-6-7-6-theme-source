@@ -251,6 +251,14 @@
                                     <button{% if variant_type > 1 %} data-action="cart"{% endif %} type="submit" name="add" data-btn-addToCart class="product-form__submit button{% if settings.animations_hover_elements == '3d-lift' or settings.animations_hover_elements == 'vertical-lift' %} button-not-animation{% endif %}" id="product-add-to-cart" disabled>{{ 'products.product.sold_out' | t }}</button>
                                 {%- endif -%}
                             </div>
+                            <div
+                              class="mm-atc-error"
+                              data-mm-atc-error
+                              role="alert"
+                              aria-live="assertive"
+                              aria-atomic="true"
+                              hidden
+                            ></div>
                         </div>
                         {%- if settings.show_wishlist -%}
                             <div class="productView-wishlist clearfix{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">

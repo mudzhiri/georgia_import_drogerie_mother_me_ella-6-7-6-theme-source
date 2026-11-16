@@ -1,0 +1,145 @@
+/**
+ * MOTHER & ME — shared add-to-cart error helpers.
+ * Extends existing ATC flows; does not create a second cart pipeline.
+ */
+(function () {
+  'use strict';
+
+  function strings() {
+    return window.mmAtcErrorStrings || {};
+  }
+
+  function isTechnical(value) {
+    if (value == null) return true;
+    var text = String(value).trim();
+    if (!text) return true;
+    if (/^(cart error|error)$/i.test(text)) return true;
+    if (/^\s*[\[{]/.test(text)) return true;
+    if (/graphql|cannot find variant|invalid id|undefined|null/i.test(text)) return true;
+    return false;
+  }
+
+  function isInventoryRelated(value) {
+    return /sold out|not enough|insufficient|inventory|stock|quantity|can't add more|cannot add|nur noch|ausverkauft|bestand|недостаточно|нет в наличии|არ არის|მარაგ|რაოდენობ/i.test(
+      String(value || '')
+    );
+  }
+
+  function ensureHost(button) {
+    if (!button || !button.closest) return null;
+    var scope =
+      button.closest('.productView-action') ||
+      button.closest('.product-form__buttons') ||
+      button.closest('.card-action') ||
+      button.closest('.mm-collection-atc-wrap') ||
+      button.closest('product-form') ||
+      button.parentElement;
+    if (!scope) return null;
+
+    var host = scope.querySelector('[data-mm-atc-error]');
+    if (host) return host;
+
+    host = document.createElement('div');
+    host.className = 'mm-atc-error';
+    host.setAttribute('data-mm-atc-error', '');
+    host.setAttribute('role', 'alert');
+    host.setAttribute('aria-live', 'assertive');
+    host.setAttribute('aria-atomic', 'true');
+    host.hidden = true;
+
+    var buttons = scope.querySelector('.product-form__buttons');
+    if (buttons && buttons.parentElement === scope) {
+      buttons.insertAdjacentElement('afterend', host);
+    } else {
+      scope.appendChild(host);
+    }
+    return host;
+  }
+
+  function clear(button) {
+    var host = ensureHost(button);
+    if (!host) return;
+    host.hidden = true;
+    host.classList.remove('is-visible');
+    host.textContent = '';
+  }
+
+  function show(button, message) {
+    var host = ensureHost(button);
+    if (!host) return;
+    var text = String(message || strings().generic || '').trim();
+    if (!text) text = strings().generic || '';
+    host.textContent = text;
+    host.hidden = false;
+    host.classList.add('is-visible');
+  }
+
+  function mapResponse(data) {
+    var i18n = strings();
+    if (!data || typeof data !== 'object') return i18n.generic;
+
+    var desc = data.description;
+    if (Array.isArray(data.errors)) {
+      desc = desc || data.errors.filter(Boolean).join(' ');
+    } else if (typeof data.errors === 'string') {
+      desc = desc || data.errors;
+    }
+
+    var msg = data.message;
+
+    if (!isTechnical(desc)) {
+      return isInventoryRelated(desc) ? i18n.inventory || desc : desc;
+    }
+
+    if (!isTechnical(msg) && !/^cart error$/i.test(String(msg))) {
+      return isInventoryRelated(msg) ? i18n.inventory || msg : msg;
+    }
+
+    if (isInventoryRelated(desc) || isInventoryRelated(msg) || data.status === 422) {
+      return i18n.inventory || i18n.generic;
+    }
+
+    return i18n.generic;
+  }
+
+  function mapCaught(error) {
+    var i18n = strings();
+    if (!error) return i18n.generic;
+
+    if (error.type === 'network' || error.name === 'TypeError' || error.name === 'NetworkError') {
+      return i18n.network || i18n.generic;
+    }
+
+    if (error.data) return mapResponse(error.data);
+
+    var message = error.message || error;
+    if (message && typeof message === 'object') {
+      return mapResponse(message);
+    }
+
+    if (isTechnical(message)) return i18n.generic;
+    if (isInventoryRelated(message)) return i18n.inventory || message;
+    return String(message);
+  }
+
+  function releaseButton(button) {
+    if (!button) return;
+    button.classList.remove('is-loading', 'loading');
+    button.removeAttribute('aria-busy');
+    if (button.getAttribute('data-mm-keep-disabled') === 'true') return;
+    if (button.classList.contains('is-soldout') || button.classList.contains('is-notify-me')) return;
+    button.removeAttribute('disabled');
+    button.disabled = false;
+  }
+
+  window.mmAtcError = {
+    ensureHost: ensureHost,
+    clear: clear,
+    show: show,
+    mapResponse: mapResponse,
+    mapCaught: mapCaught,
+    releaseButton: releaseButton,
+    isInventoryRelated: isInventoryRelated,
+    isTechnical: isTechnical
+  };
+})();

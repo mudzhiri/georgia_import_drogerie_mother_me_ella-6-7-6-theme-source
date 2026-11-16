@@ -1,0 +1,28 @@
+/* MOTHER & ME — add-to-cart errors next to the buy button */
+
+.mm-atc-error {
+  display: none;
+  width: 100%;
+  margin: 10px 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  font-size: 14px;
+  line-height: 1.45;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #b42318;
+}
+
+.mm-atc-error.is-visible {
+  display: block;
+}
+
+.productView-action .mm-atc-error,
+.product-form__buttons + .mm-atc-error,
+.card-action .mm-atc-error,
+.mm-collection-atc-wrap .mm-atc-error {
+  flex-basis: 100%;
+}

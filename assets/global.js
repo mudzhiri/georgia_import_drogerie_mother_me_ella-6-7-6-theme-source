@@ -336,10 +336,16 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
     var quantity = quantity || 1;
     let dataForm = 'quantity=' + quantity + '&id=' + variant_id;
 
-    if ($target.closest('form')) {
+    if ($target && $target.closest) {
         const $thisForm = $target.closest('form');
-        const $properties = $thisForm.find('[name^="properties"]');
-        if ($properties.length) $properties.each((index, element) => {dataForm = `${dataForm}&${$(element).attr('name')}=${$(element).val()}`})
+        if ($thisForm && $thisForm.length) {
+            const $properties = $thisForm.find('[name^="properties"]');
+            if ($properties.length) $properties.each((index, element) => {dataForm = `${dataForm}&${$(element).attr('name')}=${$(element).val()}`})
+        }
+    }
+
+    if (window.mmAtcError && $target && $target.get) {
+        window.mmAtcError.clear($target.get(0));
     }
 
     var params = {
@@ -348,6 +354,16 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
         data: dataForm,
         dataType: 'json',
         success: function(line_item) {
+            if (!line_item || line_item.status || line_item.message === 'Cart Error' || line_item.errors) {
+                Shopify.onError(
+                    { responseText: JSON.stringify(line_item || {}) },
+                    'error',
+                    (window.mmAtcErrorStrings && window.mmAtcErrorStrings.inventory) || window.cartStrings.addProductOutQuantity2,
+                    $target
+                );
+                if ($target && $target.removeClass) $target.removeClass('is-loading');
+                return;
+            }
             if ((typeof callback) === 'function') {
                 callback(line_item);
             } else {
@@ -355,15 +371,20 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
             }
         },
         error: function(XMLHttpRequest, textStatus) {
-            var message = window.cartStrings.addProductOutQuantity2;
-            if (input.length > 0) {
+            var message = (window.mmAtcErrorStrings && window.mmAtcErrorStrings.inventory) || window.cartStrings.addProductOutQuantity2;
+            if (input && input.length > 0) {
                 var maxValue = parseInt(input.attr('data-inventory-quantity'));
                 message = getInputMessage(maxValue)
-                input.val(maxValue)
-            } 
-            
-            Shopify.onError(XMLHttpRequest, textStatus, message);
-            $target.removeClass('is-loading');
+                // Keep the shopper's selected quantity; do not overwrite the input.
+            }
+
+            if (textStatus === 'error' && (!XMLHttpRequest || !XMLHttpRequest.responseText) && window.mmAtcErrorStrings) {
+                message = window.mmAtcErrorStrings.network || message;
+            }
+
+            Shopify.onError(XMLHttpRequest, textStatus, message, $target);
+            if ($target && $target.removeClass) $target.removeClass('is-loading');
+            if (window.mmAtcError && $target && $target.get) window.mmAtcError.releaseButton($target.get(0));
         }
     };
     $.ajax(params);
@@ -373,12 +394,37 @@ Shopify.onItemAdded = function(line_item) {
     alert(line_item.title + ' was added to your shopping cart.');
 }
 
-Shopify.onError = function(XMLHttpRequest, textStatus, message) {
-    var data = eval('(' + XMLHttpRequest.responseText + ')');
-    if (!!data.message) {
-        !!data.description ? showWarning(data.description) : showWarning(data.message + ': ' + message, warningTime);
+Shopify.onError = function(XMLHttpRequest, textStatus, message, $target) {
+    var data = {};
+    try {
+        var raw = XMLHttpRequest && XMLHttpRequest.responseText;
+        data = raw ? JSON.parse(raw) : {};
+    } catch (e) {
+        data = {};
+    }
+
+    var friendly = window.mmAtcError
+        ? window.mmAtcError.mapResponse(data)
+        : null;
+
+    if (!friendly || (window.mmAtcError && window.mmAtcError.isTechnical(friendly))) {
+        if (textStatus === 'timeout' || (textStatus === 'error' && !(XMLHttpRequest && XMLHttpRequest.responseText))) {
+            friendly = (window.mmAtcErrorStrings && window.mmAtcErrorStrings.network) || message;
+        } else if (window.mmAtcError && window.mmAtcError.isInventoryRelated(message || data.description || data.message)) {
+            friendly = (window.mmAtcErrorStrings && window.mmAtcErrorStrings.inventory) || message;
+        } else if (!window.mmAtcError || window.mmAtcError.isTechnical(message)) {
+            friendly = (window.mmAtcErrorStrings && window.mmAtcErrorStrings.generic) || message;
+        } else {
+            friendly = message;
+        }
+    }
+
+    var button = $target && $target.get ? $target.get(0) : null;
+    if (window.mmAtcError && button) {
+        window.mmAtcError.show(button, friendly);
+        window.mmAtcError.releaseButton(button);
     } else {
-        showWarning('Error : ' + message, warningTime);
+        showWarning(friendly, warningTime);
     }
 }
 

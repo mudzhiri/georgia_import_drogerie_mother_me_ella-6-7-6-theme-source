@@ -105,12 +105,17 @@
         quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`,
         addProductOutQuantity: `{{ 'sections.cart.cart_quantity_error_alert' | t : maxQuantity: '[maxQuantity]'}}`,
         addProductOutQuantity2: `{{ 'sections.cart.cart_quantity_error_alert_2' | t }}`,
-        cartErrorMessage: `{{ 'sections.cart.cart_quantity_error_prefix' | t }}`,
+        cartErrorMessage: `{{ 'sections.cart.cart_quantity_error_alert_2' | t }}`,
         soldoutText: `{{ 'general.cart.soldout_text' | t }}`,
         alreadyText: `{{ 'general.cart.already_text' | t }}`,
         items: `{{ 'sections.cart.items' | t }}`,
         item: `{{ 'sections.cart.item' | t }}`,
         item_99: `{{ 'sections.cart.item_99' | t }}`,
+    };
+    window.mmAtcErrorStrings = {
+        inventory: {{ 'products.product.atc_error.inventory' | t | json }},
+        network: {{ 'products.product.atc_error.network' | t | json }},
+        generic: {{ 'products.product.atc_error.generic' | t | json }}
     };
     window.variantStrings = {
         addToCart: `{{ 'products.product.add_to_cart' | t }}`,

@@ -107,50 +107,71 @@
       this.onDocClick = this.onDocClick.bind(this);
       this.onKeydown = this.onKeydown.bind(this);
       this.onInput = this.onInput.bind(this);
+      this.onTriggerClick = this.onTriggerClick.bind(this);
+      this.onCloseClick = this.onCloseClick.bind(this);
+      this.onFormSubmit = this.onFormSubmit.bind(this);
 
       this.bindTriggers();
       this.panel.querySelectorAll('[data-mm-search-close]').forEach((el) => {
-        el.addEventListener('click', (event) => {
-          event.preventDefault();
-          this.close();
-        });
+        el.addEventListener('click', this.onCloseClick);
       });
       this.input?.addEventListener('input', this.onInput);
-      this.form?.addEventListener('submit', (event) => {
-        // Ensure q is kept and action stays on the locale search route.
-        const q = (this.input?.value || '').trim();
-        if (!q) {
-          event.preventDefault();
-          return;
-        }
-        if (this.form && this.form.action) {
-          this.form.action = searchUrl();
-        }
-        if (this.input) this.input.value = q;
-      });
+      this.form?.addEventListener('submit', this.onFormSubmit);
+    }
+
+    onCloseClick(event) {
+      event.preventDefault();
+      this.close();
+    }
+
+    onFormSubmit(event) {
+      // Ensure q is kept and action stays on the locale search route.
+      const q = (this.input?.value || '').trim();
+      if (!q) {
+        event.preventDefault();
+        return;
+      }
+      if (this.form && this.form.action) {
+        this.form.action = searchUrl();
+      }
+      if (this.input) this.input.value = q;
+    }
+
+    onTriggerClick(event) {
+      const trigger = event.target.closest(
+        '.header-nav-hamburger .header__icon--search, .header-nav-hamburger [data-search-menu], .header-mobile [data-search-mobile], .header-mobile__item--search summary, [data-mm-search-open]'
+      );
+      if (!trigger) return;
+      if (trigger.closest('#mm-search-panel')) return;
+
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+
+      const details = trigger.closest('details');
+      if (details) details.open = false;
+
+      this.openPanel(trigger.closest('summary, button, a, [data-mm-search-open]') || trigger);
     }
 
     bindTriggers() {
-      document.addEventListener(
-        'click',
-        (event) => {
-          const trigger = event.target.closest(
-            '.header-nav-hamburger .header__icon--search, .header-nav-hamburger [data-search-menu], .header-mobile [data-search-mobile], .header-mobile__item--search summary, [data-mm-search-open]'
-          );
-          if (!trigger) return;
-          if (trigger.closest('#mm-search-panel')) return;
+      document.addEventListener('click', this.onTriggerClick, true);
+    }
 
-          event.preventDefault();
-          event.stopPropagation();
-          if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-
-          const details = trigger.closest('details');
-          if (details) details.open = false;
-
-          this.openPanel(trigger.closest('summary, button, a, [data-mm-search-open]') || trigger);
-        },
-        true
-      );
+    destroy() {
+      document.removeEventListener('click', this.onTriggerClick, true);
+      document.removeEventListener('keydown', this.onKeydown);
+      document.removeEventListener('click', this.onDocClick, true);
+      this.input?.removeEventListener('input', this.onInput);
+      this.form?.removeEventListener('submit', this.onFormSubmit);
+      this.panel?.querySelectorAll('[data-mm-search-close]').forEach((el) => {
+        el.removeEventListener('click', this.onCloseClick);
+      });
+      if (this.abort) {
+        this.abort.abort();
+        this.abort = null;
+      }
+      window.clearTimeout(this.debounceTimer);
     }
 
     openPanel(trigger) {
@@ -373,12 +394,13 @@
   }
 
   function boot() {
+    if (window.__mmSearch && typeof window.__mmSearch.destroy === 'function') {
+      window.__mmSearch.destroy();
+    }
     window.__mmSearch = new MmSearch();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
-  document.addEventListener('shopify:section:load', () => {
-    window.__mmSearch = new MmSearch();
-  });
+  document.addEventListener('shopify:section:load', boot);
 })();

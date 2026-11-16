@@ -142,6 +142,7 @@
       if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', 'დახურვა');
     });
     wasOpen = isOpen();
+    bodyObserver.disconnect();
     bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     if (wasOpen) onOpened();
   }

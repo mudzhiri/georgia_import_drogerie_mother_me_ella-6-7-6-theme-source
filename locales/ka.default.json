@@ -331,6 +331,11 @@
         "text_html": "მიწოდება საქართველოში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
         "text_with_free_html": "მიწოდება საქართველოში: {{ price }}; უფასო {{ threshold }}-დან. <a href=\"{{ link }}\">{{ policy }}</a>"
       },
+      "atc_error": {
+        "inventory": "არჩეული რაოდენობისთვის საკმარისი მარაგი არ არის. გთხოვთ, შეამციროთ რაოდენობა და სცადოთ თავიდან.",
+        "network": "კავშირის პრობლემა. გთხოვთ, სცადოთ თავიდან.",
+        "generic": "პროდუქტის კალათაში დამატება ვერ მოხერხდა. გთხოვთ, სცადოთ თავიდან."
+      },
       "quick_view": "Quick view",
       "quick_view_2": "Quick view",
       "quick_shop": "Quick add",

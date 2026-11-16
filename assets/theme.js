@@ -3264,6 +3264,7 @@
             }
 
             $target.addClass('is-loading');
+            if (window.mmAtcError) window.mmAtcError.clear($target.get(0));
 
             let addToCartForm = document.querySelector('[data-type="add-to-cart-form"]');
             let formData = new FormData(addToCartForm);
@@ -3281,24 +3282,18 @@
 
             const enoughInStock = halo.checkSufficientStock(productForm);
             if (!enoughInStock && $body.hasClass('quickshop-popup-show')) {
-                alert(window.cartStrings.addProductOutQuantity);
+                const inventoryMsg = (window.mmAtcErrorStrings && window.mmAtcErrorStrings.inventory) || window.cartStrings.addProductOutQuantity2;
+                if (window.mmAtcError) {
+                    window.mmAtcError.show($target.get(0), inventoryMsg);
+                    window.mmAtcError.releaseButton($target.get(0));
+                } else {
+                    alert(window.cartStrings.addProductOutQuantity);
+                }
                 $target.removeClass('is-loading');
                 return 
             }
 
-            const addItemToCart = (variantId) => {
-                fetch(window.Shopify.routes.root + 'cart/add.js', {...config, ...{
-                        method: 'POST',
-                        body: formData
-                    }
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .catch((error) => {
-                    console.error('Error:', error);
-                })
-                .finally(() => {
+            const handleAddToCartSuccess = (variantId) => {
                     if ($body.hasClass('quickshop-popup-show')) {
                         $body.removeClass('quickshop-popup-show');
                     }
@@ -3310,7 +3305,7 @@
                             Shopify.getCart((cartTotal) => {
                                 $body.find('[data-cart-count]').text(cartTotal.item_count);
                                 $target.removeClass('is-loading');
-                                if (cart.item_count >= 100){
+                                if (cartTotal.item_count >= 100){
                                     $body.find('.cart-count-bubble [data-cart-count]').text(window.cartStrings.item_99);
                                 }
                             });
@@ -3355,6 +3350,57 @@
                                 break;
                         }
                     }
+            };
+
+            const handleAddToCartFailure = (error) => {
+                const button = $target.get(0);
+                const message = window.mmAtcError
+                    ? window.mmAtcError.mapCaught(error)
+                    : (window.mmAtcErrorStrings && window.mmAtcErrorStrings.generic) || window.cartStrings.error;
+                if (window.mmAtcError) {
+                    window.mmAtcError.show(button, message);
+                    window.mmAtcError.releaseButton(button);
+                } else {
+                    halo.showWarning(message);
+                }
+                $target.removeClass('is-loading');
+            };
+
+            const addItemToCart = (variantId) => {
+                return fetch(window.Shopify.routes.root + 'cart/add.js', {...config, ...{
+                        method: 'POST',
+                        body: formData
+                    }
+                })
+                .then(async (response) => {
+                    let data = {};
+                    try {
+                        data = await response.json();
+                    } catch (parseError) {
+                        throw { type: 'network', message: parseError && parseError.message };
+                    }
+
+                    const failed =
+                        !response.ok ||
+                        data.status ||
+                        data.message === 'Cart Error' ||
+                        data.errors;
+
+                    if (failed) {
+                        throw { type: 'shopify', data: data, message: data.description || data.message };
+                    }
+
+                    return { variantId: variantId, data: data };
+                })
+                .then(({ variantId }) => {
+                    handleAddToCartSuccess(variantId);
+                })
+                .catch((error) => {
+                    if (error && (error.name === 'TypeError' || error.message === 'Failed to fetch')) {
+                        handleAddToCartFailure({ type: 'network', message: error.message });
+                        return;
+                    }
+                    handleAddToCartFailure(error);
                 });
             }
 
@@ -3379,21 +3425,27 @@
                 if(itemStatus == 'deny') {
                     if (currentQuantity + moreQuantity > maxQuantity)  {
                         if(maxQuantity < 0){
-                            addItemToCart(variantId);
+                            return addItemToCart(variantId);
                         } else {
-                            const remainingQuantity = maxQuantity - currentQuantity 
-                            throw new Error(`You ${remainingQuantity > 0 ? `can only add ${remainingQuantity}` : 'cannot add'} more of the items into the cart`)
+                            const remainingQuantity = maxQuantity - currentQuantity;
+                            const qtyMessage = remainingQuantity > 0
+                                ? window.cartStrings.addProductOutQuantity.replace('[maxQuantity]', remainingQuantity)
+                                : ((window.mmAtcErrorStrings && window.mmAtcErrorStrings.inventory) || window.cartStrings.addProductOutQuantity2);
+                            throw { type: 'inventory', message: qtyMessage };
                         }
                     } else {
-                        addItemToCart(variantId);
+                        return addItemToCart(variantId);
                     }
                 } else {
-                  addItemToCart(variantId);
+                  return addItemToCart(variantId);
                 }
             }).catch(err => {
-                this.showWarning(err)
+                handleAddToCartFailure(err);
             }).finally(() => {
-                $target.removeClass('is-loading');
+                if ($target.hasClass('is-loading')) {
+                    $target.removeClass('is-loading');
+                    if (window.mmAtcError) window.mmAtcError.releaseButton($target.get(0));
+                }
             })
         },
 

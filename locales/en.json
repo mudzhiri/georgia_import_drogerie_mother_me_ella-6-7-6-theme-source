@@ -330,6 +330,11 @@
         "text_html": "Shipping within Georgia: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
         "text_with_free_html": "Shipping within Georgia: {{ price }}; free over {{ threshold }}. <a href=\"{{ link }}\">{{ policy }}</a>"
       },
+      "atc_error": {
+        "inventory": "Not enough stock for the selected quantity. Please choose a lower quantity and try again.",
+        "network": "Connection problem. Please try again.",
+        "generic": "Could not add this product to the cart. Please try again."
+      },
       "quick_view": "Quick view",
       "quick_view_2": "Quick view",
       "quick_shop": "Quick add",
