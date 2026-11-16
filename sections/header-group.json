@@ -116,7 +116,7 @@
             "show_search": true,
             "search_icon": "1",
             "search_dropdown": "default",
-            "use_search_input": true,
+            "use_search_input": false,
             "search_input_style": "2",
             "show_customer": true,
             "customer_icon": "2",

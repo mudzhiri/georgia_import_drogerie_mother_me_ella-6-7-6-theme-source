@@ -85,7 +85,9 @@
       "search_result_title": "Product results",
       "search_no_result": "Search for",
       "search_more": "Search more",
-      "view_all": "View all results ({{ count }})"
+      "view_all": "View all results ({{ count }})",
+      "mm_no_results": "პროდუქტი ვერ მოიძებნა",
+      "mm_view_all": "ყველა შედეგის ნახვა"
     },
     "cart": {
       "cart": "Cart",

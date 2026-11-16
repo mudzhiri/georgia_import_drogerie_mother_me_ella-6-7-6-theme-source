@@ -40,6 +40,7 @@
         <script src="{{ 'mm-category-nav.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-mobile-menu.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-sticky-header.js' | asset_url }}" defer></script>
+        <script src="{{ 'mm-search.js' | asset_url }}" defer></script>
         {% render 'global-script' %}
 
         <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
@@ -117,6 +118,7 @@
             <a class="skip-to-content-link button visually-hidden" href="#MainContent">{{ "accessibility.skip_to_text" | t }}</a>
             {% render 'preload-screen' %}
             {% sections 'header-group' %}
+            {% render 'mm-search-panel' %}
             {% render 'wrapper-header' %}
 
             {%- if settings.layout_body == 'boxed' -%}

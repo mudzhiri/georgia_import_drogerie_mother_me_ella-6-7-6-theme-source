@@ -211,29 +211,6 @@
                 </div>
             {%- endfor -%}
         </div>
-        <div class="mm-header-search-row">
-            <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form mm-search-form">
-                <div class="field">
-                    <label class="field__label hiddenLabels" for="Search-In-Header-Mobile">{{ 'general.search.search' | t }}</label>
-                    <input
-                        class="search__input field__input form-input-placeholder"
-                        id="Search-In-Header-Mobile"
-                        type="search"
-                        name="q"
-                        value="{{ search.terms | escape }}"
-                        placeholder="{{ 'general.search.search_a_product' | t }}"
-                        autocomplete="off"
-                        autocapitalize="off"
-                        spellcheck="false"
-                    >
-                    <input type="hidden" name="options[prefix]" value="last">
-                    <input type="hidden" name="type" value="product">
-                    <button class="button search__button field__button focus-inset" type="submit" aria-label="{{ 'general.search.search' | t }}">
-                        {% render 'icon-search-02' %}
-                    </button>
-                </div>
-            </form>
-        </div>
     </div>
 </{% if section.settings.sticky_header_type != 'none' %}sticky-header-mobile{% else %}div{% endif %}>
 

@@ -871,7 +871,9 @@
     },
     "search": {
       "search_a_product": "მოძებნე პროდუქტი ან ბრენდი",
-      "search": "Search"
+      "search": "ძიება",
+      "mm_no_results": "პროდუქტი ვერ მოიძებნა",
+      "mm_view_all": "ყველა შედეგის ნახვა"
     }
   }
 }
