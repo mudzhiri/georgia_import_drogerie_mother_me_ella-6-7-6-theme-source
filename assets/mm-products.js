@@ -99,10 +99,9 @@
       })
       .then(function (result) {
         if (!result.ok || result.data.status || result.data.message === 'Cart Error') {
-          var msg =
-            (result.data && (result.data.description || result.data.message)) ||
-            errorLabel;
-          throw new Error(msg);
+          var apiMsg = result.data && (result.data.description || result.data.message);
+          var technical = !apiMsg || /cannot find|cart error|invalid|not found|graphql/i.test(String(apiMsg));
+          throw new Error(technical ? errorLabel : apiMsg);
         }
 
         /* Success only after confirmed Shopify response */
