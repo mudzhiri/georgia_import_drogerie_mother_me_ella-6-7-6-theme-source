@@ -45,7 +45,32 @@
   color: var(--mm-cat-text);
   text-decoration: none;
   box-sizing: border-box;
+  /* Visible by default — hidden only after JS enables reveal */
+  opacity: 1;
+  transform: none;
   transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* JS opt-in: hide pending tiles only when motion is allowed */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-categories.is-reveal-enabled .mm-categories__tile:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  .mm-categories.is-reveal-enabled .mm-categories__tile.is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 300ms ease-out,
+      transform 300ms ease-out,
+      background-color 0.2s ease,
+      box-shadow 0.2s ease;
+  }
+
+  .mm-categories.is-reveal-enabled .mm-categories__tile.is-revealed:nth-child(2) {
+    transition-delay: 60ms, 60ms, 0s, 0s;
+  }
 }
 
 .mm-categories__tile:hover {
@@ -53,7 +78,6 @@
   color: var(--mm-cat-text);
   text-decoration: none;
   box-shadow: none;
-  transform: none;
 }
 
 .mm-categories__tile:focus-visible {
