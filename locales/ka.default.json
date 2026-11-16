@@ -493,7 +493,10 @@
       "update": "Update",
       "upsell": "The following items has been added to your cart:",
       "your_order": "Your order",
-      "more_than_99": "99+"
+      "more_than_99": "99+",
+      "heading": {
+        "quantity": "რაოდენობა"
+      }
     },
     "footer": {
       "payment": "Payment methods"

@@ -485,7 +485,10 @@
       "update": "Aktualisieren",
       "upsell": "Die folgenden Artikel wurden Ihrem Warenkorb hinzugefügt:",
       "your_order": "Ihre Bestellung",
-      "more_than_99": "99+"
+      "more_than_99": "99+",
+      "heading": {
+        "quantity": "Menge"
+      }
     },
     "footer": {
       "payment": "Zahlungsmethoden"
