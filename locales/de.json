@@ -560,7 +560,9 @@
       "filters_selected": "{{ count }} ausgewählt",
       "product_count_simple": {
         "one": "{{ count }} Produkt",
-        "other": "{{ count }} Produkte"
+        "other": "{{ count }} Produkte",
+        "few": "{{ count }} Produkte",
+        "many": "{{ count }} Produkte"
       },
       "item_per_page": "Artikel pro Seite",
       "load_more": "Mehr anzeigen",

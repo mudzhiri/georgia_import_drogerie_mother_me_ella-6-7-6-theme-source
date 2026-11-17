@@ -1,0 +1,9 @@
+# Single default locale: locales/en.default.json (Georgian is locales/ka.json)
+extends: theme-check:recommended
+
+# Ignore noisy vendor-theme complexity; keep translation checks on.
+LiquidComplexity:
+  enabled: false
+
+ExcessiveSettingsCount:
+  enabled: false
