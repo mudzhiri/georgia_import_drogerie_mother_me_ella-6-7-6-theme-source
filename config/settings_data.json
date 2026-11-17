@@ -215,6 +215,8 @@
     "calculator_free_shipping_message_border_radius": 20,
     "calculator_free_shipping_message_color": "#727272",
     "calculator_free_shipping_message_bg": "#ededed",
+    "show_calculator_free_shipping_message": false,
+    "calculator_free_shipping_message_price": "",
     "calculator_free_shipping_message_bg_1": "#e95144",
     "calculator_free_shipping_message_bg_2": "#ffc206",
     "show_someone_purchase": false,

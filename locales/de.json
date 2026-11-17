@@ -88,7 +88,10 @@
       "mm_error": "Suche fehlgeschlagen. Bitte erneut versuchen.",
       "mm_results": "Suchergebnisse",
       "submit": "Suche",
-      "placeholder": "Suche"
+      "placeholder": "Suche",
+      "no_results": "Keine Ergebnisse für „{{ terms }}“",
+      "view_results": "Alle Ergebnisse anzeigen",
+      "heading_results": "Suchergebnisse"
     },
     "cart": {
       "cart": "Warenkorb",
@@ -157,6 +160,9 @@
     "meta": {
       "homepage_title": "MOTHER & ME | Pflege & Hygiene – Import aus Deutschland",
       "homepage_description": "Entdecke Pflege- und Hygieneprodukte für Kinder und Mütter – importiert aus Deutschland."
+    },
+    "accessibility": {
+      "unit_price_separator": "pro"
     }
   },
   "brands_page": {
@@ -197,7 +203,8 @@
     "account": "Konto",
     "cart": "Warenkorb",
     "menu": "Menü",
-    "search": "Suche"
+    "search": "Suche",
+    "dropdown": "Dropdown"
   },
   "blogs": {
     "article": {
@@ -298,7 +305,8 @@
         "regular_price": "Regulärer Preis",
         "sale_price": "Verkaufspreis",
         "unit_price": "Stückpreis",
-        "saved_price_html": "Speichern {{ price }}"
+        "saved_price_html": "Speichern {{ price }}",
+        "unit_price_label": "Grundpreis"
       },
       "read_less": "Weniger lesen",
       "read_more": "Mehr lesen",
@@ -947,6 +955,11 @@
     "ajax_cart": {
       "close": "Schließen",
       "cart": "Warenkorb"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Keine Produkte gefunden"
     }
   }
 }

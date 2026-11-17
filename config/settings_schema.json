@@ -6629,7 +6629,7 @@
         "type": "checkbox",
         "id": "show_calculator_free_shipping_message",
         "label": "t:settings_schema.calculator_free_shipping_message.settings.general.label__1",
-        "default": true
+        "default": false
       },
       {
         "type": "select",

@@ -88,7 +88,10 @@
       "mm_empty_mamas": "For mamas",
       "mm_view_all": "View all results",
       "mm_error": "Search failed. Please try again.",
-      "mm_results": "Search results"
+      "mm_results": "Search results",
+      "no_results": "No results found for “{{ terms }}”",
+      "view_results": "View all results",
+      "heading_results": "Search results"
     },
     "cart": {
       "cart": "Cart",
@@ -157,6 +160,9 @@
     "meta": {
       "homepage_title": "MOTHER & ME | Care & hygiene imported from Germany",
       "homepage_description": "Discover care and hygiene products for children and mothers, imported from Germany."
+    },
+    "accessibility": {
+      "unit_price_separator": "per"
     }
   },
   "brands_page": {
@@ -197,7 +203,8 @@
     "menu": "Menu",
     "search": "Search",
     "submenu_expand": "Open {{ title }} submenu",
-    "submenu_collapse": "Close {{ title }} submenu"
+    "submenu_collapse": "Close {{ title }} submenu",
+    "dropdown": "Dropdown"
   },
   "blogs": {
     "article": {
@@ -298,7 +305,8 @@
         "regular_price": "Regular price",
         "sale_price": "Sale price",
         "unit_price": "Unit price",
-        "saved_price_html": "Save {{ price }}"
+        "saved_price_html": "Save {{ price }}",
+        "unit_price_label": "Unit price"
       },
       "read_less": "Read less",
       "read_more": "Read more",
@@ -947,6 +955,11 @@
     "ajax_cart": {
       "close": "Close",
       "cart": "Cart"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "No products found"
     }
   }
 }

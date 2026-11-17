@@ -1,7 +1,7 @@
 {% comment %}
   Compact PDP shipping note under the buy button.
-  Only confirmed flat rate from the live shipping policy / SETUP (8 GEL).
-  Free-shipping thresholds are shown only when theme + policy both confirm them.
+  Flat rate confirmed via Shopify shipping_rates (GE) + shipping policy: 8 GEL.
+  Free-shipping thresholds stay hidden until rates and policy both confirm them.
 {% endcomment %}
 {%- liquid
   assign mm_policy = shop.shipping_policy
@@ -11,10 +11,9 @@
   assign mm_free_threshold_price = blank
 
   comment
-    Live shipping policy confirms Georgia delivery at 8 GEL.
-    It does not mention free shipping over 200 GEL.
-    Theme free-shipping calculator threshold is also unset.
-    Keep mm_show_free_threshold false until both agree.
+    Confirmed: მიწოდება = 8.00 GEL (Georgia), no free-shipping rate at ~199 / ~204 / ~251 GEL.
+    Policy: 8 GEL delivery + free pickup in Tbilisi; no free-over-200 threshold.
+    Keep mm_show_free_threshold false. Do not invent delivery times here.
   endcomment
 -%}
 

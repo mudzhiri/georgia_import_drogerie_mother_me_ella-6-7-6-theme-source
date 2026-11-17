@@ -88,7 +88,10 @@
       "mm_error": "Поиск не удался. Попробуйте ещё раз.",
       "mm_results": "Результаты поиска",
       "submit": "Поиск",
-      "placeholder": "Поиск"
+      "placeholder": "Поиск",
+      "no_results": "Нет результатов по запросу «{{ terms }}»",
+      "view_results": "Смотреть все результаты",
+      "heading_results": "Результаты поиска"
     },
     "cart": {
       "cart": "Корзина",
@@ -157,6 +160,9 @@
     "meta": {
       "homepage_title": "MOTHER & ME | Уход и гигиена из Германии",
       "homepage_description": "Откройте для себя средства по уходу и гигиене для детей и мам, привезённые из Германии."
+    },
+    "accessibility": {
+      "unit_price_separator": "за"
     }
   },
   "brands_page": {
@@ -197,7 +203,8 @@
     "account": "Учетная запись",
     "cart": "Корзина",
     "menu": "Меню",
-    "search": "Поиск"
+    "search": "Поиск",
+    "dropdown": "Выпадающий список"
   },
   "blogs": {
     "article": {
@@ -298,7 +305,8 @@
         "regular_price": "Обычная цена",
         "sale_price": "Цена продажи",
         "unit_price": "Цена за единицу товара",
-        "saved_price_html": "Сохранять {{ price }}"
+        "saved_price_html": "Сохранять {{ price }}",
+        "unit_price_label": "Цена за единицу"
       },
       "read_less": "Читать меньше",
       "read_more": "Читать далее",
@@ -947,6 +955,11 @@
     "ajax_cart": {
       "close": "Закрыть",
       "cart": "Корзина"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "Товары не найдены"
     }
   }
 }
