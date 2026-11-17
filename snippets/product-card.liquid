@@ -50,7 +50,11 @@
         endif
     endif
 
-    assign media_size = settings.product_block_image_ratio
+    if mm_pdp_reco_card
+        assign media_size = 'square'
+    else
+        assign media_size = settings.product_block_image_ratio
+    endif
     if media_size == 'portrait'
         assign portrait_aspect_ratio = settings.portrait_height
     endif 
@@ -63,7 +67,7 @@
     assign product_action_group = false
 
     assign mm_is_collection_card = false
-    if request.page_type == 'collection' or request.page_type == 'search'
+    if request.page_type == 'collection' or request.page_type == 'search' or mm_pdp_reco_card
       assign mm_is_collection_card = true
     endif
 

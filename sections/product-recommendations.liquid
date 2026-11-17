@@ -1,15 +1,20 @@
 {%- if section.settings.display_product_block -%}
+    {{ 'mm-pdp-reco-cards.css' | asset_url | stylesheet_tag }}
     {%- liquid
         assign as_grid_gap = section.settings.grid_gap
         assign grid_gap = section.settings.grid_gap | times: 0.5 | append: 'px'
         assign container = section.settings.product_block_container
-        assign limit = section.settings.product_block_limit
+        assign limit = section.settings.product_block_limit | at_most: 8
         assign layout = section.settings.product_block_layout
-        assign block_title = section.settings.product_block_title
+        assign block_title = 'products.product.related_products' | t
+        if block_title == blank or block_title == 'products.product.related_products'
+          assign block_title = section.settings.product_block_title
+        endif
         assign block_title_align = section.settings.product_block_title_align
         assign swipe_on_mobile = section.settings.product_block_swipe_on_mobile
         assign padding_top = section.settings.padding_top | append: 'px'
         assign padding_bottom = section.settings.padding_bottom | append: 'px'
+        assign image_ratio = 'square'
         assign products_to_display = recommendations.products_count
         if recommendations.products_count > limit
             assign products_to_display = limit
@@ -18,7 +23,12 @@
         if swipe_on_mobile == true and layout == 'grid' and products_to_display > 2
             assign swipe = true
         endif
+        assign mm_reco_hide = false
+        if recommendations.performed and recommendations.products_count == 0
+          assign mm_reco_hide = true
+        endif
     -%}
+    {%- unless mm_reco_hide -%}
     <style type="text/css" media="screen">
         {%- liquid
             assign product_bg = section.settings.product_bg
@@ -367,10 +377,11 @@
                                 {% render 'product-grid-layout',
                                     product_card_product: product,
                                     media_size: image_ratio,
-                                    portrait_aspect_ratio: '125',
+                                    portrait_aspect_ratio: '100',
                                     complementary_product_button_atc: true,
                                     serial: forloop.index,
-                                    sectionId: sectionId
+                                    sectionId: sectionId,
+                                    mm_pdp_reco_card: true
                                 %}
                             </div>
                         {%- endfor -%}
@@ -462,6 +473,7 @@
             </div>
         {% endif %}
     </{% if swipe %}product-slider-component{% else %}div{% endif %}>
+    {%- endunless -%}
 {%- endif -%}
 
 {% schema %}
@@ -663,7 +675,7 @@
             "type": "text",
             "id": "product_block_title",
             "label": "t:sections.product_block.settings.general.label__6",
-            "default": "Related Products"
+            "default": "მსგავსი პროდუქტები"
         },
         {
             "type": "checkbox",

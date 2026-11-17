@@ -1,0 +1,291 @@
+/**
+ * MOTHER & ME — PDP Related + Recently Viewed cards only.
+ * Mirrors collection / homepage card geometry without touching the main gallery.
+ */
+
+.halo-recommendations-block,
+.halo-recently-viewed-block {
+  --mm-reco-border: #dee5df;
+  --mm-reco-ink: #242d29;
+  --mm-reco-muted: #59665f;
+  --mm-reco-accent: #214d43;
+  --mm-reco-radius: 16px;
+  --mm-reco-img-pad: 16px;
+  --mm-reco-img-max: 80%;
+  --mm-reco-ease: ease-out;
+  --mm-reco-duration: 200ms;
+}
+
+@media screen and (min-width: 768px) {
+  .halo-recommendations-block,
+  .halo-recently-viewed-block {
+    --mm-reco-img-pad: 24px;
+    --mm-reco-img-max: 78%;
+  }
+}
+
+.halo-recommendations-block.mm-pdp-reco--empty,
+.halo-recently-viewed-block.mm-pdp-reco--empty {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  min-height: 0 !important;
+}
+
+.halo-recommendations-block .halo-block-header .title,
+.halo-recently-viewed-block .halo-block-header .title {
+  color: var(--mm-reco-accent);
+  text-align: center;
+}
+
+.halo-recommendations-block .products-carousel .product,
+.halo-recently-viewed-block .products-carousel .product,
+.halo-recommendations-block .products-grid .product,
+.halo-recently-viewed-block .products-grid .product {
+  display: flex;
+  height: auto;
+  min-width: 0;
+}
+
+.halo-recommendations-block .mm-collection-card,
+.halo-recently-viewed-block .mm-collection-card {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 12px;
+  box-sizing: border-box;
+  background: #ffffff;
+  border: 1px solid var(--mm-reco-border);
+  border-radius: var(--mm-reco-radius);
+  overflow: hidden;
+  transition:
+    transform var(--mm-reco-duration) var(--mm-reco-ease),
+    box-shadow var(--mm-reco-duration) var(--mm-reco-ease);
+}
+
+@media screen and (min-width: 768px) {
+  .halo-recommendations-block .mm-collection-card,
+  .halo-recently-viewed-block .mm-collection-card {
+    padding: 16px;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .halo-recommendations-block .mm-collection-card:hover,
+  .halo-recently-viewed-block .mm-collection-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(33, 77, 67, 0.12);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .halo-recommendations-block .mm-collection-card,
+  .halo-recently-viewed-block .mm-collection-card {
+    transition: none;
+  }
+
+  .halo-recommendations-block .mm-collection-card:hover,
+  .halo-recently-viewed-block .mm-collection-card:hover {
+    transform: none;
+  }
+}
+
+.halo-recommendations-block .mm-collection-card .card,
+.halo-recently-viewed-block .mm-collection-card .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+}
+
+.halo-recommendations-block .card-media,
+.halo-recently-viewed-block .card-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+
+.halo-recommendations-block .card-media > img,
+.halo-recommendations-block .card-media > video,
+.halo-recommendations-block .card-media > .placeholder-svg,
+.halo-recommendations-block .card-media > .mm-product-card-placeholder,
+.halo-recently-viewed-block .card-media > img,
+.halo-recently-viewed-block .card-media > video,
+.halo-recently-viewed-block .card-media > .placeholder-svg,
+.halo-recently-viewed-block .card-media > .mm-product-card-placeholder {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
+  height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
+  max-width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
+  max-height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
+  margin: 0;
+  object-fit: contain;
+  object-position: center center;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+}
+
+.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + img,
+.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + video,
+.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + img,
+.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + video {
+  transform: translate(-50%, -50%);
+}
+
+.halo-recommendations-block .card-quickview,
+.halo-recommendations-block .card-quickviewIcon,
+.halo-recommendations-block .card-compare,
+.halo-recommendations-block .card-compare-wrapper,
+.halo-recommendations-block .card-product__group:empty,
+.halo-recently-viewed-block .card-quickview,
+.halo-recently-viewed-block .card-quickviewIcon,
+.halo-recently-viewed-block .card-compare,
+.halo-recently-viewed-block .card-compare-wrapper,
+.halo-recently-viewed-block .card-product__group:empty {
+  display: none !important;
+}
+
+.halo-recommendations-block .mm-collection-card .card-information,
+.halo-recently-viewed-block .mm-collection-card .card-information {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  text-align: left;
+}
+
+.halo-recommendations-block .mm-collection-card__content,
+.halo-recently-viewed-block .mm-collection-card__content {
+  text-align: left;
+}
+
+.halo-recommendations-block .mm-collection-card__brand,
+.halo-recently-viewed-block .mm-collection-card__brand {
+  margin: 0 0 4px;
+  font-size: 12px;
+  line-height: 1.35;
+  font-weight: 400;
+  color: var(--mm-reco-muted);
+  text-transform: none;
+}
+
+.halo-recommendations-block .mm-collection-card__title,
+.halo-recommendations-block .mm-collection-card .card-title.mm-collection-card__title,
+.halo-recently-viewed-block .mm-collection-card__title,
+.halo-recently-viewed-block .mm-collection-card .card-title.mm-collection-card__title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  min-height: calc(1.4em * 3);
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 400;
+  text-align: left;
+  text-transform: none;
+  color: var(--mm-reco-ink);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+@media screen and (min-width: 768px) {
+  .halo-recommendations-block .mm-collection-card__title,
+  .halo-recommendations-block .mm-collection-card .card-title.mm-collection-card__title,
+  .halo-recently-viewed-block .mm-collection-card__title,
+  .halo-recently-viewed-block .mm-collection-card .card-title.mm-collection-card__title {
+    font-size: 16px;
+  }
+}
+
+.halo-recommendations-block .mm-collection-card__footer,
+.halo-recently-viewed-block .mm-collection-card__footer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 12px;
+  margin-top: auto;
+  padding-top: 12px;
+  min-height: 3.25rem;
+  text-align: left;
+}
+
+.halo-recommendations-block .mm-collection-card__price,
+.halo-recently-viewed-block .mm-collection-card__price {
+  margin: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: left;
+}
+
+.halo-recommendations-block .mm-collection-atc-wrap,
+.halo-recently-viewed-block .mm-collection-atc-wrap {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.halo-recommendations-block .mm-collection-atc,
+.halo-recently-viewed-block .mm-collection-atc {
+  min-height: 44px;
+  min-width: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.halo-recommendations-block .card-summary,
+.halo-recently-viewed-block .card-summary {
+  display: none !important;
+}
+
+/* Loading placeholders only while fetch is active */
+.halo-recently-viewed-block:not(.mm-pdp-reco--loading) .product-item--loadingNoInfo {
+  display: none !important;
+}
+
+.halo-recently-viewed-block.mm-pdp-reco--loading .halo-block-content {
+  min-height: 0;
+}
+
+.halo-recommendations-block .slick-list,
+.halo-recently-viewed-block .slick-list {
+  height: auto !important;
+}
+
+.halo-recommendations-block .slick-track,
+.halo-recently-viewed-block .slick-track {
+  display: flex !important;
+  align-items: stretch;
+}
+
+.halo-recommendations-block .slick-slide,
+.halo-recently-viewed-block .slick-slide {
+  height: auto;
+  display: flex !important;
+}
+
+.halo-recommendations-block .slick-slide > div,
+.halo-recently-viewed-block .slick-slide > div {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}

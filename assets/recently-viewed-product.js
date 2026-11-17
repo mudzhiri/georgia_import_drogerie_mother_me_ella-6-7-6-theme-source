@@ -18,17 +18,20 @@ jQuery.cookie = function (b, j, m) { if (typeof j != "undefined") { m = m || {};
  * http://www.opensource.org/licenses/mit-license.php
  * http://www.gnu.org/licenses/gpl.html
  *
+ * MOTHER & ME: repaired storage, fetch, empty/loading states, and slider init.
  */
 
 Shopify.Products = (function () {
     var config = {
         howManyToShow: 3,
-        howManyToStoreInMemory: 10,
+        howManyToStoreInMemory: 8,
         wrapperId: 'recently-viewed-products',
         templateId: 'recently-viewed-product-template',
         layout: 'slider',
         swipe: true,
-        media: 'adapt',
+        media: 'square',
+        excludeHandle: '',
+        handles: null,
         onComplete: null
     };
     var productHandleQueue = [];
@@ -36,6 +39,41 @@ Shopify.Products = (function () {
     var template = null;
     var shown = 0;
     var shownSection = 0;
+    var renderedCount = 0;
+
+    function normalizeHandle(raw) {
+        if (!raw) return '';
+        try {
+            raw = decodeURIComponent(String(raw));
+        } catch (e) {}
+        return String(raw)
+            .split('?')[0]
+            .split('#')[0]
+            .replace(/^\/+|\/+$/g, '')
+            .replace(/^products\//, '');
+    }
+
+    function getCurrentProductHandle() {
+        if (config.excludeHandle) return normalizeHandle(config.excludeHandle);
+        var path = window.location.pathname || '';
+        var idx = path.indexOf('/products/');
+        if (idx === -1) return '';
+        var rest = path.slice(idx + '/products/'.length);
+        return normalizeHandle(rest.split('/')[0]);
+    }
+
+    function dedupeHandles(list) {
+        var seen = {};
+        var out = [];
+        for (var i = 0; i < list.length; i++) {
+            var handle = normalizeHandle(list[i]);
+            if (!handle || seen[handle]) continue;
+            seen[handle] = true;
+            out.push(handle);
+        }
+        return out;
+    }
+
     var cookie = {
         configuration: {
             expires: 90,
@@ -44,96 +82,175 @@ Shopify.Products = (function () {
         },
         name: 'shopify_recently_viewed',
         write: function (recentlyViewed) {
-            jQuery.cookie(this.name, recentlyViewed.join(' '), this.configuration);
-            localStorage.setItem(this.name, recentlyViewed.join(' '), this.configuration);
+            var value = recentlyViewed.join(' ');
+            try {
+                jQuery.cookie(this.name, value, this.configuration);
+            } catch (e) {}
+            try {
+                localStorage.setItem(this.name, value);
+            } catch (e2) {}
         },
         read: function () {
             var recentlyViewed = [];
-            var cookieValue = jQuery.cookie(this.name);
-            if (Shopify.designMode && !cookieValue) {
-                cookieValue = localStorage.getItem('shopify_recently_viewed');
+            var cookieValue = null;
+            try {
+                cookieValue = jQuery.cookie(this.name);
+            } catch (e) {}
+            if (!cookieValue) {
+                try {
+                    cookieValue = localStorage.getItem(this.name);
+                } catch (e2) {}
             }
-            if (cookieValue !== null) {
-                recentlyViewed = cookieValue.split(' ');
+            if (cookieValue !== null && cookieValue !== undefined && cookieValue !== '') {
+                recentlyViewed = String(cookieValue).split(/\s+/).filter(Boolean);
             }
-            return recentlyViewed;
+            return dedupeHandles(recentlyViewed);
         },
         destroy: function () {
-            jQuery.cookie(this.name, null, this.configuration);
+            try {
+                jQuery.cookie(this.name, null, this.configuration);
+            } catch (e) {}
+            try {
+                localStorage.removeItem(this.name);
+            } catch (e2) {}
         },
         remove: function (productHandle) {
             var recentlyViewed = this.read();
-            var position = jQuery.inArray(productHandle, recentlyViewed);
-            if (position !== -1) {
-                recentlyViewed.splice(position, 1);
-                this.write(recentlyViewed);
-            }
+            var normalized = normalizeHandle(productHandle);
+            var next = recentlyViewed.filter(function (h) {
+                return normalizeHandle(h) !== normalized;
+            });
+            this.write(next);
         }
     };
 
-    var finalize = function () {
-        var items = wrapper.find('.item')
-        if (items.length <= 2) $('#recently-viewed-products-list').addClass('center');
+    var finalize = function (count) {
+        renderedCount = typeof count === 'number' ? count : renderedCount;
+        var list = wrapper && wrapper.length ? wrapper.get(0) : null;
+        if (list) {
+            list.querySelectorAll('.product-item--loadingNoInfo').forEach(function (el) {
+                var product = el.closest('.product');
+                if (product) product.remove();
+                else el.remove();
+            });
+        }
 
-        $('#recently-viewed-products-list-2').addClass('recently-viewed-loaded');
+        if (wrapper && wrapper.length) {
+            wrapper.addClass('recently-viewed-loaded');
+            if (renderedCount <= 2) {
+                wrapper.addClass('center');
+            }
+            wrapper.show();
+        }
 
-        wrapper.show();
-        // If we have a callback.
         if (config.onComplete) {
             try {
-                config.onComplete();
-            } catch (error) { }
+                config.onComplete(renderedCount);
+            } catch (error) {}
         }
     };
 
     var moveAlong = function (wrapperP) {
         if (productHandleQueue.length && shown < config.howManyToShow) {
-            var url = window.routes.root + '/products/' + productHandleQueue[shown] + '?view=ajax_recently_viewed';
+            var handle = productHandleQueue[shown];
+            var root = (window.routes && window.routes.root) || '/';
+            var url = root.replace(/\/?$/, '/') + 'products/' + encodeURIComponent(handle) + '?view=ajax_recently_viewed';
 
             jQuery.ajax({
                 type: 'get',
                 url: url,
-                cache: false,
+                cache: true,
+                timeout: 7000,
                 success: function (product) {
-                    if (productHandleQueue[shown] !== '') wrapperP.append(product);
+                    if (handle) wrapperP.append(product);
                     shown++;
+                    renderedCount++;
                     moveAlong(wrapperP);
                 },
                 error: function () {
-                    cookie.remove(productHandleQueue[shown]);
+                    cookie.remove(handle);
                     shown++;
                     moveAlong(wrapperP);
                 }
             });
         } else {
-            finalize();
+            finalize(renderedCount);
         }
+    };
+
+    var initSectionSlider = function (productGrid) {
+        if (!productGrid || !productGrid.length || productGrid.hasClass('slick-initialized')) return;
+
+        var itemToShow = parseInt(productGrid.data('item-to-show'), 10) || 4;
+        var itemDots = productGrid.data('item-dots');
+        var itemDotsMb = productGrid.data('item-dots-mb');
+        var itemArrows = productGrid.data('item-arrows');
+        var itemArrowsMb = productGrid.data('item-arrows-mb');
+        var preferReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        productGrid.slick({
+            mobileFirst: true,
+            adaptiveHeight: false,
+            vertical: false,
+            infinite: false,
+            autoplay: false,
+            speed: preferReduced ? 0 : 220,
+            slidesToShow: 2,
+            slidesToScroll: 2,
+            arrows: !!itemArrowsMb,
+            dots: !!itemDotsMb,
+            nextArrow: window.arrows && window.arrows.icon_next,
+            prevArrow: window.arrows && window.arrows.icon_prev,
+            rtl: window.rtl_slick,
+            responsive: [
+                {
+                    breakpoint: 1024,
+                    settings: {
+                        arrows: !!itemArrows,
+                        dots: !!itemDots,
+                        slidesToShow: itemToShow,
+                        slidesToScroll: Math.min(itemToShow, 4)
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        arrows: !!itemArrowsMb,
+                        dots: !!itemDotsMb,
+                        slidesToShow: 3,
+                        slidesToScroll: 3
+                    }
+                }
+            ]
+        });
     };
 
     var doAlong = function (wrapperS) {
         const recentlyViewed = wrapperS.parents('.halo-recently-viewed-block');
-        const sectionId = recentlyViewed.attr('sectionid');
+        const sectionId = recentlyViewed.attr('sectionid') || '';
 
         if (productHandleQueue.length && shownSection < config.howManyToShow) {
-            var url = window.routes.root + '/products/' + productHandleQueue[shownSection] + '?view=ajax_section_recently_viewed';
+            var handle = productHandleQueue[shownSection];
+            var root = (window.routes && window.routes.root) || '/';
+            var url = root.replace(/\/?$/, '/') + 'products/' + encodeURIComponent(handle) + '?view=ajax_section_recently_viewed';
 
             jQuery.ajax({
                 type: 'get',
                 url: url,
-                cache: false,
+                cache: true,
+                timeout: 7000,
                 success: function (product) {
-                    if (productHandleQueue[shownSection] !== '') wrapperS.append(product);
-                    if (shownSection == 0) {
-                        const productLoading = wrapperS.find('.product-item--loadingNoInfo').parents('.product');
-                        productLoading.remove();
+                    wrapperS.find('.product-item--loadingNoInfo').parents('.product').first().remove();
+                    if (handle && product && String(product).trim() !== '') {
+                        wrapperS.append(product);
+                        renderedCount++;
+                    } else {
+                        cookie.remove(handle);
                     }
-                    shownSection++;
-                    doAlong(wrapperS);
 
-                    recentlyViewed.find('.card .variants-popup-content .selector-wrapper .swatch-element').each(function() {
+                    recentlyViewed.find('.card .variants-popup-content .selector-wrapper .swatch-element').each(function () {
                         const $input = $(this).find('input');
                         const $label = $(this).find('label');
-
                         $input.attr({
                             id: ($input.attr('id') || '') + sectionId,
                             name: ($input.attr('name') || '') + sectionId
@@ -141,7 +258,7 @@ Shopify.Products = (function () {
                         $label.attr('for', ($label.attr('for') || '') + sectionId);
                     });
 
-                    recentlyViewed.find('.card').each(function() {
+                    recentlyViewed.find('.card').each(function () {
                         const $qsForm = $(this).find('.variants-popup-content form');
                         const $acForm = $(this).find('.card-action form');
                         const $select = $(this).find('.variants-popup-content select');
@@ -154,134 +271,41 @@ Shopify.Products = (function () {
                         $acButton.attr('data-form-id', ($acButton.attr('data-form-id') || '') + sectionId);
                         $qsButton.attr('data-form-id', ($qsButton.attr('data-form-id') || '') + sectionId);
                     });
+
+                    shownSection++;
+                    doAlong(wrapperS);
                 },
                 error: function () {
-                    console.log($.parseJSON(xhr.responseText).description);
+                    cookie.remove(handle);
+                    wrapperS.find('.product-item--loadingNoInfo').parents('.product').first().remove();
+                    shownSection++;
+                    doAlong(wrapperS);
                 }
             });
         } else {
-            if (productHandleQueue.length == 0) {
-                recentlyViewed.hide();
+            wrapperS.find('.product-item--loadingNoInfo').parents('.product').remove();
+
+            if (renderedCount === 0) {
+                recentlyViewed.addClass('mm-pdp-reco--empty').attr('hidden', 'hidden');
+                finalize(0);
                 return;
             }
 
             if (config.layout == 'slider') {
-                var productGrid = wrapperS,
-                    itemToShow = productGrid.data('item-to-show'),
-                    itemDots = productGrid.data('item-dots'),
-                    itemDotsMb = productGrid.data('item-dots-mb'),
-                    itemArrows = productGrid.data('item-arrows'),
-                    itemArrowsMb = productGrid.data('item-arrows-mb');
-
-                if (productGrid.length > 0) {
-                    if (productGrid.not('.slick-initialized')) {
-                        productGrid.slick({
-                            mobileFirst: true,
-                            adaptiveHeight: true,
-                            vertical: false,
-                            infinite: true,
-                            slidesToShow: 1,
-                            slidesToScroll: 1,
-                            arrows: itemArrowsMb,
-                            dots: itemDotsMb,
-                            nextArrow: window.arrows.icon_next,
-                            prevArrow: window.arrows.icon_prev,
-                            rtl: window.rtl_slick,
-                            responsive:
-                                [
-                                    {
-                                        breakpoint: 1599,
-                                        settings: {
-                                            arrows: itemArrows,
-                                            dots: itemDots,
-                                            get slidesToShow() {
-                                                if (itemToShow !== undefined && itemToShow !== null && itemToShow !== '') {
-                                                    return this.slidesToShow = itemToShow;
-                                                } else {
-                                                    return this.slidesToShow = 1;
-                                                }
-                                            },
-                                            get slidesToScroll() {
-                                                if (itemToShow !== undefined && itemToShow !== null && itemToShow !== '') {
-                                                    return this.slidesToScroll = itemToShow;
-                                                } else {
-                                                    return this.slidesToScroll = 1;
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 1024,
-                                        settings: {
-                                            arrows: itemArrows,
-                                            dots: itemDots,
-                                            get slidesToShow() {
-                                                if (itemToShow !== undefined && itemToShow !== null && itemToShow !== '') {
-                                                    if (itemToShow == 5) {
-                                                        return this.slidesToShow = itemToShow - 1;
-                                                    } else {
-                                                        return this.slidesToShow = itemToShow;
-                                                    }
-                                                } else {
-                                                    return this.slidesToShow = 1;
-                                                }
-                                            },
-                                            get slidesToScroll() {
-                                                if (itemToShow !== undefined && itemToShow !== null && itemToShow !== '') {
-                                                    if (itemToShow == 5) {
-                                                        return this.slidesToScroll = itemToShow - 1;
-                                                    } else {
-                                                        return this.slidesToScroll = itemToShow;
-                                                    }
-                                                } else {
-                                                    return this.slidesToScroll = 1;
-                                                }
-                                            }
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 991,
-                                        settings: {
-                                            arrows: itemArrowsMb,
-                                            dots: itemDotsMb,
-                                            slidesToShow: 4,
-                                            slidesToScroll: 4
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 767,
-                                        settings: {
-                                            arrows: itemArrowsMb,
-                                            dots: itemDotsMb,
-                                            slidesToShow: 3,
-                                            slidesToScroll: 3
-                                        }
-                                    },
-                                    {
-                                        breakpoint: 320,
-                                        settings: {
-                                            arrows: itemArrowsMb,
-                                            dots: itemDotsMb,
-                                            slidesToShow: 2,
-                                            slidesToScroll: 2
-                                        }
-                                    }
-                                ]
-                        });
-                    }
-                }
-
-                if ($('body').hasClass('cursor-fixed__show')){
-                    window.sharedFunctionsAnimation.onEnterButton();
-                    window.sharedFunctionsAnimation.onLeaveButton();
-                }
+                initSectionSlider(wrapperS);
             }
 
-            if($('body').hasClass('product-card-layout-08')) {
-                window.sharedFunctions?.productCountdownCard();
+            if ($('body').hasClass('cursor-fixed__show')) {
+                window.sharedFunctionsAnimation && window.sharedFunctionsAnimation.onEnterButton && window.sharedFunctionsAnimation.onEnterButton();
+                window.sharedFunctionsAnimation && window.sharedFunctionsAnimation.onLeaveButton && window.sharedFunctionsAnimation.onLeaveButton();
             }
 
-             window.sharedFunctions?.swapHoverVideoProductCard();
+            if ($('body').hasClass('product-card-layout-08')) {
+                window.sharedFunctions && window.sharedFunctions.productCountdownCard && window.sharedFunctions.productCountdownCard();
+            }
+
+            window.sharedFunctions && window.sharedFunctions.swapHoverVideoProductCard && window.sharedFunctions.swapHoverVideoProductCard();
+            finalize(renderedCount);
         }
     };
 
@@ -292,7 +316,7 @@ Shopify.Products = (function () {
             }
 
             if (size == 'master') {
-                return src.replace(/http(s)?:/, "");
+                return src.replace(/http(s)?:/, '');
             }
 
             var match = src.match(/\.(jpg|jpeg|gif|png|bmp|bitmap|tiff|tif)(\?v=\d+)?/i);
@@ -300,39 +324,49 @@ Shopify.Products = (function () {
             if (match != null) {
                 var prefix = src.split(match[0]);
                 var suffix = match[0];
-
-                return (prefix[0] + "_" + size + suffix).replace(/http(s)?:/, "")
-            } else {
-                return null;
+                return (prefix[0] + '_' + size + suffix).replace(/http(s)?:/, '');
             }
+            return null;
+        },
+
+        readHandles: function () {
+            return cookie.read();
         },
 
         showRecentlyViewed: function (params) {
             var params = params || {};
-
-            // Update defaults.
             jQuery.extend(config, params);
 
-            // Read cookie.
-            productHandleQueue = cookie.read();
+            shown = 0;
+            shownSection = 0;
+            renderedCount = 0;
 
-            // Template and element where to insert.
+            if (Array.isArray(config.handles) && config.handles.length) {
+                productHandleQueue = dedupeHandles(config.handles);
+            } else {
+                productHandleQueue = cookie.read();
+            }
+
+            var currentHandle = getCurrentProductHandle();
+            if (currentHandle) {
+                productHandleQueue = productHandleQueue.filter(function (h) {
+                    return normalizeHandle(h) !== currentHandle;
+                });
+            }
+
             template = config.templateId;
             wrapper = jQuery('#' + config.wrapperId);
+            config.howManyToShow = Math.min(productHandleQueue.length, config.howManyToShow || 8);
 
-            // How many products to show.
-            config.howManyToShow = Math.min(productHandleQueue.length, config.howManyToShow);
+            if (!config.howManyToShow || !wrapper.length) {
+                finalize(0);
+                return;
+            }
 
-            // If we have any to show.
-            if (config.howManyToShow && wrapper.length) {
-                // Getting each product with an Ajax call and rendering it on the page.
-                if (template == 'recently-viewed-product-popup') {
-                    const wrapperP = wrapper;
-                    moveAlong(wrapperP);
-                } else {
-                    const wrapperS = wrapper;
-                    doAlong(wrapperS);
-                }
+            if (template == 'recently-viewed-product-popup') {
+                moveAlong(wrapper);
+            } else {
+                doAlong(wrapper);
             }
         },
 
@@ -346,39 +380,25 @@ Shopify.Products = (function () {
 
         recordRecentlyViewed: function (params) {
             var params = params || {};
-
-            // Update defaults.
             jQuery.extend(config, params);
 
-            // Read cookie.
             var recentlyViewed = cookie.read();
+            var path = window.location.pathname || '';
+            if (path.indexOf('/products/') === -1) return;
 
-            // If we are on a product page.
-            if (window.location.pathname.indexOf('/products/') !== -1) {
-                // What is the product handle on this page.
-                var splitted = window.location.pathname.match(/\/products\/([a-z0-9\-_]+)/);
-                if (splitted == null) {
-                    var productHandle = decodeURIComponent(window.location.pathname.split('/products/')[1]);
-                } else {
-                    var productHandle = window.location.pathname.match(/\/products\/([a-z0-9\-_]+)/)[1];
-                }
-                // In what position is that product in memory.
-                var position = jQuery.inArray(productHandle, recentlyViewed);
-                // If not in memory.
-                if (position === -1) {
-                    // Add product at the start of the list.
-                    recentlyViewed.unshift(productHandle);
-                    // Only keep what we need.
-                    recentlyViewed = recentlyViewed.splice(0, config.howManyToStoreInMemory);
-                } else {
-                    // Remove the product and place it at start of list.
-                    recentlyViewed.splice(position, 1);
-                    recentlyViewed.unshift(productHandle);
-                }
+            var productHandle = getCurrentProductHandle();
+            if (!productHandle) return;
 
-                // Update cookie.
-                cookie.write(recentlyViewed);
+            var position = recentlyViewed.indexOf(productHandle);
+            if (position === -1) {
+                recentlyViewed.unshift(productHandle);
+            } else {
+                recentlyViewed.splice(position, 1);
+                recentlyViewed.unshift(productHandle);
             }
+
+            recentlyViewed = recentlyViewed.splice(0, config.howManyToStoreInMemory || 8);
+            cookie.write(recentlyViewed);
         }
     };
 })();

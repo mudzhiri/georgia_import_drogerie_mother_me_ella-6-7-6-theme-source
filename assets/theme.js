@@ -1312,7 +1312,9 @@
                 itemInfinite = productGrid.data('infinite'),
                 itemAutoplay = productGrid.data('autoplay'),
                 swatchLabel = productGrid.find('.swatch .swatch-label'),
-                isProductCard06 = document.body.classList.contains('product-card-layout-06');
+                isProductCard06 = document.body.classList.contains('product-card-layout-06'),
+                isMmPdpReco = wrapper.is('[data-recommendations-block], [data-recently-viewed-block]') ||
+                    wrapper.closest('[data-recommendations-block], [data-recently-viewed-block]').length > 0;
 
             if(productGrid.length > 0) {
                 if(productGrid.hasClass('slick-initialized')) return;
@@ -1331,6 +1333,47 @@
                             var percent = ((slick.currentSlide / (slick.slideCount - itemToShow)) * 100) + '%';
                             progressBar.css('--percent', percent);
                         });
+                    }
+
+                    if (isMmPdpReco) {
+                        var preferReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                        var showCount = parseInt(itemToShow, 10) || 4;
+                        productGrid.slick({
+                            mobileFirst: true,
+                            adaptiveHeight: false,
+                            vertical: false,
+                            infinite: false,
+                            autoplay: false,
+                            speed: preferReduced ? 0 : 220,
+                            slidesToShow: 2,
+                            slidesToScroll: 2,
+                            arrows: itemArrowsMb,
+                            dots: itemDotsMb,
+                            nextArrow: window.arrows.icon_next,
+                            prevArrow: window.arrows.icon_prev,
+                            rtl: window.rtl_slick,
+                            responsive: [
+                                {
+                                    breakpoint: 1024,
+                                    settings: {
+                                        arrows: itemArrows,
+                                        dots: itemDots,
+                                        slidesToShow: showCount,
+                                        slidesToScroll: Math.min(showCount, 4)
+                                    }
+                                },
+                                {
+                                    breakpoint: 768,
+                                    settings: {
+                                        arrows: itemArrowsMb,
+                                        dots: itemDotsMb,
+                                        slidesToShow: 3,
+                                        slidesToScroll: 3
+                                    }
+                                }
+                            ]
+                        });
+                        return;
                     }
                   
                     productGrid.slick({
@@ -1853,7 +1896,14 @@
 
                         var productItems = $($this).find('.product-item')
                         var firstProductData = productItems.eq(0).data('json-product')
-                        if (!firstProductData) return $($this).remove();
+                        if (!firstProductData) {
+                            $this.classList.add('mm-pdp-reco--empty');
+                            $this.setAttribute('hidden', 'hidden');
+                            return;
+                        }
+
+                        $this.classList.remove('mm-pdp-reco--empty');
+                        $this.removeAttribute('hidden');
 
                         if (layout == 'slider') {
                             halo.productBlockSilder($($this));
@@ -1911,10 +1961,12 @@
                 })
                 .catch(e => {
                     console.error(e);
+                    $this.classList.add('mm-pdp-reco--empty');
+                    $this.setAttribute('hidden', 'hidden');
                 });
             }
 
-            new IntersectionObserver(handleIntersection.bind($this), ({}, config)).observe($this);
+            new IntersectionObserver(handleIntersection.bind($this), config).observe($this);
         },
 
         initVideoPopup: function (){

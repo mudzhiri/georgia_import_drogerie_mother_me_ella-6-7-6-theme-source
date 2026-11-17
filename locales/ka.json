@@ -422,7 +422,9 @@
         "adding": "ემატება...",
         "added": "დაემატა",
         "success": "პროდუქტი კალათაში დაემატა."
-      }
+      },
+      "related_products": "მსგავსი პროდუქტები",
+      "recently_viewed_products": "ბოლოს ნანახი პროდუქტები"
     },
     "modal": {
       "label": "მედია გალერეა"
@@ -904,10 +906,10 @@
   },
   "recently_viewed": {
     "general": {
-      "product_title": "Recently viewed",
-      "no_product": "Sorry, there are no products.",
-      "share_title": "Social",
-      "newsletter": "Newsletter sign-up"
+      "product_title": "ბოლოს ნანახი პროდუქტები",
+      "no_product": "პროდუქტები ვერ მოიძებნა.",
+      "share_title": "გაზიარება",
+      "newsletter": "გამოწერა"
     }
   },
   "calculator_free_shipping_message": {

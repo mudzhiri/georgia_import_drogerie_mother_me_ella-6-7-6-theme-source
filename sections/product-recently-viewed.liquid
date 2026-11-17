@@ -1,14 +1,18 @@
 {%- if section.settings.display_product_recently_viewed -%}
+    {{ 'mm-pdp-reco-cards.css' | asset_url | stylesheet_tag }}
     {%- liquid
         assign as_grid_gap = section.settings.grid_gap
         assign grid_gap = section.settings.grid_gap | times: 0.5 | append: 'px'
         assign container = section.settings.product_recently_viewed_container
-        assign limit = section.settings.product_recently_viewed_limit
+        assign limit = section.settings.product_recently_viewed_limit | at_most: 8
         assign layout = section.settings.product_recently_viewed_layout
         assign infinite_scroll = section.settings.product_recently_viewed_infinite_scroll
-        assign block_title = section.settings.product_recently_viewed_title
+        assign block_title = 'products.product.recently_viewed_products' | t
+        if block_title == blank or block_title == 'products.product.recently_viewed_products'
+          assign block_title = section.settings.product_recently_viewed_title
+        endif
         assign block_title_align = section.settings.product_recently_viewed_title_align
-        assign image_ratio = section.settings.product_recently_viewed_image_ratio
+        assign image_ratio = 'square'
         assign swipe_on_mobile = section.settings.product_recently_viewed_swipe_on_mobile
         assign padding_top = section.settings.padding_top | append: 'px'
         assign padding_bottom = section.settings.padding_bottom | append: 'px'
@@ -308,7 +312,7 @@
             }
         }
     </style>
-    <{% if swipe %}product-slider-component{% else %}div{% endif %} class="halo-block halo-product-block halo-recently-viewed-block section-block-{{section.id}}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" id="halo-recently-viewed-block-{{ section.id }}" data-recently-viewed-block data-limit="{{ limit }}" data-layout="{{ layout }}" sectionId="{{ section.id }}" data-image-ratio="{{ image_ratio }}" data-swipe="{{ swipe }}" style="--grid-gap: {{ grid_gap }}">
+    <{% if swipe %}product-slider-component{% else %}div{% endif %} class="halo-block halo-product-block halo-recently-viewed-block section-block-{{section.id}} mm-pdp-reco--empty{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" id="halo-recently-viewed-block-{{ section.id }}" data-recently-viewed-block data-limit="{{ limit }}" data-layout="{{ layout }}" sectionId="{{ section.id }}" data-image-ratio="square" data-swipe="{{ swipe }}" data-current-handle="{{ product.handle | escape }}" style="--grid-gap: {{ grid_gap }}" hidden>
         <{% if layout == 'scroll' %}product-scroller{% else %}div{% endif %} class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
             {%- if block_title != blank -%}
                 <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}">
@@ -326,7 +330,7 @@
                             assign product_limit = limit
                         endif
                     -%}
-                    <div class="recentlyViewed-row products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}" id="recently-viewed-products-list-2">
+                    <div class="recentlyViewed-row products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}" id="recently-viewed-products-list-2" aria-busy="false" aria-live="polite">
                 {%- elsif layout == 'slider' -%}
                     {%- liquid
                         assign column = section.settings.product_recently_viewed_show
@@ -341,12 +345,15 @@
                         data-item-dots-mb="{{ dots_mb }}"
                         data-item-arrows="{{ arrows }}"
                         data-item-arrows-mb="{{ arrows_mb }}"
+                        data-infinite="false"
                         id="recently-viewed-products-list-2"
+                        aria-busy="false"
+                        aria-live="polite"
                     >
                 {% elsif layout == 'scroll' %}
                     {% liquid
                         assign column = section.settings.product_block_per_view 
-                        assign show_half = section.settings.show_half 
+                        assign show_half = false
 
                         assign scroll_height = section.settings.scroll_height | append: 'px'
                         assign scroll_track_bg = section.settings.scroll_track_bg
@@ -354,7 +361,7 @@
                         assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
                     %} 
                     <div        
-                        class="recentlyViewed-row products-flex disable-srollbar-mb column-{{ column }}{% if show_half %} show-half{% endif %}{% if swipe %} slider slider--tablet grid{% endif %}" 
+                        class="recentlyViewed-row products-flex disable-srollbar-mb column-{{ column }}" 
                         data-drag-parent
                         style="--count: {{ column }};
                             --scrollbar-height: {{ scroll_height }};
@@ -363,23 +370,18 @@
                             --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
                         "
                         id="recently-viewed-products-list-2"
+                        aria-busy="false"
+                        aria-live="polite"
                     >
                 {%- endif -%}
-                    {%- for product in (1..limit) -%}
-                        <div class="product{% if swipe %} slider__slide grid__item{% endif %}">
-                            {% render 'product-card-loading-no-info',
-                                portrait_aspect_ratio: '133'
-                            %}
-                        </div>
-                    {%- endfor -%}
                 </div>
                 {%- if swipe -%}
-                    <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">
+                    <div class="slider-buttons no-js-hidden medium-hide small-hide">
                         <div class="slider-counter">
                             <span class="slider-counter--current">1</span>
                             <span aria-hidden="true"> / </span>
                             <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
-                            <span class="slider-counter--total">{{ products_to_display }}</span>
+                            <span class="slider-counter--total">0</span>
                         </div>
                         <div class="slider-action">
                             <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">
@@ -396,48 +398,109 @@
     </{% if swipe %}product-slider-component{% else %}div{% endif %}>
     {{ 'recently-viewed-product.js' | asset_url | script_tag }}
     <script type="text/javascript">
-        Shopify.Products.recordRecentlyViewed();
+        (function () {
+            var sectionEl = document.getElementById('halo-recently-viewed-block-{{ section.id }}');
+            if (!sectionEl || !window.Shopify || !Shopify.Products) return;
 
-        var cookieValue = $.cookie('shopify_recently_viewed');
+            try {
+                Shopify.Products.recordRecentlyViewed({
+                    howManyToStoreInMemory: 8
+                });
+            } catch (e) {}
 
-        if (Shopify.designMode && !cookieValue) {
-            cookieValue = localStorage.getItem('shopify_recently_viewed');
-        }
+            var limit = {{ limit }};
+            var expireDay = {{ settings.recently_viewed_expire | default: 90 }};
+            var currentHandle = sectionEl.getAttribute('data-current-handle') || '';
 
-        if (!(cookieValue !== null && cookieValue !== undefined && cookieValue !== "")){
-            $('#halo-recently-viewed-block-{{ section.id }}').remove();
-        } else {
-            var recentlyViewed = $(this.popup);
+            function revealOrHide(hasItems) {
+                sectionEl.classList.remove('mm-pdp-reco--loading');
+                if (hasItems) {
+                    sectionEl.classList.remove('mm-pdp-reco--empty');
+                    sectionEl.removeAttribute('hidden');
+                } else {
+                    sectionEl.classList.add('mm-pdp-reco--empty');
+                    sectionEl.setAttribute('hidden', 'hidden');
+                }
+            }
 
-            var limit = {{ limit }},
-                expireDay = {{ settings.recently_viewed_expire }};
+            var queue = [];
+            try {
+                if (typeof Shopify.Products.readHandles === 'function') {
+                    queue = Shopify.Products.readHandles();
+                } else {
+                    var raw = ($.cookie && $.cookie('shopify_recently_viewed')) || '';
+                    try { raw = raw || localStorage.getItem('shopify_recently_viewed') || ''; } catch (e2) {}
+                    queue = String(raw || '').split(/\s+/).filter(Boolean);
+                }
+            } catch (err) {
+                revealOrHide(false);
+                return;
+            }
 
-            const handler = (entries, observer) => {
-                if (!entries[0].isIntersecting || entries[0].target.matches('.ajax-loaded')) return;
-                entries[0].target.classList.add('ajax-loaded');
+            queue = queue.filter(function (handle, index, arr) {
+                var normalized = decodeURIComponent(handle).split('?')[0].replace(/\/$/, '');
+                if (!normalized || normalized === currentHandle) return false;
+                return arr.findIndex(function (h) {
+                    return decodeURIComponent(h).split('?')[0].replace(/\/$/, '') === normalized;
+                }) === index;
+            });
+
+            if (!queue.length) {
+                revealOrHide(false);
+                return;
+            }
+
+            var started = false;
+            var observer = new IntersectionObserver(function (entries) {
+                if (!entries[0] || !entries[0].isIntersecting || started) return;
+                started = true;
+                observer.disconnect();
+                sectionEl.classList.add('mm-pdp-reco--loading', 'ajax-loaded');
+                sectionEl.classList.remove('mm-pdp-reco--empty');
+                sectionEl.removeAttribute('hidden');
+
+                var list = document.getElementById('recently-viewed-products-list-2');
+                if (list) {
+                    list.setAttribute('aria-busy', 'true');
+                    list.innerHTML = '';
+                    for (var i = 0; i < Math.min(limit, queue.length); i++) {
+                        var ph = document.createElement('div');
+                        ph.className = 'product';
+                        ph.innerHTML = '<div class="product-item product-item--loadingNoInfo" aria-hidden="true"><span class="visually-hidden">{{ 'accessibility.loading' | t }}</span></div>';
+                        list.appendChild(ph);
+                    }
+                }
+
+                var timeoutId = window.setTimeout(function () {
+                    revealOrHide(list && list.querySelectorAll('.product-item:not(.product-item--loadingNoInfo)').length > 0);
+                }, 8000);
+
                 Shopify.Products.showRecentlyViewed({
-                    howManyToShow: limit,
-                    wrapperId: 'recently-viewed-products-list-2', 
+                    howManyToShow: Math.min(limit, queue.length),
+                    howManyToStoreInMemory: 8,
+                    wrapperId: 'recently-viewed-products-list-2',
                     templateId: 'recently-viewed-product-block',
                     layout: '{{ layout }}',
                     swipe: {{ swipe }},
-                    media: '{{ image_ratio }}',
-                    onComplete: function() {
-                        if (window.location.pathname.indexOf('/products/') !== -1) {
-                            $.cookie('shopify_recently_viewed', cookieValue, { expires: expireDay, path: "/", domain: window.location.hostname });
-                        }
+                    media: 'square',
+                    excludeHandle: currentHandle,
+                    handles: queue,
+                    onComplete: function (count) {
+                        window.clearTimeout(timeoutId);
+                        if (list) list.setAttribute('aria-busy', 'false');
+                        revealOrHide(count > 0);
+                        try {
+                            var cookieValue = $.cookie('shopify_recently_viewed');
+                            if (cookieValue) {
+                                $.cookie('shopify_recently_viewed', cookieValue, { expires: expireDay, path: '/', domain: window.location.hostname });
+                            }
+                        } catch (e) {}
                     }
                 });
-            }
+            }, { threshold: 0.15 });
 
-            this.recentlyViewedBlock = document.querySelector('[data-recently-viewed-block]');
-
-            const config = {
-                threshold: 0.25,
-            }
-
-            new IntersectionObserver(handler.bind(this.recentlyViewedBlock), ({}, config)).observe(this.recentlyViewedBlock);
-        }
+            observer.observe(sectionEl);
+        })();
     </script>
 {%- endif -%}
 {% schema %}
@@ -644,7 +707,7 @@
                 "type": "text",
                 "id": "product_recently_viewed_title",
                 "label": "t:sections.product-recently-viewed.settings.general.label__6",
-                "default": "Recently Viewed Products"
+                "default": "ბოლოს ნანახი პროდუქტები"
             },
             {
                 "type": "checkbox",
