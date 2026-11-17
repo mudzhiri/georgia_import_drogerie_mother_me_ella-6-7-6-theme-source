@@ -154,6 +154,10 @@
                     <a class="card-link" href="{{ mm_card_product_url }}" title="{{ product_card_product.title | escape }}"></a>
                 </div>
 
+                {%- if mm_is_collection_card and settings.show_action and complementary_product_button_atc -%}
+                  {% render 'mm-collection-add-to-cart', product: product_card_product, sectionId: sectionId %}
+                {%- endif -%}
+
                 {%- if product_action_group -%}
                     <div class="card-product__group group-{{ settings.group_quickview_wishlist }}">
                         {%- if show_wishlist -%}
@@ -289,9 +293,6 @@
                         <div class="card-price mm-collection-card__price">
                             {% render 'price', product: product_card_product, price_class: '', hasCountdown: hasCountdown %}
                         </div>
-                    {%- endif -%}
-                    {%- if settings.show_action and complementary_product_button_atc -%}
-                        {% render 'mm-collection-add-to-cart', product: product_card_product, sectionId: sectionId %}
                     {%- endif -%}
                 </div>
             {%- else -%}
