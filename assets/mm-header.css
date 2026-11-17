@@ -12,7 +12,7 @@
   --mm-header-gutter: 16px;
   --mm-header-main-min: 64px;
   --mm-header-main-pinned: 56px;
-  --mm-header-cats-min: 48px;
+  --mm-header-cats-min: 52px;
   --mm-header-motion: 200ms ease;
 }
 
@@ -795,9 +795,9 @@ html.mm-search-open {
     min-width: 0 !important;
     min-height: var(--mm-header-cats-min) !important;
     height: auto !important;
-    background: #ffffff !important;
-    border-top: 1px solid #dee5df !important;
-    border-bottom: 1px solid #dee5df !important;
+    background: var(--mm-soft, #faf8f4) !important;
+    border-top: 1px solid var(--mm-line, #dee5df) !important;
+    border-bottom: 1px solid var(--mm-line, #dee5df) !important;
     margin: 0 !important;
     padding: 0 !important;
     overflow: visible !important;
@@ -822,6 +822,7 @@ html.mm-search-open {
     min-height: var(--mm-header-cats-min);
     display: flex;
     align-items: center;
+    justify-content: center;
     overflow: visible !important;
   }
 
@@ -830,10 +831,10 @@ html.mm-search-open {
     flex-wrap: nowrap !important;
     justify-content: center !important;
     align-items: center !important;
-    gap: 24px !important;
-    column-gap: 24px !important;
+    gap: 8px !important;
+    column-gap: 8px !important;
     margin: 0 !important;
-    padding: 0 !important;
+    padding: 6px 0 !important;
     min-height: var(--mm-header-cats-min);
     overflow: visible !important;
   }
@@ -851,25 +852,35 @@ html.mm-search-open {
     display: inline-flex !important;
     align-items: center;
     gap: 6px;
-    font-family: var(--mm-body) !important;
-    font-size: 15px !important;
-    line-height: 1.35 !important;
-    font-weight: 500 !important;
-    letter-spacing: 0 !important;
+    font-family: var(--mm-body), "Noto Sans Georgian", system-ui, sans-serif !important;
+    font-size: 0.9375rem !important; /* 15px */
+    line-height: 1.45 !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em !important;
     text-transform: none !important;
     color: #214d43 !important;
     background: transparent !important;
-    padding: 0 14px !important;
-    min-height: var(--mm-header-cats-min) !important;
+    padding: 0 18px !important;
+    min-height: 40px !important;
     margin: 0 !important;
     white-space: nowrap;
-    border-radius: 0;
-    transition: background-color 0.2s var(--mm-ease), color 0.2s var(--mm-ease);
+    border-radius: 999px;
+    overflow-wrap: anywhere;
+    transition:
+      background-color var(--mm-header-motion, 200ms ease),
+      color var(--mm-header-motion, 200ms ease),
+      box-shadow var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .text {
+    position: relative;
     color: inherit !important;
     border: 0 !important;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1.5px;
+    transition: background-size var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .icon-dropdown {
@@ -878,12 +889,14 @@ html.mm-search-open {
 
   .header-nav-hamburger--style1 .main-menu .mm-cat-item__row {
     display: inline-flex;
-    align-items: stretch;
-    min-height: var(--mm-header-cats-min) !important;
+    align-items: center;
+    min-height: 40px !important;
+    border-radius: 999px;
+    transition: background-color var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .mm-cat-item__row > a.menu-lv-1__action {
-    padding-right: 6px !important;
+    padding-right: 4px !important;
   }
 
   .header-nav-hamburger--style1 .main-menu .mm-cat-toggle {
@@ -891,34 +904,50 @@ html.mm-search-open {
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    min-width: 40px;
-    min-height: var(--mm-header-cats-min) !important;
+    min-width: 36px;
+    min-height: 40px !important;
     margin: 0;
-    padding: 0 10px 0 4px;
+    padding: 0 14px 0 2px;
     border: 0;
-    border-radius: 0;
+    border-radius: 999px;
     background: transparent;
     color: #214d43;
     cursor: pointer;
+    transition: background-color var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .mm-cat-toggle__icon {
     display: block;
-    transition: transform 160ms ease-out;
+    opacity: 0.7;
+    transition: transform 180ms ease-out, opacity var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row .mm-cat-toggle__icon {
     transform: rotate(180deg);
+    opacity: 1;
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:hover,
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:focus-visible,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row {
+    color: #214d43 !important;
+    background: #ffffff !important;
+  }
+
   .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover > a,
   .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover > .mm-cat-toggle,
   .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row > a,
   .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row > .mm-cat-toggle {
     color: #214d43 !important;
-    background: #eaf1ec !important;
+    background: transparent !important;
+  }
+
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:hover .text,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:focus-visible .text,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row:hover > a .text,
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .mm-cat-item__row > a .text {
+    background-size: 100% 1.5px;
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a:focus-visible,
@@ -933,13 +962,13 @@ html.mm-search-open {
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > .header__submenu {
     display: block !important;
     background: #ffffff !important;
-    border: 1px solid #dee5df !important;
+    border: 1px solid var(--mm-line, #dee5df) !important;
     border-radius: 16px !important;
-    box-shadow: 0 10px 28px rgba(33, 77, 67, 0.1) !important;
-    min-width: 220px;
-    padding: 8px 0 !important;
+    box-shadow: 0 12px 32px rgba(33, 77, 67, 0.12) !important;
+    min-width: 240px;
+    padding: 10px 8px !important;
     margin: 0 !important;
-    top: 100% !important;
+    top: calc(100% + 4px) !important;
     left: 50% !important;
     transform: translateX(-50%) translateY(6px);
     text-align: left;
@@ -959,8 +988,8 @@ html.mm-search-open {
     position: absolute;
     left: 0;
     right: 0;
-    top: -10px;
-    height: 10px;
+    top: -12px;
+    height: 12px;
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1.is-open > .header__submenu {
@@ -971,8 +1000,14 @@ html.mm-search-open {
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .header-nav-hamburger--style1 .main-menu .menu-lv-1 > .header__submenu {
+    .header-nav-hamburger--style1 .main-menu .menu-lv-1 > .header__submenu,
+    .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a,
+    .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .text,
+    .header-nav-hamburger--style1 .main-menu .mm-cat-toggle__icon {
       transition: none !important;
+    }
+
+    .header-nav-hamburger--style1 .main-menu .menu-lv-1 > .header__submenu {
       transform: translateX(-50%) translateY(0);
     }
   }
@@ -982,18 +1017,28 @@ html.mm-search-open {
     display: none !important;
   }
 
+  .header-nav-hamburger--style1 .main-menu .menu-lv-2 {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
   .header-nav-hamburger--style1 .main-menu .menu-lv-2 > a,
   .header-nav-hamburger--style1 .main-menu .menu-lv-2 .menu-lv-2__action {
     display: flex !important;
     align-items: center;
     width: 100%;
-    padding: 10px 16px !important;
-    font-size: 15px !important;
+    min-height: 44px;
+    padding: 10px 14px !important;
+    font-family: var(--mm-body), "Noto Sans Georgian", system-ui, sans-serif !important;
+    font-size: 0.9375rem !important;
     font-weight: 500 !important;
+    line-height: 1.45 !important;
     color: #214d43 !important;
     background: transparent !important;
     text-transform: none !important;
-    white-space: nowrap;
+    white-space: normal;
+    border-radius: 10px;
+    transition: background-color var(--mm-header-motion, 200ms ease);
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-2 > a .text,
