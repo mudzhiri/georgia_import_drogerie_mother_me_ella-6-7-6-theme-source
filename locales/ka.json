@@ -352,7 +352,12 @@
       },
       "shipping_note": {
         "text_html": "მიწოდება საქართველოში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
-        "text_with_free_html": "მიწოდება საქართველოში: {{ price }}; უფასო {{ threshold }}-დან. <a href=\"{{ link }}\">{{ policy }}</a>"
+        "text_with_free_html": "მიწოდება საქართველოში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>"
+      },
+      "trust": {
+        "free_shipping": "მიწოდება საქართველოში: 8 ₾",
+        "order_pickup": "ონლაინ შეკვეთა ან თვითგატანა",
+        "bank_transfer": "შეკვეთა დასტურდება გადახდის შემდეგ"
       },
       "atc_error": {
         "inventory": "არჩეული რაოდენობისთვის საკმარისი მარაგი არ არის. გთხოვთ, შეამციროთ რაოდენობა და სცადოთ თავიდან.",
