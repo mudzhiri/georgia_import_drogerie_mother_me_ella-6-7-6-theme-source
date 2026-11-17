@@ -145,6 +145,41 @@
     counter.setAttribute('aria-live', 'polite');
   };
 
+  // Keep swipe (Slick touch) and ensure visible prev/next controls on mobile
+  const enhanceNavControls = () => {
+    if (!main || !window.jQuery) return;
+    const $nav = window.jQuery(main);
+    if (!$nav.length || !$nav.hasClass('slick-initialized') || typeof $nav.slick !== 'function') return;
+
+    if (mediaCount > 1) {
+      try {
+        $nav.slick('slickSetOption', 'arrows', true, true);
+        $nav.slick('slickSetOption', 'swipe', true, false);
+        $nav.slick('slickSetOption', 'touchMove', true, false);
+      } catch (e) {
+        /* ignore */
+      }
+    }
+
+    const prevLabel =
+      gallery.getAttribute('data-mm-gallery-prev') ||
+      (window.accessibilityStrings && window.accessibilityStrings.previous) ||
+      'წინა';
+    const nextLabel =
+      gallery.getAttribute('data-mm-gallery-next') ||
+      (window.accessibilityStrings && window.accessibilityStrings.next) ||
+      'შემდეგი';
+
+    gallery.querySelectorAll('.productView-nav .slick-prev').forEach((btn) => {
+      btn.setAttribute('aria-label', prevLabel);
+      btn.setAttribute('type', 'button');
+    });
+    gallery.querySelectorAll('.productView-nav .slick-next').forEach((btn) => {
+      btn.setAttribute('aria-label', nextLabel);
+      btn.setAttribute('type', 'button');
+    });
+  };
+
   const hideEmptySlides = () => {
     gallery.querySelectorAll('.productView-image').forEach((slide) => {
       const hasMedia =
@@ -159,6 +194,7 @@
     enhanceThumbs();
     bindFancyboxFocus();
     enhanceCounter();
+    enhanceNavControls();
     hideEmptySlides();
     gallery.querySelectorAll('img').forEach((img) => {
       if (img.complete) gateZoom();
@@ -175,6 +211,7 @@
     window.jQuery(main).on('init reInit afterChange', () => {
       stopAutoplay();
       enhanceCounter();
+      enhanceNavControls();
       enhanceThumbs();
       hideEmptySlides();
       gateZoom();

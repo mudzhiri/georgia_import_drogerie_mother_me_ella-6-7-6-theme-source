@@ -100,7 +100,11 @@
     clear(button);
     var ok = successHost(button);
     if (!ok) return;
-    var text = String(message || '').trim();
+    var text = String(
+      message ||
+        ok.getAttribute('data-mm-atc-success-message') ||
+        (strings().success || '')
+    ).trim();
     if (!text) return;
     ok.textContent = text;
     ok.hidden = false;

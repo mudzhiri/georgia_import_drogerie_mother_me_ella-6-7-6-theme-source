@@ -3174,7 +3174,7 @@
                     // $target.text(successMessage);
                     $target.removeClass('is-loading');
                     if (window.mmAtcError && typeof window.mmAtcError.showSuccess === 'function') {
-                        window.mmAtcError.showSuccess($target.get(0), successMessage);
+                        window.mmAtcError.showSuccess($target.get(0));
                     }
                     if ($body.hasClass('quickshop-popup-show') && $body.hasClass('quick_shop_option_3')) {
                         $body.removeClass('quickshop-popup-show');

@@ -7,16 +7,42 @@
     assign heading = 'templates.contact.title' | t
   endif
 
+  comment
+    Email: same priority as mm-footer — section setting, then shop.email.
+    Reject known Ella/demo placeholders. Never invent an address or phone.
+  endcomment
   if section.settings.contact_email != blank
-    assign contact_email = section.settings.contact_email
+    assign contact_email = section.settings.contact_email | strip
+  elsif shop.email != blank
+    assign contact_email = shop.email | strip
   else
-    assign contact_email = 'info@motherandme.ge'
+    assign contact_email = ''
   endif
-  assign contact_phone = shop.phone
+
+  assign email_down = contact_email | downcase
+  if email_down contains 'email@domain.com' or email_down contains 'example@domain.com' or email_down contains '@domain.com'
+    assign contact_email = ''
+  endif
+
+  assign contact_phone = shop.phone | strip
+  assign phone_down = contact_phone | downcase
+  if contact_phone != blank
+    if phone_down contains 'ella' or phone_down contains '555-5555' or phone_down contains '091-123' or phone_down contains '090-123' or phone_down contains '(090)' or phone_down contains '(415) 555'
+      assign contact_phone = ''
+    endif
+  endif
+
   assign has_address = false
+  assign address_blob = ''
   if shop.address != blank
     if shop.address.address1 != blank or shop.address.address2 != blank or shop.address.city != blank or shop.address.company != blank or shop.address.zip != blank
-      assign has_address = true
+      assign address_blob = shop.address.company | append: ' ' | append: shop.address.address1 | append: ' ' | append: shop.address.address2 | append: ' ' | append: shop.address.city | append: ' ' | append: shop.address.zip | append: ' ' | append: shop.address.country
+      assign address_down = address_blob | downcase
+      if address_down contains 'san francisco' or address_down contains 'market street' or address_down contains 'divamus' or address_down contains "ella's garden" or address_down contains 'ellas garden' or address_down contains 'city name'
+        assign has_address = false
+      else
+        assign has_address = true
+      endif
     endif
   endif
 
@@ -26,6 +52,11 @@
   endif
 
   assign form_id = 'mm-ContactForm-' | append: section.id
+  assign name_id = 'mm-contact-name-' | append: section.id
+  assign email_id = 'mm-contact-email-' | append: section.id
+  assign message_id = 'mm-contact-message-' | append: section.id
+  assign email_error_id = 'mm-contact-email-error-' | append: section.id
+  assign message_error_id = 'mm-contact-message-error-' | append: section.id
 -%}
 
 <section
@@ -40,7 +71,7 @@
 
     <div class="mm-contact__layout{% unless has_details %} mm-contact__layout--form-only{% endunless %}">
       {%- if has_details -%}
-        <div class="mm-contact__details">
+        <aside class="mm-contact__details" aria-label="{{ 'templates.contact.info.aside' | t | escape }}">
           <ul class="mm-contact__list">
             {%- if contact_email != blank -%}
               <li class="mm-contact__item">
@@ -62,22 +93,39 @@
               <li class="mm-contact__item">
                 <span class="mm-contact__label">{{ 'templates.contact.info.address' | t }}</span>
                 <span class="mm-contact__value mm-contact__value--address">
-                  {{ shop.address | format_address }}
+                  {%- if shop.address.company != blank -%}
+                    <span class="mm-contact__address-line">{{ shop.address.company | escape }}</span>
+                  {%- endif -%}
+                  {%- if shop.address.address1 != blank -%}
+                    <span class="mm-contact__address-line">{{ shop.address.address1 | escape }}</span>
+                  {%- endif -%}
+                  {%- if shop.address.address2 != blank -%}
+                    <span class="mm-contact__address-line">{{ shop.address.address2 | escape }}</span>
+                  {%- endif -%}
+                  {%- if shop.address.city != blank or shop.address.zip != blank -%}
+                    <span class="mm-contact__address-line">
+                      {%- if shop.address.zip != blank -%}{{ shop.address.zip | escape }} {% endif -%}
+                      {%- if shop.address.city != blank -%}{{ shop.address.city | escape }}{%- endif -%}
+                    </span>
+                  {%- endif -%}
+                  {%- if shop.address.country != blank -%}
+                    <span class="mm-contact__address-line">{{ shop.address.country | escape }}</span>
+                  {%- endif -%}
                 </span>
               </li>
             {%- endif -%}
           </ul>
-        </div>
+        </aside>
       {%- endif -%}
 
       <div class="mm-contact__form-wrap">
         {%- form 'contact', id: form_id, class: 'mm-contact__form' -%}
           {%- if form.posted_successfully? -%}
-            <div class="mm-contact__alert mm-contact__alert--success" role="status">
+            <div class="mm-contact__alert mm-contact__alert--success" role="status" aria-live="polite">
               <p>{{ 'templates.contact.form.post_success' | t }}</p>
             </div>
           {%- elsif form.errors -%}
-            <div class="mm-contact__alert mm-contact__alert--error" role="alert">
+            <div class="mm-contact__alert mm-contact__alert--error" role="alert" aria-live="assertive" tabindex="-1">
               <p class="mm-contact__alert-heading">{{ 'templates.contact.form.error_heading' | t }}</p>
               <ul class="mm-contact__error-list">
                 {%- for field in form.errors -%}
@@ -85,8 +133,25 @@
                     {%- if field == 'form' -%}
                       {{ form.errors.messages[field] }}
                     {%- else -%}
-                      {{ form.errors.translated_fields[field] | capitalize }}
-                      {{ form.errors.messages[field] }}
+                      {%- liquid
+                        assign error_anchor = ''
+                        if field == 'email'
+                          assign error_anchor = email_id
+                        elsif field == 'body'
+                          assign error_anchor = message_id
+                        elsif field == 'name'
+                          assign error_anchor = name_id
+                        endif
+                      -%}
+                      {%- if error_anchor != blank -%}
+                        <a href="#{{ error_anchor }}">
+                          {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                          {{ form.errors.messages[field] }}
+                        </a>
+                      {%- else -%}
+                        {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                        {{ form.errors.messages[field] }}
+                      {%- endif -%}
                     {%- endif -%}
                   </li>
                 {%- endfor -%}
@@ -95,29 +160,30 @@
           {%- endif -%}
 
           <div class="mm-contact__field">
-            <label class="mm-contact__field-label" for="mm-contact-name-{{ section.id }}">
+            <label class="mm-contact__field-label" for="{{ name_id }}">
               {{ 'templates.contact.form.name' | t }}
             </label>
             <input
               class="mm-contact__input"
               type="text"
-              id="mm-contact-name-{{ section.id }}"
+              id="{{ name_id }}"
               name="contact[name]"
               autocomplete="name"
               autocapitalize="words"
-              value="{% if form.name %}{{ form.name }}{% elsif customer %}{{ customer.name }}{% endif %}"
+              value="{% if form.name %}{{ form.name | escape }}{% elsif customer %}{{ customer.name | escape }}{% endif %}"
             >
           </div>
 
           <div class="mm-contact__field{% if form.errors contains 'email' %} mm-contact__field--error{% endif %}">
-            <label class="mm-contact__field-label" for="mm-contact-email-{{ section.id }}">
+            <label class="mm-contact__field-label" for="{{ email_id }}">
               {{ 'templates.contact.form.email' | t }}
               <span class="mm-contact__required" aria-hidden="true">*</span>
+              <span class="visually-hidden">{{ 'templates.contact.form.required' | t }}</span>
             </label>
             <input
               class="mm-contact__input"
               type="email"
-              id="mm-contact-email-{{ section.id }}"
+              id="{{ email_id }}"
               name="contact[email]"
               autocomplete="email"
               autocapitalize="off"
@@ -127,31 +193,42 @@
               aria-required="true"
               {% if form.errors contains 'email' %}
                 aria-invalid="true"
-                aria-describedby="mm-contact-email-error-{{ section.id }}"
+                aria-describedby="{{ email_error_id }}"
               {% endif %}
-              value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+              value="{% if form.email %}{{ form.email | escape }}{% elsif customer %}{{ customer.email | escape }}{% endif %}"
             >
             {%- if form.errors contains 'email' -%}
-              <p id="mm-contact-email-error-{{ section.id }}" class="mm-contact__field-error">
+              <p id="{{ email_error_id }}" class="mm-contact__field-error">
                 {{ form.errors.translated_fields.email | capitalize }}
                 {{ form.errors.messages.email }}
               </p>
             {%- endif -%}
           </div>
 
-          <div class="mm-contact__field">
-            <label class="mm-contact__field-label" for="mm-contact-message-{{ section.id }}">
+          <div class="mm-contact__field{% if form.errors contains 'body' %} mm-contact__field--error{% endif %}">
+            <label class="mm-contact__field-label" for="{{ message_id }}">
               {{ 'templates.contact.form.message' | t }}
               <span class="mm-contact__required" aria-hidden="true">*</span>
+              <span class="visually-hidden">{{ 'templates.contact.form.required' | t }}</span>
             </label>
             <textarea
               class="mm-contact__input mm-contact__textarea"
-              id="mm-contact-message-{{ section.id }}"
+              id="{{ message_id }}"
               name="contact[body]"
               rows="6"
               required
               aria-required="true"
-            >{{ form.body }}</textarea>
+              {% if form.errors contains 'body' %}
+                aria-invalid="true"
+                aria-describedby="{{ message_error_id }}"
+              {% endif %}
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+            {%- if form.errors contains 'body' -%}
+              <p id="{{ message_error_id }}" class="mm-contact__field-error">
+                {{ form.errors.translated_fields.body | capitalize }}
+                {{ form.errors.messages.body }}
+              </p>
+            {%- endif -%}
           </div>
 
           <div class="mm-contact__actions">
@@ -175,18 +252,18 @@
       "type": "text",
       "id": "heading",
       "label": "Heading override",
-      "info": "Leave blank to use the translated default (KA/EN/DE/RU)."
+      "info": "Leave blank for Georgian default დაგვიკავშირდით."
     },
     {
       "type": "text",
       "id": "contact_email",
       "label": "Public contact email",
       "default": "info@motherandme.ge",
-      "info": "Shown to customers on this page. Default: info@motherandme.ge"
+      "info": "Same public email as footer. Falls back to Shopify shop email when empty. Demo placeholders are hidden."
     },
     {
       "type": "paragraph",
-      "content": "Phone and address come from Shopify Settings → Store details. Empty fields stay hidden."
+      "content": "Phone and address come only from Shopify Settings → Store details. Ella demo values are hidden. Address is never labeled as a store or pickup point. No map embed."
     }
   ],
   "presets": [
