@@ -2,7 +2,7 @@
 .mm-brands {
   --mm-brands-heading: #214d43;
   --mm-brands-muted: #59665f;
-  background: #ffffff;
+  background: #faf8f4;
 }
 
 .mm-brands__inner {
@@ -42,18 +42,18 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: 48px;
   min-width: 44px;
-  padding: 8px 14px;
+  padding: 10px 16px;
   border: 1px solid #dee5df;
   border-radius: 999px;
-  background: #faf8f4;
+  background: #ffffff;
   color: #214d43;
   text-decoration: none;
   box-sizing: border-box;
   transition:
-    background-color 180ms ease-out,
-    border-color 180ms ease-out;
+    background-color var(--mm-hover-duration, 200ms) ease-out,
+    border-color var(--mm-hover-duration, 200ms) ease-out;
 }
 
 a.mm-brands__mark:hover,

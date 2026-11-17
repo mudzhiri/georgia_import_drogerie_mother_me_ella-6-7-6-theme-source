@@ -58,9 +58,9 @@
   text-decoration: none;
   box-sizing: border-box;
   transition:
-    transform 200ms ease-out,
-    box-shadow 200ms ease-out,
-    border-color 200ms ease-out;
+    transform var(--mm-hover-duration, 200ms) ease-out,
+    box-shadow var(--mm-hover-duration, 200ms) ease-out,
+    border-color var(--mm-hover-duration, 200ms) ease-out;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -70,10 +70,6 @@
     border-color: #c9d5ce;
     color: #214d43;
     text-decoration: none;
-  }
-
-  .mm-needs__card:hover .mm-needs__image {
-    transform: scale(1.03);
   }
 }
 
@@ -102,8 +98,7 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(1);
-  transition: transform 250ms ease-out;
+  object-position: center 25%;
 }
 
 .mm-needs__icon {
@@ -139,13 +134,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mm-needs__card,
-  .mm-needs__image {
+  .mm-needs__card {
     transition: none !important;
   }
 
-  .mm-needs__card:hover,
-  .mm-needs__card:hover .mm-needs__image {
+  .mm-needs__card:hover {
     transform: none;
   }
 }

@@ -514,7 +514,7 @@
                             {%- endcase -%}
                             <span class="visually-hidden">{{ 'accessibility.cart' | t }}</span>
                             {% if block.settings.show_cart_number %}
-                            <div class="cart-count-bubble{% if block.settings.cart_icon == '7' %} cart-count-bubble-07{% endif %}">
+                            <div class="cart-count-bubble{% if block.settings.cart_icon == '7' %} cart-count-bubble-07{% endif %}{% if cart.item_count == 0 %} is-empty{% endif %}"{% if cart.item_count == 0 %} hidden{% endif %}>
                                 <span class="text" aria-hidden="true" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
                                 <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
                             </div>

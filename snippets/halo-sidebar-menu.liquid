@@ -7,6 +7,9 @@
             <span class="title">{{ 'general.common.menu' | t }}</span>
             <button type="button" class="halo-sidebar-close" data-menu-close-sidebar aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %}{{ 'general.common.close' | t }}</button>
           </div>
+          <div class="mm-drawer-lang" data-mm-lang-slot>
+            {% render 'mm-language-switcher', id_suffix: 'drawer' %}
+          </div>
           <ul class="list-menu-loading" role="list">
             {%- for i in (1..8)-%}
               <li class="list-menu-loading__item"></li>

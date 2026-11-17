@@ -1,5 +1,5 @@
 /* MOTHER & ME — homepage hero
-   Spec: warm two-column banner, no full-bleed height, no empty media column. */
+   Spec: warm two-column banner, no full-bleed height, compact without empty media column. */
 
 .section-mm-hero {
   margin: 0;
@@ -16,12 +16,15 @@
   --mm-hero-bg: #faf8f4;
   --mm-hero-heading: #214d43;
   --mm-hero-text: #59665f;
-  --mm-hero-heading-size: 30px;
-  --mm-hero-text-max: 480px;
+  --mm-hero-eyebrow: #214d43;
+  --mm-hero-heading-size: clamp(1.875rem, 1.55rem + 1.4vw, 2.25rem); /* 30–36px */
+  --mm-hero-text-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16–18px */
+  --mm-hero-text-max: 34ch;
   --mm-hero-radius: 20px;
-  --mm-hero-pad-y: 48px;
+  --mm-hero-pad-y: clamp(2.5rem, 2rem + 2vw, 4rem);
   --mm-hero-gutter: var(--mm-page-gutter, 16px);
   --mm-hero-focal: center;
+  --mm-hero-motion: 200ms ease;
   background: var(--mm-hero-bg);
   color: var(--mm-hero-text);
   overflow-x: clip;
@@ -29,7 +32,9 @@
 
 @media screen and (min-width: 900px) {
   .mm-hero {
-    --mm-hero-heading-size: 44px;
+    /* 48–56px */
+    --mm-hero-heading-size: clamp(3rem, 2.6rem + 0.7vw, 3.5rem);
+    --mm-hero-pad-y: clamp(3rem, 2.5rem + 1.5vw, 4.5rem);
   }
 }
 
@@ -45,17 +50,17 @@
   align-items: center;
 }
 
-/* No image → centered text only (no reserved media column) */
-.mm-hero__inner:not(.mm-hero__inner--with-image) {
+/* No image → compact centered text (no reserved media column) */
+.mm-hero__inner--text-only {
   justify-items: center;
   text-align: center;
 }
 
-.mm-hero__inner:not(.mm-hero__inner--with-image) .mm-hero__content {
+.mm-hero__inner--text-only .mm-hero__content {
   margin-inline: auto;
 }
 
-.mm-hero__inner:not(.mm-hero__inner--with-image) .mm-hero__actions {
+.mm-hero__inner--text-only .mm-hero__actions {
   justify-content: center;
 }
 
@@ -63,6 +68,7 @@
 .mm-hero__inner--with-image {
   text-align: left;
   justify-items: stretch;
+  gap: var(--mm-space-6, 32px);
 }
 
 @media screen and (min-width: 900px) {
@@ -73,11 +79,12 @@
   /* ~45% text / ~55% image */
   .mm-hero__inner--with-image {
     grid-template-columns: minmax(0, 0.45fr) minmax(0, 0.55fr);
-    gap: var(--mm-space-7, 48px);
+    gap: clamp(2rem, 1.5rem + 2vw, 3.5rem);
   }
 
   .mm-hero__inner--with-image .mm-hero__content {
     margin-inline: 0;
+    padding-inline-end: 0.25rem;
   }
 
   .mm-hero__inner--with-image .mm-hero__actions {
@@ -88,7 +95,18 @@
 .mm-hero__content {
   min-width: 0;
   width: 100%;
-  max-width: var(--mm-hero-text-max);
+  max-width: min(100%, 28rem);
+}
+
+.mm-hero__eyebrow {
+  margin: 0 0 var(--mm-space-3, 12px);
+  color: var(--mm-hero-eyebrow);
+  font-family: var(--mm-font-sans, system-ui, sans-serif);
+  font-size: var(--mm-font-size-ui, 15px);
+  font-weight: var(--mm-font-weight-semibold, 600);
+  line-height: 1.4;
+  letter-spacing: 0.01em;
+  overflow-wrap: anywhere;
 }
 
 .mm-hero__heading {
@@ -97,20 +115,38 @@
   font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-hero-heading-size);
   font-weight: var(--mm-font-weight-bold, 700);
-  line-height: var(--mm-line-height-heading, 1.25);
+  line-height: 1.22;
   letter-spacing: normal;
   overflow-wrap: anywhere;
+  hyphens: manual;
+}
+
+/* Georgian / multi-script headings: slightly more open line-height */
+:lang(ka) .mm-hero__heading,
+html[lang='ka'] .mm-hero__heading {
+  line-height: 1.3;
 }
 
 .mm-hero__text {
   margin: 0 0 var(--mm-space-5, 24px);
+  max-width: var(--mm-hero-text-max);
   color: var(--mm-hero-text);
   font-family: var(--mm-font-sans, system-ui, sans-serif);
-  font-size: var(--mm-font-size-body, 16px);
+  font-size: var(--mm-hero-text-size);
   font-weight: var(--mm-font-weight-medium, 500);
-  line-height: var(--mm-line-height-body, 1.6);
+  line-height: 1.65;
   letter-spacing: normal;
   overflow-wrap: anywhere;
+}
+
+:lang(ka) .mm-hero__text,
+html[lang='ka'] .mm-hero__text {
+  line-height: 1.7;
+  max-width: 36ch;
+}
+
+.mm-hero__inner--text-only .mm-hero__text {
+  margin-inline: auto;
 }
 
 .mm-hero__actions {
@@ -124,11 +160,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.5rem;
   min-height: 48px;
   min-width: 44px;
   max-width: 100%;
-  padding: 12px 20px;
-  border-radius: var(--mm-radius-button, 8px);
+  padding: 12px 22px;
+  border-radius: var(--mm-radius-button, 10px);
   font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-font-size-ui, 15px);
   font-weight: var(--mm-font-weight-semibold, 600);
@@ -138,10 +175,25 @@
   text-align: center;
   box-sizing: border-box;
   transition:
-    background-color 180ms ease,
-    color 180ms ease,
-    border-color 180ms ease,
-    opacity 180ms ease;
+    background-color var(--mm-hero-motion),
+    color var(--mm-hero-motion),
+    border-color var(--mm-hero-motion),
+    opacity var(--mm-hero-motion);
+}
+
+.mm-hero__btn-label {
+  min-width: 0;
+}
+
+.mm-hero__btn-arrow {
+  display: inline-flex;
+  flex-shrink: 0;
+  transition: transform var(--mm-hero-motion);
+}
+
+.mm-hero__btn:hover .mm-hero__btn-arrow,
+.mm-hero__btn:focus-visible .mm-hero__btn-arrow {
+  transform: translateX(3px);
 }
 
 .mm-hero__btn[aria-disabled='true'] {
@@ -203,23 +255,34 @@
   min-width: 0;
   width: 100%;
   line-height: 0;
-}
-
-/* Rendered only when a real image is set in Liquid */
-.mm-hero__image {
-  display: block;
-  width: 100%;
-  height: auto;
-  aspect-ratio: 5 / 4;
-  object-fit: cover;
-  object-position: var(--mm-hero-focal);
+  overflow: hidden;
   border-radius: var(--mm-hero-radius);
   background: #eaf1ec;
 }
 
+.mm-hero__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1600 / 1068;
+  object-fit: cover;
+  object-position: var(--mm-hero-focal);
+  border-radius: var(--mm-hero-radius);
+  background: #eaf1ec;
+  transform: scale(1);
+  transition: transform 220ms ease;
+  will-change: transform;
+}
+
 @media screen and (min-width: 900px) {
   .mm-hero__image {
-    aspect-ratio: 4 / 3;
+    min-height: 0;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mm-hero__media:hover .mm-hero__image {
+    transform: scale(1.02);
   }
 }
 
@@ -241,7 +304,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .mm-hero__btn {
+  .mm-hero__btn,
+  .mm-hero__btn-arrow,
+  .mm-hero__image {
     transition: none;
+  }
+
+  .mm-hero__btn:hover .mm-hero__btn-arrow,
+  .mm-hero__btn:focus-visible .mm-hero__btn-arrow,
+  .mm-hero__media:hover .mm-hero__image {
+    transform: none;
   }
 }

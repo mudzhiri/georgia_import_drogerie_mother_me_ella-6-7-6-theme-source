@@ -35,7 +35,7 @@
     endcase
   -%}
 
-  <div class="mm-lang" data-mm-lang>
+  <div class="mm-lang{% if id_suffix == 'drawer' %} mm-lang--drawer{% endif %}" data-mm-lang>
     {%- form 'localization', id: form_id, class: 'mm-lang__form' -%}
       <input type="hidden" name="locale_code" value="{{ current.iso_code }}" data-mm-lang-input>
 

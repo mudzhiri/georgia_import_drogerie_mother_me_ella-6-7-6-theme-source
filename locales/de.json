@@ -635,6 +635,17 @@
       "min_error": "Dieser Artikel hat ein Minimum von {{ min }}",
       "max_error": "Dieser Artikel hat maximal {{ max }}",
       "step_error": "Sie können dieses Element nur in Schritten von hinzufügen {{ step }}"
+    },
+    "mm_footer": {
+      "brand_text": "Pflege- und Hygieneprodukte für Kinder und Mütter, aus Deutschland.",
+      "customers_heading": "Kundenservice",
+      "info_heading": "Informationen",
+      "link_contact": "Kontakt",
+      "link_shipping": "Lieferung",
+      "link_refund": "Rückgabe",
+      "link_about": "Über uns",
+      "link_privacy": "Datenschutz",
+      "link_terms": "Geschäftsbedingungen"
     }
   },
   "localization": {

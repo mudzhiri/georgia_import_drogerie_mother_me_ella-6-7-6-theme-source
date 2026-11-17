@@ -108,6 +108,7 @@
     pin() {
       if (this.pinned || !this.row) return;
       this.spacer = ensureSpacer(this.row, 'mm-sticky-spacer') || this.spacer;
+      // Reserve layout space from the pre-pin height so content does not jump.
       const height = Math.max(
         1,
         Math.ceil(this.row.getBoundingClientRect().height || this.row.offsetHeight || 0)
@@ -118,7 +119,12 @@
       }
       this.row.classList.add('is-pinned');
       this.section.classList.add('mm-header-is-pinned');
-      document.documentElement.style.setProperty('--mm-sticky-height', `${height}px`);
+      // After pin, CSS may soft-compact the bar — use the visible height for scroll-padding.
+      const pinnedHeight = Math.max(
+        1,
+        Math.ceil(this.row.getBoundingClientRect().height || height)
+      );
+      document.documentElement.style.setProperty('--mm-sticky-height', `${pinnedHeight}px`);
       this.pinned = true;
     }
 
@@ -212,6 +218,19 @@
     window.setTimeout(patchEllaSticky, 300);
   }
 
+  function syncCartBadges() {
+    document.querySelectorAll('.header__icon--cart .cart-count-bubble [data-cart-count], .header-mobile .cart-count-bubble [data-cart-count]').forEach((el) => {
+      const raw = String(el.textContent || '').trim();
+      const count = Number.parseInt(raw, 10);
+      const empty = !Number.isFinite(count) || count <= 0;
+      const bubble = el.closest('.cart-count-bubble');
+      if (!bubble) return;
+      bubble.classList.toggle('is-empty', empty);
+      if (empty) bubble.setAttribute('hidden', '');
+      else bubble.removeAttribute('hidden');
+    });
+  }
+
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', boot);
   } else {
@@ -220,11 +239,26 @@
 
   DESKTOP_MQ.addEventListener('change', init);
   document.addEventListener('shopify:section:load', () => window.setTimeout(init, 50));
+  document.addEventListener('cart:updated', syncCartBadges);
   window.addEventListener('load', () => {
     patchEllaSticky();
     desktopCtrl?.measure();
     mobileCtrl?.measure();
     desktopCtrl?.onScroll();
     mobileCtrl?.onScroll();
+    syncCartBadges();
   });
+
+  // Keep empty badge hidden when Ella updates [data-cart-count] text only
+  const cartObserver = new MutationObserver(syncCartBadges);
+  function observeCartCounts() {
+    document.querySelectorAll('[data-cart-count]').forEach((el) => {
+      cartObserver.observe(el, { characterData: true, childList: true, subtree: true });
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', observeCartCounts);
+  } else {
+    observeCartCounts();
+  }
 })();

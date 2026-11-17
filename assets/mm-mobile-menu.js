@@ -42,6 +42,7 @@
     if (!root) return;
     root.setAttribute('role', 'dialog');
     root.setAttribute('aria-modal', 'true');
+    root.setAttribute('aria-hidden', 'false');
     syncToggleAria();
     const closeBtn = root.querySelector('[data-menu-close-sidebar]');
     window.setTimeout(() => {
@@ -53,7 +54,10 @@
     const root = drawer();
     if (root) {
       root.removeAttribute('aria-modal');
+      root.setAttribute('aria-hidden', 'true');
     }
+    document.body.style.removeProperty('overflow');
+    document.body.style.removeProperty('touch-action');
     resetAccordions();
     syncToggleAria();
     const btn = toggleBtn();

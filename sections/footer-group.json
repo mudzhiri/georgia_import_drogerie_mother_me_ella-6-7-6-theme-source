@@ -15,17 +15,17 @@
       "type": "mm-footer",
       "settings": {
         "logo_width": 180,
-        "brand_text": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის.",
+        "brand_text": "",
         "show_contact": true,
         "contact_email": "info@motherandme.ge",
         "show_social": true,
-        "customers_heading": "მომხმარებლისთვის",
+        "customers_heading": "",
         "menu_customers": "mm-footer-customers",
-        "show_policies_customers": false,
-        "info_heading": "ინფორმაცია",
+        "show_policies_customers": true,
+        "info_heading": "",
         "menu_info": "mm-footer-info",
         "show_policies_info": true,
-        "show_payments": true
+        "show_payments": false
       }
     }
   },

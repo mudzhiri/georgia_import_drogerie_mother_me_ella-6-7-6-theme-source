@@ -51,6 +51,12 @@
             el.textContent = count >= 100 && window.cartStrings && window.cartStrings.item_99
               ? window.cartStrings.item_99
               : String(count);
+            var bubble = el.closest('.cart-count-bubble');
+            if (bubble) {
+              bubble.classList.toggle('is-empty', !count);
+              if (count) bubble.removeAttribute('hidden');
+              else bubble.setAttribute('hidden', '');
+            }
           });
           if (window.halo && typeof window.halo.updateSidebarCart === 'function') {
             window.halo.updateSidebarCart(cart);
@@ -66,6 +72,12 @@
       .then(function (cart) {
         document.querySelectorAll('[data-cart-count]').forEach(function (el) {
           el.textContent = String(cart.item_count);
+          var bubble = el.closest('.cart-count-bubble');
+          if (bubble) {
+            bubble.classList.toggle('is-empty', !cart.item_count);
+            if (cart.item_count) bubble.removeAttribute('hidden');
+            else bubble.setAttribute('hidden', '');
+          }
         });
         document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
       })

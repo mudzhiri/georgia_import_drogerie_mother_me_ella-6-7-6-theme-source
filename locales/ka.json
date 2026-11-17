@@ -635,6 +635,17 @@
       "min_error": "This item has a minimum of {{ min }}",
       "max_error": "This item has a maximum of {{ max }}",
       "step_error": "You can only add this item in increments of {{ step }}"
+    },
+    "mm_footer": {
+      "brand_text": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის.",
+      "customers_heading": "მომხმარებლისთვის",
+      "info_heading": "ინფორმაცია",
+      "link_contact": "კონტაქტი",
+      "link_shipping": "მიწოდება",
+      "link_refund": "დაბრუნება",
+      "link_about": "ჩვენს შესახებ",
+      "link_privacy": "კონფიდენციალურობა",
+      "link_terms": "წესები და პირობები"
     }
   },
   "localization": {
