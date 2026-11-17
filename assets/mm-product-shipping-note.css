@@ -1,57 +1,65 @@
-/* MOTHER & ME — compact PDP shipping note under buy button */
+/* MOTHER & ME — PDP trust notes under buy button (dm-style list) */
 
+.mm-pdp-trust {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  border: 0;
+  background: none;
+}
+
+.mm-pdp-trust__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+
+.mm-pdp-trust__icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  margin-top: 1px;
+  color: #214d43;
+}
+
+.mm-pdp-trust__icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+.mm-pdp-trust__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: normal;
+  text-transform: none;
+  color: #214d43;
+  overflow-wrap: anywhere;
+}
+
+:lang(ka) .mm-pdp-trust__text {
+  line-height: 1.5;
+}
+
+/* Legacy single-note class kept for safety if cached markup remains */
 .mm-product-shipping-note {
   display: flex;
   align-items: flex-start;
   gap: 8px;
   margin: 12px 0 0;
-  padding: 0;
-  border: 0;
-  background: none;
-  box-shadow: none;
+  color: #59665f;
   font-size: 14px;
   line-height: 1.45;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-  color: #59665f;
-}
-
-.mm-product-shipping-note__icon {
-  display: inline-flex;
-  flex-shrink: 0;
-  width: 18px;
-  height: 18px;
-  margin-top: 1px;
-  color: #59665f;
-}
-
-.mm-product-shipping-note__icon svg {
-  display: block;
-  width: 18px;
-  height: 18px;
-}
-
-.mm-product-shipping-note__text {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 14px;
-  line-height: 1.45;
-  color: #59665f;
-}
-
-.mm-product-shipping-note__text a {
-  color: #214d43;
-  text-decoration: underline;
-  text-underline-offset: 2px;
-}
-
-.mm-product-shipping-note__text a:hover,
-.mm-product-shipping-note__text a:focus-visible {
-  color: #214d43;
-}
-
-.mm-product-shipping-note__text a:focus-visible {
-  outline: 2px solid #214d43;
-  outline-offset: 2px;
 }
