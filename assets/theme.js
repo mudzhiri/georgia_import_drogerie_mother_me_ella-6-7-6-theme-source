@@ -3258,6 +3258,11 @@
             const config = fetchConfig('javascript');
             config.headers['X-Requested-With'] = 'XMLHttpRequest';
             delete config.headers['Content-Type'];
+            // Theme sets window.routes.root; Shopify.routes.root is often undefined.
+            const cartRoot =
+                (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ||
+                (window.routes && window.routes.root) ||
+                '/';
             var originalMessage = window.variantStrings.submit,
                 waitMessage = window.variantStrings.addingToCart,
                 successMessage = window.variantStrings.addedToCart;
@@ -3269,7 +3274,19 @@
             $target.addClass('is-loading');
             if (window.mmAtcError) window.mmAtcError.clear($target.get(0));
 
-            let addToCartForm = document.querySelector('[data-type="add-to-cart-form"]');
+            // Prefer the form that owns the clicked ATC button (main vs sticky).
+            let addToCartForm =
+                ($target && $target.closest && $target.closest('form[data-type="add-to-cart-form"], form')?.get?.(0)) ||
+                (productForm && productForm.get && productForm.get(0)) ||
+                document.querySelector('[data-type="add-to-cart-form"]');
+            if (!addToCartForm) {
+                $target.removeClass('is-loading');
+                if (window.mmAtcError) {
+                    window.mmAtcError.show($target.get(0), (window.mmAtcErrorStrings && window.mmAtcErrorStrings.generic) || window.cartStrings.error);
+                    window.mmAtcError.releaseButton($target.get(0));
+                }
+                return;
+            }
             let formData = new FormData(addToCartForm);
 
             const properties = document.querySelectorAll('.line-item-property__field [name^="properties"]')
@@ -3370,7 +3387,7 @@
             };
 
             const addItemToCart = (variantId) => {
-                return fetch(window.Shopify.routes.root + 'cart/add.js', {...config, ...{
+                return fetch(cartRoot + 'cart/add.js', {...config, ...{
                         method: 'POST',
                         body: formData
                     }
@@ -3407,19 +3424,24 @@
                 });
             }
 
-            fetch(window.Shopify.routes.root + 'cart.js', {
+            fetch(cartRoot + 'cart.js', {
                 method: 'GET',
             })
             .then(response => {
                 return response.json();
             }).then(response => { 
-                const variantId = parseInt($(addToCartForm).serialize().split('id=')[1])
-                const item = response.items.find(item => item.variant_id == variantId)
+                const idInput = addToCartForm.querySelector('input[name="id"]');
+                const variantId = idInput ? parseInt(idInput.value, 10) : NaN;
+                if (!Number.isFinite(variantId)) {
+                    throw { type: 'shopify', message: (window.mmAtcErrorStrings && window.mmAtcErrorStrings.generic) || window.cartStrings.error };
+                }
+                const item = (response.items || []).find(item => item.variant_id == variantId)
                 const currentQuantity = item?.quantity 
                 const currentProductId = item?.product_id
                 const moreQuantity = parseInt(productForm.find('[data-inventory-quantity]').val()) 
                 const maxQuantity = parseInt(productForm.find('[data-inventory-quantity]').data('inventory-quantity'))
-                const saleOutStock = document.getElementById('product-add-to-cart').dataset.available === 'true' | false
+                const atcBtn = document.getElementById('product-add-to-cart');
+                const saleOutStock = atcBtn ? (atcBtn.dataset.available === 'true') : false;
 
                 if (!currentQuantity || !maxQuantity || saleOutStock) return addItemToCart(variantId)
                 var arrayInVarName = `selling_array_${currentProductId}`,

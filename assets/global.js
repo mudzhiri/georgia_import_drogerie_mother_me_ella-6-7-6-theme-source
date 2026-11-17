@@ -281,7 +281,10 @@ Shopify.formatMoney = function(cents, format) {
 }
 
 Shopify.getCart = function(callback) {
-    $.getJSON('/cart.js', function (cart, textStatus) {
+    const cartUrl =
+        (window.routes && window.routes.cart && (window.routes.cart.endsWith('.js') ? window.routes.cart : window.routes.cart + '.js')) ||
+        ((window.routes && window.routes.root) || '/') + 'cart.js';
+    $.getJSON(cartUrl, function (cart, textStatus) {
         if ((typeof callback) === 'function') {
             callback(cart);
         } else {
@@ -350,7 +353,11 @@ Shopify.addItem = function(variant_id, quantity, $target, callback, input = null
 
     var params = {
         type: 'POST',
-        url: '/cart/add.js',
+        url: (function () {
+            var root = (window.routes && window.routes.root) || '/';
+            var add = (window.routes && window.routes.cart_add_url) || (root.replace(/\/?$/, '/') + 'cart/add');
+            return add.indexOf('.js') !== -1 ? add : add + '.js';
+        })(),
         data: dataForm,
         dataType: 'json',
         success: function(line_item) {

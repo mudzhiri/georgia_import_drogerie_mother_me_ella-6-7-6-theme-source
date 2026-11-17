@@ -102,8 +102,19 @@ class VariantSelects extends HTMLElement {
             if (!newMedia) return;
             window.setTimeout(() => {
                 if ($('.productView-nav-gallery').length > 0) {
-                    const newMediaGallery = document.querySelector(`.slick-slide:not(.slick-cloned):has([data-media-id="${this.currentVariant.featured_media.id}"])`)?.getAttribute("data-slick-index");
-                    const goToIndex = Number(newMediaGallery);
+                    let goToIndex = NaN;
+                    try {
+                        const mediaId = this.currentVariant.featured_media.id;
+                        const slides = document.querySelectorAll('.productView-nav-gallery .slick-slide:not(.slick-cloned)');
+                        for (let i = 0; i < slides.length; i++) {
+                            if (slides[i].querySelector(`[data-media-id="${mediaId}"]`)) {
+                                goToIndex = Number(slides[i].getAttribute('data-slick-index'));
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        goToIndex = NaN;
+                    }
                     if (Number.isFinite(goToIndex)) {
                         $('.productView-nav-gallery').slick('slickGoTo', goToIndex);
                     }
@@ -176,6 +187,7 @@ class VariantSelects extends HTMLElement {
     }
 
     renderProductAjaxInfo() {
+        if (!this.currentVariant?.id) return;
         fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
             .then((response) => response.text())
             .then((responseText) => {
@@ -215,12 +227,14 @@ class VariantSelects extends HTMLElement {
     }
 
     renderProductInfo() {
+        if (!this.currentVariant) return;
+
         if(this.item.find('[data-sku]').length > 0){
-            this.item.find('[data-sku] .productView-info-value').text(this.currentVariant.sku);
+            this.item.find('[data-sku] .productView-info-value').text(this.currentVariant.sku || '');
         }
 
         if(this.item.find('[data-barcode]').length > 0){
-            this.item.find('[data-barcode] .productView-info-value').text(this.currentVariant.barcode);
+            this.item.find('[data-barcode] .productView-info-value').text(this.currentVariant.barcode || '');
         }
 
         var inventory = this.currentVariant?.inventory_management;
@@ -259,7 +273,7 @@ class VariantSelects extends HTMLElement {
             }
         }
 
-        if(this.item.find('.productView-stickyCart').length > 0){
+        if(this.currentVariant && this.item.find('.productView-stickyCart').length > 0){
             const sticky = this.item.find('.productView-stickyCart');
             const optionSticky = sticky.find('.select__select');
 
@@ -268,6 +282,7 @@ class VariantSelects extends HTMLElement {
     }
 
     updateProductInfo() {
+        if (!this.currentVariant?.id) return;
         fetch(`${this.dataset.url}?variant=${this.currentVariant.id}&section_id=${this.dataset.section}`)
             .then((response) => response.text())
             .then((responseText) => {
@@ -788,7 +803,8 @@ class VariantRadios extends VariantSelects {
     updateOptions() {
         const fieldsets = Array.from(this.querySelectorAll('fieldset'));
         this.options = fieldsets.map((fieldset) => {
-            return Array.from(fieldset.querySelectorAll('input')).find((radio) => radio.checked).value;
+            const checked = Array.from(fieldset.querySelectorAll('input')).find((radio) => radio.checked);
+            return checked ? checked.value : null;
         });
     }
 }
