@@ -52,9 +52,7 @@
         <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
       {%- endif -%}
 
-      {%- if sold_out -%}
-        <span class="mm-product-card__badge">{{ label_sold_out }}</span>
-      {%- endif -%}
+      {% render 'mm-product-badges', product: product, badge_detail: false %}
     </a>
 
     <div class="mm-card-quick-cart mm-product-card__quick-cart">

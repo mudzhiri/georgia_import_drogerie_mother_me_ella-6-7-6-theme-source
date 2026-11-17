@@ -1,0 +1,129 @@
+{% comment %}
+  MOTHER & ME — unified product image badges.
+
+  Auto (from Shopify data only):
+    - sold out → არ არის მარაგში
+    - real compare-at reduction → ფასდაკლება
+
+  Manual (product metafield mm.badges → list of metaobject mm_product_badge):
+    - active, date window (shop timezone Asia/Tbilisi), priority
+
+  Max 2 badges. Sold out first, then sale, then manuals by priority (lower = higher).
+  Renders nothing when empty (no spacer). pointer-events: none — does not block links/ATC.
+{% endcomment %}
+{%- liquid
+  assign mm_badge_product = product
+  if mm_badge_product == blank
+    assign mm_badge_product = product_card_product
+  endif
+
+  assign mm_max_badges = 2
+  assign mm_shown = 0
+  assign mm_used_keys = '|'
+
+  assign mm_has_sold_out = false
+  if mm_badge_product != blank and mm_badge_product.available == false
+    assign mm_has_sold_out = true
+  endif
+
+  assign mm_has_sale = false
+  if mm_badge_product != blank
+    if badge_detail
+      assign mm_variant = mm_badge_product.selected_or_first_available_variant
+      if mm_variant.compare_at_price != blank and mm_variant.compare_at_price > mm_variant.price
+        assign mm_has_sale = true
+      endif
+    else
+      if mm_badge_product.compare_at_price_min != blank and mm_badge_product.compare_at_price_min > mm_badge_product.price_min
+        assign mm_has_sale = true
+      endif
+    endif
+  endif
+
+  assign mm_now_ts = 'now' | date: '%s'
+  assign mm_manual_badges = blank
+  if mm_badge_product != blank and mm_badge_product.metafields.mm.badges != blank
+    assign mm_manual_badges = mm_badge_product.metafields.mm.badges.value
+  endif
+-%}
+{%- capture mm_badge_items -%}
+  {%- if mm_has_sold_out -%}
+    {%- assign mm_key = 'auto:sold_out' -%}
+    {%- unless mm_used_keys contains mm_key -%}
+      {%- assign mm_used_keys = mm_used_keys | append: mm_key | append: '|' -%}
+      {%- assign mm_shown = mm_shown | plus: 1 -%}
+      <span
+        class="mm-product-badges__item mm-product-badges__item--sold-out"
+        style="--mm-badge-bg:#dee5df;--mm-badge-fg:#59665f;--mm-badge-bd:#c9d5cd;"
+      >{{ 'mm_badges.sold_out' | t | escape }}</span>
+    {%- endunless -%}
+  {%- endif -%}
+
+  {%- if mm_manual_badges != blank and mm_shown < mm_max_badges -%}
+    {%- assign mm_sorted = mm_manual_badges | sort: 'priority' -%}
+    {%- for badge in mm_sorted -%}
+      {%- if mm_shown >= mm_max_badges -%}
+        {%- break -%}
+      {%- endif -%}
+      {%- if badge != blank -%}
+        {%- liquid
+          assign mm_active = false
+          if badge.active == true or badge.active == 'true'
+            assign mm_active = true
+          endif
+
+          assign mm_in_window = true
+          if badge.starts_at != blank
+            assign mm_start_ts = badge.starts_at | date: '%s'
+            if mm_now_ts < mm_start_ts
+              assign mm_in_window = false
+            endif
+          endif
+          if badge.ends_at != blank
+            assign mm_end_ts = badge.ends_at | date: '%s'
+            if mm_now_ts > mm_end_ts
+              assign mm_in_window = false
+            endif
+          endif
+
+          assign mm_label = badge.label_ka | strip
+          assign mm_bg = badge.background_color
+          assign mm_fg = badge.text_color
+          assign mm_bd = badge.border_color
+        -%}
+
+        {%- if mm_active and mm_in_window and mm_label != blank -%}
+          {%- assign mm_key = 'manual:' | append: mm_label | downcase -%}
+          {%- unless mm_used_keys contains mm_key -%}
+            {%- assign mm_used_keys = mm_used_keys | append: mm_key | append: '|' -%}
+            {%- assign mm_shown = mm_shown | plus: 1 -%}
+            {%- if mm_bg == blank -%}{%- assign mm_bg = '#eaf1ec' -%}{%- endif -%}
+            {%- if mm_fg == blank -%}{%- assign mm_fg = '#214d43' -%}{%- endif -%}
+            <span
+              class="mm-product-badges__item mm-product-badges__item--manual"
+              style="--mm-badge-bg: {{ mm_bg }}; --mm-badge-fg: {{ mm_fg }};{% if mm_bd != blank %} --mm-badge-bd: {{ mm_bd }};{% endif %}"
+            >{{ mm_label | escape }}</span>
+          {%- endunless -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+
+  {%- if mm_shown < mm_max_badges and mm_has_sale -%}
+    {%- assign mm_key = 'auto:sale' -%}
+    {%- unless mm_used_keys contains mm_key -%}
+      {%- assign mm_used_keys = mm_used_keys | append: mm_key | append: '|' -%}
+      {%- assign mm_shown = mm_shown | plus: 1 -%}
+      <span
+        class="mm-product-badges__item mm-product-badges__item--sale"
+        style="--mm-badge-bg:#f3d5c3;--mm-badge-fg:#214d43;--mm-badge-bd:#e8c4ad;"
+      >{{ 'mm_badges.sale' | t | escape }}</span>
+    {%- endunless -%}
+  {%- endif -%}
+{%- endcapture -%}
+{%- assign mm_badge_items_stripped = mm_badge_items | strip -%}
+{%- if mm_badge_items_stripped != blank -%}
+  <div class="mm-product-badges" aria-hidden="true">
+    {{ mm_badge_items }}
+  </div>
+{%- endif -%}

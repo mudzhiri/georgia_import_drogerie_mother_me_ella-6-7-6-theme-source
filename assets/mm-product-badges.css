@@ -1,0 +1,66 @@
+/* MOTHER & ME — product image badges (scoped; does not restyle Ella .badge globally) */
+.mm-product-badges {
+  position: absolute;
+  top: 11px;
+  left: 11px;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  max-width: calc(100% - 22px);
+  margin: 0;
+  padding: 0;
+  pointer-events: none;
+}
+
+.mm-product-badges__item {
+  display: inline-block;
+  box-sizing: border-box;
+  max-width: 100%;
+  margin: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--mm-badge-bd, transparent);
+  border-radius: 6px;
+  background: var(--mm-badge-bg, #eaf1ec);
+  color: var(--mm-badge-fg, #214d43);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  line-height: 1.35;
+  text-align: left;
+  text-transform: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-product-badges__item {
+    font-size: 13px;
+    line-height: 1.35;
+  }
+}
+
+/* Ensure media wrappers that host badges can position them */
+.card-media .mm-product-badges,
+.productView-image-wrapper .mm-product-badges,
+.mm-product-card__media .mm-product-badges,
+.mm-product-card__media-wrap .mm-product-badges {
+  pointer-events: none;
+}
+
+.mm-product-card__media {
+  position: relative;
+}
+
+.mm-product-card__media-wrap {
+  position: relative;
+}
+
+.mm-product-card__media-wrap > .mm-product-badges {
+  top: 11px;
+  left: 11px;
+}
