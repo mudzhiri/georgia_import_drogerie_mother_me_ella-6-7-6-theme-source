@@ -47,6 +47,16 @@
   overflow-wrap: anywhere;
 }
 
+:lang(ka) .mm-cart-empty__heading {
+  line-height: 1.4;
+}
+
+:lang(ka) .mm-cart-empty__button {
+  line-height: 1.4;
+  white-space: normal;
+  text-align: center;
+}
+
 .mm-cart-empty__actions {
   display: flex;
   flex-direction: column;

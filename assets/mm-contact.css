@@ -27,6 +27,12 @@
   overflow-wrap: anywhere;
 }
 
+:lang(ka) .mm-contact__heading,
+:lang(ka) .mm-contact__field-label,
+:lang(ka) .mm-contact__submit {
+  line-height: 1.4;
+}
+
 .mm-contact__layout {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
