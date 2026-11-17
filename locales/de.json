@@ -974,6 +974,14 @@
     }
   },
   "mm_home": {
+    "hero": {
+      "eyebrow": "Für dich und dein kleines Wunder",
+      "heading": "Liebevolle Pflege für dich und dein Kind",
+      "text": "Entdecke ausgewählte Pflege- und Hygieneprodukte für Kinder und Mütter – aus Deutschland nach Georgien.",
+      "button_kids": "Für Kinder",
+      "button_mamas": "Für Mütter",
+      "image_alt": "Mutter mit Kleinkind und Baby bei weichem Tageslicht"
+    },
     "categories": {
       "heading": "Kategorien",
       "kids_label": "Für Kinder",

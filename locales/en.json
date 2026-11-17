@@ -974,6 +974,14 @@
     }
   },
   "mm_home": {
+    "hero": {
+      "eyebrow": "For you and your little wonder",
+      "heading": "Loving care for you and your child",
+      "text": "Discover selected care and hygiene products for children and mothers — from Germany to Georgia.",
+      "button_kids": "For kids",
+      "button_mamas": "For mothers",
+      "image_alt": "Mother sitting with a toddler and a baby in soft daylight"
+    },
     "categories": {
       "heading": "Categories",
       "kids_label": "For kids",

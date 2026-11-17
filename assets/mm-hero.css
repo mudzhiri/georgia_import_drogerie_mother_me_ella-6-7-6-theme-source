@@ -286,7 +286,7 @@ html[lang='ka'] .mm-hero__text {
   }
 }
 
-@media screen and (max-width: 419px) {
+@media screen and (max-width: 519px) {
   .mm-hero__actions {
     flex-direction: column;
   }
@@ -296,7 +296,7 @@ html[lang='ka'] .mm-hero__text {
   }
 }
 
-@media screen and (min-width: 420px) and (max-width: 899px) {
+@media screen and (min-width: 520px) and (max-width: 899px) {
   .mm-hero__btn {
     flex: 1 1 calc(50% - 6px);
     min-width: 0;

@@ -12,12 +12,14 @@
     "mm_hero": {
       "type": "mm-hero",
       "settings": {
-        "heading": "ზრუნვა შენზე და შენს პატარაზე",
-        "text": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები.",
-        "button_1_label": "ბავშვებისთვის",
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "button_1_label": "",
         "button_1_link": "shopify://collections/ბავშვი",
-        "button_2_label": "დედებისთვის",
-        "button_2_link": "shopify://collections/დედა"
+        "button_2_label": "",
+        "button_2_link": "shopify://collections/დედა",
+        "image_alt": ""
       }
     },
     "mm_categories": {
