@@ -9,6 +9,9 @@
  */
 {
   "general": {
+    "popup": {
+      "warning_placeholder": "გაფრთხილება"
+    },
     "breadcrumb": {
       "home": "მთავარი",
       "label": "ნავიგაციის გზა"
