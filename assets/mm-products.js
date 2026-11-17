@@ -148,8 +148,24 @@
     addToCart(form, btn);
   }
 
+  function onImageError(event) {
+    var img = event.target;
+    if (!img || img.tagName !== 'IMG') return;
+    if (!img.classList.contains('mm-product-card__image')) return;
+    img.setAttribute('data-mm-broken', '1');
+    img.removeAttribute('src');
+    img.removeAttribute('srcset');
+    if (!img.nextElementSibling || !img.nextElementSibling.classList.contains('mm-product-card__image-placeholder')) {
+      var ph = document.createElement('span');
+      ph.className = 'mm-product-card__image-placeholder';
+      ph.setAttribute('aria-hidden', 'true');
+      img.insertAdjacentElement('afterend', ph);
+    }
+  }
+
   function init() {
     document.addEventListener('submit', onSubmit, true);
+    document.addEventListener('error', onImageError, true);
   }
 
   if (document.readyState === 'loading') {

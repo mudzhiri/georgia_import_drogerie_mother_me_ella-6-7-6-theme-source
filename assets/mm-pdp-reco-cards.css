@@ -151,6 +151,15 @@
   opacity: 1;
 }
 
+.halo-recommendations-block .card-media.media--hover-effect > img + img,
+.halo-recommendations-block .card-media.media--hover-effect > img + video,
+.halo-recently-viewed-block .card-media.media--hover-effect > img + img,
+.halo-recently-viewed-block .card-media.media--hover-effect > img + video {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms ease-out;
+}
+
 .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
 .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + img,
 .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + video,
@@ -158,6 +167,40 @@
 .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + img,
 .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + video {
   transform: translate(-50%, -50%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img:first-child:not(:only-child),
+  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img:first-child:not(:only-child) {
+    opacity: 0;
+  }
+
+  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + img,
+  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + video,
+  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img + img,
+  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img + video,
+  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + img,
+  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + video,
+  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img + img,
+  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img + video {
+    opacity: 1;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .halo-recommendations-block .card-media.media--hover-effect > img + img,
+  .halo-recommendations-block .card-media.media--hover-effect > img + video,
+  .halo-recently-viewed-block .card-media.media--hover-effect > img + img,
+  .halo-recently-viewed-block .card-media.media--hover-effect > img + video {
+    opacity: 0 !important;
+  }
+
+  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
+  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child) {
+    opacity: 1 !important;
+  }
 }
 
 .halo-recommendations-block .card-quickview,

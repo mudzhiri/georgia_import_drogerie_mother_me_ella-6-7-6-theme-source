@@ -27,6 +27,20 @@
   if submenu != blank and submenu.links.size > 0
     assign has_subnav = true
   endif
+
+  # Fallback chips: confirmed child collection handles only (no menu writes, no merge).
+  assign mm_fallback_handles = ''
+  if has_subnav == false
+    case collection.handle
+      when 'ბავშვი'
+        assign mm_fallback_handles = 'ბავშვის-კანის-მოვლა,აბაზანა-და-რეცხვა,ბავშვის-კვება'
+      when 'ბავშვები'
+        assign mm_fallback_handles = 'სათამაშოები-და-აქსესუარები,დეოდორანტები'
+      when 'დედა'
+        assign mm_fallback_handles = 'ძუძუთი-კვება-და-ორსულობა,სახის-მოვლა,სხეულის-მოვლა,მაკიაჟი'
+    endcase
+  endif
+  assign mm_fallback_list = mm_fallback_handles | split: ','
 -%}
 
 <header
@@ -75,6 +89,23 @@
           {%- endif -%}
         {%- endfor -%}
       </ul>
+    {%- elsif mm_fallback_handles != blank -%}
+      <ul class="mm-collection-header__subnav" role="list">
+        {%- for handle in mm_fallback_list -%}
+          {%- assign mm_child = collections[handle] -%}
+          {%- if mm_child != blank and mm_child.all_products_count > 0 -%}
+            <li>
+              <a
+                class="mm-collection-header__chip"
+                href="{{ mm_child.url }}"
+                {% if collection.handle == mm_child.handle %}aria-current="page"{% endif %}
+              >
+                {{ mm_child.title | escape }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
     {%- endif -%}
   </div>
 </header>
@@ -95,7 +126,7 @@
       "type": "link_list",
       "id": "submenu",
       "label": "Subcategory menu",
-      "info": "Optional override. By default: sub-baby for ბავშვი, sub-kids for ბავშვები, sub-mama for დედა."
+      "info": "Optional override. By default: sub-baby for ბავშვი, sub-kids for ბავშვები, sub-mama for დედა. If empty, theme shows confirmed child collections only."
     }
   ]
 }
