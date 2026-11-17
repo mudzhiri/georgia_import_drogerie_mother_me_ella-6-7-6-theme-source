@@ -9,6 +9,7 @@
  */
 {
   "general": {
+    "categories": "კატეგორიები",
     "breadcrumb": {
       "home": "მთავარი",
       "label": "ნავიგაციის გზა"
@@ -99,6 +100,7 @@
       "mm_error": "ძებნა ვერ მოხერხდა. სცადე თავიდან.",
       "mm_retry": "ხელახლა ცდა",
       "mm_suggestions": "ნაპოვნია {{ count }} შეთავაზება",
+      "mm_bestsellers": "ბესტსელერები",
       "mm_clear_filters": "აქტიური ფილტრების გასუფთავება",
       "mm_results": "ძებნის შედეგები",
       "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე",
@@ -356,7 +358,7 @@
       },
       "trust": {
         "free_shipping": "მიწოდება საქართველოში: 8 ₾",
-        "order_pickup": "ონლაინ შეკვეთა ან თვითგატანა",
+        "order_pickup": "ონლაინ შეკვეთა",
         "bank_transfer": "შეკვეთა დასტურდება გადახდის შემდეგ"
       },
       "atc_error": {
@@ -510,14 +512,14 @@
   "faqs": {
     "general": {
       "all": "All",
-      "filter": "Filter by topic"
+      "filter": "თემით გაფილტვრა"
     }
   },
   "portfolio": {
-    "filter": "Filter",
-    "close": "Close",
-    "tab_all": "Tab to show all galleries",
-    "tab": "Tab to filter gallery"
+    "filter": "ფილტრი",
+    "close": "დახურვა",
+    "tab_all": "ყველა გალერეის ჩვენება",
+    "tab": "გალერეის ფილტრი"
   },
   "sections": {
     "header": {
@@ -993,44 +995,44 @@
   },
   "size_chart": {
     "general": {
-      "title": "Size chart",
-      "text": "Size guide"
+      "title": "ზომების ცხრილი",
+      "text": "ზომების გზამკვლევი"
     }
   },
   "compare_color": {
     "general": {
-      "title": "Compare color",
-      "text": "Click on color/pattern to compare, click and drag images to reorder"
+      "title": "ფერის შედარება",
+      "text": "შეადარეთ ფერი ან ნიმუში; სურათების გადასაწყობად გადაადგილეთ"
     }
   },
   "lookbook": {
-    "view_all": "View entire look",
-    "shop_look": "Shop the look"
+    "view_all": "მთელი ლუქის ნახვა",
+    "shop_look": "ლუქის ყიდვა"
   },
   "bulk_editor_page": {
     "general": {
-      "all_collection": "All product",
-      "select_collection": "Choose category",
-      "submit": "Submit editor",
-      "edit_metafields": "Edit metafield in products."
+      "all_collection": "ყველა პროდუქტი",
+      "select_collection": "კატეგორიის არჩევა",
+      "submit": "რედაქტორის გაგზავნა",
+      "edit_metafields": "პროდუქტების მეტაველების რედაქტირება."
     }
   },
   "find_a_store": {
-    "no_stores": "Sorry, we are working on our store presentation right now! Please come back later..."
+    "no_stores": "მაღაზიის ინფორმაცია ამჟამად მზადდება. გთხოვთ, მოგვიანებით დაბრუნდეთ."
   },
   "recipient": {
     "form": {
-      "checkbox": "I want to send this as a gift",
-      "email_label": "Recipient email",
-      "email_label_optional": "Recipient email (optional)",
-      "email": "Email",
-      "name_label": "Recipient name (optional)",
-      "name": "Name",
-      "message_label": "Message (optional)",
-      "message": "Message",
-      "max_characters": "{{ max_chars }} characters max",
-      "send_on": "YYYY-MM-DD",
-      "send_on_label": "Send on (optional)"
+      "checkbox": "მინდა ეს სასაჩუქრედ გავაგზავნო",
+      "email_label": "მიმღების ელფოსტა",
+      "email_label_optional": "მიმღების ელფოსტა (არასავალდებულო)",
+      "email": "ელფოსტა",
+      "name_label": "მიმღების სახელი (არასავალდებულო)",
+      "name": "სახელი",
+      "message_label": "შეტყობინება (არასავალდებულო)",
+      "message": "შეტყობინება",
+      "max_characters": "მაქსიმუმ {{ max_chars }} სიმბოლო",
+      "send_on": "წწწწ-თთ-დდ",
+      "send_on_label": "გაგზავნის თარიღი (არასავალდებულო)"
     }
   },
   "popup": {
@@ -1066,6 +1068,9 @@
       "mamas_label": "დედებისთვის",
       "mamas_desc": "მოვლა დედებისთვის"
     },
+    "category_pills": {
+      "heading": "კატეგორიები"
+    },
     "info": {
       "heading": "ინფორმაცია",
       "import": "გერმანიიდან ჩამოტანილი",
@@ -1097,7 +1102,7 @@
       "q_order": "როგორ ხდება შეკვეთა?",
       "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ.",
       "q_shipping": "რა ღირს მიწოდება?",
-      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში.",
+      "a_shipping": "მიწოდება საქართველოში: 8 ₾. შეკვეთები მუშავდება სამუშაო დღეებში. თვითგატანა მხოლოდ მაშინ ჩანს გადახდისას, თუ მაღაზიაში ჩართულია.",
       "q_payment": "როგორ მუშაობს გადახდა?",
       "a_payment": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾).",
       "q_returns": "შეიძლება პროდუქტის დაბრუნება?",
