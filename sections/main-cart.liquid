@@ -2,6 +2,7 @@
 <link rel="stylesheet" href="{{ 'component-cart-summary.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'quantity-popover.css' | asset_url }}" media="print" onload="this.media='all'">
 <link rel="stylesheet" href="{{ 'quick-order-list.css' | asset_url }}" media="print" onload="this.media='all'">
+{{ 'mm-cart-page.css' | asset_url | stylesheet_tag }}
 <script src="{{ 'quantity-popover.js' | asset_url }}" defer="defer"></script>
 <noscript>{{ 'component-cart.css' | asset_url | stylesheet_tag }}</noscript>
 <noscript>{{ 'component-cart-summary.css' | asset_url | stylesheet_tag }}</noscript>
@@ -21,8 +22,8 @@
     assign container = section.settings.container
     assign side_padding_full_width = section.settings.side_padding_full_width | append: 'px'
     assign show_cart_countdown = section.settings.show_cart_countdown
-    assign media_size = section.settings.image_ratio
-    assign portrait_aspect_ratio = section.settings.portrait_aspect_ratio | append: '%'
+    assign media_size = 'square'
+    assign portrait_aspect_ratio = '100%'
     assign show_shipping_rate_calculator = settings.show_cart_shipping
     assign show_coupon_code = settings.show_cart_discount
     assign show_cart_note = settings.show_cart_note
@@ -82,12 +83,12 @@
                     </div>
                 </div>
             {%- endif -%}
-            <div class="halo-page-content halo-cart-content" data-cart id="main-cart-items" data-id="{{ section.id }}">
+            <div class="halo-page-content halo-cart-content mm-cart-page" data-cart id="main-cart-items" data-id="{{ section.id }}">
                 {%- if cart.item_count > 0 -%}
                     <div class="cart-content-wrapper clearfix">
                         <div class="cart-content-item" data-cart-content>
                             <div class="cart">
-                                <div class="cart-header">
+                                <div class="cart-header visually-hidden" aria-hidden="true">
                                     <div class="cart-header-item cart-header-info">{{ 'sections.cart.headings.product' | t }}</div>
                                     <div class="cart-header-item cart-header-price">{{ 'sections.cart.headings.price' | t }}</div>
                                     <div class="cart-header-item cart-header-quantity">{{ 'sections.cart.headings.quantity' | t }}</div>

@@ -128,29 +128,33 @@
                         </div>
                     {%- endif -%} {% endcomment %}
                     <div class="blog-row blog-block-item column-{{ item_per_row }}">
-                        {%- for article in blog.articles -%}
-                            {% if forloop.first == true %}
-                                {%- assign first = true -%}
-                            {% else %}
-                                {%- assign first = false -%}
-                            {% endif %}
-                            <div class="item{% if forloop.first == true %} item--first{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" style="{% if settings.banner_animation == 'effect_fade_up' %}--animation-order: {{ forloop.index }};{% endif %}--color-summary-style: {{ text_color }}">
-                                {% render 'article-card-3',
-                                    article: article,
-                                    media_size: media_size,
-                                    portrait_aspect_ratio: portrait_aspect_ratio,
-                                    blog_text_align: blog_text_align,
-                                    show_author: show_author,
-                                    show_date: show_date,
-                                    show_summary: show_summary,
-                                    show_read_more: show_read_more,
-                                    show_comment: show_comment,
-                                    show_placeholder: show_placeholder,
-                                    first: first,
-                                    catewords: 30
-                                %}
-                            </div>
-                        {%- endfor -%}
+                        {%- if blog.articles_count == 0 -%}
+                            <p class="blog-empty-message" role="status">{{ 'blogs.article.empty' | t }}</p>
+                        {%- else -%}
+                            {%- for article in blog.articles -%}
+                                {% if forloop.first == true %}
+                                    {%- assign first = true -%}
+                                {% else %}
+                                    {%- assign first = false -%}
+                                {% endif %}
+                                <div class="item{% if forloop.first == true %} item--first{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" style="{% if settings.banner_animation == 'effect_fade_up' %}--animation-order: {{ forloop.index }};{% endif %}--color-summary-style: {{ text_color }}">
+                                    {% render 'article-card-3',
+                                        article: article,
+                                        media_size: media_size,
+                                        portrait_aspect_ratio: portrait_aspect_ratio,
+                                        blog_text_align: blog_text_align,
+                                        show_author: show_author,
+                                        show_date: show_date,
+                                        show_summary: show_summary,
+                                        show_read_more: show_read_more,
+                                        show_comment: show_comment,
+                                        show_placeholder: show_placeholder,
+                                        first: first,
+                                        catewords: 30
+                                    %}
+                                </div>
+                            {%- endfor -%}
+                        {%- endif -%}
                     </div>
                     {%- if paginate.pages > 1 -%}
                         {%- render 'pagination',
@@ -195,6 +199,13 @@
 
     #BlogSection-{{ section.id }} .blog-block-item .item {
         background-color: {{ background_color }};
+    }
+
+    #BlogSection-{{ section.id }} .blog-empty-message {
+        margin: 24px 0 0;
+        color: {{ info_color }};
+        font-size: 0.9375rem;
+        line-height: 1.5;
     }
 
     #BlogSection-{{ section.id }} .blog-block-item .blog-title{

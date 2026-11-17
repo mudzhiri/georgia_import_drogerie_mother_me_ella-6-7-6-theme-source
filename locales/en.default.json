@@ -245,7 +245,8 @@
       "newer_post": "Newer post",
       "prev_post": "Prev post",
       "next_post": "Next post",
-      "tags": "Tags:"
+      "tags": "Tags:",
+      "empty": "No blog posts yet."
     }
   },
   "onboarding": {

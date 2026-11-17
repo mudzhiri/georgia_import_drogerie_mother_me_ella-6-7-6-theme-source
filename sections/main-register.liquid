@@ -9,12 +9,13 @@
 {% endcomment %}
 
 {{ 'customer.css' | asset_url | stylesheet_tag }}
+{{ 'mm-auth.css' | asset_url | stylesheet_tag }}
 {%- liquid
     assign container = section.settings.container
     assign padding_full_width = section.settings.padding_full_width
 -%}
 
-<div class="account-page register-page section-block-{{section.id}}">
+<div class="account-page register-page mm-auth section-block-{{section.id}}">
   <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
     <div class="halo-page-header">
         {% render 'breadcrumb' %}
@@ -123,11 +124,7 @@
                         <label class="form-label--checkbox" for="accepts-marketing">{{ 'customer.register.subscribe' | t }}</label>
                     </div>
                     <div class="form-actions">
-                        {% if settings.enable_button_1_border_outside %}
-                            <button class="button button--primary"><span>{{ 'customer.register.submit' | t }}</span></button>
-                        {% else %}
-                            <input type="submit" value="{{ 'customer.register.submit' | t }}" class="button button--primary">
-                        {% endif %}
+                        <button type="submit" class="button button-1">{{ 'customer.register.submit' | t }}</button>
                     </div>
                 {%- endform -%}
             </div>
