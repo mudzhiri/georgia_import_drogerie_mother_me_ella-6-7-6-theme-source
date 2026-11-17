@@ -12,7 +12,8 @@
     "mm_contact": {
       "type": "mm-contact",
       "settings": {
-        "heading": ""
+        "heading": "",
+        "contact_email": "info@motherandme.ge"
       }
     }
   },

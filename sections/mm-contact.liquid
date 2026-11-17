@@ -7,7 +7,11 @@
     assign heading = 'templates.contact.title' | t
   endif
 
-  assign contact_email = shop.email
+  if section.settings.contact_email != blank
+    assign contact_email = section.settings.contact_email
+  else
+    assign contact_email = 'info@motherandme.ge'
+  endif
   assign contact_phone = shop.phone
   assign has_address = false
   if shop.address != blank
@@ -174,8 +178,15 @@
       "info": "Leave blank to use the translated default (KA/EN/DE/RU)."
     },
     {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Public contact email",
+      "default": "info@motherandme.ge",
+      "info": "Shown to customers on this page. Default: info@motherandme.ge"
+    },
+    {
       "type": "paragraph",
-      "content": "Contact details come from Shopify Settings → Store details (email, phone, address). Empty fields stay hidden."
+      "content": "Phone and address come from Shopify Settings → Store details. Empty fields stay hidden."
     }
   ],
   "presets": [

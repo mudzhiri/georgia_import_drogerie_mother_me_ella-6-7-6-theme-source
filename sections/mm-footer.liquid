@@ -86,7 +86,11 @@
     assign has_info_links = true
   endif
 
-  assign contact_email = shop.email
+  if section.settings.contact_email != blank
+    assign contact_email = section.settings.contact_email
+  else
+    assign contact_email = 'info@motherandme.ge'
+  endif
   assign contact_phone = shop.phone
   assign has_address = false
   if shop.address != blank
@@ -434,7 +438,14 @@
       "id": "show_contact",
       "label": "Show shop contact details",
       "default": true,
-      "info": "Uses only confirmed shop email, phone, and address when available."
+      "info": "Shows the public contact email below, plus phone and address from Store details when available."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Public contact email",
+      "default": "info@motherandme.ge",
+      "info": "Shown to customers in the footer. Default: info@motherandme.ge"
     },
     {
       "type": "checkbox",
