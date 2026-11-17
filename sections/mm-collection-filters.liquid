@@ -11,7 +11,7 @@
     assign filter_list = search.filters
     assign results_count = search.results_count
     assign search_q = search.terms | url_encode
-    assign clear_url = routes.search_url | append: '?q=' | append: search_q
+    assign clear_url = routes.search_url | append: '?q=' | append: search_q | append: '&type=product&options%5Bprefix%5D=last'
   else
     assign results = collection
     assign results_url = collection.url
@@ -53,8 +53,18 @@
   elsif shop.money_format contains 'amount_no_decimals'
     assign shop_money_format = 'amount_no_decimals'
   endif
+
+  assign mm_filters_render = true
+  if is_search
+    if search.performed == false
+      assign mm_filters_render = false
+    elsif search.results_count == 0 and total_active == 0
+      assign mm_filters_render = false
+    endif
+  endif
 -%}
 
+{%- if mm_filters_render -%}
 <div
   id="mm-filters-{{ section.id }}"
   class="mm-filters"
@@ -363,6 +373,7 @@
 </div>
 
 <script src="{{ 'mm-collection-filters.js' | asset_url }}" defer></script>
+{%- endif -%}
 
 {% schema %}
 {

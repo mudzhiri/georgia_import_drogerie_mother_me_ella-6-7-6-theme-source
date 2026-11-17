@@ -1,5 +1,5 @@
 {%- comment -%}
-  MOTHER & ME — header search overlay (icon trigger + predictive products)
+  MOTHER & ME — header search overlay (icon trigger + Shopify predictive products)
   Locale-aware: form action + predictive URLs use Shopify routes for the active language.
 {%- endcomment -%}
 <div
@@ -22,38 +22,45 @@
         class="mm-search-panel__form"
         data-mm-search-form
       >
-        <label class="visually-hidden" for="mm-search-input">{{ 'general.search.search' | t }}</label>
-        <input
-          id="mm-search-input"
-          class="mm-search-panel__input"
-          type="search"
-          name="q"
-          value="{{ search.terms | escape }}"
-          placeholder="{{ 'general.search.search_a_product' | t }}"
-          autocomplete="off"
-          autocorrect="off"
-          autocapitalize="off"
-          spellcheck="false"
-          enterkeyhint="search"
-          data-mm-search-input
-          aria-autocomplete="list"
-          aria-controls="mm-search-results"
-          aria-expanded="false"
-        >
-        <input type="hidden" name="options[prefix]" value="last">
-        <input type="hidden" name="type" value="product">
-        <button type="submit" class="mm-search-panel__submit" aria-label="{{ 'general.search.search' | t }}">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
-            <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
-          </svg>
-        </button>
+        <label class="mm-search-panel__label" for="mm-search-input">
+          {{ 'general.search.label' | t }}
+        </label>
+        <div class="mm-search-panel__field">
+          <input
+            id="mm-search-input"
+            class="mm-search-panel__input"
+            type="search"
+            name="q"
+            value="{{ search.terms | escape }}"
+            placeholder="{{ 'general.search.search_a_product' | t }}"
+            autocomplete="off"
+            autocorrect="off"
+            autocapitalize="off"
+            spellcheck="false"
+            enterkeyhint="search"
+            data-mm-search-input
+            role="combobox"
+            aria-autocomplete="list"
+            aria-controls="mm-search-results"
+            aria-expanded="false"
+            aria-haspopup="listbox"
+          >
+          <input type="hidden" name="options[prefix]" value="last">
+          <input type="hidden" name="type" value="product">
+          <button type="submit" class="mm-search-panel__submit" aria-label="{{ 'general.search.submit' | t }}">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" focusable="false">
+              <path fill="currentColor" d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+          </button>
+        </div>
       </form>
       <button
         type="button"
         class="mm-search-panel__close"
         data-mm-search-close
-        aria-label="{{ 'general.common.close' | t }}"
+        aria-label="{{ 'general.search.close' | t }}"
       >
+        <span class="mm-search-panel__close-text">{{ 'general.search.close' | t }}</span>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false">
           <path fill="currentColor" d="M18.3 5.71 12 12l6.3 6.29-1.41 1.42L10.59 13.4 4.3 19.71 2.89 18.3 9.17 12 2.89 5.71 4.3 4.29l6.29 6.3 6.3-6.3z"/>
         </svg>
@@ -79,7 +86,9 @@
     "viewAll": {{ 'general.search.mm_view_all' | t | json }},
     "loading": {{ 'accessibility.loading' | t | json }},
     "error": {{ 'general.search.mm_error' | t | json }},
+    "retry": {{ 'general.search.mm_retry' | t | json }},
     "results": {{ 'general.search.mm_results' | t | json }},
+    "suggestions": {{ 'general.search.mm_suggestions' | t | json }},
     "searchUrl": {{ routes.search_url | json }},
     "predictiveUrl": {{ routes.predictive_search_url | json }},
     "root": {{ routes.root_url | default: '/' | json }},

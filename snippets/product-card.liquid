@@ -63,7 +63,7 @@
     assign product_action_group = false
 
     assign mm_is_collection_card = false
-    if request.page_type == 'collection'
+    if request.page_type == 'collection' or request.page_type == 'search'
       assign mm_is_collection_card = true
     endif
 

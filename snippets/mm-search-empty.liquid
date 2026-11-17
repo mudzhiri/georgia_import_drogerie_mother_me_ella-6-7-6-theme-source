@@ -11,6 +11,20 @@
   if mamas_collection != blank and mamas_collection.url != blank
     assign show_mamas = true
   endif
+
+  assign active_filter_count = 0
+  for filter in search.filters
+    if filter.type == 'price_range'
+      if filter.min_value.value != nil or filter.max_value.value != nil
+        assign active_filter_count = active_filter_count | plus: 1
+      endif
+    else
+      assign active_filter_count = active_filter_count | plus: filter.active_values.size
+    endif
+  endfor
+
+  assign empty_search_q = search.terms | url_encode
+  assign clear_filters_url = routes.search_url | append: '?q=' | append: empty_search_q | append: '&type=product&options%5Bprefix%5D=last'
 -%}
 
 <section
@@ -32,6 +46,14 @@
       {{ 'general.search.mm_empty_hint' | t }}
     </p>
 
+    {%- if active_filter_count > 0 -%}
+      <p class="mm-search-empty__filters">
+        <a class="mm-search-empty__clear-filters" href="{{ clear_filters_url }}">
+          {{ 'general.search.mm_clear_filters' | t }}
+        </a>
+      </p>
+    {%- endif -%}
+
     <form
       class="mm-search-empty__form"
       action="{{ routes.search_url }}"
@@ -42,7 +64,7 @@
       <input type="hidden" name="options[prefix]" value="last">
       <div class="mm-search-empty__field">
         <label class="mm-search-empty__label" for="mm-Search-Empty">
-          {{ 'general.search.search' | t }}
+          {{ 'general.search.label' | t }}
         </label>
         <input
           id="mm-Search-Empty"
@@ -50,15 +72,17 @@
           type="search"
           name="q"
           value="{{ search.terms | escape }}"
+          placeholder="{{ 'general.search.search_a_product' | t }}"
           autocomplete="off"
           autocorrect="off"
           autocapitalize="off"
           spellcheck="false"
+          autofocus
         >
         <button
           type="submit"
           class="mm-search-empty__submit"
-          aria-label="{{ 'general.search.search' | t }}"
+          aria-label="{{ 'general.search.submit' | t }}"
         >
           {% render 'icon-search' %}
         </button>

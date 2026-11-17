@@ -9,7 +9,7 @@
   "products": [
     {%- assign shown = 0 -%}
     {%- for result in search.results -%}
-      {%- if shown >= 5 -%}{%- break -%}{%- endif -%}
+      {%- if shown >= 6 -%}{%- break -%}{%- endif -%}
       {%- if result.object_type == 'product' -%}
         {%- if shown > 0 -%},{%- endif -%}
         {

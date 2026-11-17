@@ -1,7 +1,7 @@
 (() => {
   const MIN_CHARS = 2;
   const DEBOUNCE_MS = 250;
-  const LIMIT = 5;
+  const LIMIT = 6;
 
   const i18n = (() => {
     try {
@@ -44,11 +44,9 @@
     if (priceCents != null && priceCents !== '' && Number.isFinite(Number(priceCents))) {
       return Math.round(Number(priceCents));
     }
-    // /search/suggest.json returns prices in major currency units (e.g. "12.99" or 12.99)
     if (price == null || price === '') return NaN;
     const n = typeof price === 'string' ? parseFloat(price.replace(',', '.')) : Number(price);
     if (!Number.isFinite(n)) return NaN;
-    // Heuristic: values >= 1000 without decimals are likely already cents
     if (Number.isInteger(n) && Math.abs(n) >= 1000) return n;
     return Math.round(n * 100);
   }
@@ -89,6 +87,14 @@
       .replace(/"/g, '&quot;');
   }
 
+  function suggestionsStatus(count) {
+    const template = i18n.suggestions || '';
+    if (template.includes('{{ count }}')) {
+      return template.replace(/\{\{\s*count\s*\}\}/g, String(count));
+    }
+    return template ? `${template}: ${count}` : String(count);
+  }
+
   class MmSearch {
     constructor() {
       this.panel = document.getElementById('mm-search-panel');
@@ -103,6 +109,8 @@
       this.debounceTimer = null;
       this.requestId = 0;
       this.abort = null;
+      this.activeIndex = -1;
+      this.optionEls = [];
 
       this.onDocClick = this.onDocClick.bind(this);
       this.onKeydown = this.onKeydown.bind(this);
@@ -110,6 +118,8 @@
       this.onTriggerClick = this.onTriggerClick.bind(this);
       this.onCloseClick = this.onCloseClick.bind(this);
       this.onFormSubmit = this.onFormSubmit.bind(this);
+      this.onResultsClick = this.onResultsClick.bind(this);
+      this.onViewport = this.onViewport.bind(this);
 
       this.bindTriggers();
       this.panel.querySelectorAll('[data-mm-search-close]').forEach((el) => {
@@ -117,6 +127,7 @@
       });
       this.input?.addEventListener('input', this.onInput);
       this.form?.addEventListener('submit', this.onFormSubmit);
+      this.results?.addEventListener('click', this.onResultsClick);
     }
 
     onCloseClick(event) {
@@ -125,7 +136,6 @@
     }
 
     onFormSubmit(event) {
-      // Ensure q is kept and action stays on the locale search route.
       const q = (this.input?.value || '').trim();
       if (!q) {
         event.preventDefault();
@@ -164,14 +174,39 @@
       document.removeEventListener('click', this.onDocClick, true);
       this.input?.removeEventListener('input', this.onInput);
       this.form?.removeEventListener('submit', this.onFormSubmit);
+      this.results?.removeEventListener('click', this.onResultsClick);
       this.panel?.querySelectorAll('[data-mm-search-close]').forEach((el) => {
         el.removeEventListener('click', this.onCloseClick);
       });
+      this.unbindViewport();
       if (this.abort) {
         this.abort.abort();
         this.abort = null;
       }
       window.clearTimeout(this.debounceTimer);
+    }
+
+    bindViewport() {
+      this.onViewport();
+      window.visualViewport?.addEventListener('resize', this.onViewport);
+      window.visualViewport?.addEventListener('scroll', this.onViewport);
+      window.addEventListener('resize', this.onViewport);
+    }
+
+    unbindViewport() {
+      window.visualViewport?.removeEventListener('resize', this.onViewport);
+      window.visualViewport?.removeEventListener('scroll', this.onViewport);
+      window.removeEventListener('resize', this.onViewport);
+    }
+
+    onViewport() {
+      if (!this.panel || !this.open) return;
+      const vv = window.visualViewport;
+      const h = vv?.height || window.innerHeight;
+      this.panel.style.setProperty('--mm-search-vvh', `${Math.round(h)}px`);
+      if (vv) {
+        this.panel.style.setProperty('--mm-search-vvo', `${Math.round(vv.offsetTop || 0)}px`);
+      }
     }
 
     openPanel(trigger) {
@@ -188,6 +223,7 @@
 
       void this.panel.offsetWidth;
       this.panel.classList.add('is-open');
+      this.bindViewport();
 
       window.setTimeout(() => {
         this.input?.focus({ preventScroll: true });
@@ -211,6 +247,7 @@
       this.panel.setAttribute('aria-hidden', 'true');
       document.documentElement.classList.remove('mm-search-open');
       document.body.classList.remove('mm-search-open');
+      this.unbindViewport();
 
       const finish = () => {
         this.panel.hidden = true;
@@ -228,7 +265,7 @@
 
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (reduceMotion) finish();
-      else window.setTimeout(finish, 220);
+      else window.setTimeout(finish, 200);
 
       document.removeEventListener('keydown', this.onKeydown);
       document.removeEventListener('click', this.onDocClick, true);
@@ -246,9 +283,61 @@
 
     onKeydown(event) {
       if (!this.open) return;
+
       if (event.key === 'Escape') {
         event.preventDefault();
         this.close();
+        return;
+      }
+
+      if (!this.optionEls.length) return;
+
+      if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        this.setActiveIndex(this.activeIndex < this.optionEls.length - 1 ? this.activeIndex + 1 : 0);
+        return;
+      }
+
+      if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        this.setActiveIndex(this.activeIndex > 0 ? this.activeIndex - 1 : this.optionEls.length - 1);
+        return;
+      }
+
+      if (event.key === 'Home') {
+        event.preventDefault();
+        this.setActiveIndex(0);
+        return;
+      }
+
+      if (event.key === 'End') {
+        event.preventDefault();
+        this.setActiveIndex(this.optionEls.length - 1);
+        return;
+      }
+
+      if (event.key === 'Enter' && this.activeIndex >= 0) {
+        const active = this.optionEls[this.activeIndex];
+        if (active) {
+          event.preventDefault();
+          active.click();
+        }
+      }
+    }
+
+    setActiveIndex(index) {
+      this.activeIndex = index;
+      this.optionEls.forEach((el, i) => {
+        const on = i === index;
+        el.classList.toggle('is-active', on);
+        el.setAttribute('aria-selected', on ? 'true' : 'false');
+      });
+      const active = this.optionEls[index];
+      if (active) {
+        this.input?.setAttribute('aria-activedescendant', active.id);
+        active.scrollIntoView({ block: 'nearest' });
+      } else {
+        this.input?.removeAttribute('aria-activedescendant');
       }
     }
 
@@ -275,8 +364,18 @@
       if (!this.results) return;
       this.results.innerHTML = '';
       this.results.hidden = true;
+      this.optionEls = [];
+      this.activeIndex = -1;
       this.input?.setAttribute('aria-expanded', 'false');
+      this.input?.removeAttribute('aria-activedescendant');
       if (this.status) this.status.textContent = '';
+    }
+
+    onResultsClick(event) {
+      const retry = event.target.closest('[data-mm-search-retry]');
+      if (!retry) return;
+      event.preventDefault();
+      this.runSearch();
     }
 
     async fetchSuggestJson(q, signal) {
@@ -297,7 +396,6 @@
     }
 
     async fetchLocaleSearchFallback(q, signal) {
-      // Locale search route + theme view — works when suggest.json rejects the buyer locale (ka → 417).
       const base = searchUrl();
       const url =
         `${base}?q=${encodeURIComponent(q)}` +
@@ -325,6 +423,8 @@
       const { signal } = this.abort;
 
       if (this.status) this.status.textContent = i18n.loading || '';
+      this.results.hidden = false;
+      this.results.innerHTML = `<p class="mm-search-panel__loading" aria-hidden="true">${escapeHtml(i18n.loading || '')}</p>`;
 
       try {
         let products = [];
@@ -332,7 +432,6 @@
           products = await this.fetchSuggestJson(q, signal);
         } catch (suggestErr) {
           if (suggestErr?.name === 'AbortError') return;
-          // 417 Unsupported buyer locale (observed for ka) or other suggest failures → locale search view
           products = await this.fetchLocaleSearchFallback(q, signal);
         }
         if (id !== this.requestId) return;
@@ -347,9 +446,17 @@
     renderError() {
       if (!this.results) return;
       this.results.hidden = false;
+      this.optionEls = [];
+      this.activeIndex = -1;
       this.input?.setAttribute('aria-expanded', 'true');
+      this.input?.removeAttribute('aria-activedescendant');
       const msg = escapeHtml(i18n.error || i18n.noResults || '');
-      this.results.innerHTML = `<p class="mm-search-panel__empty">${msg}</p>`;
+      const retry = escapeHtml(i18n.retry || '');
+      this.results.innerHTML = `
+        <div class="mm-search-panel__error">
+          <p class="mm-search-panel__empty">${msg}</p>
+          <button type="button" class="mm-search-panel__retry" data-mm-search-retry>${retry}</button>
+        </div>`;
       if (this.status) this.status.textContent = i18n.error || '';
     }
 
@@ -358,8 +465,11 @@
       const list = Array.isArray(products) ? products.slice(0, LIMIT) : [];
       this.results.hidden = false;
       this.input?.setAttribute('aria-expanded', 'true');
+      this.activeIndex = -1;
 
       if (!list.length) {
+        this.optionEls = [];
+        this.input?.removeAttribute('aria-activedescendant');
         this.results.innerHTML = `<p class="mm-search-panel__empty">${escapeHtml(i18n.noResults || '')}</p>`;
         if (this.status) this.status.textContent = i18n.noResults || '';
         return;
@@ -375,7 +485,7 @@
           const imgHtml = img
             ? `<img class="mm-search-panel__thumb" src="${escapeHtml(img)}" alt="" width="48" height="48" loading="lazy">`
             : `<span class="mm-search-panel__thumb mm-search-panel__thumb--empty" aria-hidden="true"></span>`;
-          return `<a class="mm-search-panel__item" role="option" id="mm-search-option-${index}" href="${url}">
+          return `<a class="mm-search-panel__item" role="option" id="mm-search-option-${index}" href="${url}" aria-selected="false">
             ${imgHtml}
             <span class="mm-search-panel__meta">
               <span class="mm-search-panel__title">${title}</span>
@@ -389,7 +499,8 @@
       const footer = `<a class="mm-search-panel__view-all" href="${escapeHtml(viewAllUrl)}">${escapeHtml(i18n.viewAll || '')}</a>`;
 
       this.results.innerHTML = `<div class="mm-search-panel__list" role="presentation">${items}</div>${footer}`;
-      if (this.status) this.status.textContent = `${list.length}`;
+      this.optionEls = [...this.results.querySelectorAll('.mm-search-panel__item')];
+      if (this.status) this.status.textContent = suggestionsStatus(list.length);
     }
   }
 
