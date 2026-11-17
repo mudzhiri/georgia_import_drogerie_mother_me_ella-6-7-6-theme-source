@@ -76,6 +76,68 @@
       hidden
     ></div>
 
+    {%- liquid
+      assign mm_bs_collection = collections['bestsellers']
+      if mm_bs_collection == blank
+        assign mm_bs_collection = collections['best-sellers']
+      endif
+      if mm_bs_collection == blank
+        assign mm_bs_collection = collections.all
+      endif
+      assign mm_bs_count = 0
+    -%}
+    {%- if mm_bs_collection != blank and mm_bs_collection.products_count > 0 -%}
+      <div
+        class="mm-search-panel__bestsellers"
+        data-mm-search-bestsellers
+        aria-labelledby="mm-search-bestsellers-heading"
+      >
+        <h3 id="mm-search-bestsellers-heading" class="mm-search-panel__bestsellers-heading">
+          {{ 'general.search.mm_bestsellers' | t }}
+        </h3>
+        <div class="mm-search-panel__list" role="list">
+          {%- for product in mm_bs_collection.products -%}
+            {%- if mm_bs_count < 4 and product.available -%}
+              {%- assign mm_bs_count = mm_bs_count | plus: 1 -%}
+              {%- liquid
+                assign mm_bs_image = product.featured_media
+                if mm_bs_image == blank and product.featured_image
+                  assign mm_bs_image = product.featured_image
+                endif
+                assign mm_bs_price = product.selected_or_first_available_variant.price
+              -%}
+              <a
+                class="mm-search-panel__item"
+                role="listitem"
+                href="{{ product.url }}"
+              >
+                {%- if mm_bs_image != blank -%}
+                  {{
+                    mm_bs_image
+                    | image_url: width: 96
+                    | image_tag:
+                      class: 'mm-search-panel__thumb',
+                      loading: 'lazy',
+                      widths: '48, 96',
+                      sizes: '48px',
+                      alt: '',
+                      width: 48,
+                      height: 48
+                  }}
+                {%- else -%}
+                  <span class="mm-search-panel__thumb mm-search-panel__thumb--empty" aria-hidden="true"></span>
+                {%- endif -%}
+                <span class="mm-search-panel__meta">
+                  <span class="mm-search-panel__title">{{ product.title | escape }}</span>
+                  <span class="mm-search-panel__price">{{ mm_bs_price | money }}</span>
+                </span>
+              </a>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
+
     <p class="mm-search-panel__status visually-hidden" data-mm-search-status role="status" aria-live="polite"></p>
   </div>
 </div>
@@ -89,6 +151,7 @@
     "retry": {{ 'general.search.mm_retry' | t | json }},
     "results": {{ 'general.search.mm_results' | t | json }},
     "suggestions": {{ 'general.search.mm_suggestions' | t | json }},
+    "bestsellers": {{ 'general.search.mm_bestsellers' | t | json }},
     "searchUrl": {{ routes.search_url | json }},
     "predictiveUrl": {{ routes.predictive_search_url | json }},
     "root": {{ routes.root_url | default: '/' | json }},

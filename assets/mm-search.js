@@ -104,6 +104,7 @@
       this.form = this.panel.querySelector('[data-mm-search-form]');
       this.results = this.panel.querySelector('[data-mm-search-results]');
       this.status = this.panel.querySelector('[data-mm-search-status]');
+      this.bestsellers = this.panel.querySelector('[data-mm-search-bestsellers]');
       this.trigger = null;
       this.open = false;
       this.debounceTimer = null;
@@ -120,14 +121,17 @@
       this.onFormSubmit = this.onFormSubmit.bind(this);
       this.onResultsClick = this.onResultsClick.bind(this);
       this.onViewport = this.onViewport.bind(this);
+      this.onEllaSidebarFocus = this.onEllaSidebarFocus.bind(this);
 
       this.bindTriggers();
+      this.bindEllaSidebarBridge();
       this.panel.querySelectorAll('[data-mm-search-close]').forEach((el) => {
         el.addEventListener('click', this.onCloseClick);
       });
       this.input?.addEventListener('input', this.onInput);
       this.form?.addEventListener('submit', this.onFormSubmit);
       this.results?.addEventListener('click', this.onResultsClick);
+      this.showBestsellers();
     }
 
     onCloseClick(event) {
@@ -149,10 +153,18 @@
 
     onTriggerClick(event) {
       const trigger = event.target.closest(
-        '.header-nav-hamburger .header__icon--search, .header-nav-hamburger [data-search-menu], .header-mobile [data-search-mobile], .header-mobile__item--search summary, [data-mm-search-open]'
+        [
+          '.header-nav-hamburger .header__icon--search',
+          '.header-nav-hamburger [data-search-menu]',
+          '[data-search-mobile]',
+          '[data-search-menu]',
+          '.header-mobile__item--search summary',
+          '[data-mm-search-open]',
+        ].join(', ')
       );
       if (!trigger) return;
       if (trigger.closest('#mm-search-panel')) return;
+      if (trigger.matches('[data-search-close-sidebar], [data-mm-search-close]')) return;
 
       event.preventDefault();
       event.stopPropagation();
@@ -160,12 +172,66 @@
 
       const details = trigger.closest('details');
       if (details) details.open = false;
+      this.closeEllaSidebar();
 
-      this.openPanel(trigger.closest('summary, button, a, [data-mm-search-open]') || trigger);
+      this.openPanel(trigger.closest('summary, button, a, [data-mm-search-open], [data-search-mobile]') || trigger);
     }
 
     bindTriggers() {
       document.addEventListener('click', this.onTriggerClick, true);
+    }
+
+    bindEllaSidebarBridge() {
+      const ellaInput = document.getElementById('Search-In-Modal-Sidebar');
+      if (!ellaInput || ellaInput.dataset.mmSearchBridged === '1') return;
+      ellaInput.dataset.mmSearchBridged = '1';
+      ellaInput.addEventListener('focus', this.onEllaSidebarFocus, true);
+      ellaInput.addEventListener('input', this.onEllaSidebarFocus, true);
+    }
+
+    onEllaSidebarFocus(event) {
+      const ellaInput = event.currentTarget;
+      if (!ellaInput || this.open) {
+        if (this.open && ellaInput && document.activeElement === ellaInput) {
+          const q = ellaInput.value || '';
+          if (this.input && this.input.value !== q) {
+            this.input.value = q;
+            this.onInput();
+          }
+          this.input?.focus({ preventScroll: true });
+        }
+        return;
+      }
+      const q = ellaInput.value || '';
+      this.closeEllaSidebar();
+      this.openPanel(ellaInput);
+      if (this.input) {
+        this.input.value = q;
+        if (q.trim().length >= MIN_CHARS) this.scheduleSearch();
+        else this.showBestsellers();
+      }
+    }
+
+    closeEllaSidebar() {
+      document.body.classList.remove('open_search_mobile', 'open_search_menu', 'open_search');
+      document.documentElement.classList.remove('open_search_mobile');
+      const sidebar = document.getElementById('search-form-mobile');
+      if (sidebar) {
+        sidebar.classList.remove('is-open', 'halo-sidebar-active');
+        sidebar.querySelectorAll('details[open]').forEach((d) => d.removeAttribute('open'));
+      }
+    }
+
+    showBestsellers() {
+      if (!this.bestsellers) return;
+      this.bestsellers.hidden = false;
+      this.bestsellers.removeAttribute('aria-hidden');
+    }
+
+    hideBestsellers() {
+      if (!this.bestsellers) return;
+      this.bestsellers.hidden = true;
+      this.bestsellers.setAttribute('aria-hidden', 'true');
     }
 
     destroy() {
@@ -175,6 +241,12 @@
       this.input?.removeEventListener('input', this.onInput);
       this.form?.removeEventListener('submit', this.onFormSubmit);
       this.results?.removeEventListener('click', this.onResultsClick);
+      const ellaInput = document.getElementById('Search-In-Modal-Sidebar');
+      if (ellaInput) {
+        ellaInput.removeEventListener('focus', this.onEllaSidebarFocus, true);
+        ellaInput.removeEventListener('input', this.onEllaSidebarFocus, true);
+        delete ellaInput.dataset.mmSearchBridged;
+      }
       this.panel?.querySelectorAll('[data-mm-search-close]').forEach((el) => {
         el.removeEventListener('click', this.onCloseClick);
       });
@@ -232,11 +304,14 @@
 
       document.addEventListener('keydown', this.onKeydown);
       document.addEventListener('click', this.onDocClick, true);
+      this.closeEllaSidebar();
 
       if ((this.input?.value || '').trim().length >= MIN_CHARS) {
+        this.hideBestsellers();
         this.scheduleSearch();
       } else {
         this.clearResults();
+        this.showBestsellers();
       }
     }
 
@@ -345,6 +420,7 @@
       const q = (this.input?.value || '').trim();
       if (q.length < MIN_CHARS) {
         this.clearResults();
+        this.showBestsellers();
         if (this.abort) {
           this.abort.abort();
           this.abort = null;
@@ -352,6 +428,7 @@
         window.clearTimeout(this.debounceTimer);
         return;
       }
+      this.hideBestsellers();
       this.scheduleSearch();
     }
 
@@ -422,6 +499,7 @@
       this.abort = new AbortController();
       const { signal } = this.abort;
 
+      this.hideBestsellers();
       if (this.status) this.status.textContent = i18n.loading || '';
       this.results.hidden = false;
       this.results.innerHTML = `<p class="mm-search-panel__loading" aria-hidden="true">${escapeHtml(i18n.loading || '')}</p>`;
@@ -445,6 +523,7 @@
 
     renderError() {
       if (!this.results) return;
+      this.hideBestsellers();
       this.results.hidden = false;
       this.optionEls = [];
       this.activeIndex = -1;
@@ -463,6 +542,7 @@
     renderProducts(query, products) {
       if (!this.results) return;
       const list = Array.isArray(products) ? products.slice(0, LIMIT) : [];
+      this.hideBestsellers();
       this.results.hidden = false;
       this.input?.setAttribute('aria-expanded', 'true');
       this.activeIndex = -1;

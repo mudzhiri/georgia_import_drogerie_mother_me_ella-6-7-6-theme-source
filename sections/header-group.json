@@ -208,6 +208,15 @@
             "color": "#214d43"
           }
         },
+        "mm-header-mobile-wishlist": {
+          "type": "wishlist",
+          "settings": {
+            "show_wishlist_number": true,
+            "wishlist_color_item": "#ffffff",
+            "wishlist_bg_item": "#214d43",
+            "color": "#214d43"
+          }
+        },
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d": {
           "type": "cart",
           "settings": {
@@ -223,6 +232,7 @@
         "7de2266e-0cd4-4fda-9f09-06f75a17f944",
         "163e2cb5-14f2-4af6-9ac3-77193c082f53",
         "550fbd21-75fb-4051-9dee-77d91b5239f0",
+        "mm-header-mobile-wishlist",
         "633f9dae-3f65-4bda-9ca8-9d3e231aaf9d"
       ],
       "settings": {

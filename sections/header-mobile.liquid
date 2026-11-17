@@ -197,19 +197,23 @@
                         {%-  when 'wishlist' -%}
                             {%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
                             {%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
-                            {%- if mm_wishlist_url != blank -%}
-                            <div class="header-mobile--icon" style="--i-color: {{ block.settings.color }};--wishlist-bg-item: {{ block.settings.wishlist_bg_item }}; --wishlist-color-item: {{ block.settings.wishlist_color_item }}">
-                                <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
-                                    {% render 'icon-heart-2' %}
+                            {%- if mm_wishlist_url == blank -%}
+                              {%- assign mm_wishlist_url = pages['wish-list'].url | default: pages['wishlist'].url | default: '' | strip -%}
+                            {%- endif -%}
+                            {%- if mm_wishlist_url == blank -%}
+                              {%- assign mm_wishlist_url = routes.root_url | append: 'pages/wishlist' -%}
+                            {%- endif -%}
+                            <div class="header-mobile--icon" style="--i-color: {{ block.settings.color | default: '#214d43' }};--wishlist-bg-item: {{ block.settings.wishlist_bg_item | default: '#214d43' }}; --wishlist-color-item: {{ block.settings.wishlist_color_item | default: '#ffffff' }}">
+                                <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset" aria-label="{{ 'wishlist.general.title' | t | escape }}">
+                                    {% render 'icon-heart-2', class: 'icon icon-wishlist', width: 24, height: 24 %}
                                     <span class="visually-hidden">
                                         {{ 'wishlist.general.title' | t }}
                                     </span>
                                     {%- if block.settings.show_wishlist_number -%}
-                                        <div class="wishlist-count-bubble"><span class="text" aria-hidden="true" data-wishlist-count></span><span class="visually-hidden">{{ 'wishlist.general.wishlist' | t }}</span></div>
+                                        <div class="wishlist-count-bubble" hidden><span class="text" aria-hidden="true" data-wishlist-count>0</span><span class="visually-hidden">{{ 'wishlist.general.wishlist' | t }}</span></div>
                                     {%- endif -%}
                                 </a>
                             </div>
-                            {%- endif -%}
                     {%- endcase -%}
                 </div>
             {%- endfor -%}

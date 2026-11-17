@@ -366,7 +366,7 @@
         "show_quick_order_list": false,
         "show_image": false,
         "show_sku": false,
-        "show_tab": true,
+        "show_tab": false,
         "tab_layout": "horizontal",
         "tab_layout_mobile": "popup",
         "icon_style_layout": "style_1",

@@ -2944,7 +2944,7 @@
         "type": "checkbox",
         "id": "show_global_checkbox",
         "label": "t:settings_schema.general.settings.global_checkbox.label__1",
-        "default": true
+        "default": false
       },
       {
         "type": "text",

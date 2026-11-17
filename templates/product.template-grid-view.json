@@ -260,7 +260,7 @@
         "sticky_atc_layout": "1",
         "enable_sticky_add_to_cart_always_mobile": false,
         "show_sticky_vendor": false,
-        "show_tab": true,
+        "show_tab": false,
         "tab_layout": "vertical_sidebar",
         "tab_layout_mobile": "popup",
         "icon_style_layout": "style_1",

@@ -327,6 +327,7 @@
   font-size: 0.9375rem;
   color: var(--mm-cart-page-ink);
   -moz-appearance: textfield;
+  appearance: textfield;
 }
 
 .template-cart .cart-item-qty .cart-item-qty-input::-webkit-outer-spin-button,
