@@ -1,0 +1,137 @@
+{{ 'mm-list-collections.css' | asset_url | stylesheet_tag }}
+{%- liquid
+  assign mm_heading = section.settings.heading | strip
+  if mm_heading == blank
+    assign mm_heading = 'general.categories' | t
+  endif
+  assign mm_hide_empty = section.settings.hide_empty
+-%}
+<section
+  id="mm-list-collections-{{ section.id }}"
+  class="mm-list-collections"
+  aria-labelledby="mm-list-collections-heading-{{ section.id }}"
+>
+  <div class="mm-list-collections__inner">
+    <h1 id="mm-list-collections-heading-{{ section.id }}" class="mm-list-collections__heading">
+      {{ mm_heading | escape }}
+    </h1>
+
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'group' -%}
+        {%- assign mm_group_title = block.settings.title | strip -%}
+        {%- if mm_group_title != blank -%}
+          <h2 class="mm-list-collections__group" {{ block.shopify_attributes }}>
+            {{ mm_group_title | escape }}
+          </h2>
+        {%- endif -%}
+      {%- elsif block.type == 'collection' -%}
+        {%- assign mm_col = block.settings.collection -%}
+        {%- if mm_col != blank -%}
+          {%- liquid
+            assign mm_skip = false
+            if mm_hide_empty and mm_col.all_products_count == 0
+              assign mm_skip = true
+            endif
+          -%}
+          {%- unless mm_skip -%}
+            {%- liquid
+              assign mm_title = block.settings.label | strip
+              if mm_title == blank
+                assign mm_title = mm_col.title
+              endif
+              assign mm_img = mm_col.image
+            -%}
+            <a
+              class="mm-list-collections__card"
+              href="{{ mm_col.url }}"
+              {{ block.shopify_attributes }}
+            >
+              <span class="mm-list-collections__media" aria-hidden="true">
+                {%- if mm_img != blank -%}
+                  {{
+                    mm_img
+                    | image_url: width: 800
+                    | image_tag:
+                      loading: 'lazy',
+                      widths: '200, 300, 400, 600, 800',
+                      sizes: '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw',
+                      class: 'mm-list-collections__image',
+                      alt: ''
+                  }}
+                {%- else -%}
+                  <span class="mm-list-collections__placeholder">
+                    <svg class="mm-list-collections__placeholder-icon" viewBox="0 0 48 48" width="40" height="40" focusable="false" aria-hidden="true">
+                      <rect x="6" y="10" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
+                      <circle cx="18" cy="20" r="3" fill="currentColor"/>
+                      <path d="M8 34l10-10 6 6 8-10 8 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                {%- endif -%}
+              </span>
+              <span class="mm-list-collections__title">{{ mm_title | escape }}</span>
+            </a>
+          {%- endunless -%}
+        {%- endif -%}
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MM list collections",
+  "tag": "section",
+  "class": "section-mm-list-collections",
+  "max_blocks": 40,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Page heading",
+      "info": "Leave blank for Georgian default (კატეგორიები)."
+    },
+    {
+      "type": "checkbox",
+      "id": "hide_empty",
+      "label": "Hide collections with 0 products",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "group",
+      "name": "Group heading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Group title",
+          "info": "Georgian group label shown above the following cards."
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "name": "Collection card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Title override",
+          "info": "Optional. Defaults to the collection title."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM list collections"
+    }
+  ]
+}
+{% endschema %}

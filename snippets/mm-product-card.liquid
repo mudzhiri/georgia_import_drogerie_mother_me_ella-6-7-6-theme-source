@@ -35,26 +35,81 @@
   class="mm-product-card product-item{% if sold_out %} mm-product-card--sold-out{% endif %}"
   data-product-id="{{ product.id }}"
 >
-  <a class="mm-product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
-    {%- if image != blank -%}
-      {{
-        image
-        | image_url: width: 800
-        | image_tag:
-          loading: 'lazy',
-          widths: '200, 300, 400, 600, 800',
-          sizes: '(min-width: 900px) 25vw, 50vw',
-          class: 'mm-product-card__image',
-          alt: product.title
-      }}
-    {%- else -%}
-      <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
-    {%- endif -%}
+  <div class="mm-product-card__media-wrap">
+    <a class="mm-product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      {%- if image != blank -%}
+        {{
+          image
+          | image_url: width: 800
+          | image_tag:
+            loading: 'lazy',
+            widths: '200, 300, 400, 600, 800',
+            sizes: '(min-width: 900px) 25vw, 50vw',
+            class: 'mm-product-card__image',
+            alt: product.title
+        }}
+      {%- else -%}
+        <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
+      {%- endif -%}
 
-    {%- if sold_out -%}
-      <span class="mm-product-card__badge">{{ label_sold_out }}</span>
-    {%- endif -%}
-  </a>
+      {% render 'mm-product-badges', product: product, badge_detail: false %}
+    </a>
+
+    <div class="mm-card-quick-cart mm-product-card__quick-cart">
+      {%- if sold_out -%}
+        <button
+          type="button"
+          class="mm-card-quick-cart__btn mm-card-quick-cart__btn--disabled"
+          disabled
+          aria-disabled="true"
+          aria-label="{{ label_sold_out | escape }}"
+          title="{{ label_sold_out | escape }}"
+        >
+          <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+          <span class="visually-hidden">{{ label_sold_out }}</span>
+        </button>
+      {%- elsif needs_selection -%}
+        <a
+          class="mm-card-quick-cart__btn"
+          href="{{ product.url }}"
+          aria-label="{{ label_select | escape }}"
+          title="{{ label_select | escape }}"
+        >
+          <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+          <span class="visually-hidden">{{ label_select }}</span>
+        </a>
+      {%- else -%}
+        <form
+          action="{{ routes.cart_add_url }}"
+          method="post"
+          enctype="multipart/form-data"
+          class="mm-card-quick-cart__form mm-product-card__form"
+          data-mm-product-form
+          data-product-id="{{ product.id }}"
+        >
+          <input type="hidden" name="id" value="{{ variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            name="add"
+            class="mm-card-quick-cart__btn"
+            data-mm-add-to-cart
+            data-label-add="{{ label_add | escape }}"
+            data-label-adding="{{ label_adding | escape }}"
+            data-label-added="{{ label_added | escape }}"
+            data-label-error="{{ label_error | escape }}"
+            aria-label="{{ label_add | escape }}"
+            title="{{ label_add | escape }}"
+          >
+            <span class="mm-product-card__btn-spinner" aria-hidden="true"></span>
+            <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+            <span class="visually-hidden mm-product-card__btn-label">{{ label_add }}</span>
+          </button>
+        </form>
+        <p class="mm-product-card__error" data-mm-card-error role="alert" hidden></p>
+      {%- endif -%}
+    </div>
+  </div>
 
   <div class="mm-product-card__body">
     {%- if product.vendor != blank -%}
@@ -71,52 +126,6 @@
         <s class="mm-product-card__price-compare">{{ compare_at | money }}</s>
       {%- else -%}
         <span class="mm-product-card__price-regular">{{ price | money }}</span>
-      {%- endif -%}
-    </div>
-
-    <div class="mm-product-card__actions">
-      {%- if sold_out -%}
-        <button
-          type="button"
-          class="mm-product-card__btn mm-product-card__btn--disabled"
-          disabled
-          aria-disabled="true"
-        >
-          {{ label_sold_out }}
-        </button>
-      {%- elsif needs_selection -%}
-        <a
-          class="mm-product-card__btn"
-          href="{{ product.url }}"
-        >
-          {{ label_select }}
-        </a>
-      {%- else -%}
-        <form
-          action="{{ routes.cart_add_url }}"
-          method="post"
-          enctype="multipart/form-data"
-          class="mm-product-card__form"
-          data-mm-product-form
-          data-product-id="{{ product.id }}"
-        >
-          <input type="hidden" name="id" value="{{ variant.id }}">
-          <input type="hidden" name="quantity" value="1">
-          <button
-            type="submit"
-            name="add"
-            class="mm-product-card__btn"
-            data-mm-add-to-cart
-            data-label-add="{{ label_add | escape }}"
-            data-label-adding="{{ label_adding | escape }}"
-            data-label-added="{{ label_added | escape }}"
-            data-label-error="{{ label_error | escape }}"
-          >
-            <span class="mm-product-card__btn-spinner" aria-hidden="true"></span>
-            <span class="mm-product-card__btn-label">{{ label_add }}</span>
-          </button>
-        </form>
-        <p class="mm-product-card__error" data-mm-card-error role="alert" hidden></p>
       {%- endif -%}
     </div>
   </div>

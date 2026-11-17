@@ -1,0 +1,124 @@
+{{ 'mm-category-pills.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_home.category_pills.heading' | t
+  endif
+
+  assign visible_count = 0
+  for block in section.blocks
+    assign pill_collection = block.settings.collection
+    assign pill_label = block.settings.label
+    if pill_label == blank and pill_collection != blank
+      assign pill_label = pill_collection.title
+    endif
+    assign pill_link = block.settings.link
+    if pill_link == blank and pill_collection != blank
+      assign pill_link = pill_collection.url
+    endif
+    if pill_label != blank and pill_link != blank
+      if pill_collection == blank or pill_collection.products_count > 0
+        assign visible_count = visible_count | plus: 1
+      endif
+    endif
+  endfor
+-%}
+
+{%- if visible_count > 0 -%}
+  <section
+    id="mm-category-pills-{{ section.id }}"
+    class="mm-category-pills mm-reveal"
+    aria-labelledby="mm-category-pills-heading-{{ section.id }}"
+  >
+    <div class="mm-category-pills__inner">
+      {%- if heading != blank -%}
+        <h2 id="mm-category-pills-heading-{{ section.id }}" class="mm-category-pills__heading">
+          {{ heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      <ul class="mm-category-pills__list" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign pill_collection = block.settings.collection
+            assign pill_label = block.settings.label
+            if pill_label == blank and pill_collection != blank
+              assign pill_label = pill_collection.title
+            endif
+            assign pill_link = block.settings.link
+            if pill_link == blank and pill_collection != blank
+              assign pill_link = pill_collection.url
+            endif
+            assign show_pill = false
+            if pill_label != blank and pill_link != blank
+              if pill_collection == blank or pill_collection.products_count > 0
+                assign show_pill = true
+              endif
+            endif
+          -%}
+          {%- if show_pill -%}
+            <li class="mm-category-pills__item" data-mm-reveal-item {{ block.shopify_attributes }}>
+              <a class="mm-category-pills__pill" href="{{ pill_link }}">
+                {{ pill_label | escape }}
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM category pills",
+  "tag": "section",
+  "class": "section-mm-category-pills",
+  "max_blocks": 24,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Leave blank to use Georgian locale default."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pill",
+      "name": "Category pill",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label override",
+          "info": "Optional. Defaults to collection title."
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link override",
+          "info": "Optional. Defaults to collection URL."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM category pills",
+      "blocks": [
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" },
+        { "type": "pill" }
+      ]
+    }
+  ]
+}
+{% endschema %}

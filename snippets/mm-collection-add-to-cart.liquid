@@ -1,7 +1,6 @@
 {% comment %}
-  Collection product-card purchase action only.
-  Labels come from theme locale files. Pre-order only when the active variant
-  continues selling with zero inventory (Shopify continue-selling / pre-order).
+  Quick cart icon under product photo (dm-style).
+  Uses the same cart glyph as the header (icon-cart-06).
 {% endcomment %}
 {%- liquid
   assign mm_product = product
@@ -24,28 +23,41 @@
   endif
 
   assign mm_form_id = 'mm-coll-atc-' | append: mm_product.id | append: '-' | append: sectionId
+  assign mm_label_add = 'products.product.add_to_cart' | t
+  if mm_is_preorder
+    assign mm_label_add = 'products.product.pre_order' | t
+  endif
 -%}
 
-<div class="card-action mm-collection-atc-wrap">
+<div class="mm-card-quick-cart">
   {%- if mm_sold_out -%}
     <button
       type="button"
-      class="button button-ATC mm-collection-atc mm-collection-atc--sold-out"
+      class="mm-card-quick-cart__btn mm-card-quick-cart__btn--disabled"
       disabled
       aria-disabled="true"
+      aria-label="{{ 'products.product.sold_out' | t | escape }}"
+      title="{{ 'products.product.sold_out' | t | escape }}"
     >
-      {{ 'products.product.sold_out' | t }}
+      <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+      <span class="visually-hidden">{{ 'products.product.sold_out' | t }}</span>
     </button>
   {%- elsif mm_needs_selection -%}
-    <a class="button button-ATC mm-collection-atc mm-collection-atc--select" href="{{ mm_product.url }}">
-      {{ 'products.product.select_variant' | t }}
+    <a
+      class="mm-card-quick-cart__btn"
+      href="{{ mm_product.url }}"
+      aria-label="{{ 'products.product.select_variant' | t | escape }}"
+      title="{{ 'products.product.select_variant' | t | escape }}"
+    >
+      <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+      <span class="visually-hidden">{{ 'products.product.select_variant' | t }}</span>
     </a>
   {%- else -%}
     <form
       action="{{ routes.cart_add_url }}"
       method="post"
       enctype="multipart/form-data"
-      class="variants mm-collection-atc-form"
+      class="mm-card-quick-cart__form variants"
       id="{{ mm_form_id }}"
       data-product-id="{{ mm_product.id }}"
     >
@@ -54,15 +66,14 @@
       <button
         type="submit"
         name="add"
-        class="button button-ATC mm-collection-atc{% if mm_is_preorder %} mm-collection-atc--preorder{% endif %}"
+        class="mm-card-quick-cart__btn{% if mm_is_preorder %} mm-card-quick-cart__btn--preorder{% endif %}"
         data-btn-addToCart
         data-form-id="#{{ mm_form_id }}"
+        aria-label="{{ mm_label_add | escape }}"
+        title="{{ mm_label_add | escape }}"
       >
-        {%- if mm_is_preorder -%}
-          {{ 'products.product.pre_order' | t }}
-        {%- else -%}
-          {{ 'products.product.add_to_cart' | t }}
-        {%- endif -%}
+        <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+        <span class="visually-hidden">{{ mm_label_add }}</span>
       </button>
     </form>
   {%- endif -%}
