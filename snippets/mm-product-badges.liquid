@@ -5,7 +5,7 @@
     - sold out → არ არის მარაგში
     - real compare-at reduction → ფასდაკლება
 
-  Manual (product metafield mm.badges → list of metaobject mm_product_badge):
+  Manual (product metafield mmb.badges → list of metaobject mm_product_badge):
     - active, date window (shop timezone Asia/Tbilisi), priority
 
   Max 2 badges. Order: sold out → manuals (priority, lower = higher) → sale.
@@ -43,8 +43,8 @@
 
   assign mm_now_ts = 'now' | date: '%s'
   assign mm_manual_badges = blank
-  if mm_badge_product != blank and mm_badge_product.metafields.mm.badges != blank
-    assign mm_manual_badges = mm_badge_product.metafields.mm.badges.value
+  if mm_badge_product != blank and mm_badge_product.metafields.mmb.badges != blank
+    assign mm_manual_badges = mm_badge_product.metafields.mmb.badges.value
   endif
 -%}
 {%- capture mm_badge_items -%}
