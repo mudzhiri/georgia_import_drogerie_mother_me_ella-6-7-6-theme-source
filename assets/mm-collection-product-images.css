@@ -206,6 +206,7 @@
 
 .template-collection .productListing .mm-card-quick-cart__btn,
 .template-search .productListing .mm-card-quick-cart__btn {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
