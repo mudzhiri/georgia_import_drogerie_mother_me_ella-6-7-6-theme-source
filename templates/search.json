@@ -11,8 +11,6 @@
   "sections": {
     "main": {
       "type": "main-search",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "container": "default",
         "side_padding_full_width": 0,
