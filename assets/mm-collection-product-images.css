@@ -28,7 +28,8 @@
 
 .template-collection .productListing.productGrid .card-media > img,
 .template-collection .productListing.productGrid .card-media > video,
-.template-collection .productListing.productGrid .card-media > .placeholder-svg {
+.template-collection .productListing.productGrid .card-media > .placeholder-svg,
+.template-collection .productListing.productGrid .card-media > .mm-product-card-placeholder {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -42,6 +43,27 @@
   object-fit: contain;
   object-position: center center;
   transform: translate(-50%, -50%);
+}
+
+/* Native lazy images must stay visible without lazysizes (.lazyload starts at opacity 0). */
+.template-collection .productListing.productGrid .card-media > img:first-of-type,
+.template-search .productListing .card-media > img:first-of-type {
+  opacity: 1;
+}
+
+.template-collection .productListing.productGrid .card-media > .mm-product-card-placeholder,
+.template-search .productListing .card-media > .mm-product-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f7f5;
+}
+
+.template-collection .productListing.productGrid .card-media .mm-product-card-placeholder__svg,
+.template-search .productListing .card-media .mm-product-card-placeholder__svg {
+  width: 55%;
+  height: auto;
+  max-width: 160px;
 }
 
 /* Keep secondary/hover image on the same box; no scale that would crop packs */

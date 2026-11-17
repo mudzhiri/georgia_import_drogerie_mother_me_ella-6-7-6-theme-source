@@ -1,23 +1,28 @@
 (() => {
   const gallery = document.querySelector('[data-image-gallery]');
-  if (!gallery) return;
-
+  if (!gallery || gallery.dataset.mmGalleryInit === '1') return;
+  gallery.dataset.mmGalleryInit = '1';
   gallery.classList.add('mm-product-gallery');
 
   const main = gallery.querySelector('[data-image-gallery-main]');
   const mediaCount = Number(
     main?.getAttribute('data-media-count') ||
+      gallery.querySelectorAll('.productView-image:not(.slick-cloned)').length ||
       gallery.querySelectorAll('.productView-image').length ||
       0
   );
   gallery.setAttribute('data-mm-media-count', String(mediaCount));
 
-  // No autoplay: keep theme slick without starting autoplay if present
+  let navOptionsApplied = false;
+  let slickEventsBound = false;
+  let runningSlickSafe = false;
+
   const stopAutoplay = () => {
-    if (!window.jQuery) return;
+    if (!window.jQuery || !main) return;
     const $nav = window.jQuery(main);
     if ($nav.length && $nav.hasClass('slick-initialized') && typeof $nav.slick === 'function') {
       try {
+        // refresh=false — never re-init from here
         $nav.slick('slickSetOption', 'autoplay', false, false);
         $nav.slick('slickPause');
       } catch (e) {
@@ -26,22 +31,50 @@
     }
   };
 
-  // First image eager; later lazy already handled in Liquid — reinforce
-  gallery.querySelectorAll('.productView-image img[data-main-image]').forEach((img, index) => {
-    if (index === 0) {
-      img.setAttribute('loading', 'eager');
-      img.setAttribute('fetchpriority', 'high');
+  // Promote lazysizes data-* to real attributes so slides are visible without JS observers.
+  const hydrateLazyImages = () => {
+    gallery.querySelectorAll('img').forEach((img, index) => {
+      const dataSrc =
+        img.getAttribute('data-src') ||
+        img.getAttribute('data-srcset') ||
+        '';
+      if (!img.getAttribute('src')) {
+        if (img.getAttribute('data-src')) {
+          img.setAttribute('src', img.getAttribute('data-src'));
+        } else if (img.getAttribute('data-srcset')) {
+          const first = String(img.getAttribute('data-srcset'))
+            .split(',')[0]
+            .trim()
+            .split(/\s+/)[0];
+          if (first) img.setAttribute('src', first);
+        }
+      }
+      if (!img.getAttribute('srcset') && img.getAttribute('data-srcset')) {
+        img.setAttribute('srcset', img.getAttribute('data-srcset'));
+      }
       img.removeAttribute('data-src');
-    } else if (!img.getAttribute('loading')) {
-      img.setAttribute('loading', 'lazy');
-    }
-  });
+      img.removeAttribute('data-srcset');
+      img.classList.remove('lazyload', 'lazyloading');
+      if (!img.classList.contains('lazyloaded')) img.classList.add('lazyloaded');
 
-  // Make thumbs keyboard-activatable without breaking Slick click
+      const mains = gallery.querySelectorAll(
+        '.productView-image:not(.slick-cloned) img[data-main-image]'
+      );
+      const isPrimary = mains[0] === img;
+      if (isPrimary) {
+        img.setAttribute('loading', 'eager');
+        img.setAttribute('fetchpriority', 'high');
+      } else if (!img.getAttribute('loading')) {
+        img.setAttribute('loading', 'lazy');
+      }
+    });
+  };
+
   const enhanceThumbs = () => {
     gallery.querySelectorAll('.productView-thumbnail').forEach((thumb, index) => {
       const link = thumb.querySelector('.productView-thumbnail-link');
-      if (!link) return;
+      if (!link || link.dataset.mmThumbBound) return;
+      link.dataset.mmThumbBound = '1';
       if (!link.hasAttribute('tabindex')) link.setAttribute('tabindex', '0');
       if (!link.getAttribute('role')) link.setAttribute('role', 'button');
       const label =
@@ -49,9 +82,6 @@
         thumb.getAttribute('aria-label') ||
         `Image ${index + 1}`;
       link.setAttribute('aria-label', label);
-
-      if (link.dataset.mmThumbBound) return;
-      link.dataset.mmThumbBound = '1';
       link.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
@@ -61,7 +91,6 @@
     });
   };
 
-  // Zoom / Fancybox only when the media has enough resolution to benefit
   const MIN_ZOOM_EDGE = 900;
   const canZoomMedia = (el) => {
     const img = el.matches('img') ? el : el.querySelector('img');
@@ -99,16 +128,14 @@
     });
   };
 
-  // Fancybox: remember focus opener and restore on close; Escape handled by Fancybox
   let lastFocus = null;
   const bindFancyboxFocus = () => {
     gateZoom();
-    const openers = gallery.querySelectorAll('[data-fancybox="images"]');
-    openers.forEach((el) => {
-      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
-      if (!el.getAttribute('role')) el.setAttribute('role', 'button');
+    gallery.querySelectorAll('[data-fancybox="images"]').forEach((el) => {
       if (el.dataset.mmFancyBound) return;
       el.dataset.mmFancyBound = '1';
+      if (!el.hasAttribute('tabindex')) el.setAttribute('tabindex', '0');
+      if (!el.getAttribute('role')) el.setAttribute('role', 'button');
       el.addEventListener('click', (event) => {
         if (el.classList.contains('mm-zoom-disabled')) {
           event.preventDefault();
@@ -130,14 +157,11 @@
     if (window.jQuery && window.jQuery.fancybox && !document.documentElement.dataset.mmFancyFocus) {
       document.documentElement.dataset.mmFancyFocus = '1';
       window.jQuery(document).on('afterClose.fb', () => {
-        if (lastFocus && typeof lastFocus.focus === 'function') {
-          lastFocus.focus();
-        }
+        if (lastFocus && typeof lastFocus.focus === 'function') lastFocus.focus();
       });
     }
   };
 
-  // Mobile counter already injected by theme; ensure aria-live for updates
   const enhanceCounter = () => {
     const counter = gallery.querySelector('.slick-counter');
     if (!counter) return;
@@ -145,17 +169,20 @@
     counter.setAttribute('aria-live', 'polite');
   };
 
-  // Keep swipe (Slick touch) and ensure visible prev/next controls on mobile
-  const enhanceNavControls = () => {
+  // Apply Slick nav options once only, never with refresh from afterChange.
+  const enhanceNavControls = ({ allowRefresh = false } = {}) => {
     if (!main || !window.jQuery) return;
     const $nav = window.jQuery(main);
     if (!$nav.length || !$nav.hasClass('slick-initialized') || typeof $nav.slick !== 'function') return;
 
-    if (mediaCount > 1) {
+    if (mediaCount > 1 && !navOptionsApplied) {
       try {
-        $nav.slick('slickSetOption', 'arrows', true, true);
+        // refresh only on the first safe boot — never from afterChange/reInit
+        $nav.slick('slickSetOption', 'arrows', true, allowRefresh);
         $nav.slick('slickSetOption', 'swipe', true, false);
         $nav.slick('slickSetOption', 'touchMove', true, false);
+        $nav.slick('slickSetOption', 'autoplay', false, false);
+        navOptionsApplied = true;
       } catch (e) {
         /* ignore */
       }
@@ -180,43 +207,83 @@
     });
   };
 
+  const slideHasMedia = (slide) => {
+    if (!slide) return false;
+    if (slide.querySelector('video, iframe, .media--video, model-viewer')) return true;
+    const img = slide.querySelector('img');
+    if (!img) return false;
+    return Boolean(
+      img.getAttribute('src') ||
+        img.getAttribute('srcset') ||
+        img.getAttribute('data-src') ||
+        img.getAttribute('data-srcset') ||
+        img.currentSrc
+    );
+  };
+
   const hideEmptySlides = () => {
     gallery.querySelectorAll('.productView-image').forEach((slide) => {
-      const hasMedia =
-        slide.querySelector('img[src], img[data-src], video, iframe, .media--video, model-viewer');
-      slide.classList.toggle('mm-media-empty', !hasMedia);
-      if (!hasMedia) slide.setAttribute('aria-hidden', 'true');
+      // Slick clones mirror real slides; never invent media, only mark truly empty originals.
+      const hasMedia = slideHasMedia(slide);
+      const shouldHide = !hasMedia;
+      if (slide.classList.contains('mm-media-empty') === shouldHide) return;
+      slide.classList.toggle('mm-media-empty', shouldHide);
+      if (shouldHide) slide.setAttribute('aria-hidden', 'true');
+      else slide.removeAttribute('aria-hidden');
     });
   };
 
-  const boot = () => {
+  const onSlickUpdate = () => {
+    if (runningSlickSafe) return;
+    runningSlickSafe = true;
+    try {
+      stopAutoplay();
+      enhanceCounter();
+      // No slickSetOption(refresh) here — that re-enters init/reInit/afterChange.
+      enhanceNavControls({ allowRefresh: false });
+      enhanceThumbs();
+      hydrateLazyImages();
+      hideEmptySlides();
+      gateZoom();
+    } finally {
+      runningSlickSafe = false;
+    }
+  };
+
+  const boot = ({ allowRefresh = false } = {}) => {
+    hydrateLazyImages();
     stopAutoplay();
     enhanceThumbs();
     bindFancyboxFocus();
     enhanceCounter();
-    enhanceNavControls();
+    enhanceNavControls({ allowRefresh });
     hideEmptySlides();
-    gallery.querySelectorAll('img').forEach((img) => {
+    gallery.querySelectorAll('.productView-image:not(.slick-cloned) img[data-main-image]').forEach((img) => {
       if (img.complete) gateZoom();
       else img.addEventListener('load', gateZoom, { once: true });
     });
   };
 
-  boot();
-  // Theme inits Slick asynchronously
-  setTimeout(boot, 400);
-  setTimeout(boot, 1200);
+  boot({ allowRefresh: false });
 
-  if (window.jQuery && main) {
-    window.jQuery(main).on('init reInit afterChange', () => {
-      stopAutoplay();
-      enhanceCounter();
-      enhanceNavControls();
-      enhanceThumbs();
-      hideEmptySlides();
-      gateZoom();
-    });
+  // Theme inits Slick asynchronously — refresh at most once when Slick is ready.
+  const tryBootWhenSlickReady = () => {
+    if (!window.jQuery || !main) return false;
+    const $nav = window.jQuery(main);
+    if (!$nav.length || !$nav.hasClass('slick-initialized')) return false;
+    boot({ allowRefresh: !navOptionsApplied });
+    if (!slickEventsBound) {
+      slickEventsBound = true;
+      $nav.on('init.mmGallery reInit.mmGallery afterChange.mmGallery', onSlickUpdate);
+    }
+    return true;
+  };
+
+  if (!tryBootWhenSlickReady()) {
+    let attempts = 0;
+    const timer = setInterval(() => {
+      attempts += 1;
+      if (tryBootWhenSlickReady() || attempts >= 20) clearInterval(timer);
+    }, 150);
   }
-
-  // Preserve variant → media: variants.js already clicks [data-media-id]; no override
 })();

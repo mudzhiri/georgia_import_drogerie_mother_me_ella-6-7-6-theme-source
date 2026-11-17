@@ -212,8 +212,18 @@
   display: none !important;
 }
 
-.mm-product-gallery .productView-image.mm-media-empty {
+/* Do not display:none Slick slides — that destabilizes the carousel. */
+.mm-product-gallery .productView-image.mm-media-empty:not(.slick-slide) {
   display: none !important;
+}
+
+.mm-product-gallery .productView-image.slick-slide.mm-media-empty .productView-img-container {
+  min-height: 180px;
+  background: #f4f7f5;
+}
+
+.mm-product-gallery .productView-image.slick-slide.mm-media-empty img {
+  opacity: 0;
 }
 
 .mm-product-gallery .mm-zoom-disabled {

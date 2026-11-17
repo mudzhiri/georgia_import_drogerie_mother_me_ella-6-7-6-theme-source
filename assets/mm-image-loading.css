@@ -1,0 +1,47 @@
+/**
+ * MOTHER & ME — image visibility & CLS helpers.
+ * Native lazy-loaded images must not stay at opacity 0 waiting for lazysizes.
+ */
+
+/* Primary product-card image visible without hover / JS observer */
+.card-media > img:first-of-type:not(.lazyload):not(.lazyloading) {
+  opacity: 1;
+}
+
+.productView-image img:not(.lazyload):not(.lazyloading) {
+  opacity: 1;
+}
+
+/* Keep hover-swap secondary image hidden until hover (theme behavior) */
+.card-media > img + img,
+.card-media > img + video {
+  opacity: 0;
+}
+
+.card-product:hover .card-media.media--hover-effect > img + img,
+.card-product:hover .card-media.media--hover-effect > img + video {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-media > img,
+  .card-media > video,
+  .card-product:hover .card-media.media--hover-effect > img + img {
+    transition: none !important;
+  }
+}
+
+.mm-product-card-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background: #f4f7f5;
+}
+
+.mm-product-card-placeholder__svg {
+  width: 55%;
+  max-width: 160px;
+  height: auto;
+}

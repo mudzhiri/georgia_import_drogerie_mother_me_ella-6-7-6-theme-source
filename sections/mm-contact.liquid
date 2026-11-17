@@ -125,7 +125,14 @@
               <p>{{ 'templates.contact.form.post_success' | t }}</p>
             </div>
           {%- elsif form.errors -%}
-            <div class="mm-contact__alert mm-contact__alert--error" role="alert" aria-live="assertive" tabindex="-1">
+            <div
+              class="mm-contact__alert mm-contact__alert--error"
+              id="mm-contact-errors-{{ section.id }}"
+              role="alert"
+              aria-live="assertive"
+              tabindex="-1"
+              autofocus
+            >
               <p class="mm-contact__alert-heading">{{ 'templates.contact.form.error_heading' | t }}</p>
               <ul class="mm-contact__error-list">
                 {%- for field in form.errors -%}
@@ -159,7 +166,7 @@
             </div>
           {%- endif -%}
 
-          <div class="mm-contact__field">
+          <div class="mm-contact__field{% if form.errors contains 'name' %} mm-contact__field--error{% endif %}">
             <label class="mm-contact__field-label" for="{{ name_id }}">
               {{ 'templates.contact.form.name' | t }}
             </label>
@@ -170,8 +177,18 @@
               name="contact[name]"
               autocomplete="name"
               autocapitalize="words"
+              {% if form.errors contains 'name' %}
+                aria-invalid="true"
+                aria-describedby="mm-contact-name-error-{{ section.id }}"
+              {% endif %}
               value="{% if form.name %}{{ form.name | escape }}{% elsif customer %}{{ customer.name | escape }}{% endif %}"
             >
+            {%- if form.errors contains 'name' -%}
+              <p id="mm-contact-name-error-{{ section.id }}" class="mm-contact__field-error">
+                {{ form.errors.translated_fields.name | capitalize }}
+                {{ form.errors.messages.name }}
+              </p>
+            {%- endif -%}
           </div>
 
           <div class="mm-contact__field{% if form.errors contains 'email' %} mm-contact__field--error{% endif %}">

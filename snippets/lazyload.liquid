@@ -1,137 +1,51 @@
-{% if settings.enable_lazyload %}data-{% endif %}srcset="
-{%- if preview_img.width >= 165 -%}
-	{%- if preview_img.width >= 165 -%}
-	    {{ preview_img | img_url: '165x' }} 165w
-	{%- endif -%}
-	{%- if preview_img.width >= 170 -%}
-	    ,{{ preview_img | img_url: '170x' }} 170w
-	{%- endif -%}
-	{%- if preview_img.width >= 185 -%}
-	    ,{{ preview_img | img_url: '185x' }} 185w
-	{%- endif -%}
-	{%- if preview_img.width >= 198 -%}
-	    ,{{ preview_img | img_url: '198x' }} 198w
-	{%- endif -%}
-	{%- if preview_img.width >= 204 -%}
-	    ,{{ preview_img | img_url: '204x' }} 204w
-	{%- endif -%}
-	{%- if preview_img.width >= 210 -%}
-	    ,{{ preview_img | img_url: '210x' }} 210w
-	{%- endif -%}
-	{%- if preview_img.width >= 220 -%}
-	    ,{{ preview_img | img_url: '220x' }} 220w
-	{%- endif -%}
-	{%- if preview_img.width >= 245 -%}
-	    ,{{ preview_img | img_url: '245x' }} 245w
-	{%- endif -%}
-	{%- if preview_img.width >= 270 -%}
-	    ,{{ preview_img | img_url: '270x' }} 270w
-	{%- endif -%}
-	{%- if preview_img.width >= 290 -%}
-	    ,{{ preview_img | img_url: '290x' }} 290w
-	{%- endif -%}
-	{%- if preview_img.width >= 320 -%}
-	    ,{{ preview_img | img_url: '320x' }} 320w
-	{%- endif -%}
-	{%- if preview_img.width >= 355 -%}
-	    ,{{ preview_img | img_url: '355x' }} 355w
-	{%- endif -%}
-	{%- if preview_img.width >= 360 -%}
-	    ,{{ preview_img | img_url: '360x' }} 360w
-	{%- endif -%}
-	{%- if preview_img.width >= 370 -%}
-	    ,{{ preview_img | img_url: '370x' }} 370w
-	{%- endif -%}
-	{%- if preview_img.width >= 420 -%}
-	    ,{{ preview_img | img_url: '420x' }} 420w
-	{%- endif -%}
-	{%- if preview_img.width >= 430 -%}
-	    ,{{ preview_img | img_url: '430x' }} 430w
-	{%- endif -%}
-	{%- if preview_img.width >= 460 -%}
-	    ,{{ preview_img | img_url: '460x' }} 460w
-	{%- endif -%}
-	{%- if preview_img.width >= 470 -%}
-	    ,{{ preview_img | img_url: '470x' }} 470w
-	{%- endif -%}
-	{%- if preview_img.width >= 510 -%}
-	    ,{{ preview_img | img_url: '510x' }} 510w
-	{%- endif -%}
-	{%- if preview_img.width >= 523 -%}
-	    ,{{ preview_img | img_url: '523x' }} 523w
-	{%- endif -%}
-	{%- if preview_img.width >= 533 -%}
-	    ,{{ preview_img | img_url: '533x' }} 533w
-	{%- endif -%}
-	{%- if preview_img.width >= 534 -%}
-	    ,{{ preview_img | img_url: '534x' }} 534w
-	{%- endif -%}
-	{%- if preview_img.width >= 570 -%}
-	    ,{{ preview_img | img_url: '570x' }} 570w
-	{%- endif -%}
-	{%- if preview_img.width >= 640 -%}
-	    ,{{ preview_img | img_url: '640x' }} 640w
-	{%- endif -%}
-	{%- if preview_img.width >= 665 -%}
-	    ,{{ preview_img | img_url: '665x' }} 665w
-	{%- endif -%}
-	{%- if preview_img.width >= 670 -%}
-	    ,{{ preview_img | img_url: '670x' }} 670w
-	{%- endif -%}
-	{%- if preview_img.width >= 720 -%}
-	    ,{{ preview_img | img_url: '720x' }} 720w
-	{%- endif -%}
-	{%- if preview_img.width >= 775 -%}
-	    ,{{ preview_img | img_url: '775x' }} 775w
-	{%- endif -%}
-	{%- if preview_img.width >= 785 -%}
-	    ,{{ preview_img | img_url: '785x' }} 785w
-	{%- endif -%}
-	{%- if preview_img.width >= 870 -%}
-	    ,{{ preview_img | img_url: '870x' }} 870w
-	{%- endif -%}
-	{%- if preview_img.width >= 930 -%}
-	    ,{{ preview_img | img_url: '930x' }} 930w
-	{%- endif -%}
-	{%- if preview_img.width >= 935 -%}
-	    ,{{ preview_img | img_url: '935x' }} 935w
-	{%- endif -%}
-	{%- if preview_img.width >= 940 -%}
-	    ,{{ preview_img | img_url: '940x' }} 940w
-	{%- endif -%}
-	{%- if preview_img.width >= 1066 -%}
-	    ,{{ preview_img | img_url: '1066x' }} 1066w
-	{%- endif -%}
-	{%- if preview_img.width >= 1160 -%}
-	    ,{{ preview_img | img_url: '1160x' }} 1160w
-	{%- endif -%}
-	{%- if preview_img.width >= 1170 -%}
-	    ,{{ preview_img | img_url: '1170x' }} 1170w
-	{%- endif -%}
-	{%- if preview_img.width >= 1270 -%}
-	    ,{{ preview_img | img_url: '1270x' }} 1270w
-	{%- endif -%}
-	{%- if preview_img.width >= 1370 -%}
-	    ,{{ preview_img | img_url: '1370x' }} 1370w
-	{%- endif -%}
-	{%- if preview_img.width >= 1570 -%}
-	    ,{{ preview_img | img_url: '1570x' }} 1570w
-	{%- endif -%}
-	{%- if preview_img.width >= 1770 -%}
-	    ,{{ preview_img | img_url: '1770x' }} 1770w
-	{%- endif -%}
-	{%- if preview_img.width >= 1850 -%}
-	    ,{{ preview_img | img_url: '1850x' }} 1850w
-	{%- endif -%}
-	{%- if preview_img.width >= 1880 -%}
-	    ,{{ preview_img | img_url: '1880x' }} 1880w
-	{%- endif -%}
-	{%- if preview_img.width == 1903 -%}
-	    ,{{ preview_img | img_url: '1903x' }} 1903w
-	{%- endif -%}
-	{%- if preview_img.width == 1920 -%}
-	    ,{{ preview_img | img_url: '1920x' }} 1920w
-	{%- endif -%}
-{%- else -%}
-	{{ preview_img | img_url: 'master' }}
-{%- endif -%}" {% unless settings.enable_lazyload %}src="{{ preview_img | img_url: '533x' }}"{% else %}{% unless enable_rtl %} loading="lazy"{% endunless %}{% endunless %} sizes="(min-width: 1100px) {{preview_img.width | append: 'px'}}, (min-width: 750px) calc((100vw - 30px) / 2), calc((100vw - 20px) / 2)" alt="{{ preview_img.alt | escape }}" size="{{ preview_img.width }}" class="{% if class %}motion-reduce{% endif %}{% if settings.enable_lazyload %} lazyload{% endif %}"
+{%- comment -%}
+  Shared responsive image attributes for product cards and theme media.
+  Always emits real src + srcset so images work without JavaScript.
+  Native loading="lazy|eager" replaces lazysizes data-src / .lazyload opacity hide.
+  Optional: sizes, loading, fetchpriority, width, height, class (motion-reduce).
+{%- endcomment -%}
+{%- if preview_img != blank -%}
+{%- liquid
+  assign mm_img = preview_img
+
+  assign mm_loading = loading | default: ''
+  if mm_loading == blank
+    if settings.enable_lazyload
+      assign mm_loading = 'lazy'
+    else
+      assign mm_loading = 'eager'
+    endif
+  endif
+
+  assign mm_sizes = sizes | default: ''
+  if mm_sizes == blank
+    assign mm_sizes = '(min-width: 1100px) 320px, (min-width: 750px) calc((100vw - 60px) / 3), calc((100vw - 40px) / 2)'
+  endif
+
+  assign mm_w = width | default: mm_img.width
+  assign mm_h = height | default: blank
+  if mm_h == blank and mm_img.aspect_ratio != blank and mm_img.aspect_ratio != 0
+    assign mm_h = mm_w | divided_by: mm_img.aspect_ratio | round
+  endif
+
+  assign mm_src = mm_img | image_url: width: 533
+  if mm_img.width != blank and mm_img.width < 533
+    assign mm_src = mm_img | image_url: width: mm_img.width
+  endif
+
+  assign mm_class = ''
+  if class
+    assign mm_class = 'motion-reduce'
+  endif
+-%}
+src="{{ mm_src }}"
+srcset="{%- if mm_img.width >= 165 -%}{{ mm_img | image_url: width: 165 }} 165w{%- endif -%}{%- if mm_img.width >= 360 -%},{{ mm_img | image_url: width: 360 }} 360w{%- endif -%}{%- if mm_img.width >= 533 -%},{{ mm_img | image_url: width: 533 }} 533w{%- endif -%}{%- if mm_img.width >= 720 -%},{{ mm_img | image_url: width: 720 }} 720w{%- endif -%}{%- if mm_img.width >= 900 -%},{{ mm_img | image_url: width: 900 }} 900w{%- endif -%}{%- if mm_img.width >= 1200 -%},{{ mm_img | image_url: width: 1200 }} 1200w{%- endif -%}{%- if mm_img.width != blank and mm_img.width < 165 -%}{{ mm_img | image_url: width: mm_img.width }} {{ mm_img.width }}w{%- endif -%}"
+sizes="{{ mm_sizes }}"
+{%- if mm_w != blank %} width="{{ mm_w }}"{% endif -%}
+{%- if mm_h != blank %} height="{{ mm_h }}"{% endif %}
+alt="{{ mm_img.alt | escape }}"
+loading="{{ mm_loading }}"
+decoding="async"
+{%- if fetchpriority != blank %} fetchpriority="{{ fetchpriority }}"{% endif %}
+class="{{ mm_class }}"
+{%- endif -%}

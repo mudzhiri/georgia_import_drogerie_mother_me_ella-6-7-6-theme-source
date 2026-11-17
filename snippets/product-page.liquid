@@ -545,25 +545,24 @@
                                                             {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | image_url: width: 1000 }}" role="button" tabindex="0" aria-label="{{ 'products.product.media_load' | t | escape }}"{% endif %}
                                                         >
                                                             <img id="product-featured-image-{{ media.id }}"
-                                                                {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{{ media.preview_image | image_url: width: 1000 }}"
-                                                                {% unless settings.enable_lazyload and forloop.first == false %}src="{{ media.preview_image | image_url: width: 1000 }}"{% endunless %}
-                                                                {% if settings.enable_lazyload and forloop.first == false %}data-src="{{ media.preview_image | image_url: width: 1000 }}"{% endif %}
+                                                                srcset="{{ media.preview_image | image_url: width: 480 }} 480w, {{ media.preview_image | image_url: width: 720 }} 720w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
+                                                                src="{{ media.preview_image | image_url: width: 1000 }}"
                                                                 alt="{{ media.preview_image.alt | escape }}"
-                                                                sizes="(min-width: 2000px) 1500px, (min-width: 1200px) 1200px, (min-width: 768px) calc((100vw - 30px) / 2), calc(100vw - 20px)"
-                                                                width="{{ media.width }}"
-                                                                height="{{ media.height }}"
-                                                                data-sizes="auto"
+                                                                sizes="(min-width: 1200px) min(640px, 45vw), (min-width: 768px) calc((100vw - 48px) / 2), calc(100vw - 32px)"
+                                                                width="{{ media.preview_image.width | default: media.width }}"
+                                                                height="{{ media.preview_image.height | default: media.height }}"
                                                                 data-main-image
                                                                 data-index="{{ forloop.index }}"
                                                                 data-cursor-image
+                                                                class="motion-reduce"
+                                                                decoding="async"
                                                                 {% if forloop.first %}
                                                                   loading="eager"
                                                                   fetchpriority="high"
-                                                                {% elsif settings.enable_lazyload %}
-                                                                  class="lazyload" loading="lazy"
+                                                                {% else %}
+                                                                  loading="lazy"
                                                                 {% endif %}
-                                                            />
-                                                            {%- if settings.enable_lazyload and forloop.first == false -%}<span class="data-lazy-loading"></span>{%- endif -%}
+                                                            >
                                                         </div>
                                                     </div>
                                                 </div>
@@ -764,14 +763,16 @@
                                                     <div class="productView-thumbnail{% if show_variant_image_group %} filter-{{ media.alt | escape | downcase | replace: ' ', '-' | replace: '(', '-' | replace: ')', '-' }}{% endif %}" data-media-id="{{ section.id }}-{{ media.id }}">
                                                         <div class="productView-thumbnail-link" data-image="{{ media.preview_image | image_url: width: 480 }}" role="button" tabindex="0" aria-label="{{ 'products.product.thumbnail_label' | t: index: forloop.index | escape }}">
                                                             <img
-                                                              {% if settings.enable_lazyload and forloop.index > 4 %}data-{% endif %}srcset="{{ media.preview_image | image_url: width: 160 }}"
-                                                              {% unless settings.enable_lazyload and forloop.index > 4 %}src="{{ media.preview_image | image_url: width: 160 }}"{% endunless %}
+                                                              srcset="{{ media.preview_image | image_url: width: 80 }} 80w, {{ media.preview_image | image_url: width: 160 }} 160w, {{ media.preview_image | image_url: width: 240 }} 240w"
+                                                              src="{{ media.preview_image | image_url: width: 160 }}"
+                                                              sizes="80px"
                                                               alt="{{ media.alt | escape }}"
                                                               width="{{ media.preview_image.width }}"
                                                               height="{{ media.preview_image.height }}"
-                                                              {% if settings.enable_lazyload and forloop.index > 4 %}class="lazyload" loading="lazy"{% elsif forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
+                                                              class="motion-reduce"
+                                                              decoding="async"
+                                                              {% if forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
                                                             >
-                                                            {%- if settings.enable_lazyload and forloop.index > 4 -%}<span class="data-lazy-loading"></span>{%- endif -%}
                                                         </div>
                                                     </div>
                                                 {%- when 'external_video' -%}

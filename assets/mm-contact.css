@@ -123,6 +123,12 @@
   transition: color var(--mm-contact-motion);
 }
 
+a.mm-contact__value {
+  min-height: 44px;
+  padding-block: 10px;
+  box-sizing: border-box;
+}
+
 a.mm-contact__value:hover {
   color: var(--mm-contact-heading);
   text-decoration: underline;
@@ -183,6 +189,10 @@ a.mm-contact__value:focus-visible {
 }
 
 .mm-contact__error-list a {
+  display: inline-block;
+  min-height: 44px;
+  padding-block: 10px;
+  box-sizing: border-box;
   color: inherit;
   text-decoration: underline;
 }

@@ -141,11 +141,29 @@
     assign contact_email = ''
   endif
 
+  assign email_down = contact_email | downcase
+  if email_down contains 'email@domain.com' or email_down contains 'example@domain.com' or email_down contains '@domain.com'
+    assign contact_email = ''
+  endif
+
   assign contact_phone = shop.phone | strip
+  assign phone_down = contact_phone | downcase
+  if contact_phone != blank
+    if phone_down contains 'ella' or phone_down contains '555-5555' or phone_down contains '091-123' or phone_down contains '090-123' or phone_down contains '(090)' or phone_down contains '(415) 555'
+      assign contact_phone = ''
+    endif
+  endif
+
   assign has_address = false
   if shop.address != blank
     if shop.address.address1 != blank or shop.address.city != blank or shop.address.company != blank
-      assign has_address = true
+      assign address_blob = shop.address.company | append: ' ' | append: shop.address.address1 | append: ' ' | append: shop.address.address2 | append: ' ' | append: shop.address.city | append: ' ' | append: shop.address.zip | append: ' ' | append: shop.address.country
+      assign address_down = address_blob | downcase
+      if address_down contains 'san francisco' or address_down contains 'market street' or address_down contains 'divamus' or address_down contains "ella's garden" or address_down contains 'ellas garden' or address_down contains 'city name'
+        assign has_address = false
+      else
+        assign has_address = true
+      endif
     endif
   endif
 
