@@ -9,9 +9,6 @@
  */
 {
   "general": {
-    "popup": {
-      "warning_placeholder": "გაფრთხილება"
-    },
     "breadcrumb": {
       "home": "მთავარი",
       "label": "ნავიგაციის გზა"
@@ -190,8 +187,8 @@
   },
   "brands_page": {
     "general": {
-      "az_title": "ბრენდები A–Z",
-      "all": "ყველა"
+      "az_title": "Brands A-Z",
+      "all": "All"
     }
   },
   "newsletter": {
@@ -231,34 +228,33 @@
   },
   "blogs": {
     "article": {
-      "blog": "ბლოგი",
-      "read_more_title": "წაიკითხეთ მეტი: {{ title }}",
-      "read_more": "წაიკითხეთ მეტი",
+      "blog": "Blog",
+      "read_more_title": "Read more: {{ title }}",
+      "read_more": "Read more",
       "author": "{{ author }}",
       "comments": {
-        "one": "{{ count }} კომენტარი",
-        "other": "{{ count }} კომენტარი"
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
       },
-      "moderated": "გთხოვთ გაითვალისწინოთ: კომენტარები გამოქვეყნებამდე საჭიროებს დამტკიცებას.",
-      "moderated-all": "ბლოგის ყველა კომენტარი მოწმდება გამოქვეყნებამდე",
-      "comment_form_title": "დატოვეთ კომენტარი",
-      "name": "სახელი",
-      "email": "ელფოსტა",
-      "message": "კომენტარი",
-      "post": "კომენტარის გაგზავნა",
-      "back_to_blog": "ბლოგზე დაბრუნება",
-      "share": "სტატიის გაზიარება",
-      "success": "თქვენი კომენტარი წარმატებით გამოქვეყნდა! გმადლობთ!",
-      "success_moderated": "თქვენი კომენტარი წარმატებით გაიგზავნა. მალე გამოვაქვეყნებთ, რადგან ბლოგი მოდერირდება.",
-      "on": "",
-      "by": "",
-      "featured": "რჩეული",
-      "older_post": "ძველი პოსტი",
-      "newer_post": "ახალი პოსტი",
-      "prev_post": "წინა პოსტი",
-      "next_post": "შემდეგი პოსტი",
-      "tags": "თეგები:",
-      "empty": "ჯერ არ არის ბლოგის ჩანაწერები."
+      "moderated": "Please note, comments need to be approved before they are published.",
+      "moderated-all": "All blog comments are checked prior to publishing",
+      "comment_form_title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "post": "Post comment",
+      "back_to_blog": "Back to blog",
+      "share": "Share this article",
+      "success": "Your comment was posted successfully! Thank you!",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "on": "On",
+      "by": "by",
+      "featured": "featured",
+      "older_post": "Older post",
+      "newer_post": "Newer post",
+      "prev_post": "Prev post",
+      "next_post": "Next post",
+      "tags": "Tags:"
     }
   },
   "onboarding": {
@@ -335,7 +331,6 @@
       "read_less": "ნაკლების ჩვენება",
       "read_more": "მეტის წაკითხვა",
       "share": "ამ პროდუქტის გაზიარება",
-      "share_copied": "ბმული დაკოპირდა",
       "sold_out": "ამოიწურა",
       "sold_out_message": "ეს ვარიანტი ამოიწურა!",
       "custom": "სპეციალური ნიშანი",
@@ -438,12 +433,7 @@
         "success": "პროდუქტი კალათაში დაემატა."
       },
       "related_products": "მსგავსი პროდუქტები",
-      "recently_viewed_products": "ბოლოს ნანახი პროდუქტები",
-      "trust": {
-        "free_shipping": "მიწოდება საქართველოში: 8 ₾",
-        "order_pickup": "ონლაინ შეკვეთა ან თვითგატანა თბილისში",
-        "bank_transfer": "გადახდა საბანკო გადარიცხვით"
-      }
+      "recently_viewed_products": "ბოლოს ნანახი პროდუქტები"
     },
     "modal": {
       "label": "მედია გალერეა"
@@ -451,7 +441,7 @@
   },
   "portfolio_page": {
     "general": {
-      "all": "ყველა"
+      "all": "All"
     }
   },
   "templates": {
@@ -514,15 +504,15 @@
   },
   "faqs": {
     "general": {
-      "all": "ყველა",
-      "filter": "გაფილტვრა თემის მიხედვით"
+      "all": "All",
+      "filter": "Filter by topic"
     }
   },
   "portfolio": {
-    "filter": "ფილტრი",
-    "close": "დახურვა",
-    "tab_all": "ყველა გალერეის ჩვენება",
-    "tab": "გალერეის გაფილტვრა"
+    "filter": "Filter",
+    "close": "Close",
+    "tab_all": "Tab to show all galleries",
+    "tab": "Tab to filter gallery"
   },
   "sections": {
     "header": {
@@ -724,6 +714,11 @@
       "link_terms": "წესები და პირობები"
     }
   },
+  "mm_badges": {
+    "sold_out": "არ არის მარაგში",
+    "sale": "ფასდაკლება",
+    "new": "ახალი"
+  },
   "localization": {
     "country_label": "ქვეყანა/რეგიონი",
     "language_label": "ენა",
@@ -912,16 +907,16 @@
   },
   "someone_purcharse": {
     "general": {
-      "text_1": "ცოტა ხნის წინ ვიღაცამ იყიდა",
-      "ago": "წინ,",
-      "from": "დან"
+      "text_1": "Someone recently bought a",
+      "ago": "ago,",
+      "from": "From"
     }
   },
   "before_you_leave": {
     "general": {
-      "recommended_product": "რეკომენდებული",
-      "back_to_store": "მაღაზიაში დაბრუნება",
-      "continue_shopping": "შოპინგის გაგრძელება"
+      "recommended_product": "Recommended",
+      "back_to_store": "Back to store",
+      "continue_shopping": "Continue shopping"
     }
   },
   "recently_viewed": {
@@ -967,7 +962,7 @@
   },
   "countdown": {
     "general": {
-      "text": "შეზღუდული შეთავაზებები მთავრდება:",
+      "text": "Limited-time offers, end in:",
       "day": "D",
       "hour": "H",
       "min": "M",
@@ -976,67 +971,67 @@
       "h": "h",
       "m": "m",
       "s": "s",
-      "day_2": "დღე",
-      "hour_2": "საათი",
-      "min_2": "წთ",
-      "sec_2": "წმ",
-      "days": "დღე",
-      "hours": "საათი",
-      "mins": "წთ",
-      "secs": "წმ"
+      "day_2": "Days",
+      "hour_2": "Hours",
+      "min_2": "Mins",
+      "sec_2": "Secs",
+      "days": "Days",
+      "hours": "Hours",
+      "mins": "Mins",
+      "secs": "Secs"
     }
   },
   "customer_viewing": {
     "general": {
-      "text": "{{ number }} მომხმარებელი უყურებს ამ პროდუქტს"
+      "text": "{{ number }} customers are viewing this product"
     }
   },
   "size_chart": {
     "general": {
-      "title": "ზომების ცხრილი",
-      "text": "ზომების გზამკვლევი"
+      "title": "Size chart",
+      "text": "Size guide"
     }
   },
   "compare_color": {
     "general": {
-      "title": "ფერის შედარება",
-      "text": "შესადარებლად დააწკაპუნეთ ფერზე/ნიმუშზე; გადასაწყობად გადაიტანეთ სურათები"
+      "title": "Compare color",
+      "text": "Click on color/pattern to compare, click and drag images to reorder"
     }
   },
   "lookbook": {
-    "view_all": "მთელი ლუქის ნახვა",
-    "shop_look": "ლუქის შეძენა"
+    "view_all": "View entire look",
+    "shop_look": "Shop the look"
   },
   "bulk_editor_page": {
     "general": {
-      "all_collection": "ყველა პროდუქტი",
-      "select_collection": "აირჩიეთ კატეგორია",
-      "submit": "რედაქტორის გაგზავნა",
-      "edit_metafields": "მეტაველების რედაქტირება პროდუქტებში."
+      "all_collection": "All product",
+      "select_collection": "Choose category",
+      "submit": "Submit editor",
+      "edit_metafields": "Edit metafield in products."
     }
   },
   "find_a_store": {
-    "no_stores": "ამჟამად მაღაზიის პრეზენტაციაზე ვმუშაობთ. გთხოვთ, მოგვიანებით დაბრუნდეთ..."
+    "no_stores": "Sorry, we are working on our store presentation right now! Please come back later..."
   },
   "recipient": {
     "form": {
-      "checkbox": "მინდა ეს საჩუქრად გავაგზავნო",
-      "email_label": "მიმღების ელფოსტა",
-      "email_label_optional": "მიმღების ელფოსტა (არასავალდებულო)",
-      "email": "ელფოსტა",
-      "name_label": "მიმღების სახელი (არასავალდებულო)",
-      "name": "სახელი",
-      "message_label": "შეტყობინება (არასავალდებულო)",
-      "message": "შეტყობინება",
-      "max_characters": "მაქსიმუმ {{ max_chars }} სიმბოლო",
+      "checkbox": "I want to send this as a gift",
+      "email_label": "Recipient email",
+      "email_label_optional": "Recipient email (optional)",
+      "email": "Email",
+      "name_label": "Recipient name (optional)",
+      "name": "Name",
+      "message_label": "Message (optional)",
+      "message": "Message",
+      "max_characters": "{{ max_chars }} characters max",
       "send_on": "YYYY-MM-DD",
-      "send_on_label": "გაგზავნის თარიღი (არასავალდებულო)"
+      "send_on_label": "Send on (optional)"
     }
   },
   "popup": {
     "promotion": {
-      "copy": "კოპირება",
-      "success_message_copy": "დაკოპირდა"
+      "copy": "Copy",
+      "success_message_copy": "Copied"
     }
   },
   "cart": {
@@ -1095,22 +1090,15 @@
     "faq": {
       "heading": "ხშირად დასმული კითხვები",
       "q_order": "როგორ ხდება შეკვეთა?",
-      "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთის დასრულებისას შეკვეთა მიიღება; გადახდა ხდება საბანკო გადარიცხვით.",
+      "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ.",
       "q_shipping": "რა ღირს მიწოდება?",
-      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. გადახდა საბანკო გადარიცხვით. საბოლოო მიწოდების ღირებულება ჩანს გადახდის გვერდზე. შეკვეთები მუშავდება და იგზავნება გადახდის დადასტურების შემდეგ.",
+      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში.",
       "q_payment": "როგორ მუშაობს გადახდა?",
-      "a_payment": "გადახდა ხდება საბანკო გადარიცხვით. გადაირიცხე შეკვეთის ზუსტი ჯამი ლარში (₾) მითითებულ ანგარიშზე და გადმორიცხვის დანიშნულებაში მიუთითე შეკვეთის ნომერი. შეკვეთა მიღებულია, მაგრამ ჯერ არ არის გადახდილი; დამუშავება და გაგზავნა იწყება მხოლოდ თანხის შემოსვლის დადასტურების შემდეგ.",
+      "a_payment": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾).",
       "q_returns": "შეიძლება პროდუქტის დაბრუნება?",
       "a_returns": "თუ პროდუქტი დაზიანებულია ან არასწორია, დაგვიკავშირდით 7 დღის განმავლობაში შეკვეთის მიღებიდან. გახსნილი ჰიგიენური პროდუქტები დაბრუნებას არ ექვემდებარება.",
       "q_origin": "საიდან მოდის პროდუქტები?",
       "a_origin": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
-    },
-    "category_pills": {
-      "heading": "მოვლა და ჰიგიენა"
     }
-  },
-  "mm_badges": {
-    "sold_out": "არ არის მარაგში",
-    "sale": "ფასდაკლება"
   }
 }

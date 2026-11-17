@@ -493,7 +493,7 @@
                 <div class="page-content" id="ProductContent">
             {%- endif -%}
                 <div class="productView-top">
-                    <div class="halo-productView-left productView-images clearfix mm-product-gallery{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-image-gallery data-mm-media-count="{{ product.media.size }}" data-mm-gallery-prev="{{ 'general.pagination.previous' | t | escape }}" data-mm-gallery-next="{{ 'general.pagination.next' | t | escape }}" aria-label="{{ 'products.product.media_gallery' | t | escape }}">
+                    <div class="halo-productView-left productView-images clearfix mm-product-gallery{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--fade-in{% endif %}" data-image-gallery data-mm-media-count="{{ product.media.size }}" data-mm-gallery-prev="{{ 'general.pagination.previous' | t | escape }}" data-mm-gallery-next="{{ 'general.pagination.next' | t | escape }}" data-mm-thumb-label="{{ 'products.product.thumbnail_label' | t: index: '__INDEX__' | escape }}" aria-label="{{ 'products.product.media_gallery' | t | escape }}">
                         {%- if main_image_show_custom_cursor -%}
                             <div class="cursor-wrapper handleMouseLeave">
                                 <div class="custom-cursor custom-cursor__outer">
@@ -505,7 +505,6 @@
                         {%- endif -%}
                         <div class="productView-images-wrapper" data-video-{{ video_layout }}>
                             <div class="productView-image-wrapper">
-                                {% render 'mm-pdp-media-actions', product: product %}
                                 {%- if show_badge -%}
                                     {% render 'product-badge',
                                         product: product,

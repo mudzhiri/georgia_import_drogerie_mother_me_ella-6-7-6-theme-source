@@ -69,17 +69,23 @@
   };
 
   const enhanceThumbs = () => {
+    const thumbPattern =
+      gallery.getAttribute('data-mm-thumb-label') || 'სურათი {{ index }}';
     gallery.querySelectorAll('.productView-thumbnail').forEach((thumb, index) => {
       const link = thumb.querySelector('.productView-thumbnail-link');
       if (!link || link.dataset.mmThumbBound) return;
       link.dataset.mmThumbBound = '1';
       if (!link.hasAttribute('tabindex')) link.setAttribute('tabindex', '0');
       if (!link.getAttribute('role')) link.setAttribute('role', 'button');
-      const label =
-        link.getAttribute('aria-label') ||
-        thumb.getAttribute('aria-label') ||
-        `Image ${index + 1}`;
-      link.setAttribute('aria-label', label);
+      const existing = link.getAttribute('aria-label');
+      if (!existing || /^Image\s+\d+/i.test(existing)) {
+        link.setAttribute(
+          'aria-label',
+          thumbPattern
+            .replace('__INDEX__', String(index + 1))
+            .replace('{{ index }}', String(index + 1))
+        );
+      }
       link.addEventListener('keydown', (event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           event.preventDefault();
@@ -265,70 +271,7 @@
     });
   };
 
-  const initShare = () => {
-    const actions = gallery.querySelector('[data-mm-pdp-actions]');
-    if (!actions || actions.dataset.mmShareInit === '1') return;
-    actions.dataset.mmShareInit = '1';
-
-    const btn = actions.querySelector('[data-mm-share]');
-    const toast = actions.querySelector('[data-mm-share-toast]');
-    if (!btn) return;
-
-    let toastTimer = 0;
-    const showToast = (message) => {
-      if (!toast || !message) return;
-      toast.textContent = message;
-      toast.hidden = false;
-      window.clearTimeout(toastTimer);
-      toastTimer = window.setTimeout(() => {
-        toast.hidden = true;
-      }, 2200);
-    };
-
-    const copyUrl = async (url) => {
-      if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
-        await navigator.clipboard.writeText(url);
-        return true;
-      }
-      const input = document.createElement('input');
-      input.value = url;
-      input.setAttribute('readonly', '');
-      input.style.position = 'fixed';
-      input.style.opacity = '0';
-      document.body.appendChild(input);
-      input.select();
-      const ok = document.execCommand('copy');
-      input.remove();
-      return ok;
-    };
-
-    btn.addEventListener('click', async (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      const url = btn.getAttribute('data-mm-share-url') || window.location.href;
-      const title = btn.getAttribute('data-mm-share-title') || document.title;
-      const copied = btn.getAttribute('data-mm-share-copied') || '';
-
-      try {
-        if (navigator.share) {
-          await navigator.share({ title, url });
-          return;
-        }
-      } catch (err) {
-        if (err && err.name === 'AbortError') return;
-      }
-
-      try {
-        const ok = await copyUrl(url);
-        if (ok) showToast(copied);
-      } catch (e) {
-        /* ignore */
-      }
-    });
-  };
-
   boot();
-  initShare();
 
   const tryBootWhenSlickReady = () => {
     if (!window.jQuery || !main) return false;

@@ -66,9 +66,7 @@
     endif
   endif
 
-  comment
-    Suppress policy links that already appear in the selected menus.
-  endcomment
+  # Suppress policy links that already appear in the selected menus.
   if has_customers_menu
     for link in customers_menu.links
       if show_shipping and link.url == shipping_policy.url
@@ -91,9 +89,7 @@
     endfor
   endif
 
-  comment
-    Fallback page targets when menus are empty — only real published pages.
-  endcomment
+  # Fallback page targets when menus are empty — only real published pages.
   assign contact_page = pages['contact']
   if contact_page == empty
     assign contact_page = pages['contact-us']
@@ -174,9 +170,7 @@
     endif
   endif
 
-  comment
-    Social: only real profiles. Reject blank and Shopify demo placeholders.
-  endcomment
+  # Social: only real profiles. Reject blank and Shopify demo placeholders.
   assign social_facebook = settings.social_facebook_link | strip
   assign social_instagram = settings.social_instagram_link | strip
   assign social_pinterest = settings.social_pinterest_link | strip

@@ -1,14 +1,14 @@
 /* MOTHER & ME — product image badges (scoped; does not restyle Ella .badge globally) */
 .mm-product-badges {
   position: absolute;
-  top: 11px;
-  left: 11px;
+  top: 10px;
+  left: 10px;
   z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  max-width: calc(100% - 22px);
+  max-width: calc(100% - 20px);
   margin: 0;
   padding: 0;
   pointer-events: none;
@@ -61,6 +61,17 @@
 }
 
 .mm-product-card__media-wrap > .mm-product-badges {
-  top: 11px;
-  left: 11px;
+  top: 10px;
+  left: 10px;
+}
+
+.productView-image-wrapper {
+  position: relative;
+}
+
+.productView-image-wrapper > .mm-product-badges,
+.productView-image-wrapper > .productView-badge.mm-product-badges,
+.productView-badge.mm-product-badges {
+  top: 10px;
+  left: 10px;
 }
