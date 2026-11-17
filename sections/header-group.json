@@ -68,7 +68,7 @@
         "main_menu_eyF3JG": {
           "type": "main_menu",
           "settings": {
-            "menu": "header-categories",
+            "menu": "main-header",
             "menu_top_spacing": 14,
             "menu_bottom_spacing": 14,
             "grid_gap_menu_item": 24,
