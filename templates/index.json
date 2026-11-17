@@ -22,6 +22,124 @@
         "image_alt": ""
       }
     },
+    "mm_category_pills": {
+      "type": "mm-category-pills",
+      "blocks": {
+        "pill_baby": {
+          "type": "pill",
+          "settings": {
+            "collection": "ბავშვი",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_kids": {
+          "type": "pill",
+          "settings": {
+            "collection": "ბავშვები",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_mama": {
+          "type": "pill",
+          "settings": {
+            "collection": "დედა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_skin": {
+          "type": "pill",
+          "settings": {
+            "collection": "ბავშვის-კანის-მოვლა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_bath": {
+          "type": "pill",
+          "settings": {
+            "collection": "აბაზანა-და-რეცხვა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_feed": {
+          "type": "pill",
+          "settings": {
+            "collection": "ბავშვის-კვება",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_toys": {
+          "type": "pill",
+          "settings": {
+            "collection": "სათამაშოები-და-აქსესუარები",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_lactation": {
+          "type": "pill",
+          "settings": {
+            "collection": "ძუძუთი-კვება-და-ორსულობა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_face": {
+          "type": "pill",
+          "settings": {
+            "collection": "სახის-მოვლა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_body": {
+          "type": "pill",
+          "settings": {
+            "collection": "სხეულის-მოვლა",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_deo": {
+          "type": "pill",
+          "settings": {
+            "collection": "დეოდორანტები",
+            "label": "",
+            "link": ""
+          }
+        },
+        "pill_makeup": {
+          "type": "pill",
+          "settings": {
+            "collection": "მაკიაჟი",
+            "label": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "pill_baby",
+        "pill_kids",
+        "pill_mama",
+        "pill_skin",
+        "pill_bath",
+        "pill_feed",
+        "pill_toys",
+        "pill_lactation",
+        "pill_face",
+        "pill_body",
+        "pill_deo",
+        "pill_makeup"
+      ],
+      "settings": {
+        "heading": ""
+      }
+    },
     "mm_categories": {
       "type": "mm-categories",
       "blocks": {
@@ -263,6 +381,7 @@
   },
   "order": [
     "mm_hero",
+    "mm_category_pills",
     "mm_categories",
     "mm_info_strip",
     "mm_products",

@@ -1,0 +1,119 @@
+/**
+ * MOTHER & ME — homepage category pill cloud (under hero).
+ * Pattern: heading + wrapping chips (dm-style), MM palette.
+ */
+
+.mm-category-pills {
+  --mm-pills-ink: #214d43;
+  --mm-pills-muted: #59665f;
+  --mm-pills-chip: #eaf1ec;
+  --mm-pills-chip-hover: #dfe9e3;
+  --mm-pills-chip-active: #214d43;
+  --mm-pills-gap: 10px;
+  --mm-pills-motion: 200ms ease-out;
+  background: #ffffff;
+  color: var(--mm-pills-ink);
+}
+
+.mm-category-pills__inner {
+  width: 100%;
+  max-width: var(--mm-content-max, 1200px);
+  margin: 0 auto;
+  padding: 28px var(--mm-page-gutter, 16px) 8px;
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-category-pills__inner {
+    padding: 36px var(--mm-page-gutter, 32px) 12px;
+  }
+}
+
+.mm-category-pills__heading {
+  margin: 0 0 18px;
+  max-width: 36rem;
+  font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
+  font-size: clamp(1.375rem, 1.2rem + 0.7vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--mm-pills-ink);
+  overflow-wrap: anywhere;
+}
+
+:lang(ka) .mm-category-pills__heading {
+  line-height: 1.4;
+}
+
+.mm-category-pills__list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+  justify-content: flex-start;
+  gap: var(--mm-pills-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mm-category-pills__item {
+  margin: 0;
+  padding: 0;
+}
+
+.mm-category-pills__pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 16px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 999px;
+  background: var(--mm-pills-chip);
+  color: var(--mm-pills-ink);
+  font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.35;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  cursor: pointer;
+  transition:
+    background-color var(--mm-pills-motion),
+    color var(--mm-pills-motion),
+    transform var(--mm-pills-motion);
+}
+
+.mm-category-pills__pill:hover {
+  background: var(--mm-pills-chip-hover);
+  color: var(--mm-pills-ink);
+}
+
+.mm-category-pills__pill:focus-visible {
+  outline: 2px solid var(--mm-pills-ink);
+  outline-offset: 3px;
+}
+
+.mm-category-pills__pill:active {
+  background: #d4e0d9;
+  transform: translateY(1px);
+}
+
+.mm-category-pills__pill[aria-current="page"] {
+  background: var(--mm-pills-chip-active);
+  color: #ffffff;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-category-pills__pill {
+    transition: none;
+  }
+
+  .mm-category-pills__pill:active {
+    transform: none;
+  }
+}
