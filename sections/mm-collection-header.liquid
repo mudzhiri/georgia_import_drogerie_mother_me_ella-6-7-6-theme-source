@@ -28,7 +28,6 @@
     assign has_subnav = true
   endif
 
-  # Fallback chips: confirmed child collection handles only (no menu writes, no merge).
   assign mm_fallback_handles = ''
   if has_subnav == false
     case collection.handle
