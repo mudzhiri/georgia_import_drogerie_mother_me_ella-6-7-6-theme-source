@@ -106,17 +106,32 @@
         assign show_compare = true
     endif
 
-    # Category grids: no Compare/Quick view
+    # Category grids: no Compare/Quick view; MM wishlist overlays media
     if mm_is_collection_card
       assign show_quick_view = false
       assign show_compare = false
+      assign show_wishlist = false
+      assign product_action_group = false
     endif
 
-    if show_quick_view or show_wishlist or show_compare
-        assign product_action_group = true
+    if mm_is_collection_card == false
+      if show_quick_view or show_wishlist or show_compare
+          assign product_action_group = true
+      endif
     endif
 
     assign has_video = product_card_product.media | where: 'media_type','video'
+
+    assign mm_card_image_count = 0
+    if mm_is_collection_card
+      for media in product_card_product.media
+        if media.media_type == 'image'
+          assign mm_card_image_count = mm_card_image_count | plus: 1
+        endif
+      endfor
+    endif
+    assign mm_prev_label = 'general.pagination.previous' | t
+    assign mm_next_label = 'general.pagination.next' | t
 
     assign show_price = settings.show_price
 
@@ -136,22 +151,46 @@
       endif
     endif
 -%}
-<div class="product-item{% if mm_is_collection_card %} mm-collection-card{% endif %}{% if settings.enable_background_button_card %} enable_background_button_card{% endif %}{% if settings.enable_custom_layout_card_1 %} enable_custom_layout_card_1{% endif %}{% if settings.enable_custom_position_swatch_layout_card_1 %} enable_custom_position_swatch{% endif %}" data-product-id="{{ product_card_product.id }}" data-json-product='{"id": {{product_card_product.id}},"handle": "{{product_card_product.handle}}","media": {{product.media | json | escape}},"variants": {{ product_card_product.variants | json | escape}}}'>
+<div class="product-item{% if mm_is_collection_card %} mm-collection-card{% endif %}{% if settings.enable_background_button_card %} enable_background_button_card{% endif %}{% if settings.enable_custom_layout_card_1 %} enable_custom_layout_card_1{% endif %}{% if settings.enable_custom_position_swatch_layout_card_1 %} enable_custom_position_swatch{% endif %}" data-product-id="{{ product_card_product.id }}"{% if mm_is_collection_card %} data-mm-product-card{% endif %} data-json-product='{"id": {{product_card_product.id}},"handle": "{{product_card_product.handle}}","media": {{product.media | json | escape}},"variants": {{ product_card_product.variants | json | escape}}}'>
     <div class="card{% if product_card_product.media[0].media_type == 'video' %} has-first-video{% endif %}">
         <div class="card-product{% if product_card_product.featured_media == nil %} card--text-only card--soft{% endif %}">
             <div class="card-product__wrapper">
                 {%- if settings.show_badge -%}
                     {% render 'product-badge', product: product_card_product, class: 'card__badge', badge_detail: true, serial: serial %}
                 {%- endif -%}
-                <div class="card-media card-media--{{ media_size }}{% if product_card_product.media[1] != nil and settings.show_image_swap %} media--hover-effect{% endif%}{% if mm_is_collection_card == false and settings.show_compare and settings.product_compare_type == 'default' %} has-compare{% endif %}{% if loading %} media--loading-effect{% endif %}"{% if product_card_product.featured_media %}{% if media_size == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"{% elsif media_size == 'square' %} style="padding-bottom: 100%;"{% elsif media_size == 'portrait' %}{% if portrait_aspect_ratio != blank %} style="padding-bottom: {{ portrait_aspect_ratio | append: '%' }};"{% endif %}{% endif %}{% endif %}>
+                <div
+                  class="card-media card-media--{{ media_size }} mm-card-media{% if mm_is_collection_card and mm_card_image_count > 1 %} mm-card-media--multi{% endif %}{% if mm_is_collection_card == false and product_card_product.media[1] != nil and settings.show_image_swap %} media--hover-effect{% endif %}{% if mm_is_collection_card == false and settings.show_compare and settings.product_compare_type == 'default' %} has-compare{% endif %}{% if loading %} media--loading-effect{% endif %}"
+                  {% if product_card_product.featured_media %}{% if media_size == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"{% elsif media_size == 'square' %} style="padding-bottom: 100%;"{% elsif media_size == 'portrait' %}{% if portrait_aspect_ratio != blank %} style="padding-bottom: {{ portrait_aspect_ratio | append: '%' }};"{% endif %}{% endif %}{% endif %}
+                  {% if mm_is_collection_card and mm_card_image_count > 1 %}
+                    data-mm-card-gallery
+                    data-mm-gallery-index="0"
+                    data-mm-images='{% render 'mm-card-gallery-data', product: product_card_product %}'
+                  {% endif %}
+                >
                     {%- liquid
                       assign mm_card_eager = false
                       if serial != blank and serial <= 4
                         assign mm_card_eager = true
                       endif
                     -%}
-                    {% render 'image-product-card', product_card_product: product_card_product, variant_img: variant_img, has_video: has_video, loading: loading, eager: mm_card_eager %}
+                    {% render 'image-product-card',
+                      product_card_product: product_card_product,
+                      variant_img: variant_img,
+                      has_video: has_video,
+                      loading: loading,
+                      eager: mm_card_eager,
+                      mm_gallery: mm_is_collection_card
+                    %}
                     <a class="card-link" href="{{ mm_card_product_url }}" title="{{ product_card_product.title | escape }}"></a>
+                    {%- if mm_is_collection_card -%}
+                      {% render 'mm-card-wishlist-btn', product: product_card_product %}
+                      {%- if mm_card_image_count > 1 -%}
+                        <button type="button" class="mm-card-media__nav mm-card-media__nav--prev" data-mm-gallery-prev aria-label="{{ mm_prev_label | escape }}"><span aria-hidden="true">‹</span></button>
+                        <button type="button" class="mm-card-media__nav mm-card-media__nav--next" data-mm-gallery-next aria-label="{{ mm_next_label | escape }}"><span aria-hidden="true">›</span></button>
+                        <div class="mm-card-media__dots" data-mm-gallery-dots aria-hidden="true"></div>
+                        <span class="visually-hidden" data-mm-gallery-status aria-live="polite"></span>
+                      {%- endif -%}
+                    {%- endif -%}
                 </div>
 
                 {%- if product_action_group -%}
@@ -290,9 +329,7 @@
                             {% render 'price', product: product_card_product, price_class: '', hasCountdown: hasCountdown %}
                         </div>
                     {%- endif -%}
-                    {%- if settings.show_action and complementary_product_button_atc -%}
-                        {% render 'mm-collection-add-to-cart', product: product_card_product, sectionId: sectionId %}
-                    {%- endif -%}
+                    {% render 'mm-card-atc', product: product_card_product, section_id: sectionId %}
                 </div>
             {%- else -%}
             {%- unless settings.enable_custom_position_swatch_layout_card_1 -%}

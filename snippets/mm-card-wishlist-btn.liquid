@@ -1,0 +1,26 @@
+{%- comment -%}
+  Heart wishlist control for MM product cards (top-right on media).
+  Accepts: product
+{%- endcomment -%}
+{%- liquid
+  assign mm_wl_add = 'wishlist.general.add' | t
+  assign mm_wl_added = 'wishlist.general.added' | t
+-%}
+<button
+  type="button"
+  class="mm-card-wishlist"
+  data-wishlist
+  data-wishlist-handle="{{ product.handle | escape }}"
+  data-product-id="{{ product.id }}"
+  title="{{ mm_wl_add | escape }}"
+  aria-label="{{ mm_wl_add | escape }}"
+  aria-pressed="false"
+>
+  <span class="visually-hidden text">{{ mm_wl_add }}</span>
+  <span class="mm-card-wishlist__icon mm-card-wishlist__icon--outline" aria-hidden="true">
+    {% render 'icon-heart-2' %}
+  </span>
+  <span class="mm-card-wishlist__icon mm-card-wishlist__icon--filled" aria-hidden="true">
+    {% render 'icon-heart-2' %}
+  </span>
+</button>

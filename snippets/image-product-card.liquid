@@ -6,9 +6,14 @@
   if eager == true
     assign mm_primary_loading = 'eager'
   endif
+  # MM gallery cards: first image only (no hover-swap second image)
+  assign mm_use_gallery = false
+  if mm_gallery == true
+    assign mm_use_gallery = true
+  endif
 -%}
 {%- if product_card_product.featured_media -%}
-    {%- if variant_img != blank -%}
+    {%- if variant_img != blank and mm_use_gallery == false -%}
         {%- if settings.quick_shop_type == '2' -%}
             {%- assign width = product_card_product.featured_media.width -%}
             {%- assign height = product_card_product.featured_media.width | divided_by: product_card_product.featured_media.aspect_ratio | round -%}
@@ -23,7 +28,7 @@
         {%- assign height = product_card_product.featured_media.width | divided_by: product_card_product.featured_media.aspect_ratio | round -%}
         <img {% render 'lazyload', preview_img: product_card_product.featured_media, class: true, width: width, height: height, sizes: mm_card_sizes, loading: mm_primary_loading, enable_rtl: settings.enable_layout_rtl %} onerror="this.setAttribute('data-mm-broken','1'); this.removeAttribute('src'); this.removeAttribute('srcset');">
     {%- endif -%}
-    {%- if product_card_product.media[1] != nil and settings.show_image_swap -%}
+    {%- if mm_use_gallery == false and product_card_product.media[1] != nil and settings.show_image_swap -%}
         {%- if has_video != blank and settings.enable_hover_video_product_items -%}
             {{ has_video[0] | video_tag: muted: true, loop: true, image_size: '50x' }}
         {%- else -%}

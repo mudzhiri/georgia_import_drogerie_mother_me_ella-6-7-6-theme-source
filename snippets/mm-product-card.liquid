@@ -1,5 +1,5 @@
 {%- comment -%}
-  MOTHER & ME product card for the homepage MM Products section only.
+  MOTHER & ME product card — homepage, shared structure with collection cards.
   Accepts: product {Object}, section_id {String}
 {%- endcomment -%}
 
@@ -10,12 +10,13 @@
     assign sold_out = true
   endif
 
-  assign needs_selection = false
-  if product.has_only_default_variant == false
-    assign needs_selection = true
-  endif
-
-  assign image = product.featured_media
+  assign image = blank
+  for media in product.media
+    if media.media_type == 'image'
+      assign image = media
+      break
+    endif
+  endfor
   if image == blank and product.featured_image
     assign image = product.featured_image
   endif
@@ -23,20 +24,35 @@
   assign price = variant.price
   assign compare_at = variant.compare_at_price
 
-  assign label_add = 'products.product.add_to_cart' | t
-  assign label_adding = 'products.product.adding_to_cart' | t
-  assign label_added = 'products.product.added_to_cart' | t
-  assign label_error = 'sections.cart.cart_error' | t
-  assign label_sold_out = 'products.product.sold_out' | t
-  assign label_select = 'products.product.select_variant' | t
+  assign mm_image_count = 0
+  for media in product.media
+    if media.media_type == 'image'
+      assign mm_image_count = mm_image_count | plus: 1
+    endif
+  endfor
+
+  assign mm_prev_label = 'general.pagination.previous' | t
+  assign mm_next_label = 'general.pagination.next' | t
 -%}
 
 <article
   class="mm-product-card product-item{% if sold_out %} mm-product-card--sold-out{% endif %}"
   data-product-id="{{ product.id }}"
+  data-mm-product-card
 >
-  <div class="mm-product-card__media-wrap">
-    <a class="mm-product-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+  <div
+    class="mm-product-card__media-wrap mm-card-media{% if mm_image_count > 1 %} mm-card-media--multi{% endif %}"
+    {% if mm_image_count > 1 %}
+      data-mm-card-gallery
+      data-mm-gallery-index="0"
+      data-mm-images='{% render 'mm-card-gallery-data', product: product %}'
+    {% endif %}
+  >
+    <a
+      class="mm-product-card__media mm-card-media__link"
+      href="{{ product.url }}"
+      aria-label="{{ product.title | escape }}"
+    >
       {%- if image != blank -%}
         {{
           image
@@ -45,70 +61,37 @@
             loading: 'lazy',
             widths: '200, 300, 400, 600, 800',
             sizes: '(min-width: 900px) 25vw, 50vw',
-            class: 'mm-product-card__image',
+            class: 'mm-product-card__image mm-card-media__image',
             alt: product.title
         }}
       {%- else -%}
         <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
       {%- endif -%}
-
-      {% render 'mm-product-badges', product: product, badge_detail: false %}
     </a>
 
-    <div class="mm-card-quick-cart mm-product-card__quick-cart">
-      {%- if sold_out -%}
-        <button
-          type="button"
-          class="mm-card-quick-cart__btn mm-card-quick-cart__btn--disabled"
-          disabled
-          aria-disabled="true"
-          aria-label="{{ label_sold_out | escape }}"
-          title="{{ label_sold_out | escape }}"
-        >
-          <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
-          <span class="visually-hidden">{{ label_sold_out }}</span>
-        </button>
-      {%- elsif needs_selection -%}
-        <a
-          class="mm-card-quick-cart__btn"
-          href="{{ product.url }}"
-          aria-label="{{ label_select | escape }}"
-          title="{{ label_select | escape }}"
-        >
-          <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
-          <span class="visually-hidden">{{ label_select }}</span>
-        </a>
-      {%- else -%}
-        <form
-          action="{{ routes.cart_add_url }}"
-          method="post"
-          enctype="multipart/form-data"
-          class="mm-card-quick-cart__form mm-product-card__form"
-          data-mm-product-form
-          data-product-id="{{ product.id }}"
-        >
-          <input type="hidden" name="id" value="{{ variant.id }}">
-          <input type="hidden" name="quantity" value="1">
-          <button
-            type="submit"
-            name="add"
-            class="mm-card-quick-cart__btn"
-            data-mm-add-to-cart
-            data-label-add="{{ label_add | escape }}"
-            data-label-adding="{{ label_adding | escape }}"
-            data-label-added="{{ label_added | escape }}"
-            data-label-error="{{ label_error | escape }}"
-            aria-label="{{ label_add | escape }}"
-            title="{{ label_add | escape }}"
-          >
-            <span class="mm-product-card__btn-spinner" aria-hidden="true"></span>
-            <span class="mm-card-quick-cart__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
-            <span class="visually-hidden mm-product-card__btn-label">{{ label_add }}</span>
-          </button>
-        </form>
-        <p class="mm-product-card__error" data-mm-card-error role="alert" hidden></p>
-      {%- endif -%}
-    </div>
+    {% render 'mm-product-badges', product: product, badge_detail: false %}
+    {% render 'mm-card-wishlist-btn', product: product %}
+
+    {%- if mm_image_count > 1 -%}
+      <button
+        type="button"
+        class="mm-card-media__nav mm-card-media__nav--prev"
+        data-mm-gallery-prev
+        aria-label="{{ mm_prev_label | escape }}"
+      >
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button
+        type="button"
+        class="mm-card-media__nav mm-card-media__nav--next"
+        data-mm-gallery-next
+        aria-label="{{ mm_next_label | escape }}"
+      >
+        <span aria-hidden="true">›</span>
+      </button>
+      <div class="mm-card-media__dots" data-mm-gallery-dots aria-hidden="true"></div>
+      <span class="visually-hidden" data-mm-gallery-status aria-live="polite"></span>
+    {%- endif -%}
   </div>
 
   <div class="mm-product-card__body">
@@ -128,5 +111,7 @@
         <span class="mm-product-card__price-regular">{{ price | money }}</span>
       {%- endif -%}
     </div>
+
+    {% render 'mm-card-atc', product: product, section_id: section_id %}
   </div>
 </article>

@@ -1,0 +1,17 @@
+{%- comment -%}
+  Outputs a JSON array of product image URLs (width 800) for card gallery JS.
+  Skips video / model / external_video. Accepts: product
+{%- endcomment -%}
+{%- capture mm_gallery_json -%}
+[
+{%- assign mm_first = true -%}
+{%- for media in product.media -%}
+  {%- if media.media_type == 'image' -%}
+    {%- unless mm_first -%},{%- endunless -%}
+    {{ media | image_url: width: 800 | json }}
+    {%- assign mm_first = false -%}
+  {%- endif -%}
+{%- endfor -%}
+]
+{%- endcapture -%}
+{{- mm_gallery_json | strip -}}

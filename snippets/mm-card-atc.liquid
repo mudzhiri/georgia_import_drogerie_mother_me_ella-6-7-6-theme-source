@@ -1,0 +1,91 @@
+{%- comment -%}
+  Full-width add-to-cart under price (MOTHER & ME cards).
+  Accepts: product, section_id (optional)
+{%- endcomment -%}
+{%- liquid
+  assign mm_product = product
+  assign mm_variant = mm_product.selected_or_first_available_variant
+  assign mm_sold_out = false
+  if mm_product.available == false
+    assign mm_sold_out = true
+  endif
+
+  assign mm_needs_selection = false
+  if mm_product.has_only_default_variant == false
+    assign mm_needs_selection = true
+  endif
+
+  assign mm_is_preorder = false
+  if mm_sold_out == false and mm_needs_selection == false
+    if mm_variant.inventory_management != blank and mm_variant.inventory_quantity <= 0 and mm_variant.inventory_policy == 'continue'
+      assign mm_is_preorder = true
+    endif
+  endif
+
+  assign mm_label_add = 'products.product.add_to_cart' | t
+  assign mm_label_adding = 'products.product.adding_to_cart' | t
+  assign mm_label_added = 'products.product.added_to_cart' | t
+  assign mm_label_error = 'sections.cart.cart_error' | t
+  assign mm_label_sold = 'products.product.sold_out' | t
+  assign mm_label_select = 'products.product.select_variant' | t
+  if mm_is_preorder
+    assign mm_label_add = 'products.product.pre_order' | t
+  endif
+
+  assign mm_form_id = 'mm-atc-' | append: mm_product.id
+  if section_id != blank
+    assign mm_form_id = mm_form_id | append: '-' | append: section_id
+  endif
+
+  assign mm_product_url = mm_product.url
+  if collection != blank
+    assign mm_product_url = mm_product.url | within: collection
+  endif
+-%}
+
+<div class="mm-card-atc">
+  {%- if mm_sold_out -%}
+    <button
+      type="button"
+      class="mm-card-atc__btn mm-card-atc__btn--disabled"
+      disabled
+      aria-disabled="true"
+    >
+      <span class="mm-card-atc__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+      <span class="mm-card-atc__label">{{ mm_label_sold }}</span>
+    </button>
+  {%- elsif mm_needs_selection -%}
+    <a class="mm-card-atc__btn" href="{{ mm_product_url }}">
+      <span class="mm-card-atc__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+      <span class="mm-card-atc__label">{{ mm_label_select }}</span>
+    </a>
+  {%- else -%}
+    <form
+      action="{{ routes.cart_add_url }}"
+      method="post"
+      enctype="multipart/form-data"
+      class="mm-card-atc__form"
+      id="{{ mm_form_id }}"
+      data-mm-product-form
+      data-product-id="{{ mm_product.id }}"
+    >
+      <input type="hidden" name="id" value="{{ mm_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button
+        type="submit"
+        name="add"
+        class="mm-card-atc__btn"
+        data-mm-add-to-cart
+        data-label-add="{{ mm_label_add | escape }}"
+        data-label-adding="{{ mm_label_adding | escape }}"
+        data-label-added="{{ mm_label_added | escape }}"
+        data-label-error="{{ mm_label_error | escape }}"
+      >
+        <span class="mm-card-atc__spinner" aria-hidden="true"></span>
+        <span class="mm-card-atc__icon" aria-hidden="true">{% render 'icon-cart-06' %}</span>
+        <span class="mm-card-atc__label">{{ mm_label_add }}</span>
+      </button>
+    </form>
+    <p class="mm-card-atc__error" data-mm-card-error role="alert" hidden></p>
+  {%- endif -%}
+</div>

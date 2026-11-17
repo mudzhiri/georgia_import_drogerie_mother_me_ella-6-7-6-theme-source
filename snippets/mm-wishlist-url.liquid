@@ -11,6 +11,9 @@
   if url == blank or url == '#' or url == '/#'
     assign url = pages['wishlist'].url | default: '' | strip
   endif
+  if url == blank or url == '#' or url == '/#'
+    assign url = routes.root_url | append: 'pages/wishlist'
+  endif
   if url == blank or url == '#' or url == '/#' or url == request.path
     echo ''
   else
