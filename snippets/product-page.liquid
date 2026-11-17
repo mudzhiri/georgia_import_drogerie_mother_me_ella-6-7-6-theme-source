@@ -1588,6 +1588,7 @@
                 <script src="{{ 'price-per-item.js' | asset_url }}" defer="defer"></script>
                 <script src="{{ 'quick-order-list.js' | asset_url }}" defer="defer"></script>
             {%- endif -%}
+            {% render 'mm-product-accordions', product: product %}
             {%- if show_tab and tab_layout == 'horizontal' -%}
                 {% render 'halo-product-tab',
                     product: product,

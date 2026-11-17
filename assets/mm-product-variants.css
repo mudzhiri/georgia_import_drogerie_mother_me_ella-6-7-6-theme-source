@@ -207,8 +207,69 @@
   box-shadow: 0 0 0 1px var(--mm-v-ink);
 }
 
+/* Buy button — clear height, loading, and status near ATC */
+.productView-action .product-form__submit,
+.productView-action #product-add-to-cart {
+  min-height: 48px;
+  width: 100%;
+  padding: 12px 18px;
+  border-radius: 8px;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+  transition: background-color 180ms ease, border-color 180ms ease, opacity 180ms ease;
+}
+
+.productView-action .product-form__submit:focus-visible,
+.productView-action #product-add-to-cart:focus-visible {
+  outline: 2px solid var(--mm-v-ink);
+  outline-offset: 2px;
+}
+
+.productView-action .product-form__submit.is-loading,
+.productView-action #product-add-to-cart.is-loading,
+.productView-action .product-form__submit[aria-busy='true'],
+.productView-action #product-add-to-cart[aria-busy='true'] {
+  pointer-events: none;
+  opacity: 0.72;
+  cursor: wait;
+}
+
+.productView-action .product-form__submit:disabled,
+.productView-action #product-add-to-cart:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.productView-action .mm-atc-error {
+  margin-top: 8px;
+  color: #a33b2d;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.productView-action .mm-atc-success {
+  margin-top: 8px;
+  color: var(--mm-v-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.productView-action .mm-atc-success[hidden],
+.productView-action .mm-atc-error[hidden] {
+  display: none !important;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .productView-options .product-form__label .text {
+  .productView-options .product-form__label .text,
+  .productView-action .product-form__submit,
+  .productView-action #product-add-to-cart {
     transition: none;
   }
 }

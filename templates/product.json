@@ -252,7 +252,7 @@
         "show_sticky_add_to_cart": true,
         "sticky_atc_layout": "1",
         "show_sticky_vendor": false,
-        "show_tab": true,
+        "show_tab": false,
         "tab_layout": "horizontal",
         "tab_layout_mobile": "popup",
         "icon_style_layout": "style_1",

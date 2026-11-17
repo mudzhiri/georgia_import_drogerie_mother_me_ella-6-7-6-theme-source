@@ -25,11 +25,25 @@
                     else
                         assign link = blank
                     endif
+                    # Prefer locale labels for known English leftovers / blanks (theme settings stay editable).
+                    if text == blank or text == 'Home' or text == 'Search' or text == 'Cart' or text == 'Account' or text == 'Collection'
+                      if action_icon == 'search'
+                        assign text = 'general.toolbar_mobile.search' | t
+                      elsif action_icon == 'cart'
+                        assign text = 'general.toolbar_mobile.cart' | t
+                      elsif action_icon == 'account'
+                        assign text = 'general.toolbar_mobile.account' | t
+                      elsif text == 'Home' or link == '/' or link == routes.root_url
+                        assign text = 'general.toolbar_mobile.home' | t
+                      elsif text == 'Collection' or text == blank
+                        assign text = 'general.toolbar_mobile.collections' | t
+                      endif
+                    endif
                 -%}
                 {%- if icon != blank or text != blank -%}
 
                     <li class="list-item{% if action_icon == 'account' %}{% unless shop.customer_accounts_enabled %} customer_accounts_disable{% endunless %}{% endif %}" style="--font-size: {{ font_size }}; --font-weight: {{ font_weight }}; --icon-size: {{ icon_size }}">
-                        <a {% if action_icon == 'account' %}{% unless is_contained %}href="{{ routes.account_login_url }}"{% endunless %}{% endif %}{% if link == blank %} role="link" aria-disabled="true"{% else %} href="{{ link }}"{% endif %} {% if block.type == 'content' %}data-bar-{{block.type}}{% elsif block.type == 'action' %}{% if action_icon == 'cart' %}{% if settings.show_quick_cart %}data-cart-sidebar{% else %}href="{{ routes.cart_url }}" class="list-item-cart"{% endif %}{% elsif action_icon == 'search' %}data-search-mobile{% elsif action_icon == 'account' %}{% if is_contained %}data-open-auth-sidebar{% endif %}{% endif %}{% endif %}><span class="icon">{{icon}}</span> <span class="text">{{text}}</span>
+                        <a {% if action_icon == 'account' %}{% unless is_contained %}href="{{ routes.account_login_url }}"{% endunless %}{% endif %}{% if link == blank %} role="link" aria-disabled="true"{% else %} href="{{ link }}"{% endif %} {% if block.type == 'content' %}data-bar-{{block.type}}{% elsif block.type == 'action' %}{% if action_icon == 'cart' %}{% if settings.show_quick_cart %}data-cart-sidebar{% else %}href="{{ routes.cart_url }}" class="list-item-cart"{% endif %}{% elsif action_icon == 'search' %}data-search-mobile{% elsif action_icon == 'account' %}{% if is_contained %}data-open-auth-sidebar{% endif %}{% endif %}{% endif %}><span class="icon">{{icon}}</span> <span class="text">{{ text | escape }}</span>
                             {%- if action_icon == 'cart' -%}
                                 <div class="cart-count-bubble" style="--color-bubble: {{ section.settings.bg_color }}; --bg-bubble: {{ section.settings.color_icon }}">
                                     <span class="text" aria-hidden="true" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>

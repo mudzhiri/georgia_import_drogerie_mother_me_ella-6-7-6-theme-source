@@ -34,6 +34,19 @@
   if image_alt == blank
     assign image_alt = 'mm_home.hero.image_alt' | t
   endif
+  # Decode a stored &amp; entity once before the single | escape.
+  if eyebrow contains '&amp;'
+    assign eyebrow = eyebrow | replace: '&amp;', '&'
+  endif
+  if heading contains '&amp;'
+    assign heading = heading | replace: '&amp;', '&'
+  endif
+  if text contains '&amp;'
+    assign text = text | replace: '&amp;', '&'
+  endif
+  if image_alt contains '&amp;'
+    assign image_alt = image_alt | replace: '&amp;', '&'
+  endif
 
   assign has_picker_image = false
   if image != blank

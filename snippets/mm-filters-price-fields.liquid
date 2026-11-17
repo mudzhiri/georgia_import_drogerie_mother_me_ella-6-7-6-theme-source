@@ -1,0 +1,72 @@
+{%- comment -%}
+  Price range inputs with visible Georgian labels and GEL marker.
+  Accepts: filter, section, id_prefix, uses_comma_decimals, shop_money_format
+{%- endcomment -%}
+{%- liquid
+  assign mm_price_min = filter.min_value.value | money_without_currency | replace: ',', ''
+  assign mm_price_max = filter.max_value.value | money_without_currency | replace: ',', ''
+  assign mm_price_range_max = filter.range_max | money_without_currency | replace: ',', ''
+  if uses_comma_decimals
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'
+  endif
+  if shop_money_format == 'amount_with_comma_separator' or shop_money_format == 'amount_no_decimals_with_comma_separator'
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_range_max = filter.range_max | money_without_currency | replace: '.', '' | replace: ',', '.'
+  endif
+  if shop_money_format == 'amount_with_apostrophe_separator'
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: "'", ""
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: "'", ""
+    assign mm_price_range_max = filter.range_max | money_without_currency | replace: "'", ""
+  endif
+  assign price_from_id = id_prefix | append: '-gte-' | append: section.id
+  assign price_to_id = id_prefix | append: '-lte-' | append: section.id
+-%}
+<div class="mm-filters__price" data-mm-price-range>
+  <div class="mm-filters__price-field">
+    <label class="mm-filters__price-label" for="{{ price_from_id }}">
+      {{ 'sections.collection_template.price_from_label' | t }}
+    </label>
+    <input
+      class="mm-filters__price-input"
+      id="{{ price_from_id }}"
+      name="{{ filter.min_value.param_name }}"
+      type="number"
+      inputmode="decimal"
+      min="0"
+      max="{{ mm_price_range_max }}"
+      step="any"
+      data-mm-price-min
+      autocomplete="off"
+      {% if filter.min_value.value %}
+        value="{{ mm_price_min }}"
+      {% endif %}
+    >
+  </div>
+  <span class="mm-filters__price-sep" aria-hidden="true">–</span>
+  <div class="mm-filters__price-field">
+    <label class="mm-filters__price-label" for="{{ price_to_id }}">
+      {{ 'sections.collection_template.price_to_label' | t }}
+    </label>
+    <input
+      class="mm-filters__price-input"
+      id="{{ price_to_id }}"
+      name="{{ filter.max_value.param_name }}"
+      type="number"
+      inputmode="decimal"
+      min="0"
+      max="{{ mm_price_range_max }}"
+      step="any"
+      data-mm-price-max
+      autocomplete="off"
+      {% if filter.max_value.value %}
+        value="{{ mm_price_max }}"
+      {% endif %}
+    >
+  </div>
+  <p class="mm-filters__price-error" data-mm-price-error hidden role="alert">
+    {{ 'sections.collection_template.price_invalid' | t }}
+  </p>
+</div>

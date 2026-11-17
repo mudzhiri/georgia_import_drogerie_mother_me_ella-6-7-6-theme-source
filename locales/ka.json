@@ -148,7 +148,8 @@
       "new_label": "ახალი",
       "sale_label": "აქცია",
       "hot_label": "პოპულარული",
-      "all": "ყველა"
+      "all": "ყველა",
+      "home": "მთავარი"
     },
     "button_load_more": {
       "default": "მეტის ჩვენება",
@@ -163,6 +164,13 @@
     },
     "accessibility": {
       "unit_price_separator": "თითო"
+    },
+    "toolbar_mobile": {
+      "home": "მთავარი",
+      "search": "ძებნა",
+      "cart": "კალათა",
+      "account": "ანგარიში",
+      "collections": "კატეგორიები"
     }
   },
   "brands_page": {
@@ -393,7 +401,25 @@
       "media_gallery": "პროდუქტის გალერეა",
       "media_load": "სურათის გახსნა",
       "thumbnail_label": "სურათი {{ index }}",
-      "image_counter": "{{ current }} / {{ total }}"
+      "image_counter": "{{ current }} / {{ total }}",
+      "info_accordion": {
+        "description": "აღწერა",
+        "application": "გამოყენება",
+        "ingredients": "ინგრედიენტები / მასალები",
+        "warnings": "გაფრთხილებები და ასაკი",
+        "shipping_returns": "მიწოდება და დაბრუნება",
+        "shipping_short": "მიწოდების პირობები იხილეთ წესებში.",
+        "returns_short": "დაბრუნების პირობები იხილეთ წესებში.",
+        "shipping_link": "მიწოდების წესები",
+        "returns_link": "დაბრუნების წესები",
+        "expand": "გახსნა",
+        "collapse": "დახურვა"
+      },
+      "atc": {
+        "adding": "ემატება...",
+        "added": "დაემატა",
+        "success": "პროდუქტი კალათაში დაემატა."
+      }
     },
     "modal": {
       "label": "მედია გალერეა"
@@ -604,7 +630,30 @@
       "qty": "რაოდ.",
       "options": "ვარიანტები",
       "show_variants": "ვარიანტების ჩვენება",
-      "results": "შედეგი"
+      "results": "შედეგი",
+      "show_results": "შედეგების ჩვენება",
+      "price_invalid": "მინიმალური ფასი არ უნდა აღემატებოდეს მაქსიმალურს.",
+      "price_gel_suffix": "₾",
+      "price_from_label": "დან (₾)",
+      "price_to_label": "მდე (₾)",
+      "loading": "იტვირთება…",
+      "filter_count_badge": "{{ count }}",
+      "availability": "ხელმისაწვდომობა",
+      "in_stock": "მარაგშია",
+      "out_of_stock": "არ არის მარაგში",
+      "empty_with_filters": "ამ ფილტრებით პროდუქტი ვერ მოიძებნა.",
+      "reset_filters": "ფილტრების გასუფთავება",
+      "sort_options": {
+        "manual": "რჩეული",
+        "best-selling": "ბესტსელერი",
+        "title-ascending": "სახელი: ა–ჰ",
+        "title-descending": "სახელი: ჰ–ა",
+        "price-ascending": "ფასი: დაბლიდან მაღლა",
+        "price-descending": "ფასი: მაღლიდან დაბლა",
+        "created-ascending": "ძველი ახალამდე",
+        "created-descending": "ახალი ძველამდე",
+        "relevance": "რელევანტურობა"
+      }
     },
     "collection_list_template": {
       "product_count": "{{ count }} პროდუქტი"
@@ -818,20 +867,20 @@
   },
   "compare": {
     "general": {
-      "title": "Compare",
-      "add": "Add to compare",
-      "added": "Added to compare",
-      "remove_compare": "Remove compare",
-      "remove_all": "Remove all",
-      "product": "Product",
+      "title": "შედარება",
+      "add": "შედარებაში დამატება",
+      "added": "შედარებაშია",
+      "remove_compare": "შედარებიდან ამოშლა",
+      "remove_all": "ყველას ამოშლა",
+      "product": "პროდუქტი",
       "sku": "SKU",
-      "review": "Rating",
-      "description": "Description",
-      "collection": "Collection",
-      "availability": "Availability",
-      "product_type": "Product type",
-      "other_details": "Other details",
-      "message": "You must select at least two products to compare!"
+      "review": "შეფასება",
+      "description": "აღწერა",
+      "collection": "კოლექცია",
+      "availability": "ხელმისაწვდომობა",
+      "product_type": "პროდუქტის ტიპი",
+      "other_details": "სხვა დეტალები",
+      "message": "შედარებისთვის მინიმუმ ორი პროდუქტი უნდა აირჩიოთ."
     }
   },
   "someone_purcharse": {

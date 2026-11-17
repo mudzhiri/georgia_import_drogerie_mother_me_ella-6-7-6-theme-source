@@ -1,0 +1,164 @@
+{%- comment -%}
+  Accessible PDP info accordions. Only renders panels with stored content.
+  Does not invent ingredients, age, health claims, or delivery times.
+{%- endcomment -%}
+{%- liquid
+  assign app_text = product.metafields.custom.application
+  if app_text == blank
+    assign app_text = product.metafields.custom.usage
+  endif
+  if app_text == blank
+    assign app_text = product.metafields.c_f.application
+  endif
+
+  assign ingredients_text = product.metafields.custom.ingredients
+  if ingredients_text == blank
+    assign ingredients_text = product.metafields.custom.materials
+  endif
+  if ingredients_text == blank
+    assign ingredients_text = product.metafields.c_f.ingredients
+  endif
+
+  assign warnings_text = product.metafields.custom.warnings
+  if warnings_text == blank
+    assign warnings_text = product.metafields.custom.age_recommendation
+  endif
+  if warnings_text == blank
+    assign warnings_text = product.metafields.c_f.warnings
+  endif
+
+  assign has_description = false
+  if product.description != blank
+    assign has_description = true
+  endif
+
+  assign has_application = false
+  if app_text != blank
+    assign has_application = true
+  endif
+
+  assign has_ingredients = false
+  if ingredients_text != blank
+    assign has_ingredients = true
+  endif
+
+  assign has_warnings = false
+  if warnings_text != blank
+    assign has_warnings = true
+  endif
+
+  assign shipping_policy = shop.shipping_policy
+  assign refund_policy = shop.refund_policy
+  assign has_shipping_returns = false
+  if shipping_policy != blank and shipping_policy.url != blank
+    assign has_shipping_returns = true
+  endif
+  if refund_policy != blank and refund_policy.url != blank
+    assign has_shipping_returns = true
+  endif
+
+  assign has_any = false
+  if has_description or has_application or has_ingredients or has_warnings or has_shipping_returns
+    assign has_any = true
+  endif
+-%}
+
+{%- if has_any -%}
+  {{ 'mm-product-accordions.css' | asset_url | stylesheet_tag }}
+
+  <div
+    class="mm-product-accordions"
+    data-mm-product-accordions
+  >
+    {%- if has_description -%}
+      <details class="mm-product-accordions__item" open>
+        <summary class="mm-product-accordions__summary">
+          <span class="mm-product-accordions__title">{{ 'products.product.info_accordion.description' | t }}</span>
+          <span class="mm-product-accordions__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="mm-product-accordions__panel rte">
+          {{ product.description }}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if has_application -%}
+      <details class="mm-product-accordions__item">
+        <summary class="mm-product-accordions__summary">
+          <span class="mm-product-accordions__title">{{ 'products.product.info_accordion.application' | t }}</span>
+          <span class="mm-product-accordions__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="mm-product-accordions__panel rte">
+          {%- if app_text.value != blank -%}
+            {{ app_text | metafield_tag }}
+          {%- else -%}
+            {{ app_text | escape | newline_to_br }}
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if has_ingredients -%}
+      <details class="mm-product-accordions__item">
+        <summary class="mm-product-accordions__summary">
+          <span class="mm-product-accordions__title">{{ 'products.product.info_accordion.ingredients' | t }}</span>
+          <span class="mm-product-accordions__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="mm-product-accordions__panel rte">
+          {%- if ingredients_text.value != blank -%}
+            {{ ingredients_text | metafield_tag }}
+          {%- else -%}
+            {{ ingredients_text | escape | newline_to_br }}
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if has_warnings -%}
+      <details class="mm-product-accordions__item">
+        <summary class="mm-product-accordions__summary">
+          <span class="mm-product-accordions__title">{{ 'products.product.info_accordion.warnings' | t }}</span>
+          <span class="mm-product-accordions__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="mm-product-accordions__panel rte">
+          {%- if warnings_text.value != blank -%}
+            {{ warnings_text | metafield_tag }}
+          {%- else -%}
+            {{ warnings_text | escape | newline_to_br }}
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+
+    {%- if has_shipping_returns -%}
+      <details class="mm-product-accordions__item">
+        <summary class="mm-product-accordions__summary">
+          <span class="mm-product-accordions__title">{{ 'products.product.info_accordion.shipping_returns' | t }}</span>
+          <span class="mm-product-accordions__icon" aria-hidden="true"></span>
+        </summary>
+        <div class="mm-product-accordions__panel">
+          <ul class="mm-product-accordions__links">
+            {%- if shipping_policy != blank and shipping_policy.url != blank -%}
+              <li>
+                <p>{{ 'products.product.info_accordion.shipping_short' | t }}</p>
+                <a href="{{ shipping_policy.url }}">
+                  {{ 'products.product.info_accordion.shipping_link' | t }}
+                </a>
+              </li>
+            {%- endif -%}
+            {%- if refund_policy != blank and refund_policy.url != blank -%}
+              <li>
+                <p>{{ 'products.product.info_accordion.returns_short' | t }}</p>
+                <a href="{{ refund_policy.url }}">
+                  {{ 'products.product.info_accordion.returns_link' | t }}
+                </a>
+              </li>
+            {%- endif -%}
+          </ul>
+        </div>
+      </details>
+    {%- endif -%}
+  </div>
+
+  <script src="{{ 'mm-product-accordions.js' | asset_url }}" defer></script>
+{%- endif -%}

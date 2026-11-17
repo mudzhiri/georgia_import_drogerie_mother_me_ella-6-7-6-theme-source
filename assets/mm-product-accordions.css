@@ -1,0 +1,144 @@
+/* MOTHER & ME — PDP info accordions */
+.mm-product-accordions {
+  --mm-a-ink: #214d43;
+  --mm-a-muted: #59665f;
+  --mm-a-border: #dee5df;
+  --mm-a-bg: #ffffff;
+  --mm-a-radius: 8px;
+  margin: 28px 0 8px;
+  border: 1px solid var(--mm-a-border);
+  border-radius: var(--mm-a-radius);
+  background: var(--mm-a-bg);
+  overflow: hidden;
+}
+
+.mm-product-accordions__item + .mm-product-accordions__item {
+  border-top: 1px solid var(--mm-a-border);
+}
+
+.mm-product-accordions__summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 16px;
+  cursor: pointer;
+  list-style: none;
+  color: var(--mm-a-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 15px;
+  font-weight: var(--mm-font-weight-semibold, 600);
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+.mm-product-accordions__summary::-webkit-details-marker {
+  display: none;
+}
+
+.mm-product-accordions__summary:focus-visible {
+  outline: 2px solid var(--mm-a-ink);
+  outline-offset: -2px;
+}
+
+.mm-product-accordions__title {
+  overflow-wrap: anywhere;
+}
+
+.mm-product-accordions__icon {
+  position: relative;
+  flex: 0 0 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.mm-product-accordions__icon::before,
+.mm-product-accordions__icon::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: currentColor;
+  transform: translate(-50%, -50%);
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+.mm-product-accordions__icon::before {
+  width: 12px;
+  height: 1.5px;
+}
+
+.mm-product-accordions__icon::after {
+  width: 1.5px;
+  height: 12px;
+}
+
+.mm-product-accordions__item[open] .mm-product-accordions__icon::after {
+  transform: translate(-50%, -50%) rotate(90deg);
+  opacity: 0;
+}
+
+.mm-product-accordions__panel {
+  padding: 0 16px 16px;
+  color: var(--mm-a-muted);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+
+.mm-product-accordions__panel > *:first-child {
+  margin-top: 0;
+}
+
+.mm-product-accordions__panel > *:last-child {
+  margin-bottom: 0;
+}
+
+.mm-product-accordions__links {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 12px;
+}
+
+.mm-product-accordions__links p {
+  margin: 0 0 4px;
+}
+
+.mm-product-accordions__links a {
+  color: var(--mm-a-ink);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mm-product-accordions__links a:focus-visible {
+  outline: 2px solid var(--mm-a-ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Hide duplicate Halo product tabs when MM accordions are present */
+body.template-product:has(.mm-product-accordions) .productView-bottom .productView-tab,
+body.template-product:has(.mm-product-accordions) .productView-bottom .tabs-contents,
+body.template-product:has(.mm-product-accordions) .productView-bottom .product-extra,
+body.template-product:has(.mm-product-accordions) .halo-productView-right .product-extra,
+body.template-product:has(.mm-product-accordions) .halo-productView-right .productView-tab {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-product-accordions__icon::before,
+  .mm-product-accordions__icon::after {
+    transition: none;
+  }
+}
+
+:lang(ka) .mm-product-accordions__summary,
+:lang(ka) .mm-product-accordions__panel {
+  line-height: 1.55;
+}

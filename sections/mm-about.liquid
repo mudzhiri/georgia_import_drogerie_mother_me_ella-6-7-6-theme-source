@@ -9,6 +9,13 @@
   if text == blank
     assign text = 'mm_home.about.text' | t
   endif
+  # Decode a stored &amp; entity once before the single | escape (avoids visible "MOTHER &amp; ME").
+  if text contains '&amp;'
+    assign text = text | replace: '&amp;', '&'
+  endif
+  if heading contains '&amp;'
+    assign heading = heading | replace: '&amp;', '&'
+  endif
   assign image = section.settings.image
   assign image_alt = section.settings.image_alt
   if image_alt == blank and heading != blank
@@ -35,6 +42,10 @@
   if has_image and image.presentation.focal_point != blank
     assign focal_point = image.presentation.focal_point
   endif
+  assign heading_tag = section.settings.heading_tag | default: 'h2'
+  if heading_tag != 'h1' and heading_tag != 'h2'
+    assign heading_tag = 'h2'
+  endif
 -%}
 
 {%- if has_content -%}
@@ -47,9 +58,9 @@
       <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--text-only{% endif %}" data-mm-reveal-item>
         <div class="mm-about__copy">
           {%- if heading != blank -%}
-            <h2 id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
+            <{{ heading_tag }} id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
               {{ heading | escape }}
-            </h2>
+            </{{ heading_tag }}>
           {%- endif -%}
           {%- if text != blank -%}
             <p class="mm-about__text">{{ text | escape }}</p>
@@ -92,6 +103,16 @@
   "tag": "section",
   "class": "section-mm-about",
   "settings": [
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading level",
+      "default": "h2",
+      "options": [
+        { "value": "h2", "label": "H2 (homepage section)" },
+        { "value": "h1", "label": "H1 (standalone page)" }
+      ]
+    },
     {
       "type": "text",
       "id": "heading",

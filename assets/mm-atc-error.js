@@ -56,22 +56,54 @@
     return host;
   }
 
+  function successHost(button) {
+    if (!button || !button.closest) return null;
+    var scope =
+      button.closest('.productView-action') ||
+      button.closest('.product-form__buttons') ||
+      button.closest('product-form') ||
+      button.parentElement;
+    if (!scope) return null;
+    return scope.querySelector('[data-mm-atc-success]');
+  }
+
   function clear(button) {
     var host = ensureHost(button);
-    if (!host) return;
-    host.hidden = true;
-    host.classList.remove('is-visible');
-    host.textContent = '';
+    if (host) {
+      host.hidden = true;
+      host.classList.remove('is-visible');
+      host.textContent = '';
+    }
+    var ok = successHost(button);
+    if (ok) {
+      ok.hidden = true;
+      ok.textContent = '';
+    }
   }
 
   function show(button, message) {
     var host = ensureHost(button);
     if (!host) return;
+    var ok = successHost(button);
+    if (ok) {
+      ok.hidden = true;
+      ok.textContent = '';
+    }
     var text = String(message || strings().generic || '').trim();
     if (!text) text = strings().generic || '';
     host.textContent = text;
     host.hidden = false;
     host.classList.add('is-visible');
+  }
+
+  function showSuccess(button, message) {
+    clear(button);
+    var ok = successHost(button);
+    if (!ok) return;
+    var text = String(message || '').trim();
+    if (!text) return;
+    ok.textContent = text;
+    ok.hidden = false;
   }
 
   function mapResponse(data) {
@@ -136,6 +168,7 @@
     ensureHost: ensureHost,
     clear: clear,
     show: show,
+    showSuccess: showSuccess,
     mapResponse: mapResponse,
     mapCaught: mapCaught,
     releaseButton: releaseButton,
@@ -143,3 +176,4 @@
     isTechnical: isTechnical
   };
 })();
+

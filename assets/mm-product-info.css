@@ -53,6 +53,15 @@
   hyphens: auto;
 }
 
+:lang(ka) .halo-productView-right .productView-title {
+  line-height: 1.35;
+}
+
+:lang(ka) .halo-productView-right .product__vendor,
+:lang(ka) .halo-productView-right .productView-desc {
+  line-height: 1.55;
+}
+
 .halo-productView-right .productView-title span {
   color: inherit;
 }

@@ -1,0 +1,26 @@
+{%- comment -%}
+  Hidden active price params for sort-only forms.
+  Accepts: filter, uses_comma_decimals, shop_money_format
+{%- endcomment -%}
+{%- liquid
+  assign mm_price_min = filter.min_value.value | money_without_currency | replace: ',', ''
+  assign mm_price_max = filter.max_value.value | money_without_currency | replace: ',', ''
+  if uses_comma_decimals
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+  endif
+  if shop_money_format == 'amount_with_comma_separator' or shop_money_format == 'amount_no_decimals_with_comma_separator'
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.'
+  endif
+  if shop_money_format == 'amount_with_apostrophe_separator'
+    assign mm_price_min = filter.min_value.value | money_without_currency | replace: "'", ""
+    assign mm_price_max = filter.max_value.value | money_without_currency | replace: "'", ""
+  endif
+-%}
+{%- if filter.min_value.value != nil -%}
+  <input type="hidden" name="{{ filter.min_value.param_name }}" value="{{ mm_price_min }}">
+{%- endif -%}
+{%- if filter.max_value.value != nil -%}
+  <input type="hidden" name="{{ filter.max_value.param_name }}" value="{{ mm_price_max }}">
+{%- endif -%}

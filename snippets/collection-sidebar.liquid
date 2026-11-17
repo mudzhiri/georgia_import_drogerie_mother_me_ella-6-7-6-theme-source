@@ -1,4 +1,4 @@
-{%- if sidebar_type == 'vertical' -%}
+{%- if sidebar_type == 'vertical' and request.page_type != 'search' -%}
     {%- for block in section.blocks -%}
         {%- if block.type == 'category' -%}
             {% render 'halo-side-all-categories', block: block, show_collapse: show_collapse, sidebar_collapse: sidebar_collapse %}
@@ -745,6 +745,12 @@
 {%- endif -%}
 {%- if sidebar_type == 'vertical' -%}
     {%- for block in section.blocks -%}
+        {%- comment -%} Product search must not show Ella demo Custom Block / Recent Post / image ads. {%- endcomment -%}
+        {%- if request.page_type == 'search' -%}
+            {%- if block.type == 'text' or block.type == 'recent_post' or block.type == 'recent_tag' or block.type == 'image' or block.type == 'category' -%}
+                {%- continue -%}
+            {%- endif -%}
+        {%- endif -%}
         {%- if block.type == 'recent_post' -%}
             {% render 'halo-side-recent-post', block: block, show_collapse: show_collapse, sidebar_collapse: sidebar_collapse %}
         {%- elsif block.type == 'recent_tag' -%}

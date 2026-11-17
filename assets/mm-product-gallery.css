@@ -212,6 +212,25 @@
   display: none !important;
 }
 
+.mm-product-gallery .productView-image.mm-media-empty {
+  display: none !important;
+}
+
+.mm-product-gallery .mm-zoom-disabled {
+  cursor: default !important;
+}
+
+/* Keep mobile arrows visible alongside swipe */
+@media screen and (max-width: 767px) {
+  .mm-product-gallery[data-mm-media-count]:not([data-mm-media-count='1']) .productView-nav .slick-arrow {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
 /* Fancybox close focus target styling left to Fancybox; ensure MM close contrast */
 .fancybox-button {
   min-width: 44px;

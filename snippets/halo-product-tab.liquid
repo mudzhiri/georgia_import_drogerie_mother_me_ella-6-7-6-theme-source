@@ -48,7 +48,15 @@
 				            endif
 				        else
 				        	assign has_tab = true
+							assign content = block.settings.content
 				        endif
+						# Hide Ella fashion demo tabs
+						if title == 'Custom Tab' or title == 'Additional Information'
+							assign has_tab = false
+						endif
+						if content contains 'Pharetro' or content contains 'Drostique' or content contains 'Lorem Ipsum' or content contains 'deumantos'
+							assign has_tab = false
+						endif
 					else
 						assign has_tab = true
 					endif
@@ -95,6 +103,13 @@
 			        	assign has_tab = true
 			        	assign content = block.settings.content
 			        endif
+					# Hide Ella fashion demo tabs
+					if title == 'Custom Tab' or title == 'Additional Information'
+						assign has_tab = false
+					endif
+					if content contains 'Pharetro' or content contains 'Drostique' or content contains 'Lorem Ipsum' or content contains 'deumantos'
+						assign has_tab = false
+					endif
 				else
 					assign has_tab = true
 					if block.type == 'description'

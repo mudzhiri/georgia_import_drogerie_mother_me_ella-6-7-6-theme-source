@@ -240,35 +240,31 @@
             assign limit = settings.quick_cart_popular_product_show
             assign show_dots = settings.quick_cart_popular_product_dots
             assign show_arrows = settings.quick_cart_popular_product_arrows
+            assign mm_cart_recs_count = 0
+            if collection != blank
+              assign mm_cart_recs_count = collection.products_count
+            endif
         -%}
+        {%- if mm_cart_recs_count > 0 -%}
         <div class="previewCartCollection">
             {% if settings.quick_cart_popular_product_title != blank %}
                 <div class="previewCartTitle text-left">
-                    {{ settings.quick_cart_popular_product_title | escape }}         
+                    {{ settings.quick_cart_popular_product_title | escape }}
                 </div>
             {% endif %}
             <div class="previewCartProduct" data-product-collection-cart>
-                <div class="previewCartCarousel products-carousel" data-item-dots="{{ show_dots }}" data-item-arrows="{{ show_arrows }}"
-                >
+                <div class="previewCartCarousel products-carousel" data-item-dots="{{ show_dots }}" data-item-arrows="{{ show_arrows }}">
                     {%- for product in collection.products limit: limit -%}
                         <div class="product">
                             {% render 'product-card-sidebar',
                                 product_card_product: product
                             %}
                         </div>
-                    {%- else -%}
-                        {%- for product in (1..limit) -%}
-                            <div class="product">
-                                {% capture current %}{% cycle 1, 2, 3, 4 %}{% endcapture %}
-                                {% render 'product-card-custom-placeholder',
-                                    index: current
-                                %}
-                            </div>
-                        {%- endfor -%}
                     {%- endfor -%}
                 </div>
             </div>
         </div>
+        {%- endif -%}
         {%- endif -%}
 
     </div>

@@ -5,22 +5,23 @@
   - Falls back to translated general.meta.homepage_* on the index only
   Does not emit canonical, hreflang, or robots (left to layout / content_for_header).
 {%- endcomment -%}
+{%- comment -%} Decode pre-escaped &amp; in shop.name / titles before | escape. {%- endcomment -%}
 {%- liquid
-  assign mm_shop_name = shop.name | strip
+  assign mm_shop_name = shop.name | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
   assign mm_shop_cmp = mm_shop_name | downcase
-  assign mm_shop_norm = mm_shop_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
-  assign mm_page_title = page_title | default: '' | strip
+  assign mm_shop_norm = mm_shop_cmp | replace: '&', '' | replace: ' ', ''
+  assign mm_page_title = page_title | default: '' | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
   assign mm_title_cmp = mm_page_title | downcase
-  assign mm_title_norm = mm_title_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
-  assign mm_description = page_description | default: '' | strip
+  assign mm_title_norm = mm_title_cmp | replace: '&', '' | replace: ' ', ''
+  assign mm_description = page_description | default: '' | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
   assign mm_title_is_brand_only = false
   if mm_page_title == blank or mm_title_cmp == mm_shop_cmp or mm_title_norm == mm_shop_norm
     assign mm_title_is_brand_only = true
   endif
 
   if request.page_type == 'index'
-    assign mm_home_title = 'general.meta.homepage_title' | t
-    assign mm_home_desc = 'general.meta.homepage_description' | t
+    assign mm_home_title = 'general.meta.homepage_title' | t | replace: '&amp;', '&' | replace: '&#38;', '&'
+    assign mm_home_desc = 'general.meta.homepage_description' | t | replace: '&amp;', '&' | replace: '&#38;', '&'
     if mm_home_title contains 'Translation missing' or mm_home_title == 'general.meta.homepage_title'
       assign mm_home_title = ''
     endif

@@ -1,20 +1,21 @@
 {%- liquid
-  assign og_title = page_title | default: shop.name | strip
+  assign mm_shop_name = shop.name | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
+  assign og_title = page_title | default: mm_shop_name | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
   assign og_url = canonical_url | default: shop.url
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: '' | strip
-  assign mm_shop_cmp = shop.name | strip | downcase
-  assign mm_shop_norm = mm_shop_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
+  assign og_description = page_description | default: shop.description | default: '' | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
+  assign mm_shop_cmp = mm_shop_name | downcase
+  assign mm_shop_norm = mm_shop_cmp | replace: '&', '' | replace: ' ', ''
   assign mm_og_title_cmp = og_title | downcase
-  assign mm_og_title_norm = mm_og_title_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
+  assign mm_og_title_norm = mm_og_title_cmp | replace: '&', '' | replace: ' ', ''
   assign mm_og_title_is_brand_only = false
   if og_title == blank or mm_og_title_cmp == mm_shop_cmp or mm_og_title_norm == mm_shop_norm
     assign mm_og_title_is_brand_only = true
   endif
 
   if request.page_type == 'index'
-    assign mm_home_title = 'general.meta.homepage_title' | t
-    assign mm_home_desc = 'general.meta.homepage_description' | t
+    assign mm_home_title = 'general.meta.homepage_title' | t | replace: '&amp;', '&' | replace: '&#38;', '&'
+    assign mm_home_desc = 'general.meta.homepage_description' | t | replace: '&amp;', '&' | replace: '&#38;', '&'
     if mm_home_title contains 'Translation missing' or mm_home_title == 'general.meta.homepage_title'
       assign mm_home_title = ''
     endif
@@ -26,7 +27,7 @@
       if mm_home_title != blank
         assign og_title = mm_home_title
       else
-        assign og_title = shop.name | strip
+        assign og_title = mm_shop_name
       endif
     endif
 
@@ -34,11 +35,11 @@
       assign og_description = mm_home_desc
     endif
     if og_description == blank
-      assign og_description = shop.name | strip
+      assign og_description = mm_shop_name
     endif
   else
     if og_description == blank
-      assign og_description = shop.name | strip
+      assign og_description = mm_shop_name
     endif
   endif
 
@@ -55,7 +56,7 @@
   assign og_image = page_image
 -%}
 
-<meta property="og:site_name" content="{{ shop.name | escape }}">
+<meta property="og:site_name" content="{{ mm_shop_name | escape }}">
 <meta property="og:url" content="{{ og_url }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:type" content="{{ og_type }}">

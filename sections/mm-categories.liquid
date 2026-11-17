@@ -102,11 +102,11 @@
               <div class="mm-categories__media" aria-hidden="true">
                 {{
                   image
-                  | image_url: width: 1200
+                  | image_url: width: 800
                   | image_tag:
-                    loading: 'lazy',
-                    widths: '320, 480, 640, 800, 1000, 1200',
-                    sizes: '(min-width: 768px) min(220px, 22vw), 40vw',
+                    loading: 'eager',
+                    widths: '160, 240, 320, 480, 640, 800',
+                    sizes: '(min-width: 768px) min(220px, 22vw), min(180px, 40vw)',
                     alt: '',
                     class: 'mm-categories__image'
                 }}
