@@ -1,10 +1,14 @@
 {%- comment -%}
   MOTHER & ME header language switcher.
+  Storefront is Georgian-only for now — switcher stays hidden.
+  When multi-language launches: set mm_enable_language_switcher = true below
+  (and enable languages in Shopify Admin → Settings → Languages).
   Uses Shopify localization.available_languages only — no hard-coded locale URLs.
   Accepts: id_suffix {String} unique form/button ids (desktop|mobile)
 {%- endcomment -%}
 
 {%- liquid
+  assign mm_enable_language_switcher = false
   assign id_suffix = id_suffix | default: 'header'
   assign available = localization.available_languages
   assign current = localization.language
@@ -13,7 +17,7 @@
   assign list_id = 'mm-lang-list-' | append: id_suffix
 -%}
 
-{%- if available.size > 1 -%}
+{%- if mm_enable_language_switcher and available.size > 1 -%}
   {%- liquid
     assign code = current.iso_code | upcase
     case current.iso_code

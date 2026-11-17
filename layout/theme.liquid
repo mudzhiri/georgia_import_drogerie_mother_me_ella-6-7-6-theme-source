@@ -12,7 +12,8 @@
         assign enable_iso_rtl = false
     endif
 -%}
-<html class="no-js" lang="{{ request.locale.iso_code }}"{% if settings.enable_layout_rtl and enable_iso_rtl %} dir="rtl"{% endif %}>
+{%- comment -%} Georgian-only storefront: prefer ka when the active locale is missing. {%- endcomment -%}
+<html class="no-js" lang="{{ request.locale.iso_code | default: 'ka' }}"{% if settings.enable_layout_rtl and enable_iso_rtl %} dir="rtl"{% endif %}>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

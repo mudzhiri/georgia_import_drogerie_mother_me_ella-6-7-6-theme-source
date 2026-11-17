@@ -1,1032 +1,1033 @@
 {
   "general": {
     "breadcrumb": {
-      "home": "Главная",
-      "label": "Навигационная цепочка"
+      "home": "მთავარი",
+      "label": "ნავიგაციის გზა"
     },
     "common": {
-      "close": "Закрыть",
-      "menu": "Меню",
-      "categories": "Категории",
-      "log_in": "Авторизоваться",
-      "account": "Счет",
-      "search": "Поиск",
-      "wishlist": "Список желаний",
-      "video": "Нажмите, чтобы посмотреть видео",
-      "video_alt": "Видео альтернативное",
-      "scroll_down": "Прокрутите вниз",
-      "lang_cur": "Боковая панель «Язык/Валюта»"
+      "close": "დახურვა",
+      "menu": "მენიუ",
+      "categories": "კატეგორიები",
+      "log_in": "შესვლა",
+      "account": "ანგარიში",
+      "search": "ძებნა",
+      "wishlist": "სურვილების სია",
+      "video": "ვიდეოს ნახვა",
+      "video_alt": "ვიდეო",
+      "scroll_down": "ქვემოთ გადაადგილება",
+      "lang_cur": "ენა და ვალუტა"
     },
     "password_page": {
-      "login_form_heading": "Войдите в магазин, используя пароль:",
-      "login_password_button": "Войти, используя пароль",
-      "login_form_password_label": "Пароль",
-      "login_form_password_placeholder": "Ваш пароль",
-      "login_form_error": "Неправильный пароль!",
-      "login_form_submit": "Входить",
-      "modal": "Модальный пароль",
-      "admin_link_html": "Вы владелец магазина? <a href=\"/admin\" class=\"link underlined-link\">Войдите здесь</a>",
-      "powered_by_shopify_html": "Этот магазин будет работать на {{ shopify }}",
-      "label": "Вход в ранний доступ",
-      "label_2": "Вход в ранний доступ*",
-      "input": "Пароль раннего доступа...",
-      "input_2": "Введите пароль",
-      "submit": "Входить"
+      "login_form_heading": "შეიყვანეთ მაღაზიის პაროლი:",
+      "login_password_button": "შესვლა პაროლით",
+      "login_form_password_label": "პაროლი",
+      "login_form_password_placeholder": "თქვენი პაროლი",
+      "login_form_error": "არასწორი პაროლი!",
+      "login_form_submit": "შესვლა",
+      "modal": "პაროლის ფანჯარა",
+      "admin_link_html": "მაღაზიის მფლობელი ხართ? <a href=\"/admin\" class=\"link underlined-link\">შედით აქ</a>",
+      "powered_by_shopify_html": "ამ მაღაზიას უზრუნველყოფს {{ shopify }}",
+      "label": "ადრეული წვდომა",
+      "label_2": "ადრეული წვდომა*",
+      "input": "ადრეული წვდომის პაროლი...",
+      "input_2": "შეიყვანეთ პაროლი",
+      "submit": "შესვლა"
     },
     "social": {
       "alt_text": {
-        "share_on_facebook": "Поделиться на Facebook",
-        "share_on_twitter": "Твитнуть в Твиттере",
-        "share_on_pinterest": "Закрепить на Pinterest"
+        "share_on_facebook": "გაზიარება Facebook-ზე",
+        "share_on_twitter": "გაზიარება Twitter-ზე",
+        "share_on_pinterest": "გაზიარება Pinterest-ზე"
       },
       "links": {
-        "twitter": "Твиттер",
-        "facebook": "Фейсбук",
-        "pinterest": "Пинтерест",
-        "instagram": "Инстаграм",
-        "tumblr": "Тамблер",
+        "twitter": "Twitter",
+        "facebook": "Facebook",
+        "pinterest": "Pinterest",
+        "instagram": "Instagram",
+        "tumblr": "Tumblr",
         "snapchat": "Snapchat",
-        "youtube": "Ютуб",
-        "vimeo": "Вимео",
-        "tiktok": "ТикТок",
-        "google_plus": "Гугл плюс",
-        "telegram": "Телеграмма",
-        "email": "Электронная почта",
-        "whatsapp": "WhatsApp"
+        "youtube": "YouTube",
+        "vimeo": "Vimeo",
+        "tiktok": "TikTok",
+        "google_plus": "Google plus",
+        "telegram": "Telegram",
+        "email": "ელფოსტა",
+        "whatsapp": "Whatsapp"
       }
     },
-    "continue_shopping": "Продолжить покупки",
-    "back_to_previous_page": "Вернуться на предыдущую страницу",
+    "continue_shopping": "შოპინგის გაგრძელება",
+    "back_to_previous_page": "წინა გვერდზე დაბრუნება",
     "pagination": {
-      "label": "Пагинация",
-      "page": "Страница {{ number }}",
-      "next": "Следующий",
-      "previous": "Предыдущий",
-      "prev": "Предыдущий"
+      "label": "გვერდების ნავიგაცია",
+      "page": "გვერდი {{ number }}",
+      "next": "შემდეგი",
+      "previous": "წინა",
+      "prev": "წინა"
     },
     "search": {
-      "search": "Поиск",
-      "title": "Поиск",
-      "close": "Закрыть",
-      "search_product": "Поиск продуктов...",
-      "search_a_product": "Искать товар...",
-      "search_the_store": "Поиск в магазине",
-      "search_the_store_2": "Искать по всему магазину здесь...",
-      "im_looking_for": "Я ищу",
-      "label": "Поиск по меткам",
-      "search_result_title": "Результаты продукта",
-      "search_no_result": "Искать",
-      "search_more": "Искать больше",
-      "view_all": "Посмотреть все результаты ({{ count }})",
-      "mm_no_results": "Товары не найдены",
-      "mm_empty_title": "Товар не найден",
-      "mm_empty_query": "«{{ terms }}»",
-      "mm_empty_hint": "Попробуйте другое слово или найдите по названию бренда.",
-      "mm_empty_kids": "Для детей",
-      "mm_empty_mamas": "Для мам",
-      "mm_view_all": "Смотреть все результаты",
-      "mm_error": "Поиск не удался. Попробуйте ещё раз.",
-      "mm_results": "Результаты поиска",
-      "submit": "Поиск",
-      "placeholder": "Поиск",
-      "no_results": "Нет результатов по запросу «{{ terms }}»",
-      "view_results": "Смотреть все результаты",
-      "heading_results": "Результаты поиска"
+      "search": "ძებნა",
+      "title": "ძებნა",
+      "close": "დახურვა",
+      "search_product": "პროდუქტების ძებნა...",
+      "search_a_product": "მოძებნე პროდუქტი ან ბრენდი",
+      "search_the_store": "მაღაზიაში ძებნა",
+      "search_the_store_2": "მოძებნე მთელ მაღაზიაში...",
+      "im_looking_for": "ვეძებ",
+      "label": "ძებნა",
+      "search_result_title": "პროდუქტის შედეგები",
+      "search_no_result": "ძებნა",
+      "search_more": "მეტის ძებნა",
+      "view_all": "ყველა შედეგის ნახვა ({{ count }})",
+      "mm_no_results": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_title": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_query": "„{{ terms }}“",
+      "mm_empty_hint": "სცადე სხვა სიტყვა ან მოძებნე ბრენდის სახელით.",
+      "mm_empty_kids": "ბავშვებისთვის",
+      "mm_empty_mamas": "დედებისთვის",
+      "mm_view_all": "ყველა შედეგის ნახვა",
+      "submit": "ძებნა",
+      "placeholder": "ძებნა",
+      "mm_error": "ძებნა ვერ მოხერხდა. სცადე თავიდან.",
+      "mm_results": "ძებნის შედეგები",
+      "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე",
+      "view_results": "ყველა შედეგის ნახვა",
+      "heading_results": "ძიების შედეგები"
     },
     "cart": {
-      "cart": "Корзина",
-      "shopping_cart": "Корзина",
-      "my_cart": "Корзина",
-      "view": "Посмотреть мою корзину ({{ count }})",
-      "item_added": "Товар добавлен в корзину",
-      "shipping_calculator_button": "Рассчитать доставку",
-      "shipping_calculator_calculating": "Расчет...",
-      "shipping_calculator_error_message": "Ошибка: Пожалуйста, введите правильную информацию о доставке.",
+      "cart": "კალათა",
+      "shopping_cart": "საყიდლების კალათა",
+      "my_cart": "კალათა",
+      "view": "კალათის ნახვა ({{ count }})",
+      "item_added": "პროდუქტი დაემატა კალათას",
+      "shipping_calculator_button": "მიწოდების გამოთვლა",
+      "shipping_calculator_calculating": "გამოთვლა...",
+      "shipping_calculator_error_message": "შეცდომა: შეიყვანეთ სწორი მიწოდების მონაცემები",
       "shipping_calculator_success_many_rates": {
-        "there_are": "Есть",
-        "shipping_rates_available_for": "доступные тарифы на доставку",
-        "starting_at": ", начиная с"
+        "there_are": "ხელმისაწვდომია",
+        "shipping_rates_available_for": "მიწოდების ტარიფი ადგილისთვის",
+        "starting_at": ", დაწყებული"
       },
-      "shipping_calculator_success_one_rate": "Доступен один тариф на доставку",
-      "shipping_calculator_success_no_rate": "Для этого заказа и пункта назначения не указана стоимость доставки.",
-      "shipping_calculator_success_at": "в",
-      "cart_countdown": "Пожалуйста, поторопитесь! ",
-      "cart_countdown_minutes": "минут.",
-      "note": "Дополнительные комментарии",
-      "note_placeholder": "Специальная инструкция для продавца...",
-      "secure_text": "Гарантия безопасной покупки",
-      "save": "Сохранять",
-      "cancel": "Отмена",
-      "gift_cart_add": "Добавлять",
-      "gift_cart_adding": "Добавление...",
-      "add_a_gift_wrap": "Добавьте подарочную упаковку",
-      "order_summary": "Сводка заказа",
-      "subtotal": "Итого",
-      "shipping": "Получить расчет доставки:",
-      "coupon_code": "Код купона",
-      "total": "Общий:",
-      "coupon_code_text": "Код купона будет применен на странице оформления заказа.",
-      "estimate_shipping": "Оценить стоимость доставки",
-      "country": "Страна/регион",
-      "state": "Состояние",
-      "zip_code": "Почтовый индекс",
-      "postal_code": "Почтовый индекс",
-      "enter_coupo_code": "Введите код купона",
-      "soldout_text": "распроданный",
-      "already_text": "все",
-      "are_saving": "Скидка:",
-      "cart_error": "Не удалось обновить корзину. Попробуйте ещё раз."
+      "shipping_calculator_success_one_rate": "ხელმისაწვდომია ერთი მიწოდების ტარიფი ადგილისთვის",
+      "shipping_calculator_success_no_rate": "ამ შეკვეთისა და ადგილისთვის მიწოდების ტარიფი არ მოიძებნა.",
+      "shipping_calculator_success_at": "ფასი",
+      "cart_countdown": "გთხოვთ, იჩქაროთ! კალათაში არსებულ ერთ-ერთ პროდუქტზე უკვე განთავსდა შეკვეთა. შევინახავთ",
+      "cart_countdown_minutes": "წუთი.",
+      "note": "დამატებითი კომენტარები",
+      "note_placeholder": "განსაკუთრებული მითითება გამყიდველისთვის...",
+      "secure_text": "უსაფრთხო შოპინგის გარანტია",
+      "save": "შენახვა",
+      "cancel": "გაუქმება",
+      "gift_cart_add": "დამატება",
+      "gift_cart_adding": "ემატება...",
+      "add_a_gift_wrap": "სასაჩუქრე შეფუთვის დამატება",
+      "order_summary": "შეკვეთის შეჯამება",
+      "subtotal": "ჯამი",
+      "shipping": "მიწოდების შეფასება:",
+      "coupon_code": "კუპონის კოდი",
+      "total": "სულ:",
+      "coupon_code_text": "კუპონის კოდი გადახდის გვერდზე გავრცელდება",
+      "estimate_shipping": "მიწოდების ტარიფების შეფასება",
+      "country": "ქვეყანა/რეგიონი",
+      "state": "რეგიონი",
+      "zip_code": "საფოსტო ინდექსი",
+      "postal_code": "საფოსტო ინდექსი",
+      "enter_coupo_code": "შეიყვანეთ კუპონის კოდი",
+      "soldout_text": "ამოიწურა",
+      "already_text": "ყველა",
+      "are_saving": "ფასდაკლება:",
+      "cart_error": "დამატება ვერ მოხერხდა. სცადეთ თავიდან."
     },
     "share": {
-      "copy_to_clipboard": "Скопировать ссылку",
-      "share": "Делиться",
-      "share_url": "Связь",
-      "success_message": "Ссылка скопирована в буфер обмена!"
+      "copy_to_clipboard": "ბმულის კოპირება",
+      "share": "გაზიარება",
+      "share_url": "ბმული",
+      "success_message": "ბმული დაკოპირდა!"
     },
     "navigation": {
-      "go_to": "Перейти к",
-      "new_label": "Новый",
-      "sale_label": "Распродажа",
-      "hot_label": "Горячий",
-      "all": "Все"
+      "go_to": "გადასვლა",
+      "new_label": "ახალი",
+      "sale_label": "აქცია",
+      "hot_label": "პოპულარული",
+      "all": "ყველა"
     },
     "button_load_more": {
-      "default": "Показать больше",
-      "loading": "Загрузка...",
-      "view_all": "Посмотреть всю коллекцию",
-      "no_more": "Больше нет продукта",
-      "no_more_collection": "Больше нет коллекции"
+      "default": "მეტის ჩვენება",
+      "loading": "იტვირთება...",
+      "view_all": "მთელი კოლექციის ნახვა",
+      "no_more": "მეტი პროდუქტი არ არის",
+      "no_more_collection": "მეტი კოლექცია არ არის"
     },
     "meta": {
-      "homepage_title": "MOTHER & ME | Уход и гигиена из Германии",
-      "homepage_description": "Откройте для себя средства по уходу и гигиене для детей и мам, привезённые из Германии."
+      "homepage_title": "MOTHER & ME | მოვლა და ჰიგიენა გერმანიიდან",
+      "homepage_description": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის."
     },
     "accessibility": {
-      "unit_price_separator": "за"
+      "unit_price_separator": "თითო"
     }
   },
   "brands_page": {
     "general": {
-      "az_title": "Бренды от А до Я",
-      "all": "Все"
+      "az_title": "Brands A-Z",
+      "all": "All"
     }
   },
   "newsletter": {
-    "label": "Ваш адрес электронной почты",
-    "placeholder": "введите свой адрес электронной почты",
-    "placeholder_2": "Ваш электронный адрес",
-    "success": "Спасибо за подписку!",
-    "error": "Этот адрес электронной почты зарегистрирован!",
-    "button_label": "Представлять на рассмотрение",
-    "button_label_2": "Зарегистрируйте меня",
-    "start_now": "Начать сейчас",
-    "dont_miss_out_this_sale": "не пропустите эту распродажу"
+    "label": "თქვენი ელფოსტა",
+    "placeholder": "შეიყვანეთ ელფოსტის მისამართი",
+    "placeholder_2": "თქვენი ელფოსტის მისამართი",
+    "success": "გმადლობთ გამოწერისთვის!",
+    "error": "ეს ელფოსტა უკვე რეგისტრირებულია!",
+    "button_label": "გაგზავნა",
+    "button_label_2": "გამოწერა",
+    "start_now": "დაიწყეთ ახლა",
+    "dont_miss_out_this_sale": "არ გამოტოვოთ ეს აქცია"
   },
   "accessibility": {
-    "skip_to_text": "Перейти к содержимому",
-    "skip_to_product_info": "Перейти к информации о продукте",
-    "close": "Закрыть",
-    "unit_price_separator": "за",
-    "vendor": "Продавец:",
-    "error": "Ошибка",
-    "refresh_page": "Выбор приводит к полному обновлению страницы.",
+    "skip_to_text": "შიგთავსზე გადასვლა",
+    "skip_to_product_info": "პროდუქტის ინფორმაციაზე გადასვლა",
+    "account": "ანგარიში",
+    "cart": "კალათა",
+    "close": "დახურვა",
+    "unit_price_separator": "თითო",
+    "vendor": "ბრენდი:",
+    "error": "შეცდომა",
+    "refresh_page": "არჩევანი მთელ გვერდს განაახლებს.",
     "link_messages": {
-      "new_window": "Откроется в новом окне.",
-      "external": "Открывает внешний сайт."
+      "new_window": "იხსნება ახალ ფანჯარაში.",
+      "external": "იხსნება გარე საიტი."
     },
-    "of": "из",
-    "next_slide": "Слайд вправо",
-    "previous_slide": "Слайд влево",
-    "loading": "Загрузка...",
-    "submenu_expand": "Открыть подменю {{ title }}",
-    "submenu_collapse": "Закрыть подменю {{ title }}",
-    "account": "Учетная запись",
-    "cart": "Корзина",
-    "menu": "Меню",
-    "search": "Поиск",
-    "dropdown": "Выпадающий список"
+    "of": "of",
+    "next_slide": "შემდეგი სლაიდი",
+    "previous_slide": "წინა სლაიდი",
+    "loading": "იტვირთება...",
+    "menu": "მენიუ",
+    "search": "ძებნა",
+    "submenu_expand": "{{ title }} — ქვემენიუს გახსნა",
+    "submenu_collapse": "{{ title }} — ქვემენიუს დახურვა",
+    "dropdown": "ჩამოსაშლელი"
   },
   "blogs": {
     "article": {
-      "blog": "Блог",
-      "read_more_title": "Читать далее: {{ title }}",
-      "read_more": "Посмотреть детали",
+      "blog": "Blog",
+      "read_more_title": "Read more: {{ title }}",
+      "read_more": "Read more",
       "author": "{{ author }}",
       "comments": {
-        "one": "{{ count }} комментарий",
-        "other": "{{ count }} комментарии"
+        "one": "{{ count }} comment",
+        "other": "{{ count }} comments"
       },
-      "moderated": "Обратите внимание: комментарии должны быть одобрены перед публикацией.",
-      "moderated-all": "Все комментарии в блоге проверяются перед публикацией.",
-      "comment_form_title": "Оставить комментарий",
-      "name": "Имя",
-      "email": "Электронная почта",
-      "message": "Комментарий",
-      "post": "Оставить комментарий",
-      "back_to_blog": "Вернуться в блог",
-      "share": "Поделиться этой статьей",
-      "success": "Ваш комментарий успешно опубликован! ",
-      "success_moderated": "Ваш комментарий был успешно опубликован. ",
-      "on": "На",
-      "by": "к",
-      "featured": "избранный",
-      "older_post": "Старая запись",
-      "newer_post": "Новый пост",
-      "prev_post": "Предыдущий пост",
-      "next_post": "Следующий пост",
-      "tags": "Теги:"
+      "moderated": "Please note, comments need to be approved before they are published.",
+      "moderated-all": "All blog comments are checked prior to publishing",
+      "comment_form_title": "Leave a comment",
+      "name": "Name",
+      "email": "Email",
+      "message": "Comment",
+      "post": "Post comment",
+      "back_to_blog": "Back to blog",
+      "share": "Share this article",
+      "success": "Your comment was posted successfully! Thank you!",
+      "success_moderated": "Your comment was posted successfully. We will publish it in a little while, as our blog is moderated.",
+      "on": "On",
+      "by": "by",
+      "featured": "featured",
+      "older_post": "Older post",
+      "newer_post": "Newer post",
+      "prev_post": "Prev post",
+      "next_post": "Next post",
+      "tags": "Tags:"
     }
   },
   "onboarding": {
-    "product_title": "Пример названия продукта",
-    "collection_title": "Название коллекции"
+    "product_title": "მაგალითის პროდუქტი",
+    "collection_title": "კოლექცია"
   },
   "products": {
     "product": {
-      "add_to_cart": "Добавить в корзину",
-      "adding_to_cart": "Добавление в корзину...",
-      "add_all_to_cart": "Добавить все в корзину",
-      "adding_all_to_cart": "Добавляем все в корзину...",
-      "added_to_cart": "Добавлено в корзину",
-      "add_to_cart_message": "Вы должны выбрать хотя бы один продукт для добавления!",
-      "add_to_cart_success_message": "добавляется в вашу корзину.",
-      "add_to_cart_success_message_2": "Товар успешно добавлен в корзину",
-      "description": "Описание",
-      "on_sale": "Распродажа",
-      "product_variants": "Варианты продукта",
-      "details": "Подробности",
-      "submit": "Представлять на рассмотрение",
-      "cancel": "Отмена",
-      "select_variant": "Выберите параметры",
-      "more_sizes": "Доступно больше размеров",
-      "measurements": "Измерения",
+      "add_to_cart": "კალათაში დამატება",
+      "adding_to_cart": "ემატება...",
+      "add_all_to_cart": "ყველას კალათაში დამატება",
+      "adding_all_to_cart": "ყველა ემატება კალათას...",
+      "added_to_cart": "დაემატა",
+      "add_to_cart_message": "აირჩიეთ მინიმუმ ერთი პროდუქტი!",
+      "add_to_cart_success_message": "დაემატა თქვენს კალათას.",
+      "add_to_cart_success_message_2": "პროდუქტი წარმატებით დაემატა კალათას",
+      "description": "აღწერა",
+      "on_sale": "აქცია",
+      "product_variants": "ვარიანტები",
+      "details": "დეტალები",
+      "submit": "გაგზავნა",
+      "cancel": "გაუქმება",
+      "select_variant": "არჩევა",
+      "more_sizes": "ხელმისაწვდომია სხვა ზომები",
+      "measurements": "ზომები",
       "media": {
-        "media_alt": "Загрузите медиафайлы в программу просмотра галереи, {{ mediaAlt }}",
-        "video_alt": "Загрузите видео в просмотрщик галереи, {{ mediaAlt }}",
-        "model_alt": "Загрузите 3D-модель в просмотрщик галереи, {{ mediaAlt }}"
+        "media_alt": "მედიის ჩატვირთვა გალერეაში, {{ mediaAlt }}",
+        "video_alt": "ვიდეოს ჩატვირთვა გალერეაში, {{ mediaAlt }}",
+        "model_alt": "3D მოდელის ჩატვირთვა გალერეაში, {{ mediaAlt }}"
       },
       "add": {
-        "label": "Добавить еще",
-        "label__2": "Добавлять"
+        "label": "მეტის დამატება",
+        "label__2": "დამატება"
       },
       "quantity": {
-        "label": "Количество",
-        "label_1": "Количество:",
-        "label__2": "Количество:",
-        "input_label": "Количество для {{ product }}",
-        "increase": "Увеличить количество для {{ product }}",
-        "decrease": "Уменьшить количество для {{ product }}",
-        "minimum_of": "Минимум {{ quantity }}",
-        "maximum_of": "Максимум {{ quantity }}",
-        "multiples_of": "Приращения {{ quantity }}",
-        "min_of": "Мин {{ quantity }}",
-        "max_of": "Макс {{ quantity }}",
-        "in_cart_html": "<span class=\"quantity-cart\">{{ quantity }}</span> в корзине",
-        "note": "Посмотреть правила количества"
+        "label": "რაოდენობა",
+        "label_1": "რაოდენობა:",
+        "label__2": "რაოდენობა:",
+        "input_label": "რაოდენობა — {{ product }}",
+        "increase": "რაოდენობის გაზრდა — {{ product }}",
+        "decrease": "რაოდენობის შემცირება — {{ product }}",
+        "minimum_of": "მინიმუმ {{ quantity }}",
+        "maximum_of": "მაქსიმუმ {{ quantity }}",
+        "multiples_of": "ნაბიჯი {{ quantity }}",
+        "min_of": "მინ. {{ quantity }}",
+        "max_of": "მაქს. {{ quantity }}",
+        "in_cart_html": "კალათაში: <span class=\"quantity-cart\">{{ quantity }}</span>",
+        "note": "რაოდენობის წესების ნახვა"
       },
       "volume_pricing": {
-        "title": "Объемные цены",
-        "note": "Доступны оптовые цены",
+        "title": "მოცულობითი ფასი",
+        "note": "ხელმისაწვდომია მოცულობითი ფასი",
         "minimum": "{{ quantity }}+",
-        "price_at_each": "в {{ price }}/еа",
-        "price_range": "{{ minimum }} - {{ maximum }}"
+        "price_at_each": "{{ price }}/ცალზე",
+        "price_range": "{{ minimum }} – {{ maximum }}"
       },
       "pickup_availability": {
-        "view_store_info": "Посмотреть информацию о магазине",
-        "check_other_stores": "Проверить наличие в других магазинах",
-        "pick_up_available": "Возможен самовывоз",
-        "pick_up_available_at_html": "Самовывоз доступен по адресу <span class=\"strong\">{{ location_name }}</span>",
-        "pick_up_unavailable_at_html": "Самовывоз в настоящее время недоступен в <span class=\"strong\">{{ location_name }}</span>",
-        "unavailable": "Не удалось загрузить информацию о наличии самовывоза.",
-        "refresh": "Обновить"
+        "view_store_info": "მაღაზიის ინფორმაციის ნახვა",
+        "check_other_stores": "ხელმისაწვდომობის შემოწმება სხვა მაღაზიებში",
+        "pick_up_available": "თვითგატანა ხელმისაწვდომია",
+        "pick_up_available_at_html": "თვითგატანა ხელმისაწვდომია: <span class=\"strong\">{{ location_name }}</span>",
+        "pick_up_unavailable_at_html": "თვითგატანა ამჟამად მიუწვდომელია: <span class=\"strong\">{{ location_name }}</span>",
+        "unavailable": "თვითგატანის ინფორმაცია ვერ ჩაიტვირთა",
+        "refresh": "განახლება"
       },
       "price": {
-        "from_price_html": "<span class=\"text\">От</span> {{ price }}",
-        "regular_price": "Обычная цена",
-        "sale_price": "Цена продажи",
-        "unit_price": "Цена за единицу товара",
-        "saved_price_html": "Сохранять {{ price }}",
-        "unit_price_label": "Цена за единицу"
+        "from_price_html": "<span class=\"text\">დან</span> {{ price }}",
+        "regular_price": "ჩვეულებრივი ფასი",
+        "sale_price": "აქციის ფასი",
+        "unit_price": "ერთეულის ფასი",
+        "saved_price_html": "დაზოგვა {{ price }}",
+        "unit_price_label": "ერთეულის ფასი"
       },
-      "read_less": "Читать меньше",
-      "read_more": "Читать далее",
-      "share": "Поделиться этим продуктом",
-      "sold_out": "Распроданный",
-      "sold_out_message": "Этот вариант распродан!",
-      "custom": "Пользовательская этикетка",
-      "new": "Новый",
-      "bundle": "Пучок",
-      "unavailable": "Недоступно",
-      "unavailable_message": "Этот вариант недоступен!",
-      "value_unavailable": "{{ option_value }} (недоступно)",
-      "out_of_stock": "Нет в наличии",
-      "vendor": "Продавец",
-      "video_exit_message": "{{ title }} открывает полноэкранное видео в том же окне.",
-      "xr_button": "Посмотреть в своем пространстве",
-      "xr_button_label": "Просмотр в своем пространстве, загрузка предмета в окно дополненной реальности",
-      "pre_order": "Предзаказ",
+      "read_less": "ნაკლების ჩვენება",
+      "read_more": "მეტის წაკითხვა",
+      "share": "ამ პროდუქტის გაზიარება",
+      "sold_out": "ამოიწურა",
+      "sold_out_message": "ეს ვარიანტი ამოიწურა!",
+      "custom": "სპეციალური ნიშანი",
+      "new": "ახალი",
+      "bundle": "კომპლექტი",
+      "unavailable": "მიუწვდომელია",
+      "unavailable_message": "ეს ვარიანტი მიუწვდომელია!",
+      "value_unavailable": "{{ option_value }} (მიუწვდომელია)",
+      "out_of_stock": "არ არის მარაგში",
+      "vendor": "ბრენდი",
+      "video_exit_message": "{{ title }} ხსნის სრულეკრანიან ვიდეოს იმავე ფანჯარაში.",
+      "xr_button": "ნახვა თქვენს სივრცეში",
+      "xr_button_label": "ნახვა თქვენს სივრცეში — იტვირთება გაძლიერებული რეალობის ფანჯარაში",
+      "pre_order": "წინასწარი შეკვეთა",
       "availability_status": {
-        "in_stock": "В наличии",
-        "out_of_stock": "Нет в наличии",
-        "preorder": "Предзаказ"
+        "in_stock": "მარაგშია",
+        "out_of_stock": "არ არის მარაგში",
+        "preorder": "წინასწარი შეკვეთა"
       },
       "shipping_note": {
-        "text_html": "Доставка по Грузии: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
-        "text_with_free_html": "Доставка по Грузии: {{ price }}; бесплатно от {{ threshold }}. <a href=\"{{ link }}\">{{ policy }}</a>"
+        "text_html": "მიწოდება საქართველოში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
+        "text_with_free_html": "მიწოდება საქართველოში: {{ price }}; უფასო {{ threshold }}-დან. <a href=\"{{ link }}\">{{ policy }}</a>"
       },
       "atc_error": {
-        "inventory": "Недостаточно товара для выбранного количества. Выберите меньшее количество и попробуйте снова.",
-        "network": "Проблема с соединением. Пожалуйста, попробуйте снова.",
-        "generic": "Не удалось добавить товар в корзину. Пожалуйста, попробуйте снова."
+        "inventory": "არჩეული რაოდენობისთვის საკმარისი მარაგი არ არის. გთხოვთ, შეამციროთ რაოდენობა და სცადოთ თავიდან.",
+        "network": "კავშირის პრობლემა. გთხოვთ, სცადოთ თავიდან.",
+        "generic": "პროდუქტის კალათაში დამატება ვერ მოხერხდა. გთხოვთ, სცადოთ თავიდან."
       },
-      "quick_view": "Быстрый просмотр",
-      "quick_view_2": "Быстрый просмотр",
-      "quick_shop": "Быстрое добавление",
-      "select": "Выберите {{ name }}",
-      "shop_now": "Купить сейчас",
-      "select_options": "Выберите варианты",
-      "select_options_plus": "+ Выберите опции",
-      "sub_total": "Добавить в корзину - {{ value }}",
-      "hot_stock": "Торопиться!  {{ inventory }} левый",
-      "hot_stock_2": "Пожалуйста, поторопитесь!  {{ inventory }} осталось в наличии",
-      "warning_quantity": "Максимальное количество: {{ inventory}}",
-      "in_stock": "В наличии",
-      "many_in_stock": "Многие в наличии",
-      "on_sale_text": "Распродажа",
-      "off_text": " выключенный",
-      "description_placeholder": " Nam tempus turpis и metus scelerisque Placerat nulla deumantos solicitud felis. ",
-      "color": "Цвет:",
-      "hot_stock_text": "Горячий запас",
-      "new_arrivals": "Новые поступления",
+      "quick_view": "სწრაფი ნახვა",
+      "quick_view_2": "სწრაფი ნახვა",
+      "quick_shop": "სწრაფი დამატება",
+      "select": "აირჩიეთ {{ name }}",
+      "shop_now": "ყიდვა",
+      "select_options": "ვარიანტების არჩევა",
+      "select_options_plus": "+ ვარიანტების არჩევა",
+      "sub_total": "კალათაში დამატება — {{ value }}",
+      "hot_stock": "იჩქარეთ! დარჩა მხოლოდ {{ inventory }}",
+      "hot_stock_2": "გთხოვთ, იჩქაროთ! მარაგში დარჩა მხოლოდ {{ inventory }}",
+      "warning_quantity": "მაქსიმალური რაოდენობა: {{ inventory}}",
+      "in_stock": "მარაგშია",
+      "many_in_stock": "საკმარისი მარაგი",
+      "on_sale_text": "აქცია",
+      "off_text": " ფასდაკლება",
+      "description_placeholder": "პროდუქტის აღწერა.",
+      "color": "ფერი:",
+      "hot_stock_text": "შეზღუდული მარაგი",
+      "new_arrivals": "ახალი შემოსვლები",
       "sold_in_last": {
-        "text_1": "продан в последний раз",
-        "text_2": "часы"
+        "text_1": "გაიყიდა ბოლო",
+        "text_2": "საათში"
       },
       "text": {
-        "sku": "Артикул:",
-        "barcode": "Штрих-код:",
-        "vendor": "Бренд",
-        "availability": "Доступность:",
-        "type": "Тип продукта:"
+        "sku": "SKU:",
+        "barcode": "შტრიხკოდი:",
+        "vendor": "ბრენდი",
+        "availability": "ხელმისაწვდომობა:",
+        "type": "პროდუქტის ტიპი:"
       },
-      "show_options": "Показать варианты",
-      "hide_options": "Скрыть варианты",
-      "adding": "Добавление",
-      "thank_you": "Спасибо",
-      "add_more": "Добавить еще",
-      "cart_feedback": "Добавлен",
-      "see_details": "Посмотреть полную информацию",
+      "show_options": "ვარიანტების ჩვენება",
+      "hide_options": "ვარიანტების დამალვა",
+      "adding": "ემატება",
+      "thank_you": "გმადლობთ",
+      "add_more": "მეტის დამატება",
+      "cart_feedback": "დაემატა",
+      "see_details": "სრული დეტალების ნახვა",
       "bundle_block": {
-        "add_all_to_cart": "Добавить все в корзину",
-        "add_item_to_cart": "Добавить ([item]) товар в корзину",
-        "add_items_to_cart": "Добавьте ([item]) товары в корзину",
-        "include": "включать",
-        "included": "включая",
-        "select_options": "Выберите вариант",
-        "total_price": "Общая стоимость:"
+        "add_all_to_cart": "ყველას კალათაში დამატება",
+        "add_item_to_cart": "კალათაში დამატება ([item])",
+        "add_items_to_cart": "კალათაში დამატება ([item])",
+        "include": "მოიცავს",
+        "included": "მათ შორის",
+        "select_options": "ვარიანტის არჩევა",
+        "total_price": "ჯამური ფასი:"
       },
-      "view_full_details": "Посмотреть полную информацию",
+      "view_full_details": "სრული დეტალების ნახვა",
       "step_by_step": {
-        "next": "Следующий шаг",
-        "previous": "Предыдущий шаг"
+        "next": "შემდეგი ნაბიჯი",
+        "previous": "წინა ნაბიჯი"
       },
-      "media_gallery": "Галерея товара",
-      "media_load": "Открыть изображение",
-      "thumbnail_label": "Изображение {{ index }}",
+      "media_gallery": "პროდუქტის გალერეა",
+      "media_load": "სურათის გახსნა",
+      "thumbnail_label": "სურათი {{ index }}",
       "image_counter": "{{ current }} / {{ total }}"
     },
     "modal": {
-      "label": "Медиа-галерея"
+      "label": "მედია გალერეა"
     }
   },
   "portfolio_page": {
     "general": {
-      "all": "Все"
+      "all": "All"
     }
   },
   "templates": {
-    "404": {
-      "title": "Страница не найдена",
-      "subtext": "404",
-      "description": "Возможно, ссылка изменилась или страница больше не существует.",
-      "button": "На главную",
-      "kids": "Для детей",
-      "mamas": "Для мам"
-    },
     "search": {
-      "no_results": "По запросу «не найдено результатов»{{ terms }}». ",
-      "search_result_title_2": "Есть {{ count }} Страницы и статьи для '{{ terms }}'",
-      "view": "Вид {{ type }}",
-      "page": "Страница",
+      "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე. შეამოწმეთ მართლწერა ან სცადეთ სხვა სიტყვა.",
+      "search_result_title_2": "ნაპოვნია {{ count }} გვერდი და სტატია '{{ terms }}'-ზე",
+      "view": "{{ type }}-ის ნახვა",
+      "page": "გვერდი",
       "results_with_count": {
-        "one": "{{ count }} результат найден для «{{ terms }}»",
-        "other": "{{ count }} результаты найдены для «{{ terms }}»"
+        "one": "ნაპოვნია {{ count }} შედეგი „{{ terms }}“-ზე",
+        "other": "ნაპოვნია {{ count }} შედეგი „{{ terms }}“-ზე"
       },
       "results_pages_with_count": {
-        "one": "{{ count }} страница",
-        "other": "{{ count }} страницы"
+        "one": "{{ count }} გვერდი",
+        "other": "{{ count }} გვერდი"
       },
       "results_suggestions_with_count": {
-        "one": "{{ count }} предположение",
-        "other": "{{ count }} предложения"
+        "one": "{{ count }} შეთავაზება",
+        "other": "{{ count }} შეთავაზება"
       },
-      "title": "Найдите товары на нашем сайте",
-      "search_product_for": "По запросу «не найдено результатов»{{ terms }}»",
-      "search_product_check": "Проверьте правильность написания или используйте другое слово или фразу.",
-      "search_for": "Искать \"{{ terms }}»",
-      "suggestions": "Предложения",
-      "pages": "Страницы"
+      "title": "შედეგები",
+      "search_product_for": "“{{ terms }}”-სთვის შედეგი ვერ მოიძებნა",
+      "search_product_check": "შეამოწმეთ მართლწერა ან სცადეთ სხვა სიტყვა",
+      "search_for": "ძებნა: „{{ terms }}“",
+      "suggestions": "შეთავაზებები",
+      "pages": "გვერდები",
+      "products": "პროდუქტები"
     },
     "cart": {
-      "cart": "Корзина"
+      "cart": "კალათა"
     },
     "contact": {
-      "title": "Свяжитесь с нами",
+      "title": "დაგვიკავშირდი",
       "info": {
-        "email": "Электронная почта",
-        "phone": "Телефон",
-        "address": "Адрес"
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "address": "მისამართი"
       },
       "form": {
-        "name": "Имя",
-        "email": "Электронная почта",
-        "phone": "Номер телефона",
-        "comment": "Сообщение",
-        "message": "Сообщение",
-        "send": "Отправить",
-        "post_success": "Спасибо за ваше сообщение.",
-        "error_heading": "Пожалуйста, исправьте следующее:"
+        "name": "სახელი",
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "comment": "შეტყობინება",
+        "message": "შეტყობინება",
+        "send": "გაგზავნა",
+        "post_success": "გმადლობთ შეტყობინებისთვის.",
+        "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:"
       }
+    },
+    "404": {
+      "title": "გვერდი ვერ მოიძებნა",
+      "subtext": "404",
+      "description": "შესაძლოა ბმული შეიცვალა ან გვერდი აღარ არსებობს.",
+      "button": "მთავარ გვერდზე დაბრუნება",
+      "kids": "ბავშვებისთვის",
+      "mamas": "დედებისთვის"
     }
   },
   "faqs": {
     "general": {
-      "all": "Все",
-      "filter": "Фильтровать по теме"
+      "all": "All",
+      "filter": "Filter by topic"
     }
   },
   "portfolio": {
-    "filter": "Фильтр",
-    "close": "Закрывать",
-    "tab_all": "Вкладка, чтобы показать все галереи",
-    "tab": "Вкладка для фильтрации галереи"
+    "filter": "Filter",
+    "close": "Close",
+    "tab_all": "Tab to show all galleries",
+    "tab": "Tab to filter gallery"
   },
   "sections": {
     "header": {
-      "announcement": "Объявление",
-      "menu": "Меню",
+      "announcement": "განცხადება",
+      "menu": "მენიუ",
       "cart_count": {
-        "one": "{{ count }} элемент",
-        "other": "{{ count }} предметы"
+        "one": "{{ count }} პროდუქტი",
+        "other": "{{ count }} პროდუქტი"
       }
     },
-    "term_condition": "Условия использования",
+    "term_condition": "წესები და პირობები",
     "cart": {
-      "title": "Ваша корзина",
-      "caption": "Товары в корзине",
-      "checkout": "Оформить заказ",
-      "proceed_to_checkout": "Перейти к оформлению заказа",
-      "my_cart": "Корзина",
-      "items": "предметы",
-      "item": "элемент",
+      "title": "თქვენი კალათა",
+      "caption": "კალათის პროდუქტები",
+      "checkout": "გადახდა",
+      "proceed_to_checkout": "გადახდაზე გადასვლა",
+      "my_cart": "კალათა",
+      "items": "ნივთი",
+      "item": "ნივთი",
       "item_99": "99+",
-      "view_cart": "Посмотреть корзину",
-      "edit_title": "Удалять {{ title }}",
-      "edit_cart_title": "Редактировать вариант",
-      "remove_title": "Удалять {{ title }}",
-      "items_in_your_cart": "{{ count }} товары в вашей корзине",
-      "subtotal": "Итого",
-      "new_subtotal": "Новый промежуточный итог",
-      "note": "Заказать специальную инструкцию",
-      "continue_shopping": "Продолжить покупки",
-      "shipping": "Перевозки",
-      "shipping_text": "Налоги и стоимость доставки будут рассчитаны при оформлении заказа.",
-      "empty": "Ваша корзина пуста",
-      "empty_kids": "Для детей",
-      "empty_mamas": "Для мам",
-      "title_collection": "Вам также может понравиться",
-      "cart_error": "При обновлении корзины произошла ошибка. ",
-      "cart_quantity_error_html": "Вы можете добавить только [количество] этого товара в корзину.",
-      "cart_quantity_error_alert": "Вы можете только добавить {{maxQuantity}} этого товара в корзину",
-      "cart_quantity_error_alert_2": "Количество этого продукта недостаточно.",
-      "quick_cart": "Быстрая корзина",
-      "taxes_and_shipping_policy_at_checkout_html": "Налоги и <a href=\"{{ link }}\">перевозки</a> рассчитывается при оформлении заказа",
-      "taxes_included_but_shipping_at_checkout": "Налог включен, стоимость доставки рассчитывается при оформлении заказа.",
-      "taxes_included_and_shipping_policy_html": "Налог включен. <a href=\"{{ link }}\">Перевозки</a> рассчитывается при оформлении заказа.",
-      "taxes_and_shipping_at_checkout": "Налоги и доставка рассчитываются при оформлении заказа",
-      "taxes_included_shipping_at_checkout_without_policy": "Налоги включены. ",
-      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "Пошлины и налоги включены.  <a href=\"{{ link }}\">перевозки</a> рассчитывается при оформлении заказа.",
-      "duties_and_taxes_included_shipping_at_checkout_without_policy": "Пошлины и налоги включены. ",
-      "taxes_included_shipping_at_checkout_with_policy_html": "Налоги включены.  <a href=\"{{ link }}\">перевозки</a> рассчитывается при оформлении заказа.",
-      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "Обязанности включены.  <a href=\"{{ link }}\">перевозки</a> рассчитывается при оформлении заказа.",
-      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "Обязанности включены. ",
-      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "Налоги, скидки и <a href=\"{{ link }}\">перевозки</a> рассчитывается при оформлении заказа.",
-      "taxes_at_checkout_shipping_at_checkout_without_policy": "Налоги, скидки и стоимость доставки рассчитываются при оформлении заказа.",
+      "view_cart": "კალათის ნახვა",
+      "edit_title": "რედაქტირება: {{ title }}",
+      "edit_cart_title": "ვარიანტის რედაქტირება",
+      "remove_title": "წაშლა: {{ title }}",
+      "items_in_your_cart": "კალათაში {{ count }} პროდუქტია",
+      "subtotal": "ჯამი",
+      "new_subtotal": "ახალი ჯამი",
+      "note": "შეკვეთის სპეციალური მითითებები",
+      "continue_shopping": "შოპინგის გაგრძელება",
+      "shipping": "მიწოდება",
+      "shipping_text": "გადასახადები და მიწოდება დაითვლება გადახდისას",
+      "empty": "თქვენი კალათა ცარიელია",
+      "empty_kids": "ბავშვებისთვის",
+      "empty_mamas": "დედებისთვის",
+      "title_collection": "შეიძლება ასევე მოგეწონოთ",
+      "cart_error": "კალათის განახლებისას მოხდა შეცდომა. სცადეთ თავიდან.",
+      "cart_quantity_error_html": "ამ პროდუქტიდან კალათაში შეგიძლიათ დაამატოთ მხოლოდ [quantity].",
+      "cart_quantity_error_alert": "ამ პროდუქტიდან კალათაში შეგიძლიათ დაამატოთ მხოლოდ {{maxQuantity}}.",
+      "cart_quantity_error_alert_2": "ამ პროდუქტის რაოდენობა საკმარისი არ არის.",
+      "quick_cart": "სწრაფი კალათა",
+      "taxes_and_shipping_policy_at_checkout_html": "გადასახადები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას",
+      "taxes_included_but_shipping_at_checkout": "გადასახადი ჩართულია; მიწოდება დაითვლება გადახდისას",
+      "taxes_included_and_shipping_policy_html": "გადასახადი ჩართულია. <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "taxes_and_shipping_at_checkout": "გადასახადები და მიწოდება დაითვლება გადახდისას",
+      "taxes_included_shipping_at_checkout_without_policy": "გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "ბაჟი და გადასახადები ჩართულია. ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "ბაჟი და გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "taxes_included_shipping_at_checkout_with_policy_html": "გადასახადები ჩართულია. ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "ბაჟი ჩართულია. გადასახადები, ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "ბაჟი ჩართულია. გადასახადები, ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "გადასახადები, ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "taxes_at_checkout_shipping_at_checkout_without_policy": "გადასახადები, ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
       "headings": {
-        "product": "Продукт",
-        "price": "Цена",
-        "total": "Общий",
-        "quantity": "Количество"
+        "product": "პროდუქტი",
+        "price": "ფასი",
+        "total": "ჯამი",
+        "quantity": "რაოდენობა"
       },
-      "update": "Обновлять",
-      "upsell": "В вашу корзину были добавлены следующие товары:",
-      "your_order": "Ваш заказ",
+      "update": "განახლება",
+      "upsell": "კალათას დაემატა შემდეგი პროდუქტები:",
+      "your_order": "თქვენი შეკვეთა",
       "more_than_99": "99+",
       "heading": {
-        "quantity": "Количество"
+        "quantity": "რაოდენობა"
       }
     },
     "footer": {
-      "payment": "Способы оплаты"
+      "payment": "გადახდის მეთოდები"
     },
     "featured_blog": {
-      "view_all": "Посмотреть все",
-      "onboarding_title": "Сообщение в блоге",
-      "onboarding_content": "Предоставьте своим клиентам краткое изложение вашего сообщения в блоге."
+      "view_all": "ყველას ნახვა",
+      "onboarding_title": "ბლოგის პოსტი",
+      "onboarding_content": "მოკლე აღწერა ბლოგის პოსტისთვის"
     },
     "featured_collection": {
-      "view_all": "Посмотреть все",
-      "view_all_label": "Посмотреть все товары в разделе {{ collection_name }} коллекция"
+      "view_all": "ყველას ნახვა",
+      "view_all_label": "ყველა პროდუქტის ნახვა კოლექციაში {{ collection_name }}"
     },
     "collection_list": {
-      "title": "Коллекции",
-      "view_all": "Посмотреть все",
-      "shop_the_collection": "Купить коллекцию",
-      "count": "{{ count }} продукты"
+      "title": "კოლექციები",
+      "view_all": "ყველას ნახვა",
+      "shop_the_collection": "კოლექციის ნახვა",
+      "count": "{{ count }} პროდუქტი"
     },
     "collection_template": {
-      "all_tags": "Все продукты",
-      "apply": "Применить",
-      "clear": "Удалить",
-      "clear_all": "Сбросить все",
-      "empty": "Товары не найдены",
-      "end_count": " из {{ count }} общий",
-      "from": "От",
-      "filter_and_sort": "Фильтровать и сортировать",
-      "filter_by_label": "Фильтровать по",
-      "filter_button": "Фильтр",
-      "filters_selected": "{{ count }} выбрано",
+      "all_tags": "ყველა პროდუქტი",
+      "apply": "გამოყენება",
+      "clear": "გასუფთავება",
+      "clear_all": "ყველას გასუფთავება",
+      "empty": "პროდუქტები ვერ მოიძებნა",
+      "end_count": " სულ {{ count }}-დან",
+      "from": "დან",
+      "filter_and_sort": "ფილტრი და დალაგება",
+      "filter_by_label": "ფილტრი",
+      "filter_button": "ფილტრი",
+      "filters_selected": "არჩეულია {{ count }}",
       "product_count_simple": {
-        "one": "{{ count }} товар",
-        "few": "{{ count }} товара",
-        "many": "{{ count }} товаров",
-        "other": "{{ count }} товара"
+        "one": "{{ count }} პროდუქტი",
+        "other": "{{ count }} პროდუქტი",
+        "few": "{{ count }} პროდუქტი",
+        "many": "{{ count }} პროდუქტი"
       },
-      "item_per_page": "Элементов на странице",
-      "load_more": "Показать ещё",
-      "show_more": "Показать ещё",
-      "show_less": "Показать меньше",
-      "show_all": "Показать все",
-      "loading_more": "Загрузка…",
-      "load_error": "Не удалось загрузить товары. Попробуйте ещё раз.",
-      "load_retry": "Повторить",
-      "load_success": "Добавлено товаров: {{ count }}.",
-      "no_more": "Больше товаров нет",
-      "max": "Макс",
-      "max_price": "Самая высокая цена {{ price }}",
-      "min": "Мин",
-      "product_count": "Показаны {{ count }} из {{ total }} продукты",
-      "read_more": "Читать далее",
-      "read_less": "Читать меньше",
-      "refined_by": "Уточнено",
-      "reset": "Прозрачный",
-      "start_count": "Показаны",
-      "sort_button": "Сортировка",
-      "sort_by_label": "Сортировать",
-      "title": "Коллекция",
-      "to": "До",
-      "use_fewer_filters_html": "Уменьшите число фильтров или <a class=\"{{ class }}\" href=\"{{ link }}\">сбросьте все</a>",
-      "view_as": "Посмотреть как",
-      "image": "Изображения",
-      "product": "Продукт",
-      "price": "Цена",
-      "qty": "Кол-во",
-      "options": "Параметры",
-      "show_variants": "Показать варианты",
-      "results": "результаты"
+      "item_per_page": "ელემენტი გვერდზე",
+      "load_more": "მეტის ნახვა",
+      "show_more": "მეტის ნახვა",
+      "show_less": "ნაკლების ნახვა",
+      "show_all": "ყველას ნახვა",
+      "loading_more": "იტვირთება…",
+      "load_error": "პროდუქტების ჩატვირთვა ვერ მოხერხდა. სცადე თავიდან.",
+      "load_retry": "თავიდან ცდა",
+      "load_success": "დაემატა {{ count }} პროდუქტი.",
+      "no_more": "მეტი პროდუქტი არ არის",
+      "max": "მაქს.",
+      "max_price": "უმაღლესი ფასი არის {{ price }}",
+      "min": "მინ.",
+      "product_count": "ნაჩვენებია {{ count }} / {{ total }} პროდუქტი",
+      "read_more": "მეტის წაკითხვა",
+      "read_less": "ნაკლების ჩვენება",
+      "refined_by": "გაფილტრულია",
+      "reset": "გასუფთავება",
+      "start_count": "ნაჩვენებია",
+      "sort_button": "დალაგება",
+      "sort_by_label": "დალაგება",
+      "title": "კოლექცია",
+      "to": "მდე",
+      "use_fewer_filters_html": "გამოიყენეთ ნაკლები ფილტრი ან <a class=\"{{ class }}\" href=\"{{ link }}\">გაასუფთავეთ ყველა</a>",
+      "view_as": "ხედი",
+      "image": "სურათები",
+      "product": "პროდუქტი",
+      "price": "ფასი",
+      "qty": "რაოდ.",
+      "options": "ვარიანტები",
+      "show_variants": "ვარიანტების ჩვენება",
+      "results": "შედეგი"
     },
     "collection_list_template": {
-      "product_count": "{{ count }} продукты"
+      "product_count": "{{ count }} პროდუქტი"
     },
     "sidebar": {
-      "title": "Боковая панель"
+      "title": "გვერდითი პანელი"
     },
     "quick_order_list": {
-      "product_total": "Итого по продукту",
-      "view_cart": "Посмотреть корзину",
-      "each": "/еа",
-      "product": "Продукт",
-      "variant": "Вариант",
-      "variant_total": "Вариант всего",
+      "product_total": "პროდუქტის ჯამი",
+      "view_cart": "კალათის ნახვა",
+      "each": "/ცალი",
+      "product": "პროდუქტი",
+      "variant": "ვარიანტი",
+      "variant_total": "ვარიანტის ჯამი",
       "items_added": {
-        "one": "{{ quantity }} элемент добавлен",
-        "other": "{{ quantity }} добавлены элементы"
+        "one": "დაემატა {{ quantity }} ნივთი",
+        "other": "დაემატა {{ quantity }} ნივთი"
       },
       "items_removed": {
-        "one": "{{ quantity }} элемент удален",
-        "other": "{{ quantity }} элементы удалены"
+        "one": "წაიშალა {{ quantity }} ნივთი",
+        "other": "წაიშალა {{ quantity }} ნივთი"
       },
-      "product_variants": "Варианты продукта",
-      "total_items": "Всего предметов",
-      "remove_all_single_item_confirmation": "Удалить 1 товар из корзины?",
-      "remove_all_items_confirmation": "Удалить все {{ quantity }} товары из корзины?",
-      "remove_all": "Удалить все",
-      "cancel": "Отмена",
-      "min_error": "Этот элемент имеет минимум {{ min }}",
-      "max_error": "Этот элемент имеет максимум {{ max }}",
-      "step_error": "Вы можете добавлять этот элемент только с шагом в {{ step }}"
+      "product_variants": "პროდუქტის ვარიანტები",
+      "total_items": "ნივთების ჯამი",
+      "remove_all_single_item_confirmation": "გსურთ 1 ნივთის ამოშლა კალათიდან?",
+      "remove_all_items_confirmation": "გსურთ ყველა {{ quantity }} ნივთის ამოშლა კალათიდან?",
+      "remove_all": "ყველას წაშლა",
+      "cancel": "გაუქმება",
+      "min_error": "ამ ნივთის მინიმუმია {{ min }}",
+      "max_error": "ამ ნივთის მაქსიმუმია {{ max }}",
+      "step_error": "ამ ნივთის დამატება შესაძლებელია მხოლოდ {{ step }}-ის ჯერადებით"
     },
     "mm_footer": {
-      "brand_text": "Средства по уходу и гигиене для детей и мам из Германии.",
-      "customers_heading": "Служба поддержки",
-      "info_heading": "Информация",
-      "link_contact": "Контакты",
-      "link_shipping": "Доставка",
-      "link_refund": "Возврат",
-      "link_about": "О нас",
-      "link_privacy": "Конфиденциальность",
-      "link_terms": "Условия использования"
+      "brand_text": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის.",
+      "customers_heading": "მომხმარებლისთვის",
+      "info_heading": "ინფორმაცია",
+      "link_contact": "კონტაქტი",
+      "link_shipping": "მიწოდება",
+      "link_refund": "დაბრუნება",
+      "link_about": "ჩვენს შესახებ",
+      "link_privacy": "კონფიდენციალურობა",
+      "link_terms": "წესები და პირობები"
     }
   },
   "localization": {
-    "country_label": "Страна/регион",
-    "language_label": "Язык",
-    "update_language": "Обновить язык",
-    "update_country": "Обновить страну/регион"
+    "country_label": "ქვეყანა/რეგიონი",
+    "language_label": "ენა",
+    "update_language": "ენის განახლება",
+    "update_country": "ქვეყნის/რეგიონის განახლება"
   },
   "currency": {
-    "change_text": "Валюта магазина изменена на",
-    "currency": "Валюта"
+    "change_text": "მაღაზიის ვალუტა შეიცვალა:",
+    "currency": "ვალუტა"
   },
   "customer": {
     "account": {
-      "welcome": "Привет, {{ name }}",
-      "title": "Счет",
-      "my_account": "Мой счет",
-      "details": "Детали аккаунта",
-      "view_addresses": "Посмотреть адреса",
-      "return": "Вернуться к деталям аккаунта"
+      "welcome": "გამარჯობა, {{ name }}",
+      "title": "ანგარიში",
+      "my_account": "ანგარიში",
+      "details": "ანგარიშის დეტალები",
+      "view_addresses": "მისამართების ნახვა",
+      "return": "ანგარიშის დეტალებზე დაბრუნება"
     },
-    "account_fallback": "Счет",
+    "account_fallback": "ანგარიში",
     "activate_account": {
-      "title": "Активировать учетную запись",
-      "subtext": "Создайте пароль, чтобы активировать свою учетную запись.",
-      "password": "Пароль",
-      "password_confirm": "Подтвердите пароль",
-      "submit": "Активировать учетную запись",
-      "cancel": "Отклонить приглашение"
+      "title": "ანგარიშის გააქტიურება",
+      "subtext": "შექმენით პაროლი ანგარიშის გააქტიურებისთვის.",
+      "password": "პაროლი",
+      "password_confirm": "პაროლის დადასტურება",
+      "submit": "ანგარიშის გააქტიურება",
+      "cancel": "მოწვევის უარყოფა"
     },
     "addresses": {
-      "title": "Адреса",
-      "default": "По умолчанию",
-      "address_book": "Адресная книга клиентов",
-      "add_new": "Добавить новый адрес",
-      "edit_address": "Изменить адрес",
-      "first_name": "Имя",
-      "last_name": "Фамилия",
-      "company": "Компания",
-      "address1": "Адрес 1",
-      "address2": "Адрес 2",
-      "city": "Город",
-      "country": "Страна/регион",
-      "province": "Провинция",
-      "zip": "Почтовый индекс",
-      "phone": "Телефон",
-      "set_default": "Установить как адрес по умолчанию",
-      "add": "Добавить адрес",
-      "update": "Обновить адрес",
-      "cancel": "Отмена",
-      "edit": "Редактировать",
-      "delete": "Удалять",
-      "delete_confirm": "Вы уверены, что хотите удалить этот адрес?",
-      "none": "Укажите домашний и рабочий адреса, если вы еще этого не сделали."
+      "title": "მისამართები",
+      "default": "ნაგულისხმევი",
+      "address_book": "მისამართების წიგნი",
+      "add_new": "ახალი მისამართის დამატება",
+      "edit_address": "მისამართის რედაქტირება",
+      "first_name": "სახელი",
+      "last_name": "გვარი",
+      "company": "კომპანია",
+      "address1": "მისამართი 1",
+      "address2": "მისამართი 2",
+      "city": "ქალაქი",
+      "country": "ქვეყანა/რეგიონი",
+      "province": "რეგიონი",
+      "zip": "საფოსტო ინდექსი",
+      "phone": "ტელეფონი",
+      "set_default": "ნაგულისხმევად დაყენება",
+      "add": "მისამართის დამატება",
+      "update": "მისამართის განახლება",
+      "cancel": "გაუქმება",
+      "edit": "რედაქტირება",
+      "delete": "წაშლა",
+      "delete_confirm": "ნამდვილად გსურთ ამ მისამართის წაშლა?",
+      "none": "დაამატეთ სახლის ან სამუშაოს მისამართი, თუ ჯერ არ გაქვთ."
     },
-    "forgot_password": "Забыли пароль?",
-    "log_in": "Авторизоваться",
-    "sign_in": "Войти",
-    "or": "или",
-    "create_account": "Создать аккаунт",
-    "log_out": "Выйти",
-    "hello": "Привет",
-    "my_account": "Мой счет",
+    "forgot_password": "დაგავიწყდათ პაროლი?",
+    "log_in": "შესვლა",
+    "sign_in": "შესვლა",
+    "or": "or",
+    "create_account": "ანგარიშის შექმნა",
+    "log_out": "გასვლა",
+    "hello": "გამარჯობა",
+    "my_account": "ჩემი ანგარიში",
     "login_page": {
-      "cancel": "Отмена",
-      "create_account": "Зарегистрироваться",
-      "email": "Адрес электронной почты",
-      "forgot_password": "Потеряли пароль?",
-      "guest_continue": "Продолжать",
-      "guest_title": "Продолжить в качестве гостя",
-      "password": "Пароль",
-      "title": "Войти",
-      "sign_in": "Авторизоваться",
-      "submit": "Представлять на рассмотрение",
-      "register": "Зарегистрироваться",
-      "text": "Пожалуйста, введите свой адрес электронной почты и пароль ниже, чтобы получить доступ к своей учетной записи"
+      "cancel": "გაუქმება",
+      "create_account": "ანგარიშის შექმნა",
+      "email": "ელფოსტის მისამართი",
+      "forgot_password": "დაგავიწყდათ პაროლი?",
+      "guest_continue": "გაგრძელება",
+      "guest_title": "გაგრძელება სტუმრად",
+      "password": "პაროლი",
+      "title": "შესვლა",
+      "sign_in": "შესვლა",
+      "submit": "გაგზავნა",
+      "register": "რეგისტრაცია",
+      "text": "შეიყვანეთ ელფოსტა და პაროლი ანგარიშზე წვდომისთვის"
     },
     "order": {
-      "title": "Заказ {{ name }}",
-      "date_html": "Размещено на {{ date }}",
-      "cancelled_html": "Заказ отменен {{ date }}",
-      "cancelled_reason": "Причина: {{ reason }}",
-      "billing_address": "Адрес для выставления счета",
-      "payment_status": "Статус платежа",
-      "shipping_address": "Адрес доставки",
-      "fulfillment_status": "Статус выполнения",
-      "discount": "Скидка",
-      "shipping": "Перевозки",
-      "tax": "Налог",
-      "product": "Продукт",
-      "sku": "Артикул",
-      "price": "Цена",
-      "quantity": "Количество",
-      "total": "Общий",
-      "fulfilled_at_html": "Выполнено {{ date }}",
-      "track_shipment": "Отследить посылку",
-      "tracking_url": "Ссылка для отслеживания",
-      "tracking_company": "Перевозчик",
-      "tracking_number": "Идентификационный номер",
-      "subtotal": "Итого"
+      "title": "შეკვეთა {{ name }}",
+      "date_html": "განთავსებულია {{ date }}",
+      "cancelled_html": "შეკვეთა გაუქმდა {{ date }}",
+      "cancelled_reason": "მიზეზი: {{ reason }}",
+      "billing_address": "გადახდის მისამართი",
+      "payment_status": "გადახდის სტატუსი",
+      "shipping_address": "მიწოდების მისამართი",
+      "fulfillment_status": "შესრულების სტატუსი",
+      "discount": "ფასდაკლება",
+      "shipping": "მიწოდება",
+      "tax": "გადასახადი",
+      "product": "პროდუქტი",
+      "sku": "SKU",
+      "price": "ფასი",
+      "quantity": "რაოდენობა",
+      "total": "ჯამი",
+      "fulfilled_at_html": "შესრულებულია {{ date }}",
+      "track_shipment": "გზავნილის თვალყური",
+      "tracking_url": "თვალყურის ბმული",
+      "tracking_company": "გადამზიდავი",
+      "tracking_number": "თვალყურის ნომერი",
+      "subtotal": "ჯამი"
     },
     "orders": {
-      "title": "История заказов",
-      "order_number": "Заказ",
-      "order_number_link": "Номер заказа {{ number }}",
-      "date": "Дата",
-      "payment_status": "Статус платежа",
-      "fulfillment_status": "Статус выполнения",
-      "total": "Общий",
-      "none": "Вы еще не разместили заказов."
+      "title": "შეკვეთების ისტორია",
+      "order_number": "შეკვეთა",
+      "order_number_link": "შეკვეთის ნომერი {{ number }}",
+      "date": "თარიღი",
+      "payment_status": "გადახდის სტატუსი",
+      "fulfillment_status": "შესრულების სტატუსი",
+      "total": "ჯამი",
+      "none": "ჯერ არ გაქვთ შეკვეთები."
     },
     "recover_password": {
-      "title": "Сбросить пароль",
-      "subtext": "Мы отправим вам электронное письмо для сброса пароля",
-      "success": "Мы отправили вам электронное письмо со ссылкой для обновления пароля."
+      "title": "პაროლის აღდგენა",
+      "subtext": "გამოგიგზავნით ელფოსტას პაროლის აღსადგენად",
+      "success": "გამოგიგზავნეთ ელფოსტა პაროლის განახლების ბმულით."
     },
     "register": {
-      "title": "Зарегистрироваться",
-      "first_name": "Имя",
-      "last_name": "Фамилия",
-      "email": "Электронная почта",
-      "you_email": "Ваш электронный адрес",
-      "password": "Пароль",
-      "you_password": "Ваш пароль",
-      "register": "Зарегистрироваться",
-      "submit": "Завести аккаунт",
-      "text": "Пожалуйста, зарегистрируйтесь ниже, чтобы создать учетную запись",
-      "subscribe": "Подпишитесь на рассылку по электронной почте"
+      "title": "ანგარიშის შექმნა",
+      "first_name": "სახელი",
+      "last_name": "გვარი",
+      "email": "ელფოსტა",
+      "you_email": "თქვენი ელფოსტის მისამართი",
+      "password": "პაროლი",
+      "you_password": "თქვენი პაროლი",
+      "register": "რეგისტრაცია",
+      "submit": "ანგარიშის შექმნა",
+      "text": "დარეგისტრირდით ანგარიშის შესაქმნელად",
+      "subscribe": "მარკეტინგული ელფოსტის გამოწერა"
     },
     "reset_password": {
-      "title": "Сбросить пароль учетной записи",
-      "subtext": "Введите новый пароль для {{ email }}",
-      "password": "Пароль",
-      "password_confirm": "Подтвердите пароль",
-      "submit": "Сбросить пароль"
+      "title": "ანგარიშის პაროლის განახლება",
+      "subtext": "შეიყვანეთ ახალი პაროლი {{ email }}-სთვის",
+      "password": "პაროლი",
+      "password_confirm": "პაროლის დადასტურება",
+      "submit": "პაროლის განახლება"
     }
   },
   "gift_cards": {
     "issued": {
-      "title": "Вот твой {{ value }} подарочная карта для {{ shop }}!",
-      "subtext": "Ваша подарочная карта",
-      "gift_card_code": "Код подарочной карты",
-      "shop_link": "Продолжить покупки",
-      "remaining_html": "Оставшийся {{ balance }}",
-      "add_to_apple_wallet": "Добавить в Apple Wallet",
-      "qr_image_alt": "QR-код — отсканируйте, чтобы активировать подарочную карту",
-      "copy_code": "Скопировать код",
-      "expired": "Истекший",
-      "copy_code_success": "Код успешно скопирован",
-      "print_gift_card": "Распечатать"
+      "title": "თქვენი {{ value }} სასაჩუქრე ბარათი {{ shop }}-დან!",
+      "subtext": "თქვენი სასაჩუქრე ბარათი",
+      "gift_card_code": "სასაჩუქრე ბარათის კოდი",
+      "shop_link": "შოპინგის გაგრძელება",
+      "remaining_html": "ნაშთი {{ balance }}",
+      "add_to_apple_wallet": "დამატება Apple Wallet-ში",
+      "qr_image_alt": "QR კოდი — დაასკანირეთ სასაჩუქრე ბარათის გამოსაყენებლად",
+      "copy_code": "კოდის კოპირება",
+      "expired": "ვადაგასული",
+      "copy_code_success": "კოდი დაკოპირდა",
+      "print_gift_card": "ბეჭდვა"
     }
   },
   "wishlist": {
     "general": {
-      "wishlist": "Списки желаний",
-      "title": "Избранное",
-      "text_icon": "Мои списки желаний",
-      "added": "Добавлено в список желаний",
-      "product_image": "Изображение",
-      "product_name": "Название продукта",
-      "price": "Цена",
-      "add_1": "Добавлять",
-      "add": "Добавить в список желаний",
-      "remove": "Удалять",
-      "share": "Поделитесь моим списком пожеланий по электронной почте",
-      "empty": "Ни один товар не добавлен в ваш список желаний",
-      "continue_shopping": "Продолжить покупки"
+      "wishlist": "სურვილების სია",
+      "title": "სურვილების სია",
+      "text_icon": "სურვილების სია",
+      "added": "დაემატა სურვილების სიას",
+      "product_image": "სურათი",
+      "product_name": "პროდუქტის სახელი",
+      "price": "ფასი",
+      "add_1": "დამატება",
+      "add": "სურვილების სიაში დამატება",
+      "remove": "წაშლა",
+      "share": "სურვილების სიის გაზიარება ელფოსტით",
+      "empty": "სურვილების სია ცარიელია",
+      "continue_shopping": "შოპინგის გაგრძელება"
     }
   },
   "compare": {
     "general": {
-      "title": "Сравнивать",
-      "add": "Добавить для сравнения",
-      "added": "Добавлено для сравнения",
-      "remove_compare": "Удалить сравнение",
-      "remove_all": "Удалить все",
-      "product": "Продукт",
-      "sku": "Артикул",
-      "review": "Рейтинг",
-      "description": "Описание",
-      "collection": "Коллекция",
-      "availability": "Доступность",
-      "product_type": "Тип продукта",
-      "other_details": "Другие детали",
-      "message": "Для сравнения необходимо выбрать минимум два товара!"
+      "title": "Compare",
+      "add": "Add to compare",
+      "added": "Added to compare",
+      "remove_compare": "Remove compare",
+      "remove_all": "Remove all",
+      "product": "Product",
+      "sku": "SKU",
+      "review": "Rating",
+      "description": "Description",
+      "collection": "Collection",
+      "availability": "Availability",
+      "product_type": "Product type",
+      "other_details": "Other details",
+      "message": "You must select at least two products to compare!"
     }
   },
   "someone_purcharse": {
     "general": {
-      "text_1": "Недавно кто-то купил",
-      "ago": "назад,",
-      "from": "от"
+      "text_1": "Someone recently bought a",
+      "ago": "ago,",
+      "from": "From"
     }
   },
   "before_you_leave": {
     "general": {
-      "recommended_product": "Рекомендуется",
-      "back_to_store": "Вернуться в магазин",
-      "continue_shopping": "Продолжить покупки"
+      "recommended_product": "Recommended",
+      "back_to_store": "Back to store",
+      "continue_shopping": "Continue shopping"
     }
   },
   "recently_viewed": {
     "general": {
-      "product_title": "Недавно просмотренные",
-      "no_product": "К сожалению, товаров нет.",
-      "share_title": "Социальный",
-      "newsletter": "Подписка на рассылку"
+      "product_title": "Recently viewed",
+      "no_product": "Sorry, there are no products.",
+      "share_title": "Social",
+      "newsletter": "Newsletter sign-up"
     }
   },
   "calculator_free_shipping_message": {
     "general": {
-      "free_shipping_message": "Бесплатная доставка при заказе свыше",
-      "free_shipping_message_1": "Вы имеете право на бесплатную доставку!",
-      "free_shipping_message_2": "Только",
-      "free_shipping_message_3": "вдали от",
-      "free_shipping_message_4": "бесплатная доставка",
-      "free_shipping_1": "Бесплатно",
-      "free_shipping_2": "подлежит уточнению"
+      "free_shipping_message": "უფასო მიწოდება შეკვეთებზე",
+      "free_shipping_message_1": "თქვენ გაქვთ უფასო მიწოდება!",
+      "free_shipping_message_2": "მხოლოდ",
+      "free_shipping_message_3": "დარჩა",
+      "free_shipping_message_4": "უფასო მიწოდებამდე",
+      "free_shipping_1": "უფასო",
+      "free_shipping_2": "მიმდინარე"
     }
   },
   "notify_form": {
     "general": {
-      "label": "Сообщите мне",
-      "title": "Оставьте свой адрес электронной почты, и мы сообщим, как только товар/вариант снова появится на складе.",
-      "placeholder": "Вставьте свой адрес электронной почты",
-      "submit": "Подписаться",
-      "success": "Спасибо! ",
-      "error": "Используйте действительный адрес электронной почты, например john@example.com."
+      "label": "შემატყობინე",
+      "title": "დატოვეთ ელფოსტა და შეგატყობინებთ, როცა პროდუქტი/ვარიანტი მარაგში დაბრუნდება",
+      "placeholder": "შეიყვანეთ ელფოსტა",
+      "submit": "გამოწერა",
+      "success": "გმადლობთ! მოთხოვნა მიღებულია და შეგატყობინებთ, როცა პროდუქტი ხელმისაწვდომი გახდება.",
+      "error": "გთხოვთ, გამოიყენოთ სწორი ელფოსტის მისამართი."
     }
   },
   "ask_an_expert": {
     "general": {
-      "text": "Спросите эксперта",
-      "name": "Ваше имя",
-      "mail": "Ваша почта",
-      "phone": "Ваш телефон",
-      "message": "Чем я могу вам помочь сегодня?",
-      "submit": "Отправить вопрос",
-      "success": "Спасибо. ",
-      "button": "Нажмите, чтобы просмотреть форму запроса эксперта"
+      "text": "ექსპერტის კითხვა",
+      "name": "თქვენი სახელი",
+      "mail": "თქვენი ელფოსტა",
+      "phone": "თქვენი ტელეფონი",
+      "message": "რაში შეგვიძლია დაგეხმაროთ?",
+      "submit": "კითხვის გაგზავნა",
+      "success": "გმადლობთ. თქვენი შეტყობინება მიღებულია და მალე გიპასუხებთ.",
+      "button": "ექსპერტის ფორმის გახსნა"
     }
   },
   "countdown": {
     "general": {
-      "text": "Предложения ограничены по времени и заканчиваются через:",
-      "day": "Д",
-      "hour": "ЧАС",
-      "min": "М",
-      "sec": "С",
-      "d": "д",
-      "h": "час",
-      "m": "м",
-      "s": "с",
-      "day_2": "Дни",
-      "hour_2": "Часы",
-      "min_2": "Мин.",
-      "sec_2": "Секунды",
-      "days": "Дни",
-      "hours": "Часы",
-      "mins": "Мин.",
-      "secs": "Секунды"
+      "text": "Limited-time offers, end in:",
+      "day": "D",
+      "hour": "H",
+      "min": "M",
+      "sec": "S",
+      "d": "d",
+      "h": "h",
+      "m": "m",
+      "s": "s",
+      "day_2": "Days",
+      "hour_2": "Hours",
+      "min_2": "Mins",
+      "sec_2": "Secs",
+      "days": "Days",
+      "hours": "Hours",
+      "mins": "Mins",
+      "secs": "Secs"
     }
   },
   "customer_viewing": {
     "general": {
-      "text": "{{ number }} клиенты просматривают этот товар"
+      "text": "{{ number }} customers are viewing this product"
     }
   },
   "size_chart": {
     "general": {
-      "title": "Таблица размеров",
-      "text": "Руководство по размерам"
+      "title": "Size chart",
+      "text": "Size guide"
     }
   },
   "compare_color": {
     "general": {
-      "title": "Сравнить цвета",
-      "text": "Нажмите на цвет/узор, чтобы сравнить, нажмите и перетащите изображения, чтобы изменить их порядок."
+      "title": "Compare color",
+      "text": "Click on color/pattern to compare, click and drag images to reorder"
     }
   },
   "lookbook": {
-    "view_all": "Посмотреть весь образ",
-    "shop_look": "Купить образ"
+    "view_all": "View entire look",
+    "shop_look": "Shop the look"
   },
   "bulk_editor_page": {
     "general": {
-      "all_collection": "Весь продукт",
-      "select_collection": "Выберите категорию",
-      "submit": "Отправить редактор",
-      "edit_metafields": "Редактировать метаполе в товарах."
+      "all_collection": "All product",
+      "select_collection": "Choose category",
+      "submit": "Submit editor",
+      "edit_metafields": "Edit metafield in products."
     }
   },
   "find_a_store": {
-    "no_stores": "Извините, сейчас мы работаем над презентацией нашего магазина! "
+    "no_stores": "Sorry, we are working on our store presentation right now! Please come back later..."
   },
   "recipient": {
     "form": {
-      "checkbox": "Я хочу отправить это в подарок",
-      "email_label": "Адрес электронной почты получателя",
-      "email_label_optional": "Адрес электронной почты получателя (необязательно)",
-      "email": "Электронная почта",
-      "name_label": "Имя получателя (необязательно)",
-      "name": "Имя",
-      "message_label": "Сообщение (необязательно)",
-      "message": "Сообщение",
-      "max_characters": "{{ max_chars }} персонажи макс",
-      "send_on": "ГГГГ-ММ-ДД",
-      "send_on_label": "Отправить (необязательно)"
+      "checkbox": "I want to send this as a gift",
+      "email_label": "Recipient email",
+      "email_label_optional": "Recipient email (optional)",
+      "email": "Email",
+      "name_label": "Recipient name (optional)",
+      "name": "Name",
+      "message_label": "Message (optional)",
+      "message": "Message",
+      "max_characters": "{{ max_chars }} characters max",
+      "send_on": "YYYY-MM-DD",
+      "send_on_label": "Send on (optional)"
     }
   },
   "popup": {
     "promotion": {
-      "copy": "Копировать",
-      "success_message_copy": "Скопировано"
+      "copy": "Copy",
+      "success_message_copy": "Copied"
     }
   },
   "cart": {
     "ajax_cart": {
-      "close": "Закрыть",
-      "cart": "Корзина"
+      "close": "დახურვა",
+      "cart": "კალათა"
     }
   },
   "collections": {
     "general": {
-      "no_matches": "Товары не найдены"
+      "no_matches": "პროდუქტები ვერ მოიძებნა"
     }
   },
   "mm_home": {
     "hero": {
-      "eyebrow": "Для тебя и твоего маленького чуда",
-      "heading": "Заботливый уход для тебя и твоего ребёнка",
-      "text": "Открой для себя отборные средства ухода и гигиены для детей и мам — из Германии в Грузию.",
-      "button_kids": "Для детей",
-      "button_mamas": "Для мам",
-      "image_alt": "Мама с малышом и младенцем при мягком дневном свете"
+      "eyebrow": "შენთვის და შენი პატარა სასწაულისთვის",
+      "heading": "ზრუნვა შენზე და შენს პატარაზე",
+      "text": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები.",
+      "button_kids": "ბავშვებისთვის",
+      "button_mamas": "დედებისთვის",
+      "image_alt": "დედა პატარასთან და ჩვილთან რბილ დღის სინათლეში"
     },
     "categories": {
-      "heading": "Категории",
-      "kids_label": "Для детей",
-      "kids_desc": "Уход и гигиена для малышей",
-      "mamas_label": "Для мам",
-      "mamas_desc": "Уход для мам"
+      "heading": "კატეგორიები",
+      "kids_label": "ბავშვებისთვის",
+      "kids_desc": "მოვლა და ჰიგიენა პატარებისთვის",
+      "mamas_label": "დედებისთვის",
+      "mamas_desc": "მოვლა დედებისთვის"
     },
     "info": {
-      "heading": "Информация",
-      "import": "Привезено из Германии",
-      "audience": "Для детей и мам",
-      "order": "Простой онлайн-заказ"
+      "heading": "ინფორმაცია",
+      "import": "გერმანიიდან ჩამოტანილი",
+      "audience": "ბავშვებისთვის და დედებისთვის",
+      "order": "მარტივი ონლაინ შეკვეთა"
     },
     "products": {
-      "heading": "Избранные товары",
-      "view_all": "Смотреть все товары"
+      "heading": "შერჩეული პროდუქტები",
+      "view_all": "ყველა პროდუქტის ნახვა"
     },
     "needs": {
-      "heading": "Покупайте по потребностям",
-      "skin": "Уход за кожей",
-      "bath": "Купание и гигиена",
-      "face": "Уход за лицом",
-      "body": "Уход за телом"
+      "heading": "შეიძინე საჭიროების მიხედვით",
+      "skin": "კანის მოვლა",
+      "bath": "აბაზანა და ჰიგიენა",
+      "face": "სახის მოვლა",
+      "body": "სხეულის მოვლა"
     },
     "about": {
-      "heading": "Из Германии — для вас",
-      "text": "MOTHER & ME объединяет средства ухода и гигиены для детей и мам, привезённые из Германии.",
-      "link": "О нас"
+      "heading": "გერმანიიდან — შენთვის",
+      "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
+      "link": "ჩვენს შესახებ"
     },
     "brands": {
-      "heading": "Бренды в нашем ассортименте",
-      "note": "Указанные бренды представлены в ассортименте и не означают официального партнёрства."
+      "heading": "ბრენდები ჩვენს ასორტიმენტში",
+      "note": "ნაჩვენები ბრენდები არის ასორტიმენტში წარმოდგენილი სახელები და არ ნიშნავს ოფიციალურ პარტნიორობას."
     },
     "faq": {
-      "heading": "Частые вопросы",
-      "q_order": "Как сделать заказ?",
-      "a_order": "Выберите товары, добавьте их в корзину и оформите заказ онлайн. Цены указаны в лари (₾). Заказ подтверждается после оплаты.",
-      "q_shipping": "Сколько стоит доставка?",
-      "a_shipping": "Доставка по Грузии: 8 ₾. Самовывоз в Тбилиси бесплатный. Заказы обрабатываются в рабочие дни.",
-      "q_payment": "Как проходит оплата?",
-      "a_payment": "Заказ подтверждается после оплаты. Цены отображаются в лари (₾).",
-      "q_returns": "Можно ли вернуть товар?",
-      "a_returns": "Если товар повреждён или неверный, свяжитесь с нами в течение 7 дней после получения заказа. Открытые средства гигиены возврату не подлежат.",
-      "q_origin": "Откуда товары?",
-      "a_origin": "MOTHER & ME предлагает средства ухода и гигиены для детей и мам, привезённые из Германии."
+      "heading": "ხშირად დასმული კითხვები",
+      "q_order": "როგორ ხდება შეკვეთა?",
+      "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ.",
+      "q_shipping": "რა ღირს მიწოდება?",
+      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში.",
+      "q_payment": "როგორ მუშაობს გადახდა?",
+      "a_payment": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾).",
+      "q_returns": "შეიძლება პროდუქტის დაბრუნება?",
+      "a_returns": "თუ პროდუქტი დაზიანებულია ან არასწორია, დაგვიკავშირდით 7 დღის განმავლობაში შეკვეთის მიღებიდან. გახსნილი ჰიგიენური პროდუქტები დაბრუნებას არ ექვემდებარება.",
+      "q_origin": "საიდან მოდის პროდუქტები?",
+      "a_origin": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
     }
   }
 }

@@ -85,8 +85,8 @@
   width: auto;
   max-width: min(200px, 72vw);
   height: auto;
-  /* Dark logo asset → white on brand green */
-  filter: brightness(0) invert(1);
+  /* Light footer SVG / light uploaded mark — no global image filter */
+  filter: none;
 }
 
 @media screen and (min-width: 900px) {

@@ -19,7 +19,6 @@
   --mm-hero-eyebrow: #214d43;
   --mm-hero-heading-size: clamp(1.875rem, 1.55rem + 1.4vw, 2.25rem); /* 30–36px */
   --mm-hero-text-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16–18px */
-  --mm-hero-text-max: 34ch;
   --mm-hero-radius: 20px;
   --mm-hero-pad-y: clamp(2.5rem, 2rem + 2vw, 4rem);
   --mm-hero-gutter: var(--mm-page-gutter, 16px);
@@ -95,7 +94,8 @@
 .mm-hero__content {
   min-width: 0;
   width: 100%;
-  max-width: min(100%, 28rem);
+  /* Desktop text column ~440–500px; fill grid cell without extra ch-caps */
+  max-width: min(100%, 500px);
 }
 
 .mm-hero__eyebrow {
@@ -129,7 +129,7 @@ html[lang='ka'] .mm-hero__heading {
 
 .mm-hero__text {
   margin: 0 0 var(--mm-space-5, 24px);
-  max-width: var(--mm-hero-text-max);
+  max-width: none;
   color: var(--mm-hero-text);
   font-family: var(--mm-font-sans, system-ui, sans-serif);
   font-size: var(--mm-hero-text-size);
@@ -142,7 +142,6 @@ html[lang='ka'] .mm-hero__heading {
 :lang(ka) .mm-hero__text,
 html[lang='ka'] .mm-hero__text {
   line-height: 1.7;
-  max-width: 36ch;
 }
 
 .mm-hero__inner--text-only .mm-hero__text {

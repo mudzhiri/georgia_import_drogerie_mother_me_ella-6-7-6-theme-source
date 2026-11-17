@@ -11,6 +11,42 @@
   const sortSelects = root.querySelectorAll('[data-mm-filters-sort]');
 
   let lastFocus = null;
+  let focusTrapHandler = null;
+
+  const getFocusable = () => {
+    if (!panel) return [];
+    return Array.from(
+      panel.querySelectorAll(
+        'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
+    ).filter((el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true');
+  };
+
+  const releaseFocusTrap = () => {
+    if (focusTrapHandler) {
+      document.removeEventListener('keydown', focusTrapHandler);
+      focusTrapHandler = null;
+    }
+  };
+
+  const trapFocus = () => {
+    releaseFocusTrap();
+    focusTrapHandler = (event) => {
+      if (event.key !== 'Tab' || !root.classList.contains('is-panel-open')) return;
+      const focusable = getFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    document.addEventListener('keydown', focusTrapHandler);
+  };
 
   const setOpen = (open) => {
     root.classList.toggle('is-panel-open', open);
@@ -24,8 +60,12 @@
       lastFocus = document.activeElement;
       const closeBtn = root.querySelector('.mm-filters__panel-close');
       if (closeBtn) closeBtn.focus();
-    } else if (lastFocus && typeof lastFocus.focus === 'function') {
-      lastFocus.focus();
+      trapFocus();
+    } else {
+      releaseFocusTrap();
+      if (lastFocus && typeof lastFocus.focus === 'function') {
+        lastFocus.focus();
+      }
     }
   };
 

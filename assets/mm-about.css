@@ -46,11 +46,18 @@
     order: 0;
   }
 
-  /* No empty media column without a photo */
+  /* No empty media column without a photo — compact copy ~680px */
   .mm-about__layout--text-only {
-    grid-template-columns: minmax(0, 36rem);
+    max-width: 680px;
+    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
     justify-content: start;
   }
+}
+
+/* Mobile also stays compact; never reserve a second empty column */
+.mm-about__layout--text-only {
+  max-width: 680px;
 }
 
 .mm-about__heading {
