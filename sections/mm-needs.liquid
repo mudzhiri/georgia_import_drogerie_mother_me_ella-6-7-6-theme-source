@@ -31,9 +31,19 @@
           {%- assign need_collection = block.settings.collection -%}
           {%- if need_collection != blank and need_collection.products_count > 0 -%}
             {%- liquid
-              assign label = block.settings.label
-              if label == blank
-                assign label = need_collection.title
+              assign icon = block.settings.icon | default: 'care'
+              case icon
+                when 'bath'
+                  assign label = 'mm_home.needs.bath' | t
+                when 'face'
+                  assign label = 'mm_home.needs.face' | t
+                when 'body'
+                  assign label = 'mm_home.needs.body' | t
+                else
+                  assign label = 'mm_home.needs.skin' | t
+              endcase
+              if block.settings.label != blank
+                assign label = block.settings.label
               endif
               assign image = block.settings.image
               if image == blank and need_collection.featured_image != blank
@@ -45,7 +55,6 @@
               if image != blank
                 assign has_image = true
               endif
-              assign icon = block.settings.icon | default: 'care'
             -%}
             <li class="mm-needs__item" data-mm-reveal-item {{ block.shopify_attributes }}>
               <a class="mm-needs__card{% if has_image %} mm-needs__card--with-image{% endif %}" href="{{ need_collection.url }}">
@@ -113,8 +122,8 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": "შეიძინე საჭიროების მიხედვით"
+      "label": "Heading override (optional)",
+      "info": "Leave blank for locale text (KA/EN/DE/RU)."
     }
   ],
   "blocks": [
@@ -129,21 +138,9 @@
           "info": "Required. Hidden when empty."
         },
         {
-          "type": "text",
-          "id": "label",
-          "label": "Label",
-          "info": "Optional. Defaults to the collection title."
-        },
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image",
-          "info": "Optional. Falls back to the collection image, otherwise an outline icon."
-        },
-        {
           "type": "select",
           "id": "icon",
-          "label": "Fallback icon",
+          "label": "Need (icon + locale label)",
           "default": "care",
           "options": [
             { "value": "care", "label": "Skin care" },
@@ -151,6 +148,18 @@
             { "value": "face", "label": "Face" },
             { "value": "body", "label": "Body" }
           ]
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label override (optional)",
+          "info": "Leave blank for translated locale text."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Falls back to the collection image, otherwise an outline icon."
         }
       ]
     }

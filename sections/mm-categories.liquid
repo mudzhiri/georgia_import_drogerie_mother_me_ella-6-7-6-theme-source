@@ -19,15 +19,28 @@
     <div class="mm-categories__grid">
       {%- for block in section.blocks -%}
         {%- liquid
-          assign label = block.settings.label
-          assign description = block.settings.description
-          assign link = block.settings.link
-          assign image = block.settings.image
           assign tone = block.settings.tone | default: 'kids'
           if tone != 'kids' and tone != 'mamas'
             assign tone = 'kids'
           endif
 
+          if tone == 'mamas'
+            assign label = 'mm_home.categories.mamas_label' | t
+            assign description = 'mm_home.categories.mamas_desc' | t
+          else
+            assign label = 'mm_home.categories.kids_label' | t
+            assign description = 'mm_home.categories.kids_desc' | t
+          endif
+
+          if block.settings.label != blank
+            assign label = block.settings.label
+          endif
+          if block.settings.description != blank
+            assign description = block.settings.description
+          endif
+
+          assign link = block.settings.link
+          assign image = block.settings.image
           assign tile_collection = block.settings.collection
           if tile_collection != blank
             if link == blank
@@ -37,6 +50,15 @@
               assign image = tile_collection.featured_image
             elsif image == blank and tile_collection.image != blank
               assign image = tile_collection.image
+            endif
+            if image == blank
+              for product in tile_collection.products limit: 1
+                if product.featured_media != blank
+                  assign image = product.featured_media.preview_image
+                elsif product.featured_image != blank
+                  assign image = product.featured_image
+                endif
+              endfor
             endif
           endif
 
@@ -107,8 +129,8 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Section heading (screen reader)",
-      "default": "კატეგორიები"
+      "label": "Section heading override (optional)",
+      "info": "Leave blank to use locale file (KA/EN/DE/RU via theme locales / Translate & Adapt)."
     }
   ],
   "blocks": [
@@ -117,16 +139,26 @@
       "name": "Category tile",
       "settings": [
         {
+          "type": "select",
+          "id": "tone",
+          "label": "Tile (drives locale text + color)",
+          "default": "kids",
+          "options": [
+            { "value": "kids", "label": "Kids / sage" },
+            { "value": "mamas", "label": "Mamas / apricot" }
+          ]
+        },
+        {
           "type": "text",
           "id": "label",
-          "label": "Title",
-          "default": "Category"
+          "label": "Title override (optional)",
+          "info": "Leave blank for translated locale text."
         },
         {
           "type": "textarea",
           "id": "description",
-          "label": "Short description",
-          "info": "Optional. Keep to one short line."
+          "label": "Description override (optional)",
+          "info": "Leave blank for translated locale text."
         },
         {
           "type": "url",
@@ -137,23 +169,13 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Optional. Used for image fallback and as link when no URL is set."
-        },
-        {
-          "type": "select",
-          "id": "tone",
-          "label": "Tile color",
-          "default": "kids",
-          "options": [
-            { "value": "kids", "label": "Kids (sage)" },
-            { "value": "mamas", "label": "Mamas (apricot)" }
-          ]
+          "info": "Optional. Image fallback + link when URL is empty."
         },
         {
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Optional. Prefer shop media. Without an image a compact text tile is shown. Focal point from the media editor is respected."
+          "info": "Optional. Falls back to collection / first product image."
         }
       ]
     }
@@ -162,22 +184,8 @@
     {
       "name": "MM Categories",
       "blocks": [
-        {
-          "type": "tile",
-          "settings": {
-            "label": "ბავშვებისთვის",
-            "description": "მოვლა და ჰიგიენა პატარებისთვის",
-            "tone": "kids"
-          }
-        },
-        {
-          "type": "tile",
-          "settings": {
-            "label": "დედებისთვის",
-            "description": "მოვლა დედებისთვის",
-            "tone": "mamas"
-          }
-        }
+        { "type": "tile", "settings": { "tone": "kids" } },
+        { "type": "tile", "settings": { "tone": "mamas" } }
       ]
     }
   ]

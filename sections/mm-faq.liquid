@@ -6,15 +6,77 @@
   if heading == blank
     assign heading = 'mm_home.faq.heading' | t
   endif
-  assign visible = 0
-  for block in section.blocks
-    if block.settings.question != blank and block.settings.answer != blank
-      assign visible = visible | plus: 1
-    endif
-  endfor
 -%}
 
-{%- if visible > 0 -%}
+{%- capture mm_faq_items -%}
+  {%- for block in section.blocks -%}
+    {%- liquid
+      assign topic = block.settings.topic | default: 'order'
+      case topic
+        when 'shipping'
+          assign question = 'mm_home.faq.q_shipping' | t
+          assign answer = 'mm_home.faq.a_shipping' | t
+        when 'payment'
+          assign question = 'mm_home.faq.q_payment' | t
+          assign answer = 'mm_home.faq.a_payment' | t
+        when 'returns'
+          assign question = 'mm_home.faq.q_returns' | t
+          assign answer = 'mm_home.faq.a_returns' | t
+        when 'origin'
+          assign question = 'mm_home.faq.q_origin' | t
+          assign answer = 'mm_home.faq.a_origin' | t
+        else
+          assign question = 'mm_home.faq.q_order' | t
+          assign answer = 'mm_home.faq.a_order' | t
+      endcase
+      if block.settings.question != blank
+        assign question = block.settings.question
+      endif
+      if block.settings.answer != blank
+        assign answer = block.settings.answer
+      endif
+    -%}
+    {%- if question != blank and answer != blank -%}
+      {%- assign item_id = 'mm-faq-item-' | append: section.id | append: '-' | append: block.id -%}
+      <div class="mm-faq__item" data-mm-reveal-item data-mm-faq-item {{ block.shopify_attributes }}>
+        <h3 class="mm-faq__question-wrap">
+          <button
+            type="button"
+            class="mm-faq__question"
+            id="{{ item_id }}-button"
+            aria-expanded="false"
+            aria-controls="{{ item_id }}-panel"
+            data-mm-faq-trigger
+          >
+            <span class="mm-faq__question-text">{{ question | escape }}</span>
+            <span class="mm-faq__icon" aria-hidden="true">
+              <svg class="mm-faq__icon-plus" viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
+                <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              </svg>
+              <svg class="mm-faq__icon-minus" viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
+                <path d="M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+              </svg>
+            </span>
+          </button>
+        </h3>
+        <div
+          class="mm-faq__panel"
+          id="{{ item_id }}-panel"
+          role="region"
+          aria-labelledby="{{ item_id }}-button"
+          hidden
+          data-mm-faq-panel
+        >
+          <div class="mm-faq__answer">
+            <p>{{ answer | escape | newline_to_br }}</p>
+          </div>
+        </div>
+      </div>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endcapture -%}
+
+{%- if mm_faq_items != blank -%}
   <section
     id="mm-faq-{{ section.id }}"
     class="mm-faq mm-reveal"
@@ -26,47 +88,8 @@
           {{ heading | escape }}
         </h2>
       {%- endif -%}
-
       <div class="mm-faq__list">
-        {%- for block in section.blocks -%}
-          {%- if block.settings.question != blank and block.settings.answer != blank -%}
-            {%- assign item_id = 'mm-faq-item-' | append: section.id | append: '-' | append: block.id -%}
-            <div class="mm-faq__item" data-mm-reveal-item data-mm-faq-item {{ block.shopify_attributes }}>
-              <h3 class="mm-faq__question-wrap">
-                <button
-                  type="button"
-                  class="mm-faq__question"
-                  id="{{ item_id }}-button"
-                  aria-expanded="false"
-                  aria-controls="{{ item_id }}-panel"
-                  data-mm-faq-trigger
-                >
-                  <span class="mm-faq__question-text">{{ block.settings.question | escape }}</span>
-                  <span class="mm-faq__icon" aria-hidden="true">
-                    <svg class="mm-faq__icon-plus" viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
-                      <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-                    </svg>
-                    <svg class="mm-faq__icon-minus" viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
-                      <path d="M5 12h14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-                    </svg>
-                  </span>
-                </button>
-              </h3>
-              <div
-                class="mm-faq__panel"
-                id="{{ item_id }}-panel"
-                role="region"
-                aria-labelledby="{{ item_id }}-button"
-                hidden
-                data-mm-faq-panel
-              >
-                <div class="mm-faq__answer">
-                  <p>{{ block.settings.answer | escape | newline_to_br }}</p>
-                </div>
-              </div>
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+        {{ mm_faq_items }}
       </div>
     </div>
   </section>
@@ -82,8 +105,8 @@
     {
       "type": "text",
       "id": "heading",
-      "label": "Heading",
-      "default": "ხშირად დასმული კითხვები"
+      "label": "Heading override (optional)",
+      "info": "Leave blank for locale text (KA/EN/DE/RU)."
     }
   ],
   "blocks": [
@@ -92,15 +115,29 @@
       "name": "Question",
       "settings": [
         {
+          "type": "select",
+          "id": "topic",
+          "label": "Topic (locale text)",
+          "default": "order",
+          "options": [
+            { "value": "order", "label": "Order" },
+            { "value": "shipping", "label": "Delivery" },
+            { "value": "payment", "label": "Payment" },
+            { "value": "returns", "label": "Returns" },
+            { "value": "origin", "label": "Product origin" }
+          ]
+        },
+        {
           "type": "text",
           "id": "question",
-          "label": "Question"
+          "label": "Question override (optional)",
+          "info": "Leave blank for translated locale text."
         },
         {
           "type": "textarea",
           "id": "answer",
-          "label": "Answer",
-          "info": "Only confirmed shop facts. Incomplete pairs stay hidden."
+          "label": "Answer override (optional)",
+          "info": "Leave blank for translated locale text. Only confirmed shop facts."
         }
       ]
     }
@@ -109,41 +146,11 @@
     {
       "name": "MM FAQ",
       "blocks": [
-        {
-          "type": "item",
-          "settings": {
-            "question": "როგორ ხდება შეკვეთა?",
-            "answer": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "question": "რა ღირს მიწოდება?",
-            "answer": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "question": "როგორ მუშაობს გადახდა?",
-            "answer": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾)."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "question": "შეიძლება პროდუქტის დაბრუნება?",
-            "answer": "თუ პროდუქტი დაზიანებულია ან არასწორია, დაგვიკავშირდით 7 დღის განმავლობაში შეკვეთის მიღებიდან. გახსნილი ჰიგიენური პროდუქტები დაბრუნებას არ ექვემდებარება."
-          }
-        },
-        {
-          "type": "item",
-          "settings": {
-            "question": "საიდან მოდის პროდუქტები?",
-            "answer": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
-          }
-        }
+        { "type": "item", "settings": { "topic": "order" } },
+        { "type": "item", "settings": { "topic": "shipping" } },
+        { "type": "item", "settings": { "topic": "payment" } },
+        { "type": "item", "settings": { "topic": "returns" } },
+        { "type": "item", "settings": { "topic": "origin" } }
       ]
     }
   ]

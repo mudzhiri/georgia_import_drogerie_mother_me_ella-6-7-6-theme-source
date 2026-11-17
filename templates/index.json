@@ -26,21 +26,21 @@
         "tile_kids": {
           "type": "tile",
           "settings": {
-            "label": "ბავშვებისთვის",
-            "description": "მოვლა და ჰიგიენა პატარებისთვის",
+            "tone": "kids",
+            "label": "",
+            "description": "",
             "link": "shopify://collections/ბავშვი",
-            "collection": "ბავშვი",
-            "tone": "kids"
+            "collection": "ბავშვი"
           }
         },
         "tile_mamas": {
           "type": "tile",
           "settings": {
-            "label": "დედებისთვის",
-            "description": "მოვლა დედებისთვის",
+            "tone": "mamas",
+            "label": "",
+            "description": "",
             "link": "shopify://collections/დედა",
-            "collection": "დედა",
-            "tone": "mamas"
+            "collection": "დედა"
           }
         }
       },
@@ -49,7 +49,7 @@
         "tile_mamas"
       ],
       "settings": {
-        "heading": "კატეგორიები"
+        "heading": ""
       }
     },
     "mm_info_strip": {
@@ -59,21 +59,21 @@
           "type": "point",
           "settings": {
             "icon": "package",
-            "text": "გერმანიიდან ჩამოტანილი"
+            "text": ""
           }
         },
         "point_audience": {
           "type": "point",
           "settings": {
             "icon": "heart",
-            "text": "ბავშვებისთვის და დედებისთვის"
+            "text": ""
           }
         },
         "point_order": {
           "type": "point",
           "settings": {
             "icon": "bag",
-            "text": "მარტივი ონლაინ შეკვეთა"
+            "text": ""
           }
         }
       },
@@ -83,16 +83,16 @@
         "point_order"
       ],
       "settings": {
-        "heading": "ინფორმაცია"
+        "heading": ""
       }
     },
     "mm_products": {
       "type": "mm-products",
       "settings": {
-        "heading": "შერჩეული პროდუქტები",
+        "heading": "",
         "collection": "all",
         "products_to_show": 8,
-        "view_all_label": "ყველა პროდუქტის ნახვა"
+        "view_all_label": ""
       }
     },
     "mm_needs": {
@@ -102,7 +102,7 @@
           "type": "need",
           "settings": {
             "collection": "ბავშვის-კანის-მოვლა",
-            "label": "კანის მოვლა",
+            "label": "",
             "icon": "care"
           }
         },
@@ -110,7 +110,7 @@
           "type": "need",
           "settings": {
             "collection": "აბაზანა-და-რეცხვა",
-            "label": "აბაზანა და ჰიგიენა",
+            "label": "",
             "icon": "bath"
           }
         },
@@ -118,7 +118,7 @@
           "type": "need",
           "settings": {
             "collection": "სახის-მოვლა",
-            "label": "სახის მოვლა",
+            "label": "",
             "icon": "face"
           }
         },
@@ -126,7 +126,7 @@
           "type": "need",
           "settings": {
             "collection": "სხეულის-მოვლა",
-            "label": "სხეულის მოვლა",
+            "label": "",
             "icon": "body"
           }
         }
@@ -138,15 +138,15 @@
         "need_body"
       ],
       "settings": {
-        "heading": "შეიძინე საჭიროების მიხედვით"
+        "heading": ""
       }
     },
     "mm_about": {
       "type": "mm-about",
       "settings": {
-        "heading": "გერმანიიდან — შენთვის",
-        "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
-        "button_label": "ჩვენს შესახებ",
+        "heading": "",
+        "text": "",
+        "button_label": "",
         "button_link": "shopify://pages/about",
         "image_alt": ""
       }
@@ -200,7 +200,7 @@
         "brand_cd"
       ],
       "settings": {
-        "heading": "ბრენდები ჩვენს ასორტიმენტში"
+        "heading": ""
       }
     },
     "mm_faq": {
@@ -209,36 +209,41 @@
         "faq_order": {
           "type": "item",
           "settings": {
-            "question": "როგორ ხდება შეკვეთა?",
-            "answer": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ."
+            "topic": "order",
+            "question": "",
+            "answer": ""
           }
         },
         "faq_shipping": {
           "type": "item",
           "settings": {
-            "question": "რა ღირს მიწოდება?",
-            "answer": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში."
+            "topic": "shipping",
+            "question": "",
+            "answer": ""
           }
         },
         "faq_payment": {
           "type": "item",
           "settings": {
-            "question": "როგორ მუშაობს გადახდა?",
-            "answer": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾)."
+            "topic": "payment",
+            "question": "",
+            "answer": ""
           }
         },
         "faq_returns": {
           "type": "item",
           "settings": {
-            "question": "შეიძლება პროდუქტის დაბრუნება?",
-            "answer": "თუ პროდუქტი დაზიანებულია ან არასწორია, დაგვიკავშირდით 7 დღის განმავლობაში შეკვეთის მიღებიდან. გახსნილი ჰიგიენური პროდუქტები დაბრუნებას არ ექვემდებარება."
+            "topic": "returns",
+            "question": "",
+            "answer": ""
           }
         },
         "faq_origin": {
           "type": "item",
           "settings": {
-            "question": "საიდან მოდის პროდუქტები?",
-            "answer": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
+            "topic": "origin",
+            "question": "",
+            "answer": ""
           }
         }
       },
@@ -250,7 +255,7 @@
         "faq_origin"
       ],
       "settings": {
-        "heading": "ხშირად დასმული კითხვები"
+        "heading": ""
       }
     }
   },

@@ -964,17 +964,28 @@
   },
   "mm_home": {
     "categories": {
-      "heading": "Kategorien"
+      "heading": "Kategorien",
+      "kids_label": "Für Kinder",
+      "kids_desc": "Pflege und Hygiene für die Kleinen",
+      "mamas_label": "Für Mütter",
+      "mamas_desc": "Pflege für Mütter"
     },
     "info": {
-      "heading": "Information"
+      "heading": "Information",
+      "import": "Aus Deutschland importiert",
+      "audience": "Für Kinder und Mütter",
+      "order": "Einfache Online-Bestellung"
     },
     "products": {
       "heading": "Ausgewählte Produkte",
       "view_all": "Alle Produkte ansehen"
     },
     "needs": {
-      "heading": "Nach Bedürfnissen einkaufen"
+      "heading": "Nach Bedürfnissen einkaufen",
+      "skin": "Hautpflege",
+      "bath": "Baden und Hygiene",
+      "face": "Gesichtspflege",
+      "body": "Körperpflege"
     },
     "about": {
       "heading": "Aus Deutschland — für dich",
@@ -986,7 +997,17 @@
       "note": "Gezeigte Markennamen stammen aus dem Sortiment und bedeuten keine offizielle Partnerschaft."
     },
     "faq": {
-      "heading": "Häufig gestellte Fragen"
+      "heading": "Häufig gestellte Fragen",
+      "q_order": "Wie bestelle ich?",
+      "a_order": "Wähle Produkte aus, lege sie in den Warenkorb und schließe die Bestellung online ab. Preise sind in Lari (₾) angegeben. Die Bestellung wird nach der Zahlung bestätigt.",
+      "q_shipping": "Was kostet die Lieferung?",
+      "a_shipping": "Lieferung innerhalb Georgiens: 8 ₾. Abholung in Tiflis ist kostenlos. Bestellungen werden an Werktagen bearbeitet.",
+      "q_payment": "Wie funktioniert die Zahlung?",
+      "a_payment": "Die Bestellung wird nach der Zahlung bestätigt. Preise werden in Lari (₾) angezeigt.",
+      "q_returns": "Kann ich ein Produkt zurückgeben?",
+      "a_returns": "Wenn ein Produkt beschädigt oder falsch ist, kontaktiere uns innerhalb von 7 Tagen nach Erhalt. Geöffnete Hygieneprodukte können nicht zurückgegeben werden.",
+      "q_origin": "Woher kommen die Produkte?",
+      "a_origin": "MOTHER & ME bietet Pflege- und Hygieneprodukte für Kinder und Mütter, importiert aus Deutschland."
     }
   }
 }

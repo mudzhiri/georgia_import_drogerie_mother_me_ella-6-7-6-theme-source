@@ -964,17 +964,28 @@
   },
   "mm_home": {
     "categories": {
-      "heading": "Categories"
+      "heading": "Categories",
+      "kids_label": "For kids",
+      "kids_desc": "Care and hygiene for little ones",
+      "mamas_label": "For mothers",
+      "mamas_desc": "Care for mothers"
     },
     "info": {
-      "heading": "Information"
+      "heading": "Information",
+      "import": "Imported from Germany",
+      "audience": "For children and mothers",
+      "order": "Simple online ordering"
     },
     "products": {
       "heading": "Selected products",
       "view_all": "View all products"
     },
     "needs": {
-      "heading": "Shop by need"
+      "heading": "Shop by need",
+      "skin": "Skin care",
+      "bath": "Bath and hygiene",
+      "face": "Face care",
+      "body": "Body care"
     },
     "about": {
       "heading": "From Germany — for you",
@@ -986,7 +997,17 @@
       "note": "Brand names shown appear in our assortment and do not imply an official partnership."
     },
     "faq": {
-      "heading": "Frequently asked questions"
+      "heading": "Frequently asked questions",
+      "q_order": "How do I place an order?",
+      "a_order": "Choose products, add them to your cart, and complete your order online. Prices are shown in lari (₾). The order is confirmed after payment.",
+      "q_shipping": "How much does delivery cost?",
+      "a_shipping": "Delivery within Georgia: 8 ₾. Pickup in Tbilisi is free. Orders are processed on business days.",
+      "q_payment": "How does payment work?",
+      "a_payment": "The order is confirmed after payment. Prices are shown in lari (₾).",
+      "q_returns": "Can I return a product?",
+      "a_returns": "If a product is damaged or incorrect, contact us within 7 days of receiving the order. Opened hygiene products cannot be returned.",
+      "q_origin": "Where do the products come from?",
+      "a_origin": "MOTHER & ME offers care and hygiene products for children and mothers, imported from Germany."
     }
   }
 }
