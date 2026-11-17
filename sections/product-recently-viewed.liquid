@@ -400,17 +400,12 @@
     <script type="text/javascript">
         (function () {
             var sectionEl = document.getElementById('halo-recently-viewed-block-{{ section.id }}');
-            if (!sectionEl || !window.Shopify || !Shopify.Products) return;
-
-            try {
-                Shopify.Products.recordRecentlyViewed({
-                    howManyToStoreInMemory: 8
-                });
-            } catch (e) {}
+            if (!sectionEl) return;
 
             var limit = {{ limit }};
             var expireDay = {{ settings.recently_viewed_expire | default: 90 }};
             var currentHandle = sectionEl.getAttribute('data-current-handle') || '';
+            var started = false;
 
             function revealOrHide(hasItems) {
                 sectionEl.classList.remove('mm-pdp-reco--loading');
@@ -423,83 +418,96 @@
                 }
             }
 
-            var queue = [];
-            try {
-                if (typeof Shopify.Products.readHandles === 'function') {
-                    queue = Shopify.Products.readHandles();
-                } else {
-                    var raw = ($.cookie && $.cookie('shopify_recently_viewed')) || '';
-                    try { raw = raw || localStorage.getItem('shopify_recently_viewed') || ''; } catch (e2) {}
-                    queue = String(raw || '').split(/\s+/).filter(Boolean);
-                }
-            } catch (err) {
-                revealOrHide(false);
-                return;
-            }
-
-            queue = queue.filter(function (handle, index, arr) {
-                var normalized = decodeURIComponent(handle).split('?')[0].replace(/\/$/, '');
-                if (!normalized || normalized === currentHandle) return false;
-                return arr.findIndex(function (h) {
-                    return decodeURIComponent(h).split('?')[0].replace(/\/$/, '') === normalized;
-                }) === index;
-            });
-
-            if (!queue.length) {
-                revealOrHide(false);
-                return;
-            }
-
-            var started = false;
-            var observer = new IntersectionObserver(function (entries) {
-                if (!entries[0] || !entries[0].isIntersecting || started) return;
-                started = true;
-                observer.disconnect();
-                sectionEl.classList.add('mm-pdp-reco--loading', 'ajax-loaded');
-                sectionEl.classList.remove('mm-pdp-reco--empty');
-                sectionEl.removeAttribute('hidden');
-
-                var list = document.getElementById('recently-viewed-products-list-2');
-                if (list) {
-                    list.setAttribute('aria-busy', 'true');
-                    list.innerHTML = '';
-                    for (var i = 0; i < Math.min(limit, queue.length); i++) {
-                        var ph = document.createElement('div');
-                        ph.className = 'product';
-                        ph.innerHTML = '<div class="product-item product-item--loadingNoInfo" aria-hidden="true"><span class="visually-hidden">{{ 'accessibility.loading' | t }}</span></div>';
-                        list.appendChild(ph);
+            function startWhenReady(attempt) {
+                if (!window.Shopify || !Shopify.Products || typeof Shopify.Products.recordRecentlyViewed !== 'function') {
+                    if ((attempt || 0) > 120) {
+                        revealOrHide(false);
+                        return;
                     }
+                    window.setTimeout(function () { startWhenReady((attempt || 0) + 1); }, 50);
+                    return;
                 }
 
-                var timeoutId = window.setTimeout(function () {
-                    revealOrHide(list && list.querySelectorAll('.product-item:not(.product-item--loadingNoInfo)').length > 0);
-                }, 8000);
+                try {
+                    Shopify.Products.recordRecentlyViewed({ howManyToStoreInMemory: 8 });
+                } catch (e) {}
 
-                Shopify.Products.showRecentlyViewed({
-                    howManyToShow: Math.min(limit, queue.length),
-                    howManyToStoreInMemory: 8,
-                    wrapperId: 'recently-viewed-products-list-2',
-                    templateId: 'recently-viewed-product-block',
-                    layout: '{{ layout }}',
-                    swipe: {{ swipe }},
-                    media: 'square',
-                    excludeHandle: currentHandle,
-                    handles: queue,
-                    onComplete: function (count) {
-                        window.clearTimeout(timeoutId);
-                        if (list) list.setAttribute('aria-busy', 'false');
-                        revealOrHide(count > 0);
-                        try {
-                            var cookieValue = $.cookie('shopify_recently_viewed');
-                            if (cookieValue) {
-                                $.cookie('shopify_recently_viewed', cookieValue, { expires: expireDay, path: '/', domain: window.location.hostname });
-                            }
-                        } catch (e) {}
-                    }
+                var queue = [];
+                try {
+                    queue = typeof Shopify.Products.readHandles === 'function'
+                        ? Shopify.Products.readHandles()
+                        : [];
+                } catch (err) {
+                    revealOrHide(false);
+                    return;
+                }
+
+                queue = queue.filter(function (handle, index, arr) {
+                    var normalized = decodeURIComponent(handle).split('?')[0].replace(/\/$/, '');
+                    if (!normalized || normalized === currentHandle) return false;
+                    return arr.findIndex(function (h) {
+                        return decodeURIComponent(h).split('?')[0].replace(/\/$/, '') === normalized;
+                    }) === index;
                 });
-            }, { threshold: 0.15 });
 
-            observer.observe(sectionEl);
+                if (!queue.length) {
+                    revealOrHide(false);
+                    return;
+                }
+
+                var observer = new IntersectionObserver(function (entries) {
+                    if (!entries[0] || !entries[0].isIntersecting || started) return;
+                    started = true;
+                    observer.disconnect();
+                    sectionEl.classList.add('mm-pdp-reco--loading', 'ajax-loaded');
+                    sectionEl.classList.remove('mm-pdp-reco--empty');
+                    sectionEl.removeAttribute('hidden');
+
+                    var list = document.getElementById('recently-viewed-products-list-2');
+                    if (list) {
+                        list.setAttribute('aria-busy', 'true');
+                        list.innerHTML = '';
+                        for (var i = 0; i < Math.min(limit, queue.length); i++) {
+                            var ph = document.createElement('div');
+                            ph.className = 'product';
+                            ph.innerHTML = '<div class="product-item product-item--loadingNoInfo" aria-hidden="true"><span class="visually-hidden">{{ 'accessibility.loading' | t }}</span></div>';
+                            list.appendChild(ph);
+                        }
+                    }
+
+                    var timeoutId = window.setTimeout(function () {
+                        revealOrHide(list && list.querySelectorAll('.product-item:not(.product-item--loadingNoInfo)').length > 0);
+                    }, 8000);
+
+                    Shopify.Products.showRecentlyViewed({
+                        howManyToShow: Math.min(limit, queue.length),
+                        howManyToStoreInMemory: 8,
+                        wrapperId: 'recently-viewed-products-list-2',
+                        templateId: 'recently-viewed-product-block',
+                        layout: '{{ layout }}',
+                        swipe: {{ swipe }},
+                        media: 'square',
+                        excludeHandle: currentHandle,
+                        handles: queue,
+                        onComplete: function (count) {
+                            window.clearTimeout(timeoutId);
+                            if (list) list.setAttribute('aria-busy', 'false');
+                            revealOrHide(count > 0);
+                            try {
+                                var cookieValue = jQuery.cookie('shopify_recently_viewed');
+                                if (cookieValue) {
+                                    jQuery.cookie('shopify_recently_viewed', cookieValue, { expires: expireDay, path: '/', domain: window.location.hostname });
+                                }
+                            } catch (e) {}
+                        }
+                    });
+                }, { threshold: 0.15 });
+
+                observer.observe(sectionEl);
+            }
+
+            document.addEventListener('mm:recently-viewed-ready', function () { startWhenReady(0); }, { once: true });
+            startWhenReady(0);
         })();
     </script>
 {%- endif -%}
