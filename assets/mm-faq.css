@@ -114,8 +114,18 @@
   overflow: hidden;
 }
 
-.mm-faq__panel[hidden] {
+/* Only hide closed panels after JS enhances the accordion (no-JS: answers stay visible) */
+.mm-faq.is-faq-enhanced .mm-faq__panel[hidden] {
   display: none;
+}
+
+.mm-faq:not(.is-faq-enhanced) .mm-faq__icon-minus {
+  opacity: 1;
+  transform: none;
+}
+
+.mm-faq:not(.is-faq-enhanced) .mm-faq__icon-plus {
+  opacity: 0;
 }
 
 .mm-faq__answer {

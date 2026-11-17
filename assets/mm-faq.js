@@ -1,6 +1,6 @@
 /**
  * MOTHER & ME — accessible FAQ accordion (homepage).
- * Soft open/close without clipping; keyboard + aria-expanded.
+ * Without JS: all answers stay visible. With JS: accordion + keyboard.
  */
 (function () {
   'use strict';
@@ -26,9 +26,11 @@
       if (open) {
         panel.hidden = false;
         panel.style.height = '';
+        panel.style.opacity = '';
       } else {
         panel.hidden = true;
         panel.style.height = '';
+        panel.style.opacity = '';
       }
       return;
     }
@@ -66,9 +68,22 @@
     }
   }
 
-  function initRoot(root) {
+  function enhance(root) {
     if (!root || root.dataset.mmFaqReady === '1') return;
     root.dataset.mmFaqReady = '1';
+    root.classList.add('is-faq-enhanced');
+
+    // Collapse after enhance so no-JS users still see all answers in HTML/CSS.
+    Array.prototype.forEach.call(root.querySelectorAll('[data-mm-faq-item]'), function (item) {
+      var trigger = item.querySelector('[data-mm-faq-trigger]');
+      var panel = item.querySelector('[data-mm-faq-panel]');
+      if (!trigger || !panel) return;
+      trigger.setAttribute('aria-expanded', 'false');
+      panel.hidden = true;
+      panel.style.height = '';
+      panel.style.opacity = '';
+      panel.style.transition = '';
+    });
 
     root.addEventListener('click', function (event) {
       var trigger = event.target.closest('[data-mm-faq-trigger]');
@@ -92,7 +107,7 @@
   function initAll(scope) {
     var root = scope || document;
     if (!root.querySelectorAll) return;
-    Array.prototype.forEach.call(root.querySelectorAll(ROOT_SEL), initRoot);
+    Array.prototype.forEach.call(root.querySelectorAll(ROOT_SEL), enhance);
   }
 
   if (document.readyState === 'loading') {
@@ -104,6 +119,11 @@
   }
 
   document.addEventListener('shopify:section:load', function (event) {
-    initAll(event.target);
+    var target = event.target;
+    if (target && target.classList && target.classList.contains('mm-faq')) {
+      delete target.dataset.mmFaqReady;
+      target.classList.remove('is-faq-enhanced');
+    }
+    initAll(target || document);
   });
 })();
