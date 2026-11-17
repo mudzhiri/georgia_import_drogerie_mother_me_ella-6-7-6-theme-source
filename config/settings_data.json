@@ -127,6 +127,11 @@
     "portrait_height": "130",
     "show_image_loading": true,
     "show_compare": true,
+
+    "show_wishlist": false,
+    "show_wishlist_card": false,
+    "show_wishlist_card_mb": false,
+    "link_wishlist": "",
     "product_compare_type": "default",
     "show_quick_view": true,
     "product_quick_view_type": "icon",

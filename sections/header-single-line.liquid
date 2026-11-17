@@ -95,9 +95,11 @@
                                 </div>
                             {% endif %}
                         {%-  when 'wishlist' -%}
-                            {%- if settings.show_wishlist -%}
+                            {%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+{%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
+{%- if settings.show_wishlist and mm_wishlist_url != blank -%}
                                 <div class="header__iconItem header__group" style="--color: {{ block.settings.color }};--wishlist-bg-item: {{ block.settings.wishlist_bg_item }}; --wishlist-color-item: {{ block.settings.wishlist_color_item }}; --wishlist-font-size: {{ block.settings.wishlist_text_size }}px">
-                                    <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset">
+<a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
                                         {% render 'icon-heart-2' %}
                                         <span class="wishlist-text">{{ 'wishlist.general.wishlist' | t }}</span>
                                         {%- if block.settings.show_wishlist_number -%}

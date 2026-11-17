@@ -24,7 +24,6 @@
     assign media_size = section.settings.image_ratio
     assign portrait_aspect_ratio = section.settings.portrait_aspect_ratio | append: '%'
     assign show_shipping_rate_calculator = settings.show_cart_shipping
-    assign default_country = settings.shipping_rate_calculator_default_country
     assign show_coupon_code = settings.show_cart_discount
     assign show_cart_note = settings.show_cart_note
     assign show_gift_card = settings.show_cart_gift
@@ -72,12 +71,6 @@
                 {{ 'component-calculator-shipping.css' | asset_url | stylesheet_tag }}
                 <div class="cart-message">{% render 'free-shipping-component' %}</div>
             {%- endif -%}
-            {%- liquid
-                assign cartDiscounts = 'template ' | split: ' '
-                if cart.cart_level_discount_applications.size > 0
-                    assign cartDiscounts = cart.cart_level_discount_applications
-                endif
-            -%}
             {%- if cart.item_count > 0 and show_cart_countdown -%}
                 <div class="cart-countdown alertBox alertBox--info d-flex flex-align-center flex-jc-center{% if hidden_when_empty %} hidden-when-empty{% endif %}" data-cart-countdown="{{ cart_countdown_time }}" data-coundown-text-empty-1="{{ section.settings.cart_countdown_text_empty_1 }}" data-coundown-text-empty-2="{{ section.settings.cart_countdown_text_empty_2 }}" data-coundown-prd-empty-url="{{ cart_countdown_product.url }}" data-coundown-prd-empty-title="{{ cart_countdown_product.title }}" id="CartCountdown-{{ section.id }}">
                     {% render 'icon-important-note', class: 'w-h-21 mr-10' %}
@@ -126,18 +119,18 @@
                                                     <div class="cart-item-block-left">
                                                         <a class="cart-item-image image-{{ media_size }}" href="{{ item.url }}"{% if media_size == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: item.image.aspect_ratio | times: 100 }}%"{% elsif media_size == 'square' %} style="padding-bottom: 100%"{% elsif media_size == 'portrait' %}{% if portrait_aspect_ratio != blank %} style="padding-bottom: {{ portrait_aspect_ratio }}"{% endif %}{% elsif media_size == 'circle'%} style="padding-bottom: 100%"{% endif %}>
                                                             {% render 'icon-external-link' %}
-                                                            <img srcset="{{ item.image | img_url: '160x' }}" src="{{ item.image | img_url: '160x' }}" alt="{{ item.title | escape }}" sizes="160px"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ item.image.width }}" height="{{ item.image.height }}">
+                                                            <img srcset="{{ item.image | image_url: width: 160 }}" src="{{ item.image | image_url: width: 160 }}" alt="{{ item.title | escape }}" sizes="160px"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ item.image.width }}" height="{{ item.image.height }}">
                                                         </a>
                                                     </div>
                                                     <div class="cart-item-block-right">
                                                         {%- liquid
-                                                            assign thisHandle = item.product.handle
-                                                            assign thisProduct = all_products[thisHandle]
+                                                            assign this_handle = item.product.handle
+                                                            assign this_product = all_products[this_handle]
                                                         -%}
                                                         <script type="text/javascript">
-                                                            window.cart_selling_array_{{ thisProduct.id }} = {
-                                                                {%- for variantProduct in thisProduct.variants -%}
-                                                                    '{{ variantProduct.id }}': '{{ variantProduct.inventory_policy }}',
+                                                            window.cart_selling_array_{{ this_product.id }} = {
+                                                                {%- for variant_product in this_product.variants -%}
+                                                                    '{{ variant_product.id }}': '{{ variant_product.inventory_policy }}',
                                                                 {%- endfor -%}
                                                             };
                                                         </script>

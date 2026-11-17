@@ -541,13 +541,13 @@
                                                     >
                                                         <div 
                                                             class="media" 
-                                                            {% if zoomed_image and main_image_show_custom_cursor != true %} data-zoom-image="{{ media.preview_image | img_url: '1000x' }}"{% endif %} 
-                                                            {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | img_url: '1000x' }}" role="button" tabindex="0" aria-label="{{ 'products.product.media_load' | t | escape }}"{% endif %}
+                                                            {% if zoomed_image and main_image_show_custom_cursor != true %} data-zoom-image="{{ media.preview_image | image_url: width: 1000 }}"{% endif %} 
+                                                            {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | image_url: width: 1000 }}" role="button" tabindex="0" aria-label="{{ 'products.product.media_load' | t | escape }}"{% endif %}
                                                         >
                                                             <img id="product-featured-image-{{ media.id }}"
-                                                                {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{{ media.preview_image | img_url: '1000x' }}"
-                                                                {% unless settings.enable_lazyload and forloop.first == false %}src="{{ media | img_url: '1000x' }}"{% endunless %}
-                                                                {% if settings.enable_lazyload and forloop.first == false %}data-src="{{ media | img_url: '1000x' }}"{% endif %}
+                                                                {% if settings.enable_lazyload and forloop.first == false %}data-{% endif %}srcset="{{ media.preview_image | image_url: width: 1000 }}"
+                                                                {% unless settings.enable_lazyload and forloop.first == false %}src="{{ media.preview_image | image_url: width: 1000 }}"{% endunless %}
+                                                                {% if settings.enable_lazyload and forloop.first == false %}data-src="{{ media.preview_image | image_url: width: 1000 }}"{% endif %}
                                                                 alt="{{ media.preview_image.alt | escape }}"
                                                                 sizes="(min-width: 2000px) 1500px, (min-width: 1200px) 1200px, (min-width: 768px) calc((100vw - 30px) / 2), calc(100vw - 20px)"
                                                                 width="{{ media.width }}"
@@ -583,14 +583,18 @@
                                                         >
                                                             {%- if media.host == 'youtube' -%}
                                                                 <div class="media has-video">
+                                                                    {% # theme-check-disable RemoteAsset %}
                                                                     <img
                                                                         srcset="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
                                                                         src="https://i.ytimg.com/vi/{{ media.external_id }}/maxresdefault.jpg"
                                                                         alt="{{ media.alt | escape }}"
+                                                                        width="{{ media.preview_image.width | default: 1280 }}"
+                                                                        height="{{ media.preview_image.height | default: 720 }}"
                                                                         sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
                                                                        {% if settings.enable_lazyload %} loading="lazy"{% endif %}
                                                                         data-sizes="auto"
                                                                     >
+                                                                    {% # theme-check-enable RemoteAsset %}
                                                                 </div>
                                                                 <div class="productView-video youtube" data-type="youtube" data-video-url="{{ media.external_id }}">
                                                                     <div data-youtube="{{ media.external_id }}"></div>
@@ -598,9 +602,11 @@
                                                             {%- else -%}
                                                                 <div class="media has-video">
                                                                     <img
-                                                                        srcset="{{ media | img_url: 'master' }}"
-                                                                        src="{{ media | img_url: 'master' }}"
+                                                                        srcset="{{ media.preview_image | image_url: width: 2000 }}"
+                                                                        src="{{ media.preview_image | image_url: width: 2000 }}"
                                                                         alt="{{ media.alt | escape }}"
+                                                                        width="{{ media.preview_image.width }}"
+                                                                        height="{{ media.preview_image.height }}"
                                                                         sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
                                                                        {% if settings.enable_lazyload %} loading="lazy"{% endif %}
                                                                         data-sizes="auto"
@@ -629,9 +635,11 @@
                                                         >
                                                             <div class="media has-video">
                                                                 <img
-                                                                    srcset="{{ media | img_url: 'master' }}"
-                                                                    src="{{ media | img_url: 'master' }}"
+                                                                    srcset="{{ media.preview_image | image_url: width: 2000 }}"
+                                                                    src="{{ media.preview_image | image_url: width: 2000 }}"
                                                                     alt="{{ media.alt | escape }}"
+                                                                    width="{{ media.preview_image.width }}"
+                                                                    height="{{ media.preview_image.height }}"
                                                                     sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
                                                                    {% if settings.enable_lazyload %} loading="lazy"{% endif %}
                                                                     data-sizes="auto"
@@ -661,11 +669,11 @@
                                                                 {%- render 'icon-3d-model' -%}
                                                             </span>
                                                             <img
-                                                                srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | img_url: '288x' }} 288w,{% endif %}
-                                                                    {% if media.preview_image.width >= 576 %}{{ media.preview_image | img_url: '576x' }} 576w,{% endif %}
-                                                                    {% if media.preview_image.width >= 550 %}{{ media.preview_image | img_url: '550x' }} 550w,{% endif %}
-                                                                    {% if media.preview_image.width >= 1100 %}{{ media.preview_image | img_url: '1100x' }} 1100w{% endif %}"
-                                                                src="{{ media | img_url: '550x550' }}"
+                                                                srcset="{% if media.preview_image.width >= 288 %}{{ media.preview_image | image_url: width: 288 }} 288w,{% endif %}
+                                                                    {% if media.preview_image.width >= 576 %}{{ media.preview_image | image_url: width: 576 }} 576w,{% endif %}
+                                                                    {% if media.preview_image.width >= 550 %}{{ media.preview_image | image_url: width: 550 }} 550w,{% endif %}
+                                                                    {% if media.preview_image.width >= 1100 %}{{ media.preview_image | image_url: width: 1100 }} 1100w{% endif %}"
+                                                                src="{{ media.preview_image | image_url: width: 550, height: 550 }}"
                                                                 sizes="(min-width: 1200px) calc((1200px - 10rem) / 2), (min-width: 750px) calc((100vw - 11.5rem) / 2), calc(100vw - 4rem)"
                                                                {% if settings.enable_lazyload %} loading="lazy"{% endif %}
                                                                 width="576"
@@ -754,8 +762,15 @@
                                             {%- case media.media_type -%}
                                                 {%- when 'image' -%}
                                                     <div class="productView-thumbnail{% if show_variant_image_group %} filter-{{ media.alt | escape | downcase | replace: ' ', '-' | replace: '(', '-' | replace: ')', '-' }}{% endif %}" data-media-id="{{ section.id }}-{{ media.id }}">
-                                                        <div class="productView-thumbnail-link" data-image="{{ media | img_url: 'large' }}" role="button" tabindex="0" aria-label="{{ 'products.product.thumbnail_label' | t: index: forloop.index | escape }}">
-                                                            <img {% if settings.enable_lazyload and forloop.index > 4 %}data-{% endif %}srcset="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}" {% unless settings.enable_lazyload and forloop.index > 4 %}src="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'medium' }}{% else %}{{ media | img_url: 'compact' }}{% endif %}"{% endunless %} alt="{{ media.alt | escape }}" {% if settings.enable_lazyload and forloop.index > 4 %}class="lazyload" loading="lazy"{% elsif forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %} />
+                                                        <div class="productView-thumbnail-link" data-image="{{ media.preview_image | image_url: width: 480 }}" role="button" tabindex="0" aria-label="{{ 'products.product.thumbnail_label' | t: index: forloop.index | escape }}">
+                                                            <img
+                                                              {% if settings.enable_lazyload and forloop.index > 4 %}data-{% endif %}srcset="{{ media.preview_image | image_url: width: 160 }}"
+                                                              {% unless settings.enable_lazyload and forloop.index > 4 %}src="{{ media.preview_image | image_url: width: 160 }}"{% endunless %}
+                                                              alt="{{ media.alt | escape }}"
+                                                              width="{{ media.preview_image.width }}"
+                                                              height="{{ media.preview_image.height }}"
+                                                              {% if settings.enable_lazyload and forloop.index > 4 %}class="lazyload" loading="lazy"{% elsif forloop.first %}loading="eager"{% else %}loading="lazy"{% endif %}
+                                                            >
                                                             {%- if settings.enable_lazyload and forloop.index > 4 -%}<span class="data-lazy-loading"></span>{%- endif -%}
                                                         </div>
                                                     </div>
@@ -763,7 +778,13 @@
                                                     {%- if video_layout == 'thumbnail' -%}
                                                         <div class="productView-thumbnail" data-media-id="{{ section.id }}-{{ media.id }}">
                                                             <div class="productView-thumbnail-link animated-loading">
-                                                                <img src="{%- if thumnail_layout == '3' -%}{{ media | img_url: 'large' }}{% else %}{{ media | img_url: 'medium' }}{% endif %}" alt="{{ media.alt | escape }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
+                                                                <img
+                                                                  src="{{ media.preview_image | image_url: width: 240 }}"
+                                                                  alt="{{ media.alt | escape }}"
+                                                                  width="{{ media.preview_image.width }}"
+                                                                  height="{{ media.preview_image.height }}"
+                                                                  {% if settings.enable_lazyload %}loading="lazy"{% endif %}
+                                                                >
                                                             </div>
                                                             <div class="productView-thumbnail-icon">
                                                                 {% render 'icon-video' %}
@@ -774,7 +795,7 @@
                                                     {%- if video_layout == 'thumbnail' -%}
                                                         <div class="productView-thumbnail" data-media-id="{{ section.id }}-{{ media.id }}">
                                                             <div class="productView-thumbnail-link animated-loading">
-                                                                <img src="{{ media | media_tag | split: 'src="' | last | split: '">' | first }}" alt="{{ media.alt | escape }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
+                                                                <img src="{{ media.preview_image | image_url: width: 240 }}" alt="{{ media.alt | escape }}" width="{{ media.preview_image.width }}" height="{{ media.preview_image.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
                                                             </div>
                                                             <div class="productView-thumbnail-icon">
                                                                 {% render 'icon-video' %}
@@ -784,7 +805,7 @@
                                                 {%- when 'model' -%}
                                                     <div class="productView-thumbnail" data-media-id="{{ section.id }}-{{ media.id }}">
                                                         <div class="productView-thumbnail-link animated-loading">
-                                                            <img src="{{ media | media_tag | split: 'poster="' | last | split: '">' | first }}" alt="{{ media.alt | escape }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
+                                                            <img src="{{ media.preview_image | image_url: width: 240 }}" alt="{{ media.alt | escape }}" width="{{ media.preview_image.width }}" height="{{ media.preview_image.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
                                                         </div>
                                                         <div class="productView-thumbnail-icon">
                                                             {% render 'icon-3d-model' %}
@@ -1050,7 +1071,7 @@
                                                 <strong class="text-tags">{{ 'blogs.article.tags' | t }}</strong>
                                                 {% for tag in product.tags %}
                                                     <span class="separator">/</span>
-                                                    <a href="/collections/all/?constraint={{ tag | handle }}" rel="tag">
+                                                    <a href="{{ routes.all_products_collection_url }}?constraint={{ tag | handle }}" rel="tag">
                                                         <span>{{ tag | split: '|' | first }}</span>
                                                     </a>
                                                 {% endfor %}
@@ -1497,8 +1518,8 @@
                                                     </span>
                                                 {%- endif -%}
                                                 <span class="productView-dlvr__text">
-                                                    {%- capture remainHTML -%}<span data-hour-delivery class="productView-dlvr__remaining"><span class="productView-dlvr__remaining-hr"></span> {{hr}} <span class="productView-dlvr__remaining-mins"></span> {{min}}</span>{%- endcapture -%}
-                                                    {{ txt | replace:'[hour]',remainHTML | replace:'[date_start]','<span data-start-delivery class="productView-dlvr__date-start txt-d-underline"></span>' | replace:'[date_end]','<span data-end-delivery class="productView-dlvr__date-end txt-d-underline"></b>'}}
+                                                    {%- capture remain_html -%}<span data-hour-delivery class="productView-dlvr__remaining"><span class="productView-dlvr__remaining-hr"></span> {{hr}} <span class="productView-dlvr__remaining-mins"></span> {{min}}</span>{%- endcapture -%}
+                                                    {{ txt | replace:'[hour]',remain_html | replace:'[date_start]','<span data-start-delivery class="productView-dlvr__date-start txt-d-underline"></span>' | replace:'[date_end]','<span data-end-delivery class="productView-dlvr__date-end txt-d-underline"></b>'}}
                                                 </span>
                                             </delivery-time>
                                             <script src="{{ "delivery-time.js" | asset_url }}" defer="defer"></script>

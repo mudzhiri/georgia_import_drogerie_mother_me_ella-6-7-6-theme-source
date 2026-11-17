@@ -1,7 +1,7 @@
-{{ 'vendor.js' | asset_url | script_tag }}
-{{ 'global.js' | asset_url | script_tag }}
-{{ 'lazysizes.min.js' | asset_url | script_tag }}
-<!-- {{ 'menu.js' | asset_url | script_tag }} -->
+<script src="{{ 'vendor.js' | asset_url }}" defer></script>
+<script src="{{ 'global.js' | asset_url }}" defer></script>
+<script src="{{ 'lazysizes.min.js' | asset_url }}" defer></script>
+<!-- <script src="{{ 'menu.js' | asset_url }}" defer></script> -->
 
 {%- if settings.show_quick_search -%}
     <script src="{{ 'predictive-search.js' | asset_url }}" defer="defer"></script>
@@ -12,24 +12,10 @@
 {%- endif -%}
 
 {% liquid
-    if settings.enable_currencies
-        if settings.currency_type == 'shopify_payment'
-            assign enable_shopify_payments_currencies = true
-            assign enable_multiple_currencies = false
-            assign enable_auto_currency = false 
-        elsif settings.currency_type == 'multiple_currencies'
-            assign enable_shopify_payments_currencies = false
-            assign enable_multiple_currencies = true
-            assign enable_auto_currency = false 
-        elsif settings.currency_type == 'auto_currencies'
-            assign enable_shopify_payments_currencies = false
-            assign enable_multiple_currencies = false
-            assign enable_auto_currency = true 
-        endif
-    else 
-        assign enable_shopify_payments_currencies = false
+    if settings.enable_currencies and settings.currency_type == 'multiple_currencies'
+        assign enable_multiple_currencies = true
+    else
         assign enable_multiple_currencies = false
-        assign enable_auto_currency = false 
     endif
 
     if settings.enable_layout_rtl

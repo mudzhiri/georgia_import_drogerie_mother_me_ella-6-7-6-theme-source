@@ -160,8 +160,10 @@
                     {%- endif -%}
 
                     {%- if section.settings.header_style == 'style_2' %}
-                        {%- if settings.show_wishlist and section.settings.show_wishlist -%}
-                            <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset">
+{%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+{%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
+{%- if settings.show_wishlist and section.settings.show_wishlist and mm_wishlist_url != blank -%}
+<a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
                                 {% render 'icon-heart-2' %}
                                 <span class="wishlist-text">{{ 'wishlist.general.wishlist' | t }}</span>
                                 {%- if section.settings.show_wishlist_number -%}
@@ -228,8 +230,8 @@
                     {%- endunless -%}
 
                     {%- unless section.settings.header_style == 'style_2' -%}
-                        {%- if settings.show_wishlist and section.settings.show_wishlist -%}
-                            <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset">
+                        {%- if settings.show_wishlist and section.settings.show_wishlist and mm_wishlist_url != blank -%}
+                            <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
                                 {% render 'icon-heart-2' %}
                                 {%- if section.settings.show_wishlist_number -%}
                                     <div class="wishlist-count-bubble"><span class="text" aria-hidden="true" data-wishlist-count></span><span class="visually-hidden">{{ 'wishlist.general.wishlist' | t }}</span></div>

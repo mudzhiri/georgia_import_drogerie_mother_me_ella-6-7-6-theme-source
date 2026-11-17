@@ -1,0 +1,62 @@
+{%- comment -%}
+  Homepage-aware document title + meta description.
+  - Avoids duplicating shop.name in <title>
+  - Uses Shopify page_title / page_description when set
+  - Falls back to translated general.meta.homepage_* on the index only
+  Does not emit canonical, hreflang, or robots (left to layout / content_for_header).
+{%- endcomment -%}
+{%- liquid
+  assign mm_shop_name = shop.name | strip
+  assign mm_shop_cmp = mm_shop_name | downcase
+  assign mm_page_title = page_title | default: '' | strip
+  assign mm_title_cmp = mm_page_title | downcase
+  assign mm_description = page_description | default: '' | strip
+
+  if request.page_type == 'index'
+    assign mm_home_title = 'general.meta.homepage_title' | t
+    assign mm_home_desc = 'general.meta.homepage_description' | t
+    if mm_home_title contains 'Translation missing' or mm_home_title == 'general.meta.homepage_title'
+      assign mm_home_title = ''
+    endif
+    if mm_home_desc contains 'Translation missing' or mm_home_desc == 'general.meta.homepage_description'
+      assign mm_home_desc = ''
+    endif
+
+    if mm_page_title == blank or mm_title_cmp == mm_shop_cmp
+      if mm_home_title != blank
+        assign mm_page_title = mm_home_title
+      else
+        assign mm_page_title = mm_shop_name
+      endif
+      assign mm_title_cmp = mm_page_title | downcase
+    endif
+
+    if mm_description == blank and mm_home_desc != blank
+      assign mm_description = mm_home_desc
+    endif
+    if mm_description == blank and shop.description != blank
+      assign mm_description = shop.description | strip
+    endif
+  elsif mm_page_title == blank
+    assign mm_page_title = mm_shop_name
+    assign mm_title_cmp = mm_shop_cmp
+  endif
+
+  assign mm_append_shop = true
+  if request.page_type == 'index'
+    assign mm_append_shop = false
+  elsif mm_title_cmp == mm_shop_cmp
+    assign mm_append_shop = false
+  elsif mm_title_cmp contains mm_shop_cmp
+    assign mm_append_shop = false
+  endif
+-%}
+<title>
+  {{- mm_page_title | escape -}}
+  {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' | escape }}"{% endif -%}
+  {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%}
+  {%- if mm_append_shop %} &ndash; {{ mm_shop_name | escape }}{% endif -%}
+</title>
+{%- if mm_description != blank -%}
+  <meta name="description" content="{{ mm_description | escape }}">
+{%- endif -%}

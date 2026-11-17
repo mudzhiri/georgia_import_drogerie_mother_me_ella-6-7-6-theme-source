@@ -140,7 +140,8 @@
       "enter_coupo_code": "Enter coupon code",
       "soldout_text": "sold out",
       "already_text": "all",
-      "are_saving": "Discount:"
+      "are_saving": "Discount:",
+      "cart_error": "There was an error while updating your cart. Please try again."
     },
     "share": {
       "copy_to_clipboard": "Copy link",
@@ -161,6 +162,10 @@
       "view_all": "View all collection",
       "no_more": "No more product",
       "no_more_collection": "No more collection"
+    },
+    "meta": {
+      "homepage_title": "MOTHER & ME | Care & hygiene imported from Germany",
+      "homepage_description": "Discover care and hygiene products for children and mothers, imported from Germany."
     }
   },
   "brands_page": {
@@ -385,7 +390,11 @@
       "step_by_step": {
         "next": "Next step",
         "previous": "Previous step"
-      }
+      },
+      "media_gallery": "Product gallery",
+      "media_load": "Load image",
+      "thumbnail_label": "Image {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}"
     },
     "modal": {
       "label": "Media gallery"

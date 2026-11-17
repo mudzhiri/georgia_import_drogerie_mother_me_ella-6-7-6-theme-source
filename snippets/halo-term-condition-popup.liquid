@@ -1,9 +1,108 @@
-<div class="halo-popup halo-term-condition-popup halo-popup-topDown" data-term-condition-popup id="halo-term-condition-popup">
-  <div class="halo-popup-wrapper">
+{%- comment -%}
+  Cart / side-cart terms popup. Uses Shopify Terms of Service only — no theme demo copy.
+  Opened via [data-term-condition]; closed via [data-close-term-condition-popup] / overlay (theme.js).
+{%- endcomment -%}
+{%- liquid
+  assign terms_policy = shop.terms_of_service
+  if terms_policy == blank
+    for shop_policy in shop.policies
+      if shop_policy.url contains '/terms-of-service' or shop_policy.url contains '/terms-of-service/'
+        assign terms_policy = shop_policy
+        break
+      endif
+    endfor
+  endif
+-%}
+{%- if terms_policy != blank and terms_policy.body != blank -%}
+  <div
+    class="halo-popup halo-term-condition-popup halo-popup-topDown"
+    data-term-condition-popup
+    id="halo-term-condition-popup"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="halo-term-condition-title"
+    hidden
+  >
+    <div class="halo-popup-wrapper">
       <div class="halo-popup-header">
-          <button type="button" class="halo-popup-close clearfix" data-close-term-condition-popup aria-label="{{ 'general.common.close' | t }}">{% render 'icon-close' %}{{ 'general.common.close' | t }}</button>
-          <h5 class="halo-popup-title text-center">{{ 'sections.term_condition' | t }}</h5>
+        <button
+          type="button"
+          class="halo-popup-close clearfix"
+          data-close-term-condition-popup
+          aria-label="{{ 'general.common.close' | t | escape }}"
+        >
+          {% render 'icon-close' %}
+          <span class="visually-hidden">{{ 'general.common.close' | t }}</span>
+        </button>
+        <h5 class="halo-popup-title text-center" id="halo-term-condition-title">
+          {{ terms_policy.title | escape }}
+        </h5>
       </div>
-      <div class="halo-popup-content halo-popup-scroll custom-scrollbar">{{settings.global_checkbox_content}}</div>
-  </div>    
-</div>
+      <div class="halo-popup-content halo-popup-scroll custom-scrollbar rte">
+        {{ terms_policy.body }}
+      </div>
+    </div>
+  </div>
+  <script>
+    (() => {
+      const popup = document.getElementById('halo-term-condition-popup');
+      if (!popup || popup.dataset.mmTermsReady === '1') return;
+      popup.dataset.mmTermsReady = '1';
+
+      let lastFocus = null;
+      const closeBtn = popup.querySelector('[data-close-term-condition-popup]');
+
+      function isOpen() {
+        return document.body.classList.contains('term-condition-show');
+      }
+
+      function syncOpenState() {
+        const open = isOpen();
+        popup.hidden = !open;
+        popup.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) {
+          if (!lastFocus) lastFocus = document.activeElement;
+          window.setTimeout(() => closeBtn?.focus(), 20);
+        } else if (lastFocus && typeof lastFocus.focus === 'function') {
+          const back = lastFocus;
+          lastFocus = null;
+          window.setTimeout(() => back.focus(), 20);
+        }
+      }
+
+      document.addEventListener('click', (event) => {
+        if (event.target.closest('[data-term-condition]')) {
+          lastFocus = event.target.closest('[data-term-condition]') || document.activeElement;
+        }
+      }, true);
+
+      document.addEventListener('keydown', (event) => {
+        if (!isOpen()) return;
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          document.body.classList.remove('term-condition-show');
+          syncOpenState();
+          return;
+        }
+        if (event.key !== 'Tab') return;
+        const focusables = popup.querySelectorAll(
+          'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+        );
+        if (!focusables.length) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (event.shiftKey && document.activeElement === first) {
+          event.preventDefault();
+          last.focus();
+        } else if (!event.shiftKey && document.activeElement === last) {
+          event.preventDefault();
+          first.focus();
+        }
+      });
+
+      const observer = new MutationObserver(syncOpenState);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      syncOpenState();
+    })();
+  </script>
+{%- endif -%}

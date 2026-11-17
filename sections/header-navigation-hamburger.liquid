@@ -461,9 +461,11 @@
                         {%- endif -%}                              
                     {%- endif -%}
                 {%- endunless -%}
-                {%- if settings.show_wishlist -%}
+{%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+{%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
+{%- if settings.show_wishlist and mm_wishlist_url != blank -%}
                     {%- if block.settings.show_wishlist or block.settings.show_wishlist_sticky -%}
-                        <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset{% if block.settings.show_wishlist_sticky %}{% if block.settings.show_wishlist %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_wishlist %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}" style="--wishlist-bg-item: {{ block.settings.wishlist_bg_item }}; --wishlist-color-item: {{ block.settings.wishlist_color_item }}">
+<a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset{% if block.settings.show_wishlist_sticky %}{% if block.settings.show_wishlist %}{% else %} hide-main-menu{% endif %}{% else %}{% if block.settings.show_wishlist %} show-main-menu{% endif %}{% endif %} text-center{% if block.settings.icons_layout == 'text' %} link-effect{% endif %}" style="--wishlist-bg-item: {{ block.settings.wishlist_bg_item }}; --wishlist-color-item: {{ block.settings.wishlist_color_item }}">
                             {%- if block.settings.icons_layout == 'text' -%}
                                 <span class="text__icon icon">{{ 'wishlist.general.text_icon' | t }}{% if block.settings.show_wishlist_number %}(<span class="text" aria-hidden="true" data-wishlist-count></span>){% endif %}</span>
                             {%- else -%}

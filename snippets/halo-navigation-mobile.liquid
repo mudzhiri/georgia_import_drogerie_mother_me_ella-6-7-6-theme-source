@@ -362,9 +362,11 @@
                                 </a>
                             </li>
                         {%- endif -%}
-                        {%- if settings.show_wishlist and section.settings.show_wishlist -%}
+{%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+{%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
+{%- if settings.show_wishlist and section.settings.show_wishlist and mm_wishlist_url != blank -%}
                             <li class="menu-mobile-lv-1 menu-mobile-icon text-left">
-                                <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="menu--mobile-lv-1__action menu-drawer__menu-item list-menu__item link link--text focus-inset">
+<a href="{{ mm_wishlist_url }}" class="menu--mobile-lv-1__action menu-drawer__menu-item list-menu__item link link--text focus-inset">
                                     {% render 'icon-heart' %}
                                     <span class="text">
                                         {{ 'wishlist.general.title' | t }}

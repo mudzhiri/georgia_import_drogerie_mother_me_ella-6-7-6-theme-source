@@ -42,10 +42,6 @@
         assign enable_sticky = section.settings.enable_sticky
         assign sidebar_layout = section.settings.sidebar_layout
     endif
-    assign media_size = settings.product_block_image_ratio
-    if media_size == 'portrait'
-        assign portrait_aspect_ratio = settings.portrait_height
-    endif 
     assign sort_by = search.sort_by | default: search.default_sort_by
     assign sort_options = search.sort_options
     assign layout = section.settings.layout
@@ -299,15 +295,15 @@
 </div>
 
 {%- if settings.search_type == 'all' -%}
-    {{ 'halo.search-by-all-types.js' | asset_url | script_tag }}
+    <script src="{{ 'halo.search-by-all-types.js' | asset_url }}" defer></script>
     <script type="text/javascript">
-        Shopify.SearchByAllTypes.renderResultTable({
-            sectionId: 'main-page-article-grid'
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.Shopify && Shopify.SearchByAllTypes) {
+                Shopify.SearchByAllTypes.renderResultTable({
+                    sectionId: 'main-page-article-grid'
+                });
+            }
         });
-
-        window.addEventListener('load', () => {
-            
-        })
     </script>
 {%- endif -%}
 

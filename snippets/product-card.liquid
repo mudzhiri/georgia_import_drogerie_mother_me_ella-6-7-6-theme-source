@@ -14,12 +14,12 @@
 
 {%- liquid
     assign product_swatch_option = settings.swatch | downcase
-    assign isColor = false
+    assign is_color = false
     assign variant_img = ''
     for option in product_card_product.options_with_values
         assign option_name = option.name | downcase
         if product_swatch_option contains option_name
-            assign isColor = true
+            assign is_color = true
             assign index = forloop.index0
             assign position = forloop.index | minus: 1
             assign variant_selected = option.selected_value
@@ -86,19 +86,26 @@
         assign show_wishlist = true
     endif
 
+    # Only show wishlist UI when a real wishlist page/URL is configured
+    if show_wishlist and template.suffix != 'ajax_wishlist_card'
+      capture mm_wishlist_url
+        render 'mm-wishlist-url'
+      endcapture
+      assign mm_wishlist_url = mm_wishlist_url | strip
+      if mm_wishlist_url == blank
+        assign show_wishlist = false
+      endif
+    endif
+
     assign show_compare = false
     if settings.show_compare and settings.product_compare_type == 'icon'
         assign show_compare = true
     endif
 
-    # Category grids: no Compare/Quick view; wishlist only with configured page URL
+    # Category grids: no Compare/Quick view
     if mm_is_collection_card
       assign show_quick_view = false
       assign show_compare = false
-      assign show_wishlist = false
-      if settings.show_wishlist and settings.show_wishlist_card and settings.link_wishlist != blank
-        assign show_wishlist = true
-      endif
     endif
 
     if show_quick_view or show_wishlist or show_compare
@@ -210,8 +217,8 @@
                             <div class="card-vendor">
                                 <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
                                 {%- if vendor_img != blank -%}
-                                    <a class="vendor-image" href="/collections/vendors?q={{ product_card_product.vendor }}" title="{{ product_card_product.vendor }}">
-                                        <img src="{{ vendor_img | file_url }}" alt="{{ product_card_product.vendor }}">
+                                    <a class="vendor-image" href="{{ routes.collections_url }}/vendors?q={{ product_card_product.vendor }}" title="{{ product_card_product.vendor }}">
+                                        <img src="{{ vendor_img | file_url }}" alt="{{ product_card_product.vendor }}" width="80" height="40" loading="lazy">
                                     </a>
                                 {%- else -%}
                                     {{ product_card_product.vendor | link_to_vendor: class: 'vendor-text' }}
@@ -234,7 +241,7 @@
                         </div>
                     {%- endif -%}
                     {%- if settings.enable_custom_position_swatch_layout_card_1 -%}
-                        {%- if isColor -%}
+                        {%- if is_color -%}
                             {%- unless settings.show_swatch -%}
                             <div class="hidden">
                             {%- endunless -%}
@@ -279,7 +286,7 @@
                 </div>
             {%- else -%}
             {%- unless settings.enable_custom_position_swatch_layout_card_1 -%}
-                {%- if isColor -%}
+                {%- if is_color -%}
                     {%- unless settings.show_swatch -%}
                     <div class="hidden">
                     {%- endunless -%}

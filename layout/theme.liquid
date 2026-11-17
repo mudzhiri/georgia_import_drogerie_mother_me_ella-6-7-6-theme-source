@@ -20,21 +20,19 @@
         <meta name="theme-color" content="">
         <link rel="canonical" href="{{ canonical_url }}" canonical-shop-url="{{ shop.url }}/">
         {%- if settings.favicon != blank -%}
-            <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+            <link rel="shortcut icon" href="{{ settings.favicon | image_url: width: 32, height: 32 }}" type="image/png">
         {%- endif -%}
         <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
-        <title>{{ page_title }} {%- if current_tags %} &ndash; tagged "{{ current_tags | join: ', ' }}"{% endif -%} {%- if current_page != 1 %} &ndash; Page {{ current_page }}{% endif -%} {%- unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless -%}</title>
-
-        {%- if page_description -%}
-            <meta name="description" content="{{ page_description | escape }}">
-        {%- endif -%}
+        {% render 'mm-seo-document' %}
         {% render 'meta-tags' %}
         {{ content_for_header }}
         {% render 'variable' %}
         {% render 'global-style' %}
+        {% # theme-check-disable RemoteAsset %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+        {% # theme-check-enable RemoteAsset %}
         {{ 'mm-tokens.css' | asset_url | stylesheet_tag }}
         {{ 'mm-header.css' | asset_url | stylesheet_tag }}
         {{ 'mm-atc-error.css' | asset_url | stylesheet_tag }}
@@ -155,7 +153,7 @@
         {%- endif -%}
 
         {%- if settings.use_custom_js -%}
-            {{ 'custom.js' | asset_url | script_tag }}
+            <script src="{{ 'custom.js' | asset_url }}" defer></script>
         {%- endif -%}
 
         <div class="background-overlay">

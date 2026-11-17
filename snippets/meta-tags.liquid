@@ -1,8 +1,40 @@
 {%- liquid
-  assign og_title = page_title | default: shop.name
+  assign og_title = page_title | default: shop.name | strip
   assign og_url = canonical_url | default: shop.url
   assign og_type = 'website'
-  assign og_description = page_description | default: shop.description | default: shop.name
+  assign og_description = page_description | default: shop.description | default: '' | strip
+  assign mm_shop_cmp = shop.name | strip | downcase
+  assign mm_og_title_cmp = og_title | downcase
+
+  if request.page_type == 'index'
+    assign mm_home_title = 'general.meta.homepage_title' | t
+    assign mm_home_desc = 'general.meta.homepage_description' | t
+    if mm_home_title contains 'Translation missing' or mm_home_title == 'general.meta.homepage_title'
+      assign mm_home_title = ''
+    endif
+    if mm_home_desc contains 'Translation missing' or mm_home_desc == 'general.meta.homepage_description'
+      assign mm_home_desc = ''
+    endif
+
+    if og_title == blank or mm_og_title_cmp == mm_shop_cmp
+      if mm_home_title != blank
+        assign og_title = mm_home_title
+      else
+        assign og_title = shop.name | strip
+      endif
+    endif
+
+    if og_description == blank and mm_home_desc != blank
+      assign og_description = mm_home_desc
+    endif
+    if og_description == blank
+      assign og_description = shop.name | strip
+    endif
+  else
+    if og_description == blank
+      assign og_description = shop.name | strip
+    endif
+  endif
 
   if request.page_type == 'product'
     assign og_type = 'product'
@@ -13,19 +45,25 @@
   elsif request.page_type == 'password'
     assign og_url = shop.url
   endif
-%}
 
-<meta property="og:site_name" content="{{ shop.name }}">
+  assign og_image = page_image
+-%}
+
+<meta property="og:site_name" content="{{ shop.name | escape }}">
 <meta property="og:url" content="{{ og_url }}">
 <meta property="og:title" content="{{ og_title | escape }}">
 <meta property="og:type" content="{{ og_type }}">
 <meta property="og:description" content="{{ og_description | escape }}">
 
-{%- if page_image -%}
-  <meta property="og:image" content="http:{{ page_image | img_url: 'master' }}">
-  <meta property="og:image:secure_url" content="https:{{ page_image | img_url: 'master' }}">
-  <meta property="og:image:width" content="{{ page_image.width }}">
-  <meta property="og:image:height" content="{{ page_image.height }}">
+{%- if og_image != blank -%}
+  <meta property="og:image" content="http:{{ og_image | image_url }}">
+  <meta property="og:image:secure_url" content="https:{{ og_image | image_url }}">
+  {%- if og_image.width != blank -%}
+    <meta property="og:image:width" content="{{ og_image.width }}">
+  {%- endif -%}
+  {%- if og_image.height != blank -%}
+    <meta property="og:image:height" content="{{ og_image.height }}">
+  {%- endif -%}
 {%- endif -%}
 
 {%- if request.page_type == 'product' -%}
@@ -33,9 +71,15 @@
   <meta property="og:price:currency" content="{{ cart.currency.iso_code }}">
 {%- endif -%}
 
-{%- if settings.social_twitter_link != blank -%}
-  <meta name="twitter:site" content="{{ settings.social_twitter_link | split: 'twitter.com/' | last | prepend: '@' }}">
+{%- if settings.social_twitter_link != blank and settings.social_twitter_link contains 'twitter.com/' -%}
+  {%- assign mm_twitter_handle = settings.social_twitter_link | split: 'twitter.com/' | last | strip -%}
+  {%- if mm_twitter_handle != blank and mm_twitter_handle != 'shopify' -%}
+    <meta name="twitter:site" content="{{ mm_twitter_handle | prepend: '@' | escape }}">
+  {%- endif -%}
 {%- endif -%}
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="{% if og_image != blank %}summary_large_image{% else %}summary{% endif %}">
 <meta name="twitter:title" content="{{ og_title | escape }}">
 <meta name="twitter:description" content="{{ og_description | escape }}">
+{%- if og_image != blank -%}
+  <meta name="twitter:image" content="https:{{ og_image | image_url }}">
+{%- endif -%}

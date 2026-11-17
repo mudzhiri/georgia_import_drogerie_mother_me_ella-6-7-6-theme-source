@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="{{ 'component-menu-mobile.css' | asset_url }}" media="all" onload="this.media='all'">
 <noscript>{{ 'component-menu-mobile.css' | asset_url | stylesheet_tag }}</noscript>
 
-{%-liquid
+{%- liquid
+    assign menu_tab = section.blocks | where: 'type', 'tab'
     if request.page_type == 'index'
         if section.settings.enable_transparent
             assign header_transparent = ' header-mobile--transparent'
@@ -70,14 +71,13 @@
                                                     {%- assign logo = block.settings.logo -%}
                                                     {%- assign logo_mb = block.settings.logo_mobile -%}
                                                     {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                                    {%- assign logo_width_img = logo_width | append: 'x' -%}
-                                                    {%- assign logo_width_retina = logo_width | times: 2 | append: 'x'  -%}
+                                                    {%- assign logo_width_retina = logo_width | times: 2 -%}
                                                     {%- assign logo_height = block.settings.logo_width | divided_by: logo.aspect_ratio | round -%}
-                                                    <img {% if logo_mb != blank %}class="logo-m-none"{% endif %} srcset="{{ logo | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x"
-                                                        src="{{ logo | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo.alt | default: shop.name | escape }}" class="header__heading-logo">     
+                                                    <img {% if logo_mb != blank %}class="logo-m-none"{% endif %} srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x"
+                                                        src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo.alt | default: shop.name | escape }}" class="header__heading-logo">
                                                     {% if logo_mb != blank %}
-                                                    <img class="logo-d-none" srcset="{{ logo_mb | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x"
-                                                            src="{{ image_mb | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo_mb.alt | default: shop.name | escape }}" class="header__heading-logo">
+                                                    <img class="logo-d-none" srcset="{{ logo_mb | image_url: width: logo_width }}, {{ logo_mb | image_url: width: logo_width_retina }} 2x"
+                                                            src="{{ logo_mb | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo_mb.alt | default: shop.name | escape }}" class="header__heading-logo">
                                                     {% endif %}
                                                 {%- else -%}
                                                     <img
@@ -104,20 +104,18 @@
                                         {%- if block.settings.logo_mobile != blank -%}
                                             {%- assign logo = block.settings.logo_mobile -%}
                                             {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_img = logo_width | append: 'x' -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 | append: 'x'  -%}
+                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
                                             {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x" src="{{ logo | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo logo__main" alt="{{ logo.alt | default: shop.name | escape }}">
+                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo logo__main" alt="{{ logo.alt | default: shop.name | escape }}">
                                             {%- if check_transparent -%}
-                                                <img srcset="{{ logo_transparent | img_url: logo_width_img }}, {{ logo_transparent | img_url: logo_width_retina }} 2x" src="{{ logo_transparent | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
+                                                <img srcset="{{ logo_transparent | image_url: width: logo_width }}, {{ logo_transparent | image_url: width: logo_width_retina }} 2x" src="{{ logo_transparent | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
                                             {%- endif -%}
                                         {%- elsif block.settings.logo != blank -%}
                                             {%- assign logo = block.settings.logo -%}
                                             {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_img = logo_width | append: 'x' -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 | append: 'x' -%}
+                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
                                             {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x" src="{{ logo | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo" alt="{{ logo.alt | default: shop.name | escape }}">
+                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo" alt="{{ logo.alt | default: shop.name | escape }}">
                                         {%- else -%}
                                             <img
                                               src="{{ 'mm-logo.svg' | asset_url }}"
@@ -197,8 +195,11 @@
                                 </a>
                             </div>
                         {%-  when 'wishlist' -%}
+                            {%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+                            {%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
+                            {%- if mm_wishlist_url != blank -%}
                             <div class="header-mobile--icon" style="--i-color: {{ block.settings.color }};--wishlist-bg-item: {{ block.settings.wishlist_bg_item }}; --wishlist-color-item: {{ block.settings.wishlist_color_item }}">
-                                <a href="{% if settings.link_wishlist != blank %}{{ settings.link_wishlist }}{% else %}{{ pages['wish-list'].url }}{% endif %}" class="header__icon header__icon--wishlist link link--text focus-inset">
+                                <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset">
                                     {% render 'icon-heart-2' %}
                                     <span class="visually-hidden">
                                         {{ 'wishlist.general.title' | t }}
@@ -208,6 +209,7 @@
                                     {%- endif -%}
                                 </a>
                             </div>
+                            {%- endif -%}
                     {%- endcase -%}
                 </div>
             {%- endfor -%}

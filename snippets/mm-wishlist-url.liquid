@@ -1,0 +1,19 @@
+{%- comment -%}
+  Resolves the store wishlist page URL, or blank when none is configured.
+  Prefer Theme setting link_wishlist, then common page handles.
+  Outputs only a real URL — never "#" or the current request path.
+{%- endcomment -%}
+{%- liquid
+  assign url = settings.link_wishlist | default: '' | strip
+  if url == blank or url == '#' or url == '/#'
+    assign url = pages['wish-list'].url | default: '' | strip
+  endif
+  if url == blank or url == '#' or url == '/#'
+    assign url = pages['wishlist'].url | default: '' | strip
+  endif
+  if url == blank or url == '#' or url == '/#' or url == request.path
+    echo ''
+  else
+    echo url
+  endif
+-%}
