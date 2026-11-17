@@ -39,12 +39,26 @@
     window.lazySizesConfig = window.lazySizesConfig || {};
     window.lazySizesConfig.loadMode = 1;
     window.lazySizesConfig.init = false;
-    // lazysizes.min.js is deferred — init only after it loads
-    document.addEventListener('DOMContentLoaded', function () {
-        if (window.lazySizes && typeof window.lazySizes.init === 'function') {
-            window.lazySizes.init();
+    // lazysizes.min.js is deferred — never call init before the library exists
+    // (sync init here previously threw and aborted window.arrows / routes setup).
+    (function mmInitLazySizesWhenReady() {
+        var tries = 0;
+        function run() {
+            if (window.lazySizes && typeof window.lazySizes.init === 'function') {
+                window.lazySizes.init();
+                return;
+            }
+            if (tries++ < 40) {
+                window.setTimeout(run, 50);
+            }
         }
-    });
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', run);
+        } else {
+            run();
+        }
+        window.addEventListener('load', run);
+    })();
 
     window.rtl_slick = {{ enable_iso_rtl }};
     window.mobile_menu = '{{ settings.mobile_menu }}';

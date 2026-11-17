@@ -244,6 +244,12 @@
     }
   };
 
+  const clearAnimatedLoading = () => {
+    gallery.querySelectorAll('.animated-loading').forEach((el) => {
+      el.classList.remove('animated-loading');
+    });
+  };
+
   const boot = () => {
     if (!hydrated) hydrateLazyImages();
     stopAutoplay();
@@ -252,6 +258,7 @@
     enhanceCounter();
     enhanceNavControls();
     hideEmptySlides();
+    clearAnimatedLoading();
     gallery.querySelectorAll('.productView-image:not(.slick-cloned) img[data-main-image]').forEach((img) => {
       if (img.complete) gateZoom(img.closest('.productView-image') || gallery);
       else img.addEventListener('load', () => gateZoom(img.closest('.productView-image') || gallery), { once: true });

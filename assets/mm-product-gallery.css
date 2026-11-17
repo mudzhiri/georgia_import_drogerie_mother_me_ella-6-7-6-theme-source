@@ -230,6 +230,12 @@
   cursor: default !important;
 }
 
+/* If Slick never inits, do not leave thumbs/images invisible forever */
+.mm-product-gallery .productView-thumbnail.animated-loading > img,
+.mm-product-gallery .productView-image.animated-loading .productView-img-container img {
+  opacity: 1 !important;
+}
+
 /* Keep mobile arrows visible alongside swipe */
 @media screen and (max-width: 767px) {
   .mm-product-gallery[data-mm-media-count]:not([data-mm-media-count='1']) .productView-nav .slick-arrow {
