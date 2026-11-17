@@ -33,6 +33,17 @@
   min-height: 0 !important;
 }
 
+/* Keep a zero-height observer target until history is known; do not use display:none. */
+.halo-recently-viewed-block.mm-pdp-reco--pending {
+  visibility: hidden;
+  height: 0;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  overflow: hidden;
+  pointer-events: none;
+}
+
 .halo-recommendations-block .halo-block-header .title,
 .halo-recently-viewed-block .halo-block-header .title {
   color: var(--mm-reco-accent);
