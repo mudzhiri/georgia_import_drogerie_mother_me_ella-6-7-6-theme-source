@@ -1,10 +1,8 @@
 /**
  * MOTHER & ME design tokens
- * Maps onto Ella CSS vars from snippets/variable.liquid where possible.
- * Does not change logo artwork colors.
+ * Homepage-focused. Does not change logo artwork colors.
  */
 :root {
-  /* Brand tokens */
   --mm-primary: #214d43;
   --mm-primary-hover: #173b33;
   --mm-page: #faf8f4;
@@ -16,7 +14,6 @@
   --mm-border: #dee5df;
   --mm-error: #b42318;
 
-  /* Spacing scale (px) */
   --mm-space-1: 4px;
   --mm-space-2: 8px;
   --mm-space-3: 12px;
@@ -26,21 +23,17 @@
   --mm-space-7: 48px;
   --mm-space-8: 64px;
 
-  /* Radii */
   --mm-radius-input: 8px;
-  --mm-radius-button: 8px;
-  --mm-radius-card: 12px;
+  --mm-radius-button: 10px;
+  --mm-radius-card: 16px;
+  --mm-radius-tile: 20px;
 
-  /* Layout — shared homepage rhythm
-     Section vertical padding is half the desired gap so adjacent
-     sections sum to ~40px (mobile) / ~64px (desktop) without doubling. */
-  --mm-content-max: 1280px;
+  /* Homepage rhythm: half-gap so adjacent sections sum to ~72px desktop / ~40px mobile */
+  --mm-content-max: 1200px;
   --mm-page-gutter: 16px;
   --mm-section-y: 20px;
   --mm-heading-gap: 24px;
 
-  /* Typography — homepage (KA / RU / DE / EN)
-     Noto Sans Georgian for Mkhedruli; Noto Sans for Latin + Cyrillic. */
   --mm-font-sans: 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif;
   --mm-font-size-hero: 30px;
   --mm-font-size-section: 24px;
@@ -53,7 +46,9 @@
   --mm-font-weight-semibold: 600;
   --mm-font-weight-bold: 700;
 
-  /* Align with Ella global vars when custom CSS references them */
+  --mm-shadow-soft: 0 8px 24px rgba(33, 77, 67, 0.08);
+  --mm-shadow-card: 0 10px 28px rgba(33, 77, 67, 0.12);
+
   --color-background: var(--mm-page);
   --bg-white: var(--mm-surface);
   --form-input-bg: var(--mm-surface);
@@ -63,21 +58,24 @@
 @media (min-width: 768px) {
   :root {
     --mm-page-gutter: 32px;
-    --mm-section-y: 32px;
-    --mm-font-size-hero: 48px;
-    --mm-font-size-section: 32px;
+    --mm-section-y: 36px;
+    --mm-font-size-hero: 44px;
+    --mm-font-size-section: 28px;
     --mm-font-size-body: 17px;
   }
 }
 
-/* Homepage text: wrap long words, never clip, no artificial tracking */
+/* Homepage text: wrap long words, never clip */
 .mm-hero,
 .mm-categories,
 .mm-products__heading,
 .mm-products__footer,
 .mm-products__setup,
 .mm-info-strip,
-.mm-about {
+.mm-about,
+.mm-needs,
+.mm-brands,
+.mm-faq {
   font-family: var(--mm-font-sans);
   letter-spacing: normal;
 }
@@ -86,6 +84,9 @@
 .mm-categories :where(h1, h2, h3, p, a, span),
 .mm-info-strip :where(h1, h2, h3, p, a, span, li),
 .mm-about :where(h1, h2, h3, p, a, span),
+.mm-needs :where(h1, h2, h3, p, a, span),
+.mm-brands :where(h1, h2, h3, p, a, span),
+.mm-faq :where(h1, h2, h3, p, a, button, span),
 .mm-products__heading,
 .mm-products__view-all,
 .mm-products__setup {
@@ -95,17 +96,60 @@
   letter-spacing: normal;
 }
 
-body {
+body.template-index {
   background-color: var(--mm-page);
   color: var(--mm-text);
 }
 
-.page-width,
-.container {
+.template-index .page-width,
+.template-index .container {
   max-width: var(--mm-content-max);
 }
 
-/* Empty / contentless Shopify section wrappers leave no gap */
 .shopify-section:empty {
   display: none;
+}
+
+/* Shared homepage reveal (content visible until JS enables) */
+@media (prefers-reduced-motion: no-preference) {
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item]:not(.is-revealed) {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity 480ms ease-out,
+      transform 480ms ease-out;
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed:nth-child(2) {
+    transition-delay: 55ms;
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed:nth-child(3) {
+    transition-delay: 110ms;
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed:nth-child(4) {
+    transition-delay: 165ms;
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed:nth-child(5) {
+    transition-delay: 220ms;
+  }
+
+  .mm-reveal.is-reveal-enabled [data-mm-reveal-item].is-revealed:nth-child(6) {
+    transition-delay: 250ms;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-reveal [data-mm-reveal-item] {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }

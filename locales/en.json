@@ -961,5 +961,32 @@
     "general": {
       "no_matches": "No products found"
     }
+  },
+  "mm_home": {
+    "categories": {
+      "heading": "Categories"
+    },
+    "info": {
+      "heading": "Information"
+    },
+    "products": {
+      "heading": "Selected products",
+      "view_all": "View all products"
+    },
+    "needs": {
+      "heading": "Shop by need"
+    },
+    "about": {
+      "heading": "From Germany — for you",
+      "text": "MOTHER & ME brings together care and hygiene products for children and mothers, imported from Germany.",
+      "link": "About us"
+    },
+    "brands": {
+      "heading": "Brands in our assortment",
+      "note": "Brand names shown appear in our assortment and do not imply an official partnership."
+    },
+    "faq": {
+      "heading": "Frequently asked questions"
+    }
   }
 }

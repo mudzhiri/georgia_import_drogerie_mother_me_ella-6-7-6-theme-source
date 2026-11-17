@@ -1,0 +1,170 @@
+{{ 'mm-needs.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_home.needs.heading' | t
+  endif
+  assign visible_blocks = 0
+  for block in section.blocks
+    if block.settings.collection != blank and block.settings.collection.products_count > 0
+      assign visible_blocks = visible_blocks | plus: 1
+    endif
+  endfor
+-%}
+
+{%- if visible_blocks > 0 -%}
+  <section
+    id="mm-needs-{{ section.id }}"
+    class="mm-needs mm-reveal"
+    aria-labelledby="mm-needs-heading-{{ section.id }}"
+  >
+    <div class="mm-needs__inner">
+      {%- if heading != blank -%}
+        <h2 id="mm-needs-heading-{{ section.id }}" class="mm-needs__heading">
+          {{ heading | escape }}
+        </h2>
+      {%- endif -%}
+
+      <ul class="mm-needs__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- assign need_collection = block.settings.collection -%}
+          {%- if need_collection != blank and need_collection.products_count > 0 -%}
+            {%- liquid
+              assign label = block.settings.label
+              if label == blank
+                assign label = need_collection.title
+              endif
+              assign image = block.settings.image
+              if image == blank and need_collection.featured_image != blank
+                assign image = need_collection.featured_image
+              elsif image == blank and need_collection.image != blank
+                assign image = need_collection.image
+              endif
+              assign has_image = false
+              if image != blank
+                assign has_image = true
+              endif
+              assign icon = block.settings.icon | default: 'care'
+            -%}
+            <li class="mm-needs__item" data-mm-reveal-item {{ block.shopify_attributes }}>
+              <a class="mm-needs__card{% if has_image %} mm-needs__card--with-image{% endif %}" href="{{ need_collection.url }}">
+                <span class="mm-needs__media" aria-hidden="true">
+                  {%- if has_image -%}
+                    {{
+                      image
+                      | image_url: width: 800
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '240, 360, 480, 640, 800',
+                        sizes: '(min-width: 900px) 260px, (min-width: 600px) 40vw, 80vw',
+                        alt: '',
+                        class: 'mm-needs__image'
+                    }}
+                  {%- else -%}
+                    <span class="mm-needs__icon">
+                      {%- case icon -%}
+                        {%- when 'bath' -%}
+                          <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <path d="M4 12h16v4.5A2.5 2.5 0 0 1 17.5 19h-11A2.5 2.5 0 0 1 4 16.5V12z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+                            <path d="M7 12V8.5A2.5 2.5 0 0 1 9.5 6H11" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                            <path d="M6 19.5h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                          </svg>
+                        {%- when 'face' -%}
+                          <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.75"/>
+                            <path d="M9 14.5c.8.9 1.8 1.3 3 1.3s2.2-.4 3-1.3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                            <path d="M9 10h.01M15 10h.01" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+                          </svg>
+                        {%- when 'body' -%}
+                          <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <path d="M12 4.5a2 2 0 1 0 0 4 2 2 0 0 0 0-4z" stroke="currentColor" stroke-width="1.75"/>
+                            <path d="M8 20v-5.2A4 4 0 0 1 12 10.8a4 4 0 0 1 4 4V20" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                          </svg>
+                        {%- else -%}
+                          <svg viewBox="0 0 24 24" fill="none" focusable="false">
+                            <path d="M12 20.2s-6.5-4-8.6-7.5C1.5 9.5 2.6 6.2 5.6 5.1c1.8-.7 3.8 0 4.9 1.5 1.1-1.5 3.1-2.2 4.9-1.5 3 1.1 4.1 4.4 2.2 7.6C18.5 16.2 12 20.2 12 20.2z" stroke="currentColor" stroke-width="1.75" stroke-linejoin="round"/>
+                          </svg>
+                      {%- endcase -%}
+                    </span>
+                  {%- endif -%}
+                </span>
+                <span class="mm-needs__label">{{ label | escape }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </section>
+{%- elsif request.design_mode -%}
+  <div class="mm-needs__setup">
+    <p><strong>MM Needs:</strong> Select existing collections with products. Empty collections stay hidden on the live storefront.</p>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM Needs",
+  "tag": "section",
+  "class": "section-mm-needs",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "შეიძინე საჭიროების მიხედვით"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "need",
+      "name": "Need card",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Required. Hidden when empty."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "info": "Optional. Defaults to the collection title."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image",
+          "info": "Optional. Falls back to the collection image, otherwise an outline icon."
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Fallback icon",
+          "default": "care",
+          "options": [
+            { "value": "care", "label": "Skin care" },
+            { "value": "bath", "label": "Bath" },
+            { "value": "face", "label": "Face" },
+            { "value": "body", "label": "Body" }
+          ]
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Needs",
+      "blocks": [
+        { "type": "need", "settings": { "icon": "care" } },
+        { "type": "need", "settings": { "icon": "bath" } },
+        { "type": "need", "settings": { "icon": "face" } },
+        { "type": "need", "settings": { "icon": "body" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -88,7 +88,10 @@
       "submit": "ძებნა",
       "placeholder": "ძებნა",
       "mm_error": "ძებნა ვერ მოხერხდა. სცადე თავიდან.",
-      "mm_results": "ძებნის შედეგები"
+      "mm_results": "ძებნის შედეგები",
+      "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე",
+      "view_results": "ყველა შედეგის ნახვა",
+      "heading_results": "ძიების შედეგები"
     },
     "cart": {
       "cart": "Cart",
@@ -157,6 +160,9 @@
     "meta": {
       "homepage_title": "MOTHER & ME | მოვლა და ჰიგიენა გერმანიიდან",
       "homepage_description": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის."
+    },
+    "accessibility": {
+      "unit_price_separator": "თითო"
     }
   },
   "brands_page": {
@@ -197,7 +203,8 @@
     "menu": "მენიუ",
     "search": "ძებნა",
     "submenu_expand": "{{ title }} — ქვემენიუს გახსნა",
-    "submenu_collapse": "{{ title }} — ქვემენიუს დახურვა"
+    "submenu_collapse": "{{ title }} — ქვემენიუს დახურვა",
+    "dropdown": "ჩამოსაშლელი"
   },
   "blogs": {
     "article": {
@@ -298,7 +305,8 @@
         "regular_price": "Regular price",
         "sale_price": "Sale price",
         "unit_price": "Unit price",
-        "saved_price_html": "Save {{ price }}"
+        "saved_price_html": "Save {{ price }}",
+        "unit_price_label": "ერთეულის ფასი"
       },
       "read_less": "Read less",
       "read_more": "Read more",
@@ -947,6 +955,38 @@
     "ajax_cart": {
       "close": "დახურვა",
       "cart": "კალათა"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "პროდუქტები ვერ მოიძებნა"
+    }
+  },
+  "mm_home": {
+    "categories": {
+      "heading": "კატეგორიები"
+    },
+    "info": {
+      "heading": "ინფორმაცია"
+    },
+    "products": {
+      "heading": "შერჩეული პროდუქტები",
+      "view_all": "ყველა პროდუქტის ნახვა"
+    },
+    "needs": {
+      "heading": "შეიძინე საჭიროების მიხედვით"
+    },
+    "about": {
+      "heading": "გერმანიიდან — შენთვის",
+      "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
+      "link": "ჩვენს შესახებ"
+    },
+    "brands": {
+      "heading": "ბრენდები ჩვენს ასორტიმენტში",
+      "note": "ნაჩვენები ბრენდები არის ასორტიმენტში წარმოდგენილი სახელები და არ ნიშნავს ოფიციალურ პარტნიორობას."
+    },
+    "faq": {
+      "heading": "ხშირად დასმული კითხვები"
     }
   }
 }

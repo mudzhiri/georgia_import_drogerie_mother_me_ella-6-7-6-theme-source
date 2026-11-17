@@ -2,13 +2,22 @@
 
 {%- liquid
   assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_home.about.heading' | t
+  endif
   assign text = section.settings.text
+  if text == blank
+    assign text = 'mm_home.about.text' | t
+  endif
   assign image = section.settings.image
   assign image_alt = section.settings.image_alt
   if image_alt == blank and heading != blank
     assign image_alt = heading
   endif
   assign button_label = section.settings.button_label
+  if button_label == blank
+    assign button_label = 'mm_home.about.link' | t
+  endif
   assign button_link = section.settings.button_link
   assign has_image = false
   if image != blank
@@ -31,11 +40,11 @@
 {%- if has_content -%}
   <section
     id="mm-about-{{ section.id }}"
-    class="mm-about"
+    class="mm-about mm-reveal"
     {% if heading != blank %}aria-labelledby="mm-about-heading-{{ section.id }}"{% endif %}
   >
     <div class="mm-about__inner">
-      <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--text-only{% endif %}">
+      <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--text-only{% endif %}" data-mm-reveal-item>
         <div class="mm-about__copy">
           {%- if heading != blank -%}
             <h2 id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
@@ -48,6 +57,12 @@
           {%- if has_button -%}
             <a class="mm-about__link" href="{{ button_link }}">
               {{ button_label | escape }}
+              <span class="mm-about__link-arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" focusable="false">
+                  <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                  <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </a>
           {%- endif -%}
         </div>

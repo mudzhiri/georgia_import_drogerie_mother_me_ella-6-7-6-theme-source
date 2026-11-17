@@ -961,5 +961,32 @@
     "general": {
       "no_matches": "Keine Produkte gefunden"
     }
+  },
+  "mm_home": {
+    "categories": {
+      "heading": "Kategorien"
+    },
+    "info": {
+      "heading": "Information"
+    },
+    "products": {
+      "heading": "Ausgewählte Produkte",
+      "view_all": "Alle Produkte ansehen"
+    },
+    "needs": {
+      "heading": "Nach Bedürfnissen einkaufen"
+    },
+    "about": {
+      "heading": "Aus Deutschland — für dich",
+      "text": "MOTHER & ME vereint Pflege- und Hygieneprodukte für Kinder und Mütter, importiert aus Deutschland.",
+      "link": "Über uns"
+    },
+    "brands": {
+      "heading": "Marken in unserem Sortiment",
+      "note": "Gezeigte Markennamen stammen aus dem Sortiment und bedeuten keine offizielle Partnerschaft."
+    },
+    "faq": {
+      "heading": "Häufig gestellte Fragen"
+    }
   }
 }

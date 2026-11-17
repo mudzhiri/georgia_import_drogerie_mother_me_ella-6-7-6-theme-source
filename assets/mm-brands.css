@@ -1,0 +1,86 @@
+/* MOTHER & ME — quiet homepage brand strip (static, no carousel) */
+.mm-brands {
+  --mm-brands-heading: #214d43;
+  --mm-brands-muted: #59665f;
+  background: #ffffff;
+}
+
+.mm-brands__inner {
+  width: 100%;
+  max-width: var(--mm-content-max, 1200px);
+  margin: 0 auto;
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
+  box-sizing: border-box;
+}
+
+.mm-brands__heading {
+  margin: 0 0 var(--mm-heading-gap, 24px);
+  color: var(--mm-brands-heading);
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-section);
+  font-weight: var(--mm-font-weight-bold);
+  line-height: var(--mm-line-height-heading);
+  text-align: center;
+}
+
+.mm-brands__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 12px 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mm-brands__item {
+  margin: 0;
+}
+
+.mm-brands__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 44px;
+  padding: 8px 14px;
+  border: 1px solid #dee5df;
+  border-radius: 999px;
+  background: #faf8f4;
+  color: #214d43;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition:
+    background-color 180ms ease-out,
+    border-color 180ms ease-out;
+}
+
+a.mm-brands__mark:hover,
+a.mm-brands__mark:focus-visible {
+  background: #eaf1ec;
+  border-color: #c9d5ce;
+  color: #214d43;
+  outline: none;
+}
+
+a.mm-brands__mark:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+}
+
+.mm-brands__name {
+  font-family: var(--mm-font-sans);
+  font-size: var(--mm-font-size-ui, 15px);
+  font-weight: var(--mm-font-weight-semibold);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+.mm-brands__logo {
+  display: block;
+  width: auto;
+  max-width: 112px;
+  max-height: 28px;
+  object-fit: contain;
+}

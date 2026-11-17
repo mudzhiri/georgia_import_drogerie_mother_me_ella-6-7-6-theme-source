@@ -1,26 +1,45 @@
 {{ 'mm-categories.css' | asset_url | stylesheet_tag }}
-<script src="{{ 'mm-categories.js' | asset_url }}" defer></script>
 
+{%- liquid
+  assign section_heading = section.settings.heading
+  if section_heading == blank
+    assign section_heading = 'mm_home.categories.heading' | t
+  endif
+-%}
 <section
   id="mm-categories-{{ section.id }}"
-  class="mm-categories"
-  aria-label="{{ section.settings.heading | default: 'Categories' | escape }}"
+  class="mm-categories mm-reveal"
+  aria-label="{{ section_heading | escape }}"
 >
   <div class="mm-categories__inner">
-    {%- if section.settings.heading != blank -%}
-      <h2 class="visually-hidden">{{ section.settings.heading | escape }}</h2>
+    {%- if section_heading != blank -%}
+      <h2 class="visually-hidden">{{ section_heading | escape }}</h2>
     {%- endif -%}
 
     <div class="mm-categories__grid">
       {%- for block in section.blocks -%}
         {%- liquid
           assign label = block.settings.label
+          assign description = block.settings.description
           assign link = block.settings.link
           assign image = block.settings.image
           assign tone = block.settings.tone | default: 'kids'
           if tone != 'kids' and tone != 'mamas'
             assign tone = 'kids'
           endif
+
+          assign tile_collection = block.settings.collection
+          if tile_collection != blank
+            if link == blank
+              assign link = tile_collection.url
+            endif
+            if image == blank and tile_collection.featured_image != blank
+              assign image = tile_collection.featured_image
+            elsif image == blank and tile_collection.image != blank
+              assign image = tile_collection.image
+            endif
+          endif
+
           assign has_image = false
           if image != blank
             assign has_image = true
@@ -30,39 +49,49 @@
             assign focal_point = image.presentation.focal_point
           endif
         -%}
-        <a
-          class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}"
-          {% if link == blank %}
-            role="link"
-            aria-disabled="true"
-            tabindex="0"
-          {% else %}
-            href="{{ link }}"
-          {% endif %}
-          {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
-          {{ block.shopify_attributes }}
-        >
-          <div class="mm-categories__body">
-            {%- if label != blank -%}
+        {%- if label != blank -%}
+          <a
+            class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}"
+            data-mm-reveal-item
+            {% if link == blank %}
+              role="link"
+              aria-disabled="true"
+              tabindex="0"
+            {% else %}
+              href="{{ link }}"
+            {% endif %}
+            {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
+            {{ block.shopify_attributes }}
+          >
+            <div class="mm-categories__body">
               <p class="mm-categories__label">{{ label | escape }}</p>
-            {%- endif -%}
-          </div>
-
-          {%- if has_image -%}
-            <div class="mm-categories__media" aria-hidden="true">
-              {{
-                image
-                | image_url: width: 1200
-                | image_tag:
-                  loading: 'lazy',
-                  widths: '320, 480, 640, 800, 1000, 1200',
-                  sizes: '(min-width: 768px) 22vw, 80vw',
-                  alt: '',
-                  class: 'mm-categories__image'
-              }}
+              {%- if description != blank -%}
+                <p class="mm-categories__desc">{{ description | escape }}</p>
+              {%- endif -%}
+              <span class="mm-categories__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
+                  <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                  <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </div>
-          {%- endif -%}
-        </a>
+
+            {%- if has_image -%}
+              <div class="mm-categories__media" aria-hidden="true">
+                {{
+                  image
+                  | image_url: width: 1200
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '320, 480, 640, 800, 1000, 1200',
+                    sizes: '(min-width: 768px) min(360px, 30vw), 80vw',
+                    alt: '',
+                    class: 'mm-categories__image'
+                }}
+              </div>
+            {%- endif -%}
+          </a>
+        {%- endif -%}
       {%- endfor -%}
     </div>
   </div>
@@ -79,7 +108,7 @@
       "type": "text",
       "id": "heading",
       "label": "Section heading (screen reader)",
-      "default": "Categories"
+      "default": "კატეგორიები"
     }
   ],
   "blocks": [
@@ -90,8 +119,14 @@
         {
           "type": "text",
           "id": "label",
-          "label": "Label",
+          "label": "Title",
           "default": "Category"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Short description",
+          "info": "Optional. Keep to one short line."
         },
         {
           "type": "url",
@@ -99,26 +134,26 @@
           "label": "Link"
         },
         {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection",
+          "info": "Optional. Used for image fallback and as link when no URL is set."
+        },
+        {
           "type": "select",
           "id": "tone",
           "label": "Tile color",
           "default": "kids",
           "options": [
-            {
-              "value": "kids",
-              "label": "Kids (sage)"
-            },
-            {
-              "value": "mamas",
-              "label": "Mamas (apricot)"
-            }
+            { "value": "kids", "label": "Kids (sage)" },
+            { "value": "mamas", "label": "Mamas (apricot)" }
           ]
         },
         {
           "type": "image_picker",
           "id": "image",
           "label": "Image",
-          "info": "Optional. Without an image a compact text tile is shown. Focal point from the image editor is respected. Images are decorative because the tile label is visible."
+          "info": "Optional. Prefer shop media. Without an image a compact text tile is shown. Focal point from the media editor is respected."
         }
       ]
     }
@@ -131,6 +166,7 @@
           "type": "tile",
           "settings": {
             "label": "ბავშვებისთვის",
+            "description": "მოვლა და ჰიგიენა პატარებისთვის",
             "tone": "kids"
           }
         },
@@ -138,6 +174,7 @@
           "type": "tile",
           "settings": {
             "label": "დედებისთვის",
+            "description": "მოვლა დედებისთვის",
             "tone": "mamas"
           }
         }

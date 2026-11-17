@@ -35,7 +35,7 @@
 
 .mm-hero__inner {
   width: 100%;
-  max-width: var(--mm-content-max, 1280px);
+  max-width: var(--mm-content-max, 1200px);
   margin: 0 auto;
   padding: var(--mm-hero-pad-y) var(--mm-hero-gutter);
   box-sizing: border-box;
