@@ -16,6 +16,7 @@
     'quick_shop_popup_mobile',
     'term-condition-show',
   ];
+  const SELF_BODY_CLASS = 'mm-sticky-buybar-open';
 
   function ready(fn) {
     if (document.readyState === 'loading') {
@@ -27,7 +28,8 @@
 
   ready(function initMmStickyBuybar() {
     const bar = document.querySelector('[data-mm-sticky-buybar]');
-    if (!bar) return;
+    if (!bar || bar.dataset.mmStickyInit === '1') return;
+    bar.dataset.mmStickyInit = '1';
 
     const priceEl = bar.querySelector('[data-mm-sticky-price]');
     const btn = bar.querySelector('[data-mm-sticky-atc]');
@@ -38,6 +40,8 @@
     let mainObserver = null;
     let mainVisible = true;
     let syncTimer = null;
+    let applyingVisibility = false;
+    let lastShow = null;
 
     function getMainBtn() {
       return document.getElementById('product-add-to-cart');
@@ -79,16 +83,12 @@
       const idInput = form.querySelector('input[name="id"]');
       if (!idInput || !String(idInput.value || '').trim()) return true;
 
-      // Incomplete option groups (radios without checked, empty selects)
       const fieldsets = document.querySelectorAll('variant-radios fieldset, .product-form__input');
       for (const fs of fieldsets) {
         const radios = fs.querySelectorAll('input[type="radio"]');
         if (radios.length && ![...radios].some((r) => r.checked)) return true;
         const select = fs.querySelector('select');
-        if (select && (!select.value || select.selectedIndex <= 0 && select.options[0]?.disabled)) {
-          // only flag if select has no usable value
-          if (!select.value) return true;
-        }
+        if (select && !select.value) return true;
       }
 
       const selects = document.querySelectorAll('variant-selects select');
@@ -123,7 +123,6 @@
       mainBtn = getMainBtn();
       if (!mainBtn) return;
 
-      const soldOut = mainBtn.disabled && /sold|გაყიდ|ausverkauft|распрод/i.test(mainBtn.textContent || '');
       const disabled = mainBtn.disabled;
       const loading = mainBtn.classList.contains('is-loading');
 
@@ -133,14 +132,14 @@
       btn.setAttribute('aria-busy', loading ? 'true' : 'false');
 
       const mainText = (mainBtn.textContent || '').replace(/\s+/g, ' ').trim();
-      if (mainText) {
+      if (mainText && labelEl.textContent !== mainText) {
         labelEl.textContent = mainText;
       }
 
       const priceSource = getPriceSource();
       if (priceSource) {
         const text = (priceSource.textContent || '').replace(/\s+/g, ' ').trim();
-        if (text) priceEl.textContent = text;
+        if (text && priceEl.textContent !== text) priceEl.textContent = text;
       }
     }
 
@@ -148,30 +147,38 @@
       if (!MQ.matches) return false;
       if (overlayOpen()) return false;
       if (!getMainBtn()) return false;
-      // Show only when main ATC has scrolled out above the viewport
       return !mainVisible;
     }
 
     function applyVisibility() {
+      if (applyingVisibility) return;
       const show = shouldShow();
-      if (show) {
-        bar.hidden = false;
-        bar.setAttribute('aria-hidden', 'false');
-        // next frame for transition
-        window.requestAnimationFrame(() => {
-          updateBottomOffset();
-          bar.classList.add('is-visible');
-          document.body.classList.add('mm-sticky-buybar-open');
-        });
-      } else {
-        bar.classList.remove('is-visible');
-        document.body.classList.remove('mm-sticky-buybar-open');
-        window.setTimeout(() => {
-          if (!shouldShow()) {
-            bar.hidden = true;
-            bar.setAttribute('aria-hidden', 'true');
-          }
-        }, 240);
+      if (lastShow === show) return;
+      lastShow = show;
+      applyingVisibility = true;
+      try {
+        if (show) {
+          bar.hidden = false;
+          bar.setAttribute('aria-hidden', 'false');
+          window.requestAnimationFrame(() => {
+            updateBottomOffset();
+            bar.classList.add('is-visible');
+            document.body.classList.add(SELF_BODY_CLASS);
+            applyingVisibility = false;
+          });
+        } else {
+          bar.classList.remove('is-visible');
+          document.body.classList.remove(SELF_BODY_CLASS);
+          window.setTimeout(() => {
+            if (!shouldShow()) {
+              bar.hidden = true;
+              bar.setAttribute('aria-hidden', 'true');
+            }
+            applyingVisibility = false;
+          }, 240);
+        }
+      } catch (e) {
+        applyingVisibility = false;
       }
     }
 
@@ -182,7 +189,6 @@
       }
       mainBtn = getMainBtn();
       if (!mainBtn || typeof IntersectionObserver === 'undefined') {
-        // Fallback: treat as not visible when scrolled past
         mainVisible = true;
         return;
       }
@@ -192,16 +198,16 @@
           const entry = entries[0];
           if (!entry) return;
           const rect = entry.boundingClientRect;
+          let nextVisible = true;
           if (entry.isIntersecting) {
-            // Normal ATC visible again → hide sticky bar
-            mainVisible = true;
+            nextVisible = true;
           } else if (rect.bottom <= 0) {
-            // ATC scrolled out upward → show sticky bar
-            mainVisible = false;
+            nextVisible = false;
           } else {
-            // ATC still below the fold → keep sticky bar hidden
-            mainVisible = true;
+            nextVisible = true;
           }
+          if (mainVisible === nextVisible) return;
+          mainVisible = nextVisible;
           applyVisibility();
         },
         { root: null, threshold: 0, rootMargin: '0px' }
@@ -238,17 +244,34 @@
         return;
       }
 
-      // Use the existing purchase action on the main product form
       mainBtn.click();
     });
 
-    const bodyObserver = new MutationObserver(() => {
+    // Only react to overlay/menu body classes — ignore our own class to avoid feedback loops.
+    const bodyObserver = new MutationObserver((mutations) => {
+      let relevant = false;
+      for (const m of mutations) {
+        if (m.type !== 'attributes' || m.attributeName !== 'class') continue;
+        // If only SELF_BODY_CLASS toggled, skip.
+        const before = (m.oldValue || '').split(/\s+/).filter(Boolean);
+        const after = Array.from(document.body.classList);
+        const beforeFiltered = before.filter((c) => c !== SELF_BODY_CLASS).sort().join(' ');
+        const afterFiltered = after.filter((c) => c !== SELF_BODY_CLASS).sort().join(' ');
+        if (beforeFiltered !== afterFiltered) {
+          relevant = true;
+          break;
+        }
+      }
+      if (!relevant) return;
       applyVisibility();
       syncFromMain();
     });
-    bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    bodyObserver.observe(document.body, {
+      attributes: true,
+      attributeFilter: ['class'],
+      attributeOldValue: true,
+    });
 
-    // Watch main ATC attributes/text for sold-out / loading / label sync
     const attrObserver = new MutationObserver(() => {
       clearTimeout(syncTimer);
       syncTimer = setTimeout(syncFromMain, 40);
@@ -274,6 +297,7 @@
     function onMqChange() {
       if (!MQ.matches) {
         mainVisible = true;
+        lastShow = null;
         applyVisibility();
         if (mainObserver) mainObserver.disconnect();
         return;
@@ -281,6 +305,7 @@
       watchMainBtn();
       observeMain();
       syncFromMain();
+      lastShow = null;
       applyVisibility();
     }
 
@@ -292,7 +317,6 @@
       { passive: true }
     );
 
-    // Variants / cart events may replace price markup
     document.addEventListener('variant:change', syncFromMain);
     document.addEventListener('cart-update', syncFromMain);
 
@@ -302,7 +326,6 @@
       MQ.addListener(onMqChange);
     }
 
-    // Init after layout (sticky header / toolbar)
     window.setTimeout(() => {
       onMqChange();
     }, 100);

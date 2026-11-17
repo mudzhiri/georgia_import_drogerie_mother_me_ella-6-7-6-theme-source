@@ -103,8 +103,11 @@ class VariantSelects extends HTMLElement {
             window.setTimeout(() => {
                 if ($('.productView-nav-gallery').length > 0) {
                     const newMediaGallery = document.querySelector(`.slick-slide:not(.slick-cloned):has([data-media-id="${this.currentVariant.featured_media.id}"])`)?.getAttribute("data-slick-index");
-                    $('.productView-nav-gallery').slick('slickGoTo', newMediaGallery);
-                } else{
+                    const goToIndex = Number(newMediaGallery);
+                    if (Number.isFinite(goToIndex)) {
+                        $('.productView-nav-gallery').slick('slickGoTo', goToIndex);
+                    }
+                } else if (newMedia && newMedia.length) {
                     $(newMedia).trigger('click');
                 }
             }, time);

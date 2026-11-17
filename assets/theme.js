@@ -4747,27 +4747,32 @@
                     }, 1000);
                 }
 
-                const setSlickCounter = () => {
-                    clearTimeout(appendTimeout);
-                    appendTimeout = setTimeout(() => {sliderNav.append(slickCounter)}, 1000);
-                }
-
-                sliderNav.on('init', () => {
-                    if (window.innerWidth < 768 && navCounterMobi) {
-                        if (variant_image_group) getSlickCounter();
-                        setSlickCounter();
-                        sliderNav.on('reInit afterChange', function (event, slick, currentSlide, nextSlide) {
+                // Append counter once; never re-append on every reInit (PDP freeze risk).
+                let slickCounterBound = false;
+                const ensureSlickCounter = () => {
+                    if (window.innerWidth >= 768 || !navCounterMobi) return;
+                    if (variant_image_group) getSlickCounter();
+                    if (!sliderNav.find('.slick-counter').length) {
+                        clearTimeout(appendTimeout);
+                        appendTimeout = setTimeout(() => {
+                            if (!sliderNav.find('.slick-counter').length) sliderNav.append(slickCounter);
+                        }, 1000);
+                    }
+                    if (!slickCounterBound) {
+                        slickCounterBound = true;
+                        sliderNav.on('reInit afterChange', function (event, slick, currentSlide) {
                             var i = (currentSlide ? currentSlide : 0) + 1;
                             sliderNav.find('.slick-counter--current').text(i);
                         });
                     }
+                };
+
+                sliderNav.on('init', () => {
+                    ensureSlickCounter();
                 });
 
                 sliderNav.on('reInit', () => {
-                    if (window.innerWidth < 768 && navCounterMobi) {
-                        if (variant_image_group) getSlickCounter();
-                        setSlickCounter();
-                    }
+                    ensureSlickCounter();
                 });
 
                 sliderNav.closest('.productView').is('.layout-4') ? checkFor = false : checkFor = sliderFor;
@@ -5302,8 +5307,9 @@
                             const navArrowsDesk = sliderNav.data('arrows-desk'),
                                 navArrowsMobi = sliderNav.data('arrows-mobi'),
                                 length = sliderNav.data('media-count'),
-                                oneItems = sliderNav.data('1-item-mobi'),
-                                show = 2,
+                                oneItems = sliderNav.data('1-item-mobi');
+                            // Must be let — values are adjusted below (const threw after unslick).
+                            let show = 2,
                                 rows = 2;
 
                             if (length == 1) {

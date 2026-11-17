@@ -16,13 +16,13 @@
   let navOptionsApplied = false;
   let slickEventsBound = false;
   let runningSlickSafe = false;
+  let hydrated = false;
 
   const stopAutoplay = () => {
     if (!window.jQuery || !main) return;
     const $nav = window.jQuery(main);
     if ($nav.length && $nav.hasClass('slick-initialized') && typeof $nav.slick === 'function') {
       try {
-        // refresh=false — never re-init from here
         $nav.slick('slickSetOption', 'autoplay', false, false);
         $nav.slick('slickPause');
       } catch (e) {
@@ -33,11 +33,12 @@
 
   // Promote lazysizes data-* to real attributes so slides are visible without JS observers.
   const hydrateLazyImages = () => {
-    gallery.querySelectorAll('img').forEach((img, index) => {
-      const dataSrc =
-        img.getAttribute('data-src') ||
-        img.getAttribute('data-srcset') ||
-        '';
+    const mains = gallery.querySelectorAll(
+      '.productView-image:not(.slick-cloned) img[data-main-image]'
+    );
+    const primary = mains[0] || null;
+
+    gallery.querySelectorAll('img').forEach((img) => {
       if (!img.getAttribute('src')) {
         if (img.getAttribute('data-src')) {
           img.setAttribute('src', img.getAttribute('data-src'));
@@ -57,17 +58,14 @@
       img.classList.remove('lazyload', 'lazyloading');
       if (!img.classList.contains('lazyloaded')) img.classList.add('lazyloaded');
 
-      const mains = gallery.querySelectorAll(
-        '.productView-image:not(.slick-cloned) img[data-main-image]'
-      );
-      const isPrimary = mains[0] === img;
-      if (isPrimary) {
+      if (img === primary) {
         img.setAttribute('loading', 'eager');
         img.setAttribute('fetchpriority', 'high');
       } else if (!img.getAttribute('loading')) {
         img.setAttribute('loading', 'lazy');
       }
     });
+    hydrated = true;
   };
 
   const enhanceThumbs = () => {
@@ -100,8 +98,8 @@
     return w >= MIN_ZOOM_EDGE || h >= MIN_ZOOM_EDGE;
   };
 
-  const gateZoom = () => {
-    gallery.querySelectorAll('[data-fancybox="images"], .productView-iconZoom, .media[data-fancybox]').forEach((el) => {
+  const gateZoom = (root = gallery) => {
+    root.querySelectorAll('[data-fancybox="images"], .productView-iconZoom, .media[data-fancybox]').forEach((el) => {
       const zoomable = canZoomMedia(el);
       el.classList.toggle('mm-zoom-disabled', !zoomable);
       if (!zoomable) {
@@ -169,16 +167,15 @@
     counter.setAttribute('aria-live', 'polite');
   };
 
-  // Apply Slick nav options once only, never with refresh from afterChange.
-  const enhanceNavControls = ({ allowRefresh = false } = {}) => {
+  // Never refresh Slick from here — theme reInit + asNavFor can freeze the page.
+  const enhanceNavControls = () => {
     if (!main || !window.jQuery) return;
     const $nav = window.jQuery(main);
     if (!$nav.length || !$nav.hasClass('slick-initialized') || typeof $nav.slick !== 'function') return;
 
     if (mediaCount > 1 && !navOptionsApplied) {
       try {
-        // refresh only on the first safe boot — never from afterChange/reInit
-        $nav.slick('slickSetOption', 'arrows', true, allowRefresh);
+        $nav.slick('slickSetOption', 'arrows', true, false);
         $nav.slick('slickSetOption', 'swipe', true, false);
         $nav.slick('slickSetOption', 'touchMove', true, false);
         $nav.slick('slickSetOption', 'autoplay', false, false);
@@ -223,7 +220,6 @@
 
   const hideEmptySlides = () => {
     gallery.querySelectorAll('.productView-image').forEach((slide) => {
-      // Slick clones mirror real slides; never invent media, only mark truly empty originals.
       const hasMedia = slideHasMedia(slide);
       const shouldHide = !hasMedia;
       if (slide.classList.contains('mm-media-empty') === shouldHide) return;
@@ -233,45 +229,42 @@
     });
   };
 
+  // Lightweight update on slide change — no hydrate / no slick refresh.
   const onSlickUpdate = () => {
     if (runningSlickSafe) return;
     runningSlickSafe = true;
     try {
       stopAutoplay();
       enhanceCounter();
-      // No slickSetOption(refresh) here — that re-enters init/reInit/afterChange.
-      enhanceNavControls({ allowRefresh: false });
-      enhanceThumbs();
-      hydrateLazyImages();
-      hideEmptySlides();
-      gateZoom();
+      enhanceNavControls();
+      const active = gallery.querySelector('.productView-image.slick-current, .slick-slide.slick-active');
+      if (active) gateZoom(active);
     } finally {
       runningSlickSafe = false;
     }
   };
 
-  const boot = ({ allowRefresh = false } = {}) => {
-    hydrateLazyImages();
+  const boot = () => {
+    if (!hydrated) hydrateLazyImages();
     stopAutoplay();
     enhanceThumbs();
     bindFancyboxFocus();
     enhanceCounter();
-    enhanceNavControls({ allowRefresh });
+    enhanceNavControls();
     hideEmptySlides();
     gallery.querySelectorAll('.productView-image:not(.slick-cloned) img[data-main-image]').forEach((img) => {
-      if (img.complete) gateZoom();
-      else img.addEventListener('load', gateZoom, { once: true });
+      if (img.complete) gateZoom(img.closest('.productView-image') || gallery);
+      else img.addEventListener('load', () => gateZoom(img.closest('.productView-image') || gallery), { once: true });
     });
   };
 
-  boot({ allowRefresh: false });
+  boot();
 
-  // Theme inits Slick asynchronously — refresh at most once when Slick is ready.
   const tryBootWhenSlickReady = () => {
     if (!window.jQuery || !main) return false;
     const $nav = window.jQuery(main);
     if (!$nav.length || !$nav.hasClass('slick-initialized')) return false;
-    boot({ allowRefresh: !navOptionsApplied });
+    boot();
     if (!slickEventsBound) {
       slickEventsBound = true;
       $nav.on('init.mmGallery reInit.mmGallery afterChange.mmGallery', onSlickUpdate);
