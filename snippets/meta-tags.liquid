@@ -4,7 +4,13 @@
   assign og_type = 'website'
   assign og_description = page_description | default: shop.description | default: '' | strip
   assign mm_shop_cmp = shop.name | strip | downcase
+  assign mm_shop_norm = mm_shop_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
   assign mm_og_title_cmp = og_title | downcase
+  assign mm_og_title_norm = mm_og_title_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
+  assign mm_og_title_is_brand_only = false
+  if og_title == blank or mm_og_title_cmp == mm_shop_cmp or mm_og_title_norm == mm_shop_norm
+    assign mm_og_title_is_brand_only = true
+  endif
 
   if request.page_type == 'index'
     assign mm_home_title = 'general.meta.homepage_title' | t
@@ -16,7 +22,7 @@
       assign mm_home_desc = ''
     endif
 
-    if og_title == blank or mm_og_title_cmp == mm_shop_cmp
+    if mm_og_title_is_brand_only
       if mm_home_title != blank
         assign og_title = mm_home_title
       else

@@ -8,9 +8,15 @@
 {%- liquid
   assign mm_shop_name = shop.name | strip
   assign mm_shop_cmp = mm_shop_name | downcase
+  assign mm_shop_norm = mm_shop_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
   assign mm_page_title = page_title | default: '' | strip
   assign mm_title_cmp = mm_page_title | downcase
+  assign mm_title_norm = mm_title_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
   assign mm_description = page_description | default: '' | strip
+  assign mm_title_is_brand_only = false
+  if mm_page_title == blank or mm_title_cmp == mm_shop_cmp or mm_title_norm == mm_shop_norm
+    assign mm_title_is_brand_only = true
+  endif
 
   if request.page_type == 'index'
     assign mm_home_title = 'general.meta.homepage_title' | t
@@ -22,13 +28,14 @@
       assign mm_home_desc = ''
     endif
 
-    if mm_page_title == blank or mm_title_cmp == mm_shop_cmp
+    if mm_title_is_brand_only
       if mm_home_title != blank
         assign mm_page_title = mm_home_title
       else
         assign mm_page_title = mm_shop_name
       endif
       assign mm_title_cmp = mm_page_title | downcase
+      assign mm_title_norm = mm_title_cmp | replace: '&amp;', '' | replace: '&', '' | replace: ' ', ''
     endif
 
     if mm_description == blank and mm_home_desc != blank
@@ -40,12 +47,13 @@
   elsif mm_page_title == blank
     assign mm_page_title = mm_shop_name
     assign mm_title_cmp = mm_shop_cmp
+    assign mm_title_norm = mm_shop_norm
   endif
 
   assign mm_append_shop = true
   if request.page_type == 'index'
     assign mm_append_shop = false
-  elsif mm_title_cmp == mm_shop_cmp
+  elsif mm_title_cmp == mm_shop_cmp or mm_title_norm == mm_shop_norm
     assign mm_append_shop = false
   elsif mm_title_cmp contains mm_shop_cmp
     assign mm_append_shop = false
