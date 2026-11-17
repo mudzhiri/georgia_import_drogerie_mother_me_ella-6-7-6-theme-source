@@ -258,3 +258,111 @@
     transition: none;
   }
 }
+
+/* DM-style wishlist + share overlay (top-right on media) */
+.mm-product-gallery .productView-image-wrapper {
+  position: relative;
+}
+
+.mm-pdp-actions {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.mm-pdp-actions__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #214d43;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.mm-pdp-actions__btn:hover {
+  background: rgba(255, 255, 255, 0.72);
+  color: #173b33;
+}
+
+.mm-pdp-actions__btn:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+}
+
+.mm-pdp-actions__btn:active {
+  transform: scale(0.96);
+}
+
+.mm-pdp-actions__icon {
+  display: flex;
+  line-height: 0;
+}
+
+.mm-pdp-actions__wishlist .mm-pdp-actions__icon--filled {
+  display: none;
+}
+
+.mm-pdp-actions__wishlist.wishlist-added {
+  color: #214d43;
+}
+
+.mm-pdp-actions__wishlist.wishlist-added .mm-pdp-actions__icon--outline {
+  display: none;
+}
+
+.mm-pdp-actions__wishlist.wishlist-added .mm-pdp-actions__icon--filled {
+  display: flex;
+}
+
+.mm-pdp-actions__toast {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: #214d43;
+  color: #ffffff;
+  font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: nowrap;
+  box-shadow: 0 8px 20px rgba(33, 77, 67, 0.18);
+  pointer-events: none;
+}
+
+.mm-pdp-actions__toast[hidden] {
+  display: none !important;
+}
+
+/* Prefer media overlay; hide Ella ATC wishlist twin when overlay exists */
+.productView:has(.mm-pdp-actions) .productView-wishlist {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-pdp-actions__btn {
+    transition: none;
+  }
+
+  .mm-pdp-actions__btn:active {
+    transform: none;
+  }
+}

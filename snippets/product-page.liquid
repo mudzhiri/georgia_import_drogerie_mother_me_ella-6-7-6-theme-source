@@ -505,6 +505,7 @@
                         {%- endif -%}
                         <div class="productView-images-wrapper" data-video-{{ video_layout }}>
                             <div class="productView-image-wrapper">
+                                {% render 'mm-pdp-media-actions', product: product %}
                                 {%- if show_badge -%}
                                     {% render 'product-badge',
                                         product: product,

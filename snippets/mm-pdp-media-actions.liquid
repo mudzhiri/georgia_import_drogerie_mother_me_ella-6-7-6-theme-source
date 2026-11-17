@@ -1,0 +1,84 @@
+{%- comment -%}
+  DM-style wishlist + share overlay on PDP media (top-right).
+  Wishlist uses existing theme [data-wishlist] / localStorage handlers.
+{%- endcomment -%}
+{%- liquid
+  assign share_url = shop.url | append: product.url
+  assign share_title = product.title | escape
+  assign share_label = 'products.product.share' | t
+  assign share_copied = 'products.product.share_copied' | t
+  if share_copied == blank or share_copied contains 'Translation missing'
+    assign share_copied = 'ბმული დაკოპირდა'
+  endif
+-%}
+<div class="mm-pdp-actions" data-mm-pdp-actions>
+  {%- if settings.show_wishlist -%}
+    <button
+      type="button"
+      class="mm-pdp-actions__btn mm-pdp-actions__wishlist"
+      data-wishlist
+      data-wishlist-handle="{{ product.handle | escape }}"
+      data-product-id="{{ product.id }}"
+      aria-label="{{ 'wishlist.general.add' | t | escape }}"
+      title="{{ 'wishlist.general.add' | t | escape }}"
+    >
+      <span class="mm-pdp-actions__icon mm-pdp-actions__icon--outline" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
+          <path
+            d="M12 20.5S4.5 15.4 4.5 9.9A3.9 3.9 0 0 1 12 7.2a3.9 3.9 0 0 1 7.5 2.7c0 5.5-7.5 10.6-7.5 10.6Z"
+            stroke="currentColor"
+            stroke-width="1.6"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </span>
+      <span class="mm-pdp-actions__icon mm-pdp-actions__icon--filled" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="24" height="24" focusable="false">
+          <path
+            d="M12 20.5S4.5 15.4 4.5 9.9A3.9 3.9 0 0 1 12 7.2a3.9 3.9 0 0 1 7.5 2.7c0 5.5-7.5 10.6-7.5 10.6Z"
+            fill="currentColor"
+          />
+        </svg>
+      </span>
+      <span class="visually-hidden text">{{ 'wishlist.general.add' | t }}</span>
+    </button>
+  {%- endif -%}
+
+  <button
+    type="button"
+    class="mm-pdp-actions__btn mm-pdp-actions__share"
+    data-mm-share
+    data-mm-share-url="{{ share_url | escape }}"
+    data-mm-share-title="{{ share_title }}"
+    data-mm-share-copied="{{ share_copied | escape }}"
+    aria-label="{{ share_label | escape }}"
+    title="{{ share_label | escape }}"
+  >
+    <span class="mm-pdp-actions__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="none" focusable="false">
+        <path
+          d="M12 3.5v10"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+        <path
+          d="M8.5 7 12 3.5 15.5 7"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <path
+          d="M5.5 12.5v5A2.5 2.5 0 0 0 8 20h8a2.5 2.5 0 0 0 2.5-2.5v-5"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </span>
+  </button>
+
+  <p class="mm-pdp-actions__toast" data-mm-share-toast hidden role="status" aria-live="polite"></p>
+</div>
