@@ -175,8 +175,12 @@
   font-size: var(--mm-font-size-card, 15px);
   font-weight: 600;
   line-height: 1.4;
-  height: auto;
-  max-height: none;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  min-height: calc(1.4em * 2);
+  max-height: calc(1.4em * 2);
 }
 
 .mm-products .mm-product-card__title a {
