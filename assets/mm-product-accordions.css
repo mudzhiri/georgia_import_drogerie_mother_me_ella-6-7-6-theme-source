@@ -113,12 +113,12 @@
   display: inline-block;
   margin-right: 12px;
   margin-top: 4px;
+  padding: 10px 0;
   color: var(--mm-a-ink);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 2px;
   min-height: 44px;
-  line-height: 44px;
 }
 
 .mm-product-accordions__links a:focus-visible {
