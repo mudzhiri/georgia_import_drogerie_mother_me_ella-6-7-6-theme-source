@@ -66,22 +66,30 @@
 }
 
 @media screen and (min-width: 750px) {
+  .halo-recommendations-block .mm-pdp-reco-grid.products-grid,
+  .halo-recently-viewed-block .mm-pdp-reco-grid.products-grid,
   .halo-recommendations-block .mm-pdp-reco-grid,
   .halo-recently-viewed-block .mm-pdp-reco-grid {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: var(--mm-reco-gap, 20px);
   }
 
+  .halo-recommendations-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="1"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="1"],
   .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="1"],
   .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="1"] {
     grid-template-columns: minmax(0, 280px) !important;
   }
 
+  .halo-recommendations-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="2"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="2"],
   .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="2"],
   .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="2"] {
     grid-template-columns: repeat(2, minmax(0, 280px)) !important;
   }
 
+  .halo-recommendations-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="3"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="3"],
   .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="3"],
   .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="3"] {
     grid-template-columns: repeat(3, minmax(0, 280px)) !important;
@@ -89,6 +97,8 @@
 }
 
 @media screen and (max-width: 749px) {
+  .halo-recommendations-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="1"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid.products-grid[data-mm-reco-count="1"],
   .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="1"],
   .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="1"] {
     grid-template-columns: minmax(0, 1fr) !important;
