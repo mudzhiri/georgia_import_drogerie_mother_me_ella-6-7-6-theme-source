@@ -157,14 +157,15 @@ class Accordion extends HTMLElement {
         this.setAttribute('open', true);
         this.setAttribute('aria-expanded', 'true');
         this.content.setAttribute('aria-hidden', 'false');
-        $(this.content).slideDown()
+        this.content.hidden = false;
+        this.content.style.display = '';
     }
 
     close() {
         this.removeAttribute('open');
         this.setAttribute('aria-expanded', 'false');
         this.content.setAttribute('aria-hidden', 'true');
-        $(this.content).slideUp()
+        this.content.style.display = 'none';
     }
 }
 

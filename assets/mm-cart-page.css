@@ -481,6 +481,23 @@
   pointer-events: none;
 }
 
+/*
+  Ella sticky MB: a decorative .button-disable (href=javascript:void(0)) sits on top
+  until jQuery adds .active. That blocked checkout when the void link was clicked.
+  MM: always expose the real #cart-checkout button; hide the decoy.
+*/
+.template-cart .cart-actions.sticky_button_checkout_mb .button-disable {
+  display: none !important;
+}
+
+.template-cart .cart-actions.sticky_button_checkout_mb .button-enable,
+.template-cart .cart-actions.sticky_button_checkout_mb.active .button-enable {
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: relative;
+  pointer-events: auto;
+}
+
 .template-cart .cart-actions .button-continue,
 .template-cart .cart-actions .button-2.button-continue {
   display: inline-flex;
