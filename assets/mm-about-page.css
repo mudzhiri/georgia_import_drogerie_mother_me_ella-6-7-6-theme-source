@@ -14,8 +14,9 @@
   width: 100%;
   max-width: var(--mm-ap-max);
   margin: 0 auto;
-  padding: var(--mm-section-y, 32px) var(--mm-page-gutter, 16px) 56px;
+  padding: var(--mm-section-y, 32px) max(12px, var(--mm-page-gutter, 16px)) 56px;
   box-sizing: border-box;
+  overflow-x: clip;
 }
 
 .mm-about-page__eyebrow {
@@ -109,13 +110,69 @@
 }
 
 .mm-about-page__steps {
-  padding-left: 1.25rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
 
 .mm-about-page__steps li {
-  padding-left: 4px;
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--mm-ap-border);
+}
+
+.mm-about-page__step-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  background: #e7efe9;
+  color: var(--mm-ap-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.mm-about-page__step-text {
+  min-width: 0;
+}
+
+.mm-about-page__policies {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 10px;
+  margin: 16px 0 0;
+}
+
+.mm-about-page__policy-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: #214d43;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mm-about-page__policy-link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+.mm-about-page__policy-sep {
+  color: #9aab9f;
 }
 
 .mm-about-page__cta {

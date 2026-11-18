@@ -26,6 +26,17 @@
   endif
   assign contact_url = contact_page.url | default: '/pages/contact'
 
+  assign shipping_policy = shop.shipping_policy
+  assign refund_policy = shop.refund_policy
+  assign has_shipping_policy = false
+  assign has_refund_policy = false
+  if shipping_policy != blank and shipping_policy.url != blank
+    assign has_shipping_policy = true
+  endif
+  if refund_policy != blank and refund_policy.url != blank
+    assign has_refund_policy = true
+  endif
+
   assign image = section.settings.image
   assign image_alt = section.settings.image_alt
   if image_alt == blank
@@ -93,11 +104,48 @@
           {{ 'mm_pages.about.flow_heading' | t }}
         </h2>
         <ol class="mm-about-page__steps">
-          <li>{{ 'mm_pages.about.flow_step_1' | t }}</li>
-          <li>{{ 'mm_pages.about.flow_step_2' | t }}</li>
-          <li>{{ 'mm_pages.about.flow_step_3' | t }}</li>
-          <li>{{ 'mm_pages.about.flow_step_4' | t }}</li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">1</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_1' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">2</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_2' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">3</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_3' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">4</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_4' | t }}</span>
+          </li>
         </ol>
+      </section>
+
+      <section class="mm-about-page__block" aria-labelledby="mm-about-pay-{{ section.id }}">
+        <h2 id="mm-about-pay-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.pay_heading' | t }}
+        </h2>
+        <ol class="mm-about-page__steps mm-about-page__steps--pay">
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">1</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_1' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">2</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_2' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">3</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_3' | t }}</span>
+          </li>
+          <li>
+            <span class="mm-about-page__step-num" aria-hidden="true">4</span>
+            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_4' | t }}</span>
+          </li>
+        </ol>
+        <p class="mm-about-page__note">{{ 'mm_pages.about.pay_note' | t }}</p>
       </section>
 
       <section class="mm-about-page__block" aria-labelledby="mm-about-ship-{{ section.id }}">
@@ -105,6 +153,23 @@
           {{ 'mm_pages.about.ship_heading' | t }}
         </h2>
         <p class="mm-about-page__text">{{ 'mm_pages.about.ship_text' | t }}</p>
+        {%- if has_shipping_policy or has_refund_policy -%}
+          <p class="mm-about-page__policies" aria-label="{{ 'mm_pages.about.policies_nav' | t | escape }}">
+            {%- if has_shipping_policy -%}
+              <a class="mm-about-page__policy-link" href="{{ shipping_policy.url }}">
+                {{ 'mm_pages.about.policies_shipping' | t }}
+              </a>
+            {%- endif -%}
+            {%- if has_shipping_policy and has_refund_policy -%}
+              <span class="mm-about-page__policy-sep" aria-hidden="true">·</span>
+            {%- endif -%}
+            {%- if has_refund_policy -%}
+              <a class="mm-about-page__policy-link" href="{{ refund_policy.url }}">
+                {{ 'mm_pages.about.policies_refund' | t }}
+              </a>
+            {%- endif -%}
+          </p>
+        {%- endif -%}
       </section>
     </div>
 

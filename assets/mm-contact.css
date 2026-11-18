@@ -154,7 +154,9 @@
 }
 
 .mm-contact__label {
-  display: block;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   margin: 0 0 4px;
   color: var(--mm-contact-heading);
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
@@ -163,6 +165,31 @@
   line-height: 1.35;
   letter-spacing: 0.02em;
   text-transform: none;
+}
+
+.mm-contact__icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #5f7a6d;
+}
+
+.mm-contact__policy-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-top: 4px;
+  color: #214d43;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.mm-contact__policy-link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 3px;
+  border-radius: 2px;
 }
 
 .mm-contact__value {
