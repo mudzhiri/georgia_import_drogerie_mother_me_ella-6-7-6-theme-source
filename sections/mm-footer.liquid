@@ -120,9 +120,12 @@
   endif
 
   # Theme-rendered B2B link — does not edit shared Shopify navigation menus.
+  # New checkbox can be nil on existing section instances; only explicit false hides it.
   assign business_page = pages['business']
   assign show_business_page = false
-  if section.settings.show_business_link and business_page != empty and business_page.url != blank
+  if section.settings.show_business_link == false
+    assign show_business_page = false
+  elsif business_page != empty and business_page.url != blank
     assign show_business_page = true
   endif
 
