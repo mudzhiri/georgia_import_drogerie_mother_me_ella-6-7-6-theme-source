@@ -40,9 +40,13 @@
   function onOpened() {
     const root = drawer();
     if (!root) return;
+    if (window.mmA11yOverlays) window.mmA11yOverlays.closeOthers('menu');
+    document.dispatchEvent(new CustomEvent('mm:overlay-open', { detail: { which: 'menu' } }));
     root.setAttribute('role', 'dialog');
     root.setAttribute('aria-modal', 'true');
     root.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    document.body.style.touchAction = 'none';
     syncToggleAria();
     enhanceMobileToggles();
     const closeBtn = root.querySelector('[data-menu-close-sidebar]');
@@ -59,6 +63,7 @@
     }
     document.body.style.removeProperty('overflow');
     document.body.style.removeProperty('touch-action');
+    document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'menu' } }));
     resetAccordions();
     syncToggleAria();
     const btn = toggleBtn();

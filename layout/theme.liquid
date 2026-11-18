@@ -38,9 +38,11 @@
         {{ 'mm-tokens.css' | asset_url | stylesheet_tag }}
         {{ 'mm-image-loading.css' | asset_url | stylesheet_tag }}
         {{ 'mm-header.css' | asset_url | stylesheet_tag }}
+        {{ 'mm-a11y.css' | asset_url | stylesheet_tag }}
         {{ 'mm-product-badges.css' | asset_url | stylesheet_tag }}
         {{ 'mm-product-card.css' | asset_url | stylesheet_tag }}
         {{ 'mm-atc-error.css' | asset_url | stylesheet_tag }}
+        <script src="{{ 'mm-a11y-overlays.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-product-card.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-wishlist.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-share.js' | asset_url }}" defer></script>

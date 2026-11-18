@@ -128,6 +128,7 @@
       this.input?.addEventListener('input', this.onInput);
       this.form?.addEventListener('submit', this.onFormSubmit);
       this.results?.addEventListener('click', this.onResultsClick);
+      document.addEventListener('mm:search-close-request', () => this.close());
     }
 
     onCloseClick(event) {
@@ -214,6 +215,8 @@
         this.input?.focus();
         return;
       }
+      if (window.mmA11yOverlays) window.mmA11yOverlays.closeOthers('search');
+      document.dispatchEvent(new CustomEvent('mm:overlay-open', { detail: { which: 'search' } }));
       this.trigger = trigger;
       this.open = true;
       this.panel.hidden = false;
@@ -248,6 +251,7 @@
       document.documentElement.classList.remove('mm-search-open');
       document.body.classList.remove('mm-search-open');
       this.unbindViewport();
+      document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'search' } }));
 
       const finish = () => {
         this.panel.hidden = true;
@@ -288,6 +292,28 @@
         event.preventDefault();
         this.close();
         return;
+      }
+
+      if (event.key === 'Tab' && this.panel) {
+        const nodes = Array.from(
+          this.panel.querySelectorAll(
+            'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+          )
+        ).filter((el) => el.offsetParent !== null && el.getAttribute('aria-hidden') !== 'true');
+        if (nodes.length) {
+          const first = nodes[0];
+          const last = nodes[nodes.length - 1];
+          if (event.shiftKey && document.activeElement === first) {
+            event.preventDefault();
+            last.focus();
+            return;
+          }
+          if (!event.shiftKey && document.activeElement === last) {
+            event.preventDefault();
+            first.focus();
+            return;
+          }
+        }
       }
 
       if (!this.optionEls.length) return;

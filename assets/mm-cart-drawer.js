@@ -85,24 +85,33 @@
   function onOpen() {
     const el = drawer();
     if (!el) return;
+    if (window.mmA11yOverlays) window.mmA11yOverlays.closeOthers('cart');
+    document.dispatchEvent(new CustomEvent('mm:overlay-open', { detail: { which: 'cart' } }));
     lastActiveElement = document.activeElement;
     el.setAttribute('role', 'dialog');
     el.setAttribute('aria-modal', 'true');
+    el.setAttribute('aria-hidden', 'false');
     if (!el.getAttribute('aria-label')) {
       const title = el.querySelector('.halo-sidebar-header .title');
       if (title) el.setAttribute('aria-label', title.textContent.trim());
     }
-    lockScroll();
     const closeBtn = el.querySelector('[data-close-cart-sidebar]');
+    if (closeBtn && !closeBtn.getAttribute('aria-label')) {
+      closeBtn.setAttribute('aria-label', 'დახურვა');
+    }
+    lockScroll();
     window.requestAnimationFrame(() => {
       (closeBtn || getFocusable(el)[0] || el).focus();
     });
   }
 
   function onClose() {
+    const el = drawer();
+    if (el) el.setAttribute('aria-hidden', 'true');
     unlockScroll();
     setUpdating(false);
     clearItemErrors();
+    document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'cart' } }));
     if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
       lastActiveElement.focus();
     }

@@ -121,6 +121,11 @@
 
     bind() {
       document.addEventListener('keydown', this.boundKeydown);
+      document.addEventListener('mm:filters-close-request', () => {
+        if (this.root.classList.contains('is-panel-open')) {
+          this.setOpen(false, { discard: true });
+        }
+      });
 
       if (this.openBtn) {
         this.openBtn.addEventListener('click', () => this.setOpen(true));
@@ -290,6 +295,8 @@
     setOpen(open, { discard = false } = {}) {
       if (open) {
         this.snapshotPanel();
+        if (window.mmA11yOverlays) window.mmA11yOverlays.closeOthers('filters');
+        document.dispatchEvent(new CustomEvent('mm:overlay-open', { detail: { which: 'filters' } }));
       } else if (discard) {
         this.restorePanel();
       }
@@ -298,6 +305,12 @@
       setScrollLock(open);
       if (this.panel) {
         this.panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+        if (open) {
+          this.panel.setAttribute('role', 'dialog');
+          this.panel.setAttribute('aria-modal', 'true');
+        } else {
+          this.panel.removeAttribute('aria-modal');
+        }
       }
       if (this.openBtn) {
         this.openBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -310,6 +323,7 @@
         this.trapFocus();
       } else {
         this.releaseFocusTrap();
+        document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'filters' } }));
         if (this.lastFocus && typeof this.lastFocus.focus === 'function') {
           this.lastFocus.focus();
         }
