@@ -1,0 +1,170 @@
+{{ 'mm-business-teaser.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign eyebrow = section.settings.eyebrow
+  if eyebrow == blank
+    assign eyebrow = 'mm_home.business_teaser.eyebrow' | t
+  endif
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_home.business_teaser.heading' | t
+  endif
+  assign text = section.settings.text
+  if text == blank
+    assign text = 'mm_home.business_teaser.text' | t
+  endif
+  assign button_label = section.settings.button_label
+  if button_label == blank
+    assign button_label = 'mm_home.business_teaser.button' | t
+  endif
+
+  # Decode stored &amp; once before | escape.
+  if eyebrow contains '&amp;' or eyebrow contains '&#38;'
+    assign eyebrow = eyebrow | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if heading contains '&amp;' or heading contains '&#38;'
+    assign heading = heading | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if text contains '&amp;' or text contains '&#38;'
+    assign text = text | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+
+  assign button_link = section.settings.button_link
+  if button_link == blank
+    assign business_page = pages['business']
+    if business_page != empty and business_page.url != blank
+      assign button_link = business_page.url
+    else
+      assign button_link = '/pages/business'
+    endif
+  endif
+
+  assign icon = section.settings.icon | default: 'message'
+  assign has_button = false
+  if button_link != blank and button_label != blank
+    assign has_button = true
+  endif
+  assign has_content = false
+  if eyebrow != blank or heading != blank or text != blank or has_button
+    assign has_content = true
+  endif
+-%}
+
+{%- if has_content -%}
+  <section
+    id="mm-business-teaser-{{ section.id }}"
+    class="mm-business-teaser mm-reveal"
+    {% if heading != blank %}aria-labelledby="mm-business-teaser-heading-{{ section.id }}"{% endif %}
+  >
+    <div class="mm-business-teaser__inner">
+      <div class="mm-business-teaser__card" data-mm-reveal-item>
+        <div class="mm-business-teaser__copy">
+          <div class="mm-business-teaser__icon-row">
+            <span class="mm-business-teaser__icon" aria-hidden="true">
+              {%- case icon -%}
+                {%- when 'clipboard' -%}
+                  {% render 'icon-clipboard' %}
+                {%- when 'globe' -%}
+                  {% render 'icon-globe' %}
+                {%- when 'ask' -%}
+                  {% render 'icon-ask-an-expert' %}
+                {%- else -%}
+                  {% render 'icon-message' %}
+              {%- endcase -%}
+            </span>
+            {%- if eyebrow != blank -%}
+              <p class="mm-business-teaser__eyebrow">{{ eyebrow | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          {%- if heading != blank -%}
+            <h2 id="mm-business-teaser-heading-{{ section.id }}" class="mm-business-teaser__heading">
+              {{ heading | escape }}
+            </h2>
+          {%- endif -%}
+
+          {%- if text != blank -%}
+            <p class="mm-business-teaser__text">{{ text | escape }}</p>
+          {%- endif -%}
+        </div>
+
+        {%- if has_button -%}
+          <div class="mm-business-teaser__actions">
+            <a class="mm-business-teaser__button" href="{{ button_link }}">
+              {{ button_label | escape }}
+            </a>
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM B2B teaser",
+  "tag": "section",
+  "class": "section-mm-business-teaser",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Compact homepage card linking to the B2B / partnerships page. No form, no discounts or exclusivity claims."
+    },
+    {
+      "type": "select",
+      "id": "icon",
+      "label": "Icon",
+      "default": "message",
+      "options": [
+        { "value": "message", "label": "Message" },
+        { "value": "clipboard", "label": "Clipboard" },
+        { "value": "globe", "label": "Globe" },
+        { "value": "ask", "label": "Ask an expert" }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "B2B და პარტნიორობა",
+      "info": "Leave blank for locale default."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ვითანამშრომლოთ",
+      "info": "Leave blank for locale default."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "წარმოადგენ კომპანიას ან ბრენდს? მოგვწერე პროდუქციის მოწოდების, საბითუმო შეკვეთის ან სხვა თანამშრომლობის შესახებ.",
+      "info": "Leave blank for locale default. Do not promise discounts, exclusivity, or unconfirmed distribution."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "თანამშრომლობის განხილვა",
+      "info": "Leave blank for locale default."
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Defaults to the Business page (/pages/business) when blank."
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM B2B teaser",
+      "settings": {
+        "icon": "message",
+        "button_link": "shopify://pages/business"
+      }
+    }
+  ]
+}
+{% endschema %}

@@ -26,6 +26,10 @@
   else
     assign bridge = t | append: '.bridge' | t
   endif
+  # Decode stored &amp; once before | escape (avoids visible "MOTHER &amp; ME").
+  if bridge contains '&amp;' or bridge contains '&#38;'
+    assign bridge = bridge | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
 
   if section.settings.process_heading != blank
     assign process_heading = section.settings.process_heading
@@ -119,6 +123,9 @@
     assign card_other_text = t | append: '.cards.other.text' | t
   endif
 
+  assign cards_heading = 'mm_pages.business.cards_heading' | t
+  assign selection_prefix = 'mm_pages.business.selection_prefix' | t
+
   assign form_id = 'mm-BusinessForm-' | append: section.id
   assign company_id = 'mm-biz-company-' | append: section.id
   assign name_id = 'mm-biz-name-' | append: section.id
@@ -155,6 +162,9 @@
       {%- endif -%}
     </header>
 
+    {%- if cards_heading != blank -%}
+      <h2 class="mm-business__cards-heading">{{ cards_heading | escape }}</h2>
+    {%- endif -%}
     <ul class="mm-business__cards" role="list">
       <li>
         <button
@@ -212,10 +222,20 @@
     </div>
 
     <div id="mm-business-form" class="mm-business__form-wrap">
-      <h2 class="mm-business__form-heading">{{ form_heading | escape }}</h2>
+      <h2 class="mm-business__form-heading" tabindex="-1" data-mm-business-form-heading>
+        {{ form_heading | escape }}
+      </h2>
       {%- if form_note != blank -%}
         <p class="mm-business__form-note">{{ form_note | escape }}</p>
       {%- endif -%}
+      <p
+        class="mm-business__selection"
+        role="status"
+        aria-live="polite"
+        data-mm-business-selection
+        data-mm-selection-prefix="{{ selection_prefix | escape }}"
+        hidden
+      ></p>
 
       {%- form 'contact', id: form_id, class: 'mm-business__form', data-mm-business-form: '' -%}
         {%- if form.posted_successfully? -%}

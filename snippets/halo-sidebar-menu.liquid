@@ -48,8 +48,21 @@
                 {%- endif -%}                                   
             </div>
           {%- endif -%}
+          {%- assign mm_business_page = pages['business'] -%}
+          {%- assign mm_show_business_nav = false -%}
+          {%- if mm_business_page != empty and mm_business_page.url != blank -%}
+            {%- assign mm_show_business_nav = true -%}
+          {%- endif -%}
           {%- if mm_show_wishlist_nav -%}
-              <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset last-link"><span class="icon-wrapper">{% render 'icon-wishlist' %}</span><span class="title">{{ 'wishlist.general.title' | t }}</span>{% if settings.show_wishlist_number_sidebar %}(<span class="text" aria-hidden="true" data-wishlist-count></span>){% endif %}</a>
+              <a href="{{ mm_wishlist_url }}" class="header__icon header__icon--wishlist link link--text focus-inset{% unless mm_show_business_nav %} last-link{% endunless %}"><span class="icon-wrapper">{% render 'icon-wishlist' %}</span><span class="title">{{ 'wishlist.general.title' | t }}</span>{% if settings.show_wishlist_number_sidebar %}(<span class="text" aria-hidden="true" data-wishlist-count></span>){% endif %}</a>
+          {%- endif -%}
+          {%- if mm_show_business_nav -%}
+            <a
+              href="{{ mm_business_page.url }}"
+              class="header__link--account mm-drawer__business-link last-link"
+            >
+              <span class="title">{{ 'mm_pages.business.nav_label' | t }}</span>
+            </a>
           {%- endif -%}
           <div class="wrapper-links"></div>
         </div>
