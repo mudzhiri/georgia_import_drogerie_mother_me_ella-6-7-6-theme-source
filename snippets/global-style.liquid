@@ -12,10 +12,16 @@
 	{{ 'layout_rtl.css' | asset_url | stylesheet_tag }}
 {%- endif -%}
 
-{{ 'animated.css' | asset_url | stylesheet_tag }}
+{%- comment -%} Keyframe/util CSS — not needed for first paint; defer like vendor.css. {%- endcomment -%}
+<link rel="stylesheet" href="{{ 'animated.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'animated.css' | asset_url | stylesheet_tag }}</noscript>
 {{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
-{{ 'component-loading-banner.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'component-loading-overlay.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-loading-banner.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>
+  {{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+  {{ 'component-loading-banner.css' | asset_url | stylesheet_tag }}
+</noscript>
 {{ 'component-quick-cart.css' | asset_url | stylesheet_tag }}
 <link rel="stylesheet" href="{{ 'vendor.css' | asset_url }}" media="print" onload="this.media='all'">
 <noscript>{{ 'vendor.css' | asset_url | stylesheet_tag }}</noscript>

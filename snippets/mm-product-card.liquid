@@ -54,16 +54,30 @@
       aria-label="{{ product.title | escape }}"
     >
       {%- if image != blank -%}
-        {{
-          image
-          | image_url: width: 800
-          | image_tag:
-            loading: 'lazy',
-            widths: '200, 300, 400, 600, 800',
-            sizes: '(min-width: 900px) 25vw, 50vw',
-            class: 'mm-product-card__image mm-card-media__image',
-            alt: product.title
-        }}
+        {%- if eager == true -%}
+          {{
+            image
+            | image_url: width: 600
+            | image_tag:
+              loading: 'eager',
+              fetchpriority: 'high',
+              widths: '160, 240, 320, 400, 600',
+              sizes: '(min-width: 1100px) 280px, (min-width: 750px) calc((100vw - 80px) / 3), calc((100vw - 48px) / 2)',
+              class: 'mm-product-card__image mm-card-media__image',
+              alt: product.title
+          }}
+        {%- else -%}
+          {{
+            image
+            | image_url: width: 600
+            | image_tag:
+              loading: 'lazy',
+              widths: '160, 240, 320, 400, 600',
+              sizes: '(min-width: 1100px) 280px, (min-width: 750px) calc((100vw - 80px) / 3), calc((100vw - 48px) / 2)',
+              class: 'mm-product-card__image mm-card-media__image',
+              alt: product.title
+          }}
+        {%- endif -%}
       {%- else -%}
         <span class="mm-product-card__image-placeholder" aria-hidden="true"></span>
       {%- endif -%}

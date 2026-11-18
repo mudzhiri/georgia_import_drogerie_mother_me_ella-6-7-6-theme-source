@@ -28,23 +28,13 @@
                   {% assign fonts_name_2 = base_font.family | append: ',' | append: base_font.fallback_families %}
         {%- endif -%}
     {%- elsif settings.type_font_1 != 'shopify_fonts' and settings.type_font_2 != 'shopify_fonts' -%}
-          {%- assign font_1 = settings.type_font_1_name -%}
-          {%- capture font_name_1 -%}
-              {{font_1 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
-          {%- endcapture -%}
-          @import url('https://fonts.googleapis.com/css?family={{font_name_1}}&display=swap');
-                {% assign fonts_name = font_1 %}
-
-          {%- if settings.type_font_1_name != settings.type_font_2_name -%}
-              {%- assign font_2 = settings.type_font_2_name -%}
-              {%- capture fonts_name_2 -%}
-                  {{font_2 | strip | replace: ' ', '+'}}:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i
-              {%- endcapture -%}
-              @import url('https://fonts.googleapis.com/css?family={{fonts_name_2}}&display=swap');
-                    {% assign fonts_name_2 = font_2 %}
-          {%- else -%}
-                    {% assign fonts_name_2 = font_1 %}
-          {%- endif -%}
+          {%- comment -%}
+            MOTHER & ME: skip Ella Google Fonts @import (e.g. Poppins all weights).
+            Brand faces load once from theme.liquid (Noto Sans Georgian / Noto Sans / Cormorant).
+            CSS variables still map --font-family-* to the MM stack so Ella selectors stay consistent.
+          {%- endcomment -%}
+          {% assign fonts_name = "'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif" %}
+          {% assign fonts_name_2 = "'Cormorant Garamond', 'Noto Sans Georgian', Georgia, serif" %}
     {%- elsif settings.type_font_1 == 'shopify_fonts' -%}
           {% assign base_font = settings.type_font_1_font | font_modify: 'weight', '400' %}
           {% assign base_font_medium = settings.type_font_1_font | font_modify: 'weight', '500' %}

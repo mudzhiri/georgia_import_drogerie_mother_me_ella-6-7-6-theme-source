@@ -32,8 +32,11 @@
         {% # theme-check-disable RemoteAsset %}
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        {%- comment -%} Single Google Fonts request; display=swap keeps KA text readable while Noto Sans Georgian loads. {%- endcomment -%}
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700&family=Noto+Sans:wght@400;500;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
+        {%- comment -%}
+          Brand fonts only (used cuts). Poppins Ella import is skipped in variable.liquid.
+          Noto Sans Georgian keeps KA glyphs; Noto Sans covers Latin; Cormorant for display accents.
+        {%- endcomment -%}
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Noto+Sans:wght@400;600;700&family=Noto+Sans+Georgian:wght@400;500;600;700&display=swap" rel="stylesheet">
         {% # theme-check-enable RemoteAsset %}
         {{ 'mm-tokens.css' | asset_url | stylesheet_tag }}
         {{ 'mm-image-loading.css' | asset_url | stylesheet_tag }}

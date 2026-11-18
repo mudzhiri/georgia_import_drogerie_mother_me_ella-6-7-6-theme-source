@@ -546,8 +546,8 @@
                                                             {% if product_image_popup == 'fancybox' %} data-fancybox="images" href="{{ media.preview_image | image_url: width: 1000 }}" role="button" tabindex="0" aria-label="{{ 'products.product.media_load' | t | escape }}"{% endif %}
                                                         >
                                                             <img id="product-featured-image-{{ media.id }}"
-                                                                srcset="{{ media.preview_image | image_url: width: 480 }} 480w, {{ media.preview_image | image_url: width: 720 }} 720w, {{ media.preview_image | image_url: width: 1000 }} 1000w, {{ media.preview_image | image_url: width: 1400 }} 1400w"
-                                                                src="{{ media.preview_image | image_url: width: 1000 }}"
+                                                                srcset="{{ media.preview_image | image_url: width: 360 }} 360w, {{ media.preview_image | image_url: width: 480 }} 480w, {{ media.preview_image | image_url: width: 720 }} 720w, {{ media.preview_image | image_url: width: 960 }} 960w, {{ media.preview_image | image_url: width: 1200 }} 1200w"
+                                                                src="{{ media.preview_image | image_url: width: 720 }}"
                                                                 alt="{{ media.preview_image.alt | escape }}"
                                                                 sizes="(min-width: 1200px) min(640px, 45vw), (min-width: 768px) calc((100vw - 48px) / 2), calc(100vw - 32px)"
                                                                 width="{{ media.preview_image.width | default: media.width }}"

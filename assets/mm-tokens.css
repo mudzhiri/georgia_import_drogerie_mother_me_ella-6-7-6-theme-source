@@ -37,8 +37,8 @@
   --mm-section-y: 20px;
   --mm-heading-gap: 24px;
   --mm-hover-duration: 200ms;
-  --mm-reveal-duration: 450ms;
-  --mm-reveal-distance: 12px;
+  --mm-reveal-duration: 280ms;
+  --mm-reveal-distance: 10px;
 
   --mm-font-sans: 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif;
   --mm-font-size-hero: 30px;
