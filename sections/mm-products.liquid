@@ -42,10 +42,17 @@
 
       <ul class="mm-products__grid" role="list">
         {%- for product in collection.products limit: limit -%}
+          {%- liquid
+            assign mm_card_eager = false
+            if forloop.index <= 2
+              assign mm_card_eager = true
+            endif
+          -%}
           <li class="mm-products__item" data-mm-reveal-item>
             {% render 'mm-product-card',
               product: product,
-              section_id: section.id
+              section_id: section.id,
+              eager: mm_card_eager
             %}
           </li>
         {%- endfor -%}
