@@ -152,6 +152,18 @@
                 <a href="{{ refund_policy.url }}">
                   {{ 'products.product.info_accordion.returns_link' | t }}
                 </a>
+                {%- liquid
+                  assign returns_mail = shop.email | default: 'info@motherandme.ge' | strip
+                  assign returns_mail_label = 'products.product.info_accordion.returns_contact' | t
+                  if returns_mail_label == blank or returns_mail_label contains 'Translation missing'
+                    assign returns_mail_label = 'მოგვწერე'
+                  endif
+                -%}
+                {%- if returns_mail != blank -%}
+                  <a href="mailto:{{ returns_mail | escape }}">
+                    {{ returns_mail_label | escape }}: {{ returns_mail | escape }}
+                  </a>
+                {%- endif -%}
               </li>
             {%- endif -%}
           </ul>

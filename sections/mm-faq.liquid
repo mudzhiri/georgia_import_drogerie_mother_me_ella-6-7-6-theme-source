@@ -75,6 +75,28 @@
         >
           <div class="mm-faq__answer">
             <p>{{ answer | escape | newline_to_br }}</p>
+            {%- if topic == 'returns' -%}
+              {%- liquid
+                assign returns_email = shop.email | default: 'info@motherandme.ge' | strip
+                assign returns_contact_label = 'mm_home.faq.a_returns_contact' | t
+                assign returns_policy_label = 'mm_home.faq.a_returns_policy' | t
+                if returns_contact_label == blank or returns_contact_label contains 'Translation missing'
+                  assign returns_contact_label = 'ელფოსტა'
+                endif
+                if returns_policy_label == blank or returns_policy_label contains 'Translation missing'
+                  assign returns_policy_label = 'დაბრუნების წესები'
+                endif
+              -%}
+              <p class="mm-faq__answer-links">
+                {%- if returns_email != blank -%}
+                  <a href="mailto:{{ returns_email | escape }}">{{ returns_contact_label | escape }}: {{ returns_email | escape }}</a>
+                {%- endif -%}
+                {%- if shop.refund_policy != blank and shop.refund_policy.url != blank -%}
+                  {%- if returns_email != blank %} · {% endif -%}
+                  <a href="{{ shop.refund_policy.url }}">{{ returns_policy_label | escape }}</a>
+                {%- endif -%}
+              </p>
+            {%- endif -%}
           </div>
         </div>
       </div>

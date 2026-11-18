@@ -142,6 +142,28 @@
   overflow-wrap: anywhere;
 }
 
+.mm-faq__answer-links {
+  margin-top: 12px !important;
+}
+
+.mm-faq__answer-links a {
+  color: var(--mm-faq-ink, inherit);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mm-faq__answer-links a:hover,
+.mm-faq__answer-links a:focus-visible {
+  opacity: 0.85;
+}
+
+.mm-faq__answer-links a:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mm-faq__icon svg {
     transition: none !important;
