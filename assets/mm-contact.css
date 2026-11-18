@@ -19,7 +19,7 @@
 }
 
 .mm-contact__heading {
-  margin: 0 0 12px;
+  margin: 0 0 28px;
   color: var(--mm-contact-heading);
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
   font-size: clamp(1.75rem, 1.4rem + 1.2vw, 2rem);
@@ -27,60 +27,6 @@
   line-height: 1.3;
   letter-spacing: normal;
   overflow-wrap: anywhere;
-}
-
-.mm-contact__intro {
-  margin: 0 0 28px;
-  max-width: 42rem;
-  color: var(--mm-contact-text);
-  font-size: 1.0625rem;
-  line-height: 1.6;
-  overflow-wrap: anywhere;
-}
-
-.mm-contact__hint {
-  margin: 8px 0 0;
-  color: var(--mm-contact-text);
-  font-size: 0.875rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.mm-contact__order-hint {
-  margin: 20px 0 0;
-  padding: 12px 14px;
-  border-radius: 12px;
-  background: #ffffff;
-  border: 1px solid var(--mm-contact-border);
-  color: var(--mm-contact-text);
-  font-size: 0.875rem;
-  line-height: 1.5;
-  overflow-wrap: anywhere;
-}
-
-.mm-contact__about-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-top: 16px;
-  color: #214d43;
-  font-size: 0.9375rem;
-  font-weight: 600;
-  line-height: 1.4;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--mm-contact-motion);
-}
-
-.mm-contact__about-link:hover,
-.mm-contact__about-link:focus-visible {
-  color: #173b33;
-}
-
-.mm-contact__about-link:focus-visible {
-  outline: 2px solid #214d43;
-  outline-offset: 3px;
-  border-radius: 2px;
 }
 
 :lang(ka) .mm-contact__heading,
@@ -154,9 +100,7 @@
 }
 
 .mm-contact__label {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
+  display: block;
   margin: 0 0 4px;
   color: var(--mm-contact-heading);
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
@@ -165,31 +109,6 @@
   line-height: 1.35;
   letter-spacing: 0.02em;
   text-transform: none;
-}
-
-.mm-contact__icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: #5f7a6d;
-}
-
-.mm-contact__policy-link {
-  display: inline-flex;
-  align-items: center;
-  min-height: 44px;
-  margin-top: 4px;
-  color: #214d43;
-  font-size: 0.875rem;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.mm-contact__policy-link:focus-visible {
-  outline: 2px solid #214d43;
-  outline-offset: 3px;
-  border-radius: 2px;
 }
 
 .mm-contact__value {

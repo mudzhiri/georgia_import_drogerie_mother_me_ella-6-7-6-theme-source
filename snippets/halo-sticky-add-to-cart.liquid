@@ -9,12 +9,12 @@
                     if current_variant.image
                         assign image = current_variant.image
                     else
-                        assign image = product.featured_image.src
+                        assign image = product.featured_image
                     endif
                 -%}
                 <div class="sticky-left">
                     <div class="sticky-image" data-image-sticky-add-to-cart>
-                        <img srcset="{{ image | img_url: '1200x' }}" src="{{ image | img_url: '1200x' }}" alt="{{ image.alt | default: shop.name | escape }}" sizes="1200px"{% if settings.enable_lazyload %} loading="lazy"{% endif %}>
+                        <img srcset="{{ image | img_url: '1200x' }}" src="{{ image | img_url: '1200x' }}" alt="{{ image.alt | default: shop.name | escape }}" sizes="1200px" width="{{ image.width }}" height="{{ image.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %}>
                     </div>
                     {% if sticky_atc_layout == '1' %}
                         <div class="sticky-info">

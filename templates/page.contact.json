@@ -11,11 +11,7 @@
   "sections": {
     "mm_contact": {
       "type": "mm-contact",
-      "settings": {
-        "heading": "",
-        "intro": "",
-        "contact_email": "info@motherandme.ge"
-      }
+      "settings": {}
     }
   },
   "order": [
