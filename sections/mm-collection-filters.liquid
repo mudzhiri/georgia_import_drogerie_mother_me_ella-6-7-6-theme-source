@@ -168,6 +168,9 @@
                   {%- when 'list', 'boolean' -%}
                     <ul class="mm-filters__options" role="list">
                       {%- for value in filter.values -%}
+                        {%- if value.count == 0 and value.active == false -%}
+                          {%- continue -%}
+                        {%- endif -%}
                         {%- liquid
                           assign value_label = value.label
                           if filter_param contains 'availability'
@@ -179,13 +182,12 @@
                           endif
                         -%}
                         <li>
-                          <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                          <label class="mm-filters__option">
                             <input
                               type="checkbox"
                               name="{{ value.param_name }}"
                               value="{{ value.value }}"
                               {% if value.active %}checked{% endif %}
-                              {% if value.count == 0 and value.active == false %}disabled{% endif %}
                             >
                             <span>
                               {{ value_label | escape }}
@@ -346,6 +348,9 @@
                 {%- when 'list', 'boolean' -%}
                   <ul class="mm-filters__options" role="list">
                     {%- for value in filter.values -%}
+                      {%- if value.count == 0 and value.active == false -%}
+                        {%- continue -%}
+                      {%- endif -%}
                       {%- liquid
                         assign value_label = value.label
                         if filter_param contains 'availability'
@@ -357,13 +362,12 @@
                         endif
                       -%}
                       <li>
-                        <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
+                        <label class="mm-filters__option">
                           <input
                             type="checkbox"
                             name="{{ value.param_name }}"
                             value="{{ value.value }}"
                             {% if value.active %}checked{% endif %}
-                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
                           >
                           <span>
                             {{ value_label | escape }}
