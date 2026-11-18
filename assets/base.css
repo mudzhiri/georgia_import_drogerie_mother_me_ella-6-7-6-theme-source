@@ -2320,8 +2320,11 @@ summary::-webkit-details-marker {
     }
 
     .bottom-bar--list .cart-count-bubble {
-        min-width: 22px;
-        min-height: 15px;
+        min-width: 18px;
+        min-height: 18px;
+        height: 18px;
+        line-height: 1;
+        border-radius: 999px;
     }
 /* END: Component Cart Count Bubble */
 

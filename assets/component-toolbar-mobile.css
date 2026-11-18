@@ -86,14 +86,59 @@
     padding: 2px;
 }
 
-.bottom-bar--list .cart-count-bubble{
-    top: 0;
-    right: -7px;
-    background-color: var(--bg-bubble);
+.bottom-bar--list .cart-count-bubble {
+    top: 2px;
+    right: 0;
+    left: auto;
+    bottom: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: auto;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    overflow: hidden;
+    line-height: 1;
+    letter-spacing: 0;
+    font-size: 10px;
+    font-weight: 700;
+    background-color: var(--bg-bubble, #214d43);
+    color: var(--color-bubble, #ffffff);
+    transform: none;
 }
 
-.bottom-bar--list .cart-count-bubble .text{
-    color: var(--color-bubble);
+.bottom-bar--list .cart-count-bubble.is-empty,
+.bottom-bar--list .cart-count-bubble:has([data-cart-count="0"]) {
+    display: none;
+}
+
+.bottom-bar--list .cart-count-bubble .text {
+    display: block;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+/* Keep a11y copy out of the badge layout (toolbar spans force display:block) */
+.bottom-bar--list .cart-count-bubble .visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    clip: rect(0 0 0 0) !important;
+    clip-path: inset(50%) !important;
+    border: 0 !important;
+    white-space: nowrap !important;
 }
 
 .bottom-bar--list .list-item.customer_accounts_disable{

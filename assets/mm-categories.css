@@ -177,17 +177,24 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin-top: 4px;
+  width: 48px;
+  height: 48px;
+  margin-top: 6px;
   border-radius: 999px;
   background: rgba(33, 77, 67, 0.08);
   color: var(--mm-cat-text);
   transition: transform var(--mm-hover-duration, 200ms) ease-out;
 }
 
-.mm-categories__arrow svg {
+/* Override base.css `svg { width/height: 1rem; fill: currentColor }` */
+.mm-categories__arrow svg,
+.mm-categories__arrow-icon {
   display: block;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  fill: none;
+  stroke: currentColor;
 }
 
 .mm-categories__media {

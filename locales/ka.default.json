@@ -1,0 +1,1227 @@
+{
+  "general": {
+    "breadcrumb": {
+      "home": "მთავარი",
+      "label": "ნავიგაციის გზა"
+    },
+    "common": {
+      "close": "დახურვა",
+      "menu": "მენიუ",
+      "categories": "კატეგორიები",
+      "log_in": "შესვლა",
+      "account": "ანგარიში",
+      "search": "ძებნა",
+      "wishlist": "სურვილების სია",
+      "video": "ვიდეოს ნახვა",
+      "video_alt": "ვიდეო",
+      "scroll_down": "ქვემოთ გადაადგილება",
+      "lang_cur": "ენა და ვალუტა"
+    },
+    "password_page": {
+      "login_form_heading": "შეიყვანეთ მაღაზიის პაროლი:",
+      "login_password_button": "შესვლა პაროლით",
+      "login_form_password_label": "პაროლი",
+      "login_form_password_placeholder": "თქვენი პაროლი",
+      "login_form_error": "არასწორი პაროლი!",
+      "login_form_submit": "შესვლა",
+      "modal": "პაროლის ფანჯარა",
+      "admin_link_html": "მაღაზიის მფლობელი ხართ? <a href=\"/admin\" class=\"link underlined-link\">შედით აქ</a>",
+      "powered_by_shopify_html": "ამ მაღაზიას უზრუნველყოფს {{ shopify }}",
+      "label": "ადრეული წვდომა",
+      "label_2": "ადრეული წვდომა*",
+      "input": "ადრეული წვდომის პაროლი...",
+      "input_2": "შეიყვანეთ პაროლი",
+      "submit": "შესვლა"
+    },
+    "social": {
+      "alt_text": {
+        "share_on_facebook": "გაზიარება Facebook-ზე",
+        "share_on_twitter": "გაზიარება Twitter-ზე",
+        "share_on_pinterest": "გაზიარება Pinterest-ზე"
+      },
+      "links": {
+        "twitter": "Twitter",
+        "facebook": "Facebook",
+        "pinterest": "Pinterest",
+        "instagram": "Instagram",
+        "tumblr": "Tumblr",
+        "snapchat": "Snapchat",
+        "youtube": "YouTube",
+        "vimeo": "Vimeo",
+        "tiktok": "TikTok",
+        "google_plus": "Google plus",
+        "telegram": "Telegram",
+        "email": "ელფოსტა",
+        "whatsapp": "Whatsapp"
+      }
+    },
+    "continue_shopping": "შოპინგის გაგრძელება",
+    "back_to_previous_page": "წინა გვერდზე დაბრუნება",
+    "pagination": {
+      "label": "გვერდების ნავიგაცია",
+      "page": "გვერდი {{ number }}",
+      "next": "შემდეგი",
+      "previous": "წინა",
+      "prev": "წინა"
+    },
+    "search": {
+      "search": "ძებნა",
+      "title": "ძებნა",
+      "close": "დახურვა",
+      "search_product": "პროდუქტების ძებნა...",
+      "search_a_product": "მოძებნე პროდუქტი ან ბრენდი",
+      "search_the_store": "მაღაზიაში ძებნა",
+      "search_the_store_2": "მოძებნე მთელ მაღაზიაში...",
+      "im_looking_for": "ვეძებ",
+      "label": "ძებნა",
+      "search_result_title": "პროდუქტის შედეგები",
+      "search_no_result": "ძებნა",
+      "search_more": "მეტის ძებნა",
+      "view_all": "ყველა შედეგის ნახვა ({{ count }})",
+      "mm_no_results": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_title": "პროდუქტი ვერ მოიძებნა",
+      "mm_empty_query": "„{{ terms }}“",
+      "mm_empty_hint": "სცადე სხვა სიტყვა ან მოძებნე ბრენდის სახელით.",
+      "mm_empty_kids": "ბავშვებისთვის",
+      "mm_empty_mamas": "დედებისთვის",
+      "mm_view_all": "ყველა შედეგის ნახვა",
+      "submit": "ძებნა",
+      "placeholder": "ძებნა",
+      "mm_error": "ძებნა ვერ მოხერხდა. სცადე თავიდან.",
+      "mm_retry": "ხელახლა ცდა",
+      "mm_suggestions": "ნაპოვნია {{ count }} შეთავაზება",
+      "mm_clear_filters": "აქტიური ფილტრების გასუფთავება",
+      "mm_results": "ძებნის შედეგები",
+      "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე",
+      "view_results": "ყველა შედეგის ნახვა",
+      "heading_results": "ძიების შედეგები"
+    },
+    "cart": {
+      "cart": "კალათა",
+      "shopping_cart": "საყიდლების კალათა",
+      "my_cart": "კალათა",
+      "view": "კალათის ნახვა ({{ count }})",
+      "item_added": "პროდუქტი დაემატა კალათას",
+      "shipping_calculator_button": "მიწოდების გამოთვლა",
+      "shipping_calculator_calculating": "გამოთვლა...",
+      "shipping_calculator_error_message": "შეცდომა: შეიყვანეთ სწორი მიწოდების მონაცემები",
+      "shipping_calculator_success_many_rates": {
+        "there_are": "ხელმისაწვდომია",
+        "shipping_rates_available_for": "მიწოდების ტარიფი ადგილისთვის",
+        "starting_at": ", დაწყებული"
+      },
+      "shipping_calculator_success_one_rate": "ხელმისაწვდომია ერთი მიწოდების ტარიფი ადგილისთვის",
+      "shipping_calculator_success_no_rate": "ამ შეკვეთისა და ადგილისთვის მიწოდების ტარიფი არ მოიძებნა.",
+      "shipping_calculator_success_at": "ფასი",
+      "cart_countdown": "გთხოვთ, იჩქაროთ! კალათაში არსებულ ერთ-ერთ პროდუქტზე უკვე განთავსდა შეკვეთა. შევინახავთ",
+      "cart_countdown_minutes": "წუთი.",
+      "note": "დამატებითი კომენტარები",
+      "note_placeholder": "განსაკუთრებული მითითება გამყიდველისთვის...",
+      "secure_text": "უსაფრთხო შოპინგის გარანტია",
+      "save": "შენახვა",
+      "cancel": "გაუქმება",
+      "gift_cart_add": "დამატება",
+      "gift_cart_adding": "ემატება...",
+      "add_a_gift_wrap": "სასაჩუქრე შეფუთვის დამატება",
+      "order_summary": "შეკვეთის შეჯამება",
+      "subtotal": "პროდუქტების ჯამი",
+      "shipping": "მიწოდების შეფასება:",
+      "coupon_code": "კუპონის კოდი",
+      "total": "სულ:",
+      "coupon_code_text": "კუპონის კოდი გადახდის გვერდზე გავრცელდება",
+      "estimate_shipping": "მიწოდების ტარიფების შეფასება",
+      "country": "ქვეყანა/რეგიონი",
+      "state": "რეგიონი",
+      "zip_code": "საფოსტო ინდექსი",
+      "postal_code": "საფოსტო ინდექსი",
+      "enter_coupo_code": "შეიყვანეთ კუპონის კოდი",
+      "soldout_text": "ამოიწურა",
+      "already_text": "ყველა",
+      "are_saving": "ფასდაკლება:",
+      "cart_error": "დამატება ვერ მოხერხდა. სცადეთ თავიდან."
+    },
+    "share": {
+      "copy_to_clipboard": "ბმულის კოპირება",
+      "share": "გაზიარება",
+      "share_url": "ბმული",
+      "success_message": "ბმული დაკოპირდა!"
+    },
+    "navigation": {
+      "go_to": "გადასვლა",
+      "new_label": "ახალი",
+      "sale_label": "აქცია",
+      "hot_label": "პოპულარული",
+      "all": "ყველა",
+      "home": "მთავარი"
+    },
+    "button_load_more": {
+      "default": "მეტის ჩვენება",
+      "loading": "იტვირთება...",
+      "view_all": "მთელი კოლექციის ნახვა",
+      "no_more": "მეტი პროდუქტი არ არის",
+      "no_more_collection": "მეტი კოლექცია არ არის"
+    },
+    "meta": {
+      "homepage_title": "MOTHER & ME | მოვლა და ჰიგიენა გერმანიიდან",
+      "homepage_description": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის."
+    },
+    "accessibility": {
+      "unit_price_separator": "თითო"
+    },
+    "toolbar_mobile": {
+      "home": "მთავარი",
+      "search": "ძებნა",
+      "cart": "კალათა",
+      "account": "ანგარიში",
+      "collections": "კატეგორიები"
+    },
+    "popup": {
+      "warning_placeholder": "გაფრთხილება"
+    },
+    "categories": "კატეგორიები"
+  },
+  "brands_page": {
+    "general": {
+      "az_title": "ბრენდები A–Z",
+      "all": "ყველა"
+    }
+  },
+  "newsletter": {
+    "label": "თქვენი ელფოსტა",
+    "placeholder": "შეიყვანეთ ელფოსტის მისამართი",
+    "placeholder_2": "თქვენი ელფოსტის მისამართი",
+    "success": "გმადლობთ გამოწერისთვის!",
+    "error": "ეს ელფოსტა უკვე რეგისტრირებულია!",
+    "button_label": "გაგზავნა",
+    "button_label_2": "გამოწერა",
+    "start_now": "დაიწყეთ ახლა",
+    "dont_miss_out_this_sale": "არ გამოტოვოთ ეს აქცია"
+  },
+  "accessibility": {
+    "skip_to_text": "შიგთავსზე გადასვლა",
+    "skip_to_product_info": "პროდუქტის ინფორმაციაზე გადასვლა",
+    "account": "ანგარიში",
+    "cart": "კალათა",
+    "close": "დახურვა",
+    "unit_price_separator": "თითო",
+    "vendor": "ბრენდი:",
+    "error": "შეცდომა",
+    "refresh_page": "არჩევანი მთელ გვერდს განაახლებს.",
+    "link_messages": {
+      "new_window": "იხსნება ახალ ფანჯარაში.",
+      "external": "იხსნება გარე საიტი."
+    },
+    "of": "of",
+    "next_slide": "შემდეგი სლაიდი",
+    "previous_slide": "წინა სლაიდი",
+    "loading": "იტვირთება...",
+    "menu": "მენიუ",
+    "search": "ძებნა",
+    "submenu_expand": "{{ title }} — ქვემენიუს გახსნა",
+    "submenu_collapse": "{{ title }} — ქვემენიუს დახურვა",
+    "dropdown": "ჩამოსაშლელი"
+  },
+  "blogs": {
+    "article": {
+      "blog": "ბლოგი",
+      "read_more_title": "წაიკითხეთ მეტი: {{ title }}",
+      "read_more": "წაიკითხეთ მეტი",
+      "author": "{{ author }}",
+      "comments": {
+        "one": "{{ count }} კომენტარი",
+        "other": "{{ count }} კომენტარი"
+      },
+      "moderated": "გთხოვთ გაითვალისწინოთ: კომენტარები გამოქვეყნებამდე საჭიროებს დამტკიცებას.",
+      "moderated-all": "ბლოგის ყველა კომენტარი მოწმდება გამოქვეყნებამდე",
+      "comment_form_title": "დატოვეთ კომენტარი",
+      "name": "სახელი",
+      "email": "ელფოსტა",
+      "message": "კომენტარი",
+      "post": "კომენტარის გაგზავნა",
+      "back_to_blog": "ბლოგზე დაბრუნება",
+      "share": "სტატიის გაზიარება",
+      "success": "თქვენი კომენტარი წარმატებით გამოქვეყნდა! გმადლობთ!",
+      "success_moderated": "თქვენი კომენტარი წარმატებით გაიგზავნა. მალე გამოვაქვეყნებთ, რადგან ბლოგი მოდერირდება.",
+      "on": "",
+      "by": "",
+      "featured": "რჩეული",
+      "older_post": "ძველი პოსტი",
+      "newer_post": "ახალი პოსტი",
+      "prev_post": "წინა პოსტი",
+      "next_post": "შემდეგი პოსტი",
+      "tags": "თეგები:",
+      "empty": "ჯერ არ არის ბლოგის ჩანაწერები."
+    }
+  },
+  "onboarding": {
+    "product_title": "მაგალითის პროდუქტი",
+    "collection_title": "კოლექცია"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "კალათაში დამატება",
+      "adding_to_cart": "ემატება...",
+      "add_all_to_cart": "ყველას კალათაში დამატება",
+      "adding_all_to_cart": "ყველა ემატება კალათას...",
+      "added_to_cart": "დაემატა",
+      "add_to_cart_message": "აირჩიეთ მინიმუმ ერთი პროდუქტი!",
+      "add_to_cart_success_message": "დაემატა თქვენს კალათას.",
+      "add_to_cart_success_message_2": "პროდუქტი წარმატებით დაემატა კალათას",
+      "description": "აღწერა",
+      "on_sale": "აქცია",
+      "product_variants": "ვარიანტები",
+      "details": "დეტალები",
+      "submit": "გაგზავნა",
+      "cancel": "გაუქმება",
+      "select_variant": "არჩევა",
+      "more_sizes": "ხელმისაწვდომია სხვა ზომები",
+      "measurements": "ზომები",
+      "media": {
+        "media_alt": "მედიის ჩატვირთვა გალერეაში, {{ mediaAlt }}",
+        "video_alt": "ვიდეოს ჩატვირთვა გალერეაში, {{ mediaAlt }}",
+        "model_alt": "3D მოდელის ჩატვირთვა გალერეაში, {{ mediaAlt }}"
+      },
+      "add": {
+        "label": "მეტის დამატება",
+        "label__2": "დამატება"
+      },
+      "quantity": {
+        "label": "რაოდენობა",
+        "label_1": "რაოდენობა:",
+        "label__2": "რაოდენობა:",
+        "input_label": "რაოდენობა — {{ product }}",
+        "increase": "რაოდენობის გაზრდა — {{ product }}",
+        "decrease": "რაოდენობის შემცირება — {{ product }}",
+        "minimum_of": "მინიმუმ {{ quantity }}",
+        "maximum_of": "მაქსიმუმ {{ quantity }}",
+        "multiples_of": "ნაბიჯი {{ quantity }}",
+        "min_of": "მინ. {{ quantity }}",
+        "max_of": "მაქს. {{ quantity }}",
+        "in_cart_html": "კალათაში: <span class=\"quantity-cart\">{{ quantity }}</span>",
+        "note": "რაოდენობის წესების ნახვა"
+      },
+      "volume_pricing": {
+        "title": "მოცულობითი ფასი",
+        "note": "ხელმისაწვდომია მოცულობითი ფასი",
+        "minimum": "{{ quantity }}+",
+        "price_at_each": "{{ price }}/ცალზე",
+        "price_range": "{{ minimum }} – {{ maximum }}"
+      },
+      "pickup_availability": {
+        "view_store_info": "მაღაზიის ინფორმაციის ნახვა",
+        "check_other_stores": "ხელმისაწვდომობის შემოწმება სხვა მაღაზიებში",
+        "pick_up_available": "თვითგატანა ხელმისაწვდომია",
+        "pick_up_available_at_html": "თვითგატანა ხელმისაწვდომია: <span class=\"strong\">{{ location_name }}</span>",
+        "pick_up_unavailable_at_html": "თვითგატანა ამჟამად მიუწვდომელია: <span class=\"strong\">{{ location_name }}</span>",
+        "unavailable": "თვითგატანის ინფორმაცია ვერ ჩაიტვირთა",
+        "refresh": "განახლება"
+      },
+      "price": {
+        "from_price_html": "<span class=\"text\">დან</span> {{ price }}",
+        "regular_price": "ჩვეულებრივი ფასი",
+        "sale_price": "აქციის ფასი",
+        "unit_price": "ერთეულის ფასი",
+        "saved_price_html": "დაზოგვა {{ price }}",
+        "unit_price_label": "ერთეულის ფასი"
+      },
+      "read_less": "ნაკლების ჩვენება",
+      "read_more": "მეტის წაკითხვა",
+      "share": "ამ პროდუქტის გაზიარება",
+      "share_copied": "ბმული დაკოპირდა",
+      "sold_out": "ამოიწურა",
+      "sold_out_message": "ეს ვარიანტი ამოიწურა!",
+      "custom": "სპეციალური ნიშანი",
+      "new": "ახალი",
+      "bundle": "კომპლექტი",
+      "unavailable": "მიუწვდომელია",
+      "unavailable_message": "ეს ვარიანტი მიუწვდომელია!",
+      "value_unavailable": "{{ option_value }} (მიუწვდომელია)",
+      "out_of_stock": "არ არის მარაგში",
+      "vendor": "ბრენდი",
+      "video_exit_message": "{{ title }} ხსნის სრულეკრანიან ვიდეოს იმავე ფანჯარაში.",
+      "xr_button": "ნახვა თქვენს სივრცეში",
+      "xr_button_label": "ნახვა თქვენს სივრცეში — იტვირთება გაძლიერებული რეალობის ფანჯარაში",
+      "pre_order": "წინასწარი შეკვეთა",
+      "availability_status": {
+        "in_stock": "მარაგშია",
+        "out_of_stock": "არ არის მარაგში",
+        "preorder": "წინასწარი შეკვეთა"
+      },
+      "shipping_note": {
+        "text_html": "მიწოდება თბილისში: {{ price }}. <a href=\"{{ link }}\">{{ policy }}</a>",
+        "text_with_free_html": "მიწოდება თბილისში: {{ price }}; უფასო {{ threshold }}-დან. <a href=\"{{ link }}\">{{ policy }}</a>"
+      },
+      "atc_error": {
+        "inventory": "არჩეული რაოდენობისთვის საკმარისი მარაგი არ არის. გთხოვთ, შეამციროთ რაოდენობა და სცადოთ თავიდან.",
+        "network": "კავშირის პრობლემა. გთხოვთ, სცადოთ თავიდან.",
+        "generic": "პროდუქტის კალათაში დამატება ვერ მოხერხდა. გთხოვთ, სცადოთ თავიდან."
+      },
+      "quick_view": "სწრაფი ნახვა",
+      "quick_view_2": "სწრაფი ნახვა",
+      "quick_shop": "სწრაფი დამატება",
+      "select": "აირჩიეთ {{ name }}",
+      "shop_now": "ყიდვა",
+      "select_options": "ვარიანტების არჩევა",
+      "select_options_plus": "+ ვარიანტების არჩევა",
+      "sub_total": "კალათაში დამატება — {{ value }}",
+      "hot_stock": "იჩქარეთ! დარჩა მხოლოდ {{ inventory }}",
+      "hot_stock_2": "გთხოვთ, იჩქაროთ! მარაგში დარჩა მხოლოდ {{ inventory }}",
+      "warning_quantity": "მაქსიმალური რაოდენობა: {{ inventory}}",
+      "in_stock": "მარაგშია",
+      "many_in_stock": "საკმარისი მარაგი",
+      "on_sale_text": "აქცია",
+      "off_text": " ფასდაკლება",
+      "description_placeholder": "პროდუქტის აღწერა.",
+      "color": "ფერი:",
+      "hot_stock_text": "შეზღუდული მარაგი",
+      "new_arrivals": "ახალი შემოსვლები",
+      "sold_in_last": {
+        "text_1": "გაიყიდა ბოლო",
+        "text_2": "საათში"
+      },
+      "text": {
+        "sku": "SKU:",
+        "barcode": "შტრიხკოდი:",
+        "vendor": "ბრენდი",
+        "availability": "ხელმისაწვდომობა:",
+        "type": "პროდუქტის ტიპი:"
+      },
+      "show_options": "ვარიანტების ჩვენება",
+      "hide_options": "ვარიანტების დამალვა",
+      "adding": "ემატება",
+      "thank_you": "გმადლობთ",
+      "add_more": "მეტის დამატება",
+      "cart_feedback": "დაემატა",
+      "see_details": "სრული დეტალების ნახვა",
+      "bundle_block": {
+        "add_all_to_cart": "ყველას კალათაში დამატება",
+        "add_item_to_cart": "კალათაში დამატება ([item])",
+        "add_items_to_cart": "კალათაში დამატება ([item])",
+        "include": "მოიცავს",
+        "included": "მათ შორის",
+        "select_options": "ვარიანტის არჩევა",
+        "total_price": "ჯამური ფასი:"
+      },
+      "view_full_details": "სრული დეტალების ნახვა",
+      "step_by_step": {
+        "next": "შემდეგი ნაბიჯი",
+        "previous": "წინა ნაბიჯი"
+      },
+      "media_gallery": "პროდუქტის გალერეა",
+      "media_load": "სურათის გახსნა",
+      "thumbnail_label": "სურათი {{ index }}",
+      "image_counter": "{{ current }} / {{ total }}",
+      "info_accordion": {
+        "description": "აღწერა",
+        "application": "გამოყენება",
+        "ingredients": "ინგრედიენტები / მასალები",
+        "warnings": "გაფრთხილებები და ასაკი",
+        "shipping_returns": "მიწოდება და დაბრუნება",
+        "shipping_short": "მიწოდების პირობები იხილეთ წესებში.",
+        "returns_short": "არასწორი ან დაზიანებული მიწოდებისას მოგვწერე. დაბრუნებამდე წინასწარი შეთანხმება საჭიროა.",
+        "returns_contact": "მოგვწერე",
+        "shipping_link": "მიწოდების წესები",
+        "returns_link": "დაბრუნების წესები",
+        "expand": "გახსნა",
+        "collapse": "დახურვა"
+      },
+      "atc": {
+        "adding": "ემატება...",
+        "added": "დაემატა",
+        "success": "პროდუქტი კალათაში დაემატა."
+      },
+      "related_products": "მსგავსი პროდუქტები",
+      "recently_viewed_products": "ბოლოს ნანახი პროდუქტები",
+      "trust": {
+        "free_shipping": "მიწოდება თბილისში: 6 ₾.",
+        "order_pickup": "ონლაინ შეკვეთა ან თვითგატანა",
+        "bank_transfer": "გადახდა საბანკო გადარიცხვით"
+      }
+    },
+    "modal": {
+      "label": "მედია გალერეა"
+    }
+  },
+  "portfolio_page": {
+    "general": {
+      "all": "ყველა"
+    }
+  },
+  "templates": {
+    "search": {
+      "no_results": "შედეგები ვერ მოიძებნა „{{ terms }}“-ზე. შეამოწმეთ მართლწერა ან სცადეთ სხვა სიტყვა.",
+      "search_result_title_2": "ნაპოვნია {{ count }} გვერდი და სტატია '{{ terms }}'-ზე",
+      "view": "{{ type }}-ის ნახვა",
+      "page": "გვერდი",
+      "results_with_count": {
+        "one": "ნაპოვნია {{ count }} შედეგი „{{ terms }}“-ზე",
+        "other": "ნაპოვნია {{ count }} შედეგი „{{ terms }}“-ზე"
+      },
+      "results_pages_with_count": {
+        "one": "{{ count }} გვერდი",
+        "other": "{{ count }} გვერდი"
+      },
+      "results_suggestions_with_count": {
+        "one": "{{ count }} შეთავაზება",
+        "other": "{{ count }} შეთავაზება"
+      },
+      "title": "შედეგები",
+      "search_product_for": "“{{ terms }}”-სთვის შედეგი ვერ მოიძებნა",
+      "search_product_check": "შეამოწმეთ მართლწერა ან სცადეთ სხვა სიტყვა",
+      "search_for": "ძებნა: „{{ terms }}“",
+      "suggestions": "შეთავაზებები",
+      "pages": "გვერდები",
+      "products": "პროდუქტები"
+    },
+    "cart": {
+      "cart": "კალათა"
+    },
+    "contact": {
+      "title": "დაგვიკავშირდით",
+      "intro": "კითხვა პროდუქტზე, შეკვეთაზე ან თვითგატანაზე გაქვს? მოგვწერე ფორმით, ელფოსტით ან ჩვენს Facebook გვერდზე.",
+      "info": {
+        "aside": "საკონტაქტო ინფორმაცია",
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "facebook": "Facebook",
+        "facebook_link": "ჩვენი Facebook გვერდი",
+        "address": "თვითგატანის მისამართი",
+        "address_note": "ეს მისამართი არის თვითგატანის ადგილი თბილისში და არა ღია საცალო მაღაზია ყოველდღიური ვიზიტებისთვის. თვითგატანა უფასოა. შეკვეთა, როგორც წესი, გადახდის დადასტურების შემდეგ 24 საათში მზადაა.",
+        "shipping": "მიწოდება",
+        "shipping_note": "მიწოდება თბილისში: 6 ₾. თვითგატანა თბილისში უფასოა.",
+        "shipping_link": "მიწოდების პირობები",
+        "payment": "საბანკო გადარიცხვა",
+        "payment_intro": "შეკვეთის შემდეგ მიიღებ გადახდის ინსტრუქციას და შეკვეთის ნომერს. გადაირიცხე ზუსტი თანხა ლარში და დანიშნულებაში მიუთითე შეკვეთის ნომერი. თანხის შემოსვლის დადასტურების შემდეგ ვამუშავებთ შეკვეთას.",
+        "order_hint": "თუ წერთ კონკრეტულ შეკვეთაზე, გთხოვთ მიუთითოთ შეკვეთის ნომერი. გადახდის ქვითარი ან საბანკო მონაცემები ფორმაში არ არის საჭირო.",
+        "about_link": "გაიგე მეტი ჩვენს შესახებ"
+      },
+      "form": {
+        "name": "სახელი",
+        "email": "ელფოსტა",
+        "phone": "ტელეფონი",
+        "comment": "შეტყობინება",
+        "message": "შეტყობინება",
+        "send": "გაგზავნა",
+        "required": "სავალდებულო",
+        "validation_required": "გთხოვთ, შეავსოთ ეს ველი.",
+        "validation_email": "გთხოვთ, შეიყვანოთ სწორი ელფოსტის მისამართი.",
+        "post_success": "გმადლობთ შეტყობინებისთვის. შეტყობინება მიღებულია.",
+        "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:"
+      }
+    },
+    "404": {
+      "title": "გვერდი ვერ მოიძებნა",
+      "subtext": "404",
+      "description": "შესაძლოა ბმული შეიცვალა ან გვერდი აღარ არსებობს.",
+      "button": "მთავარ გვერდზე დაბრუნება",
+      "kids": "ბავშვებისთვის",
+      "mamas": "დედებისთვის"
+    }
+  },
+  "faqs": {
+    "general": {
+      "all": "ყველა",
+      "filter": "გაფილტვრა თემის მიხედვით"
+    }
+  },
+  "portfolio": {
+    "filter": "ფილტრი",
+    "close": "დახურვა",
+    "tab_all": "ყველა გალერეის ჩვენება",
+    "tab": "გალერეის გაფილტვრა"
+  },
+  "sections": {
+    "header": {
+      "announcement": "განცხადება",
+      "menu": "მენიუ",
+      "cart_count": {
+        "one": "{{ count }} პროდუქტი",
+        "other": "{{ count }} პროდუქტი"
+      }
+    },
+    "term_condition": "წესები და პირობები",
+    "cart": {
+      "title": "თქვენი კალათა",
+      "caption": "კალათის პროდუქტები",
+      "checkout": "შეკვეთის გაგრძელება",
+      "proceed_to_checkout": "შეკვეთის გაგრძელება",
+      "my_cart": "კალათა",
+      "items": "ნივთი",
+      "item": "ნივთი",
+      "item_99": "99+",
+      "view_cart": "კალათის ნახვა",
+      "edit_title": "რედაქტირება: {{ title }}",
+      "edit_cart_title": "ვარიანტის რედაქტირება",
+      "remove_title": "წაშლა: {{ title }}",
+      "items_in_your_cart": "კალათაში {{ count }} პროდუქტია",
+      "subtotal": "პროდუქტების ჯამი",
+      "new_subtotal": "ახალი ჯამი",
+      "note": "შეკვეთის სპეციალური მითითებები",
+      "continue_shopping": "შოპინგის გაგრძელება",
+      "shipping": "მიწოდება",
+      "shipping_text": "მიწოდების საბოლოო თანხა დაითვლება შეკვეთისას",
+      "mm_shipping_note": "პროდუქტების ჯამი მიწოდებას არ მოიცავს. მიწოდება თბილისში: 6 ₾. თვითგატანა თბილისში უფასოა — არჩევანი შეკვეთისას. საბოლოო ჯამი ჩანს შეკვეთის დასრულებისას.",
+      "mm_payment_note": "გადახდა საბანკო გადარიცხვით. შეკვეთა მიღებულია, მაგრამ ჯერ გადაუხდელია — დამუშავება იწყება თანხის შემოსვლის დადასტურების შემდეგ.",
+      "unit_price": "ერთეულის ფასი",
+      "line_total": "პოზიციის ჯამი",
+      "empty": "თქვენი კალათა ცარიელია",
+      "empty_kids": "ბავშვებისთვის",
+      "empty_mamas": "დედებისთვის",
+      "title_collection": "შეიძლება ასევე მოგეწონოთ",
+      "cart_error": "კალათის განახლებისას მოხდა შეცდომა. სცადეთ თავიდან.",
+      "cart_quantity_error_html": "ამ პროდუქტიდან კალათაში შეგიძლიათ დაამატოთ მხოლოდ [quantity].",
+      "cart_quantity_error_alert": "ამ პროდუქტიდან კალათაში შეგიძლიათ დაამატოთ მხოლოდ {{maxQuantity}}.",
+      "cart_quantity_error_alert_2": "ამ პროდუქტის რაოდენობა საკმარისი არ არის.",
+      "quick_cart": "სწრაფი კალათა",
+      "taxes_and_shipping_policy_at_checkout_html": "გადასახადები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას",
+      "taxes_included_but_shipping_at_checkout": "პროდუქტების ჯამი მიწოდებას არ მოიცავს. მიწოდება თბილისში: 6 ₾; თვითგატანა უფასოა. საბოლოო ჯამი შეკვეთისას.",
+      "taxes_included_and_shipping_policy_html": "გადასახადი ჩართულია. <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "taxes_and_shipping_at_checkout": "გადასახადები და მიწოდება დაითვლება გადახდისას",
+      "taxes_included_shipping_at_checkout_without_policy": "გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "duties_and_taxes_included_shipping_at_checkout_with_policy_html": "ბაჟი და გადასახადები ჩართულია. ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_and_taxes_included_shipping_at_checkout_without_policy": "ბაჟი და გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "taxes_included_shipping_at_checkout_with_policy_html": "გადასახადები ჩართულია. ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_with_policy_html": "ბაჟი ჩართულია. გადასახადები, ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "duties_included_taxes_at_checkout_shipping_at_checkout_without_policy": "ბაჟი ჩართულია. გადასახადები, ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "taxes_at_checkout_shipping_at_checkout_with_policy_html": "გადასახადები, ფასდაკლებები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
+      "taxes_at_checkout_shipping_at_checkout_without_policy": "გადასახადები, ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
+      "headings": {
+        "product": "პროდუქტი",
+        "price": "ფასი",
+        "total": "ჯამი",
+        "quantity": "რაოდენობა"
+      },
+      "update": "განახლება",
+      "upsell": "კალათას დაემატა შემდეგი პროდუქტები:",
+      "your_order": "თქვენი შეკვეთა",
+      "more_than_99": "99+",
+      "heading": {
+        "quantity": "რაოდენობა"
+      }
+    },
+    "footer": {
+      "payment": "გადახდის მეთოდები"
+    },
+    "featured_blog": {
+      "view_all": "ყველას ნახვა",
+      "onboarding_title": "ბლოგის პოსტი",
+      "onboarding_content": "მოკლე აღწერა ბლოგის პოსტისთვის"
+    },
+    "featured_collection": {
+      "view_all": "ყველას ნახვა",
+      "view_all_label": "ყველა პროდუქტის ნახვა კოლექციაში {{ collection_name }}"
+    },
+    "collection_list": {
+      "title": "კოლექციები",
+      "view_all": "ყველას ნახვა",
+      "shop_the_collection": "კოლექციის ნახვა",
+      "count": "{{ count }} პროდუქტი"
+    },
+    "collection_template": {
+      "all_tags": "ყველა პროდუქტი",
+      "apply": "გამოყენება",
+      "clear": "გასუფთავება",
+      "clear_all": "ყველას გასუფთავება",
+      "empty": "პროდუქტები ვერ მოიძებნა",
+      "end_count": " სულ {{ count }}-დან",
+      "from": "დან",
+      "filter_and_sort": "ფილტრი და დალაგება",
+      "filter_by_label": "ფილტრი",
+      "filter_button": "ფილტრი",
+      "filters_selected": "არჩეულია {{ count }}",
+      "product_count_simple": {
+        "one": "{{ count }} პროდუქტი",
+        "other": "{{ count }} პროდუქტი",
+        "few": "{{ count }} პროდუქტი",
+        "many": "{{ count }} პროდუქტი"
+      },
+      "item_per_page": "ელემენტი გვერდზე",
+      "load_more": "მეტის ნახვა",
+      "show_more": "მეტის ნახვა",
+      "show_less": "ნაკლების ნახვა",
+      "show_all": "ყველას ნახვა",
+      "loading_more": "იტვირთება…",
+      "load_error": "პროდუქტების ჩატვირთვა ვერ მოხერხდა. სცადე თავიდან.",
+      "load_retry": "თავიდან ცდა",
+      "load_success": "დაემატა {{ count }} პროდუქტი.",
+      "no_more": "მეტი პროდუქტი არ არის",
+      "max": "მაქს.",
+      "max_price": "უმაღლესი ფასი არის {{ price }}",
+      "min": "მინ.",
+      "product_count": "ნაჩვენებია {{ count }} / {{ total }} პროდუქტი",
+      "read_more": "მეტის წაკითხვა",
+      "read_less": "ნაკლების ჩვენება",
+      "refined_by": "გაფილტრულია",
+      "reset": "გასუფთავება",
+      "start_count": "ნაჩვენებია",
+      "sort_button": "დალაგება",
+      "sort_by_label": "დალაგება",
+      "title": "კოლექცია",
+      "to": "მდე",
+      "use_fewer_filters_html": "გამოიყენეთ ნაკლები ფილტრი ან <a class=\"{{ class }}\" href=\"{{ link }}\">გაასუფთავეთ ყველა</a>",
+      "view_as": "ხედი",
+      "image": "სურათები",
+      "product": "პროდუქტი",
+      "price": "ფასი",
+      "qty": "რაოდ.",
+      "options": "ვარიანტები",
+      "show_variants": "ვარიანტების ჩვენება",
+      "results": "შედეგი",
+      "show_results": "შედეგების ჩვენება",
+      "price_invalid": "მინიმალური ფასი არ უნდა აღემატებოდეს მაქსიმალურს.",
+      "price_gel_suffix": "₾",
+      "price_from_label": "დან (₾)",
+      "price_to_label": "მდე (₾)",
+      "loading": "იტვირთება…",
+      "filter_count_badge": "{{ count }}",
+      "availability": "ხელმისაწვდომობა",
+      "in_stock": "მარაგშია",
+      "out_of_stock": "არ არის მარაგში",
+      "empty_with_filters": "ამ ფილტრებით პროდუქტი ვერ მოიძებნა.",
+      "reset_filters": "ფილტრების გასუფთავება",
+      "sort_options": {
+        "manual": "რჩეული",
+        "best-selling": "ბესტსელერი",
+        "title-ascending": "სახელი: ა–ჰ",
+        "title-descending": "სახელი: ჰ–ა",
+        "price-ascending": "ფასი: დაბლიდან მაღლა",
+        "price-descending": "ფასი: მაღლიდან დაბლა",
+        "created-ascending": "ძველი ახალამდე",
+        "created-descending": "ახალი ძველამდე",
+        "relevance": "რელევანტურობა"
+      }
+    },
+    "collection_list_template": {
+      "product_count": "{{ count }} პროდუქტი"
+    },
+    "sidebar": {
+      "title": "გვერდითი პანელი"
+    },
+    "quick_order_list": {
+      "product_total": "პროდუქტის ჯამი",
+      "view_cart": "კალათის ნახვა",
+      "each": "/ცალი",
+      "product": "პროდუქტი",
+      "variant": "ვარიანტი",
+      "variant_total": "ვარიანტის ჯამი",
+      "items_added": {
+        "one": "დაემატა {{ quantity }} ნივთი",
+        "other": "დაემატა {{ quantity }} ნივთი"
+      },
+      "items_removed": {
+        "one": "წაიშალა {{ quantity }} ნივთი",
+        "other": "წაიშალა {{ quantity }} ნივთი"
+      },
+      "product_variants": "პროდუქტის ვარიანტები",
+      "total_items": "ნივთების ჯამი",
+      "remove_all_single_item_confirmation": "გსურთ 1 ნივთის ამოშლა კალათიდან?",
+      "remove_all_items_confirmation": "გსურთ ყველა {{ quantity }} ნივთის ამოშლა კალათიდან?",
+      "remove_all": "ყველას წაშლა",
+      "cancel": "გაუქმება",
+      "min_error": "ამ ნივთის მინიმუმია {{ min }}",
+      "max_error": "ამ ნივთის მაქსიმუმია {{ max }}",
+      "step_error": "ამ ნივთის დამატება შესაძლებელია მხოლოდ {{ step }}-ის ჯერადებით"
+    },
+    "mm_footer": {
+      "brand_text": "გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები ბავშვებისთვის და დედებისთვის.",
+      "customers_heading": "მომხმარებლისთვის",
+      "info_heading": "ინფორმაცია",
+      "link_contact": "კონტაქტი",
+      "link_shipping": "მიწოდება",
+      "link_refund": "დაბრუნება",
+      "link_about": "ჩვენს შესახებ",
+      "link_business": "ბიზნესისთვის",
+      "link_privacy": "კონფიდენციალურობა",
+      "link_terms": "წესები და პირობები"
+    }
+  },
+  "localization": {
+    "country_label": "ქვეყანა/რეგიონი",
+    "language_label": "ენა",
+    "update_language": "ენის განახლება",
+    "update_country": "ქვეყნის/რეგიონის განახლება"
+  },
+  "currency": {
+    "change_text": "მაღაზიის ვალუტა შეიცვალა:",
+    "currency": "ვალუტა"
+  },
+  "customer": {
+    "account": {
+      "welcome": "გამარჯობა, {{ name }}",
+      "title": "ანგარიში",
+      "my_account": "ანგარიში",
+      "details": "ანგარიშის დეტალები",
+      "view_addresses": "მისამართების ნახვა",
+      "return": "ანგარიშის დეტალებზე დაბრუნება"
+    },
+    "account_fallback": "ანგარიში",
+    "activate_account": {
+      "title": "ანგარიშის გააქტიურება",
+      "subtext": "შექმენით პაროლი ანგარიშის გააქტიურებისთვის.",
+      "password": "პაროლი",
+      "password_confirm": "პაროლის დადასტურება",
+      "submit": "ანგარიშის გააქტიურება",
+      "cancel": "მოწვევის უარყოფა"
+    },
+    "addresses": {
+      "title": "მისამართები",
+      "default": "ნაგულისხმევი",
+      "address_book": "მისამართების წიგნი",
+      "add_new": "ახალი მისამართის დამატება",
+      "edit_address": "მისამართის რედაქტირება",
+      "first_name": "სახელი",
+      "last_name": "გვარი",
+      "company": "კომპანია",
+      "address1": "მისამართი 1",
+      "address2": "მისამართი 2",
+      "city": "ქალაქი",
+      "country": "ქვეყანა/რეგიონი",
+      "province": "რეგიონი",
+      "zip": "საფოსტო ინდექსი",
+      "phone": "ტელეფონი",
+      "set_default": "ნაგულისხმევად დაყენება",
+      "add": "მისამართის დამატება",
+      "update": "მისამართის განახლება",
+      "cancel": "გაუქმება",
+      "edit": "რედაქტირება",
+      "delete": "წაშლა",
+      "delete_confirm": "ნამდვილად გსურთ ამ მისამართის წაშლა?",
+      "none": "დაამატეთ სახლის ან სამუშაოს მისამართი, თუ ჯერ არ გაქვთ."
+    },
+    "forgot_password": "დაგავიწყდათ პაროლი?",
+    "log_in": "შესვლა",
+    "sign_in": "შესვლა",
+    "or": "ან",
+    "create_account": "ანგარიშის შექმნა",
+    "log_out": "გასვლა",
+    "hello": "გამარჯობა",
+    "my_account": "ჩემი ანგარიში",
+    "login_page": {
+      "cancel": "გაუქმება",
+      "create_account": "ანგარიშის შექმნა",
+      "email": "ელფოსტის მისამართი",
+      "forgot_password": "დაგავიწყდათ პაროლი?",
+      "guest_continue": "გაგრძელება",
+      "guest_title": "გაგრძელება სტუმრად",
+      "password": "პაროლი",
+      "title": "შესვლა",
+      "sign_in": "შესვლა",
+      "submit": "გაგზავნა",
+      "register": "რეგისტრაცია",
+      "text": "შეიყვანეთ ელფოსტა და პაროლი ანგარიშზე წვდომისთვის.",
+      "create_prompt": "ჯერ არ გაქვთ ანგარიში?"
+    },
+    "order": {
+      "title": "შეკვეთა {{ name }}",
+      "date_html": "განთავსებულია {{ date }}",
+      "cancelled_html": "შეკვეთა გაუქმდა {{ date }}",
+      "cancelled_reason": "მიზეზი: {{ reason }}",
+      "billing_address": "გადახდის მისამართი",
+      "payment_status": "გადახდის სტატუსი",
+      "shipping_address": "მიწოდების მისამართი",
+      "fulfillment_status": "შესრულების სტატუსი",
+      "discount": "ფასდაკლება",
+      "shipping": "მიწოდება",
+      "tax": "გადასახადი",
+      "product": "პროდუქტი",
+      "sku": "SKU",
+      "price": "ფასი",
+      "quantity": "რაოდენობა",
+      "total": "ჯამი",
+      "fulfilled_at_html": "შესრულებულია {{ date }}",
+      "track_shipment": "გზავნილის თვალყური",
+      "tracking_url": "თვალყურის ბმული",
+      "tracking_company": "გადამზიდავი",
+      "tracking_number": "თვალყურის ნომერი",
+      "subtotal": "ჯამი"
+    },
+    "orders": {
+      "title": "შეკვეთების ისტორია",
+      "order_number": "შეკვეთა",
+      "order_number_link": "შეკვეთის ნომერი {{ number }}",
+      "date": "თარიღი",
+      "payment_status": "გადახდის სტატუსი",
+      "fulfillment_status": "შესრულების სტატუსი",
+      "total": "ჯამი",
+      "none": "ჯერ არ გაქვთ შეკვეთები."
+    },
+    "recover_password": {
+      "title": "პაროლის აღდგენა",
+      "subtext": "გამოგიგზავნით ელფოსტას პაროლის აღსადგენად",
+      "success": "გამოგიგზავნეთ ელფოსტა პაროლის განახლების ბმულით."
+    },
+    "register": {
+      "title": "ანგარიშის შექმნა",
+      "first_name": "სახელი",
+      "last_name": "გვარი",
+      "email": "ელფოსტა",
+      "you_email": "თქვენი ელფოსტის მისამართი",
+      "password": "პაროლი",
+      "you_password": "თქვენი პაროლი",
+      "register": "რეგისტრაცია",
+      "submit": "ანგარიშის შექმნა",
+      "text": "დარეგისტრირდით ანგარიშის შესაქმნელად",
+      "subscribe": "მარკეტინგული ელფოსტის გამოწერა"
+    },
+    "reset_password": {
+      "title": "ანგარიშის პაროლის განახლება",
+      "subtext": "შეიყვანეთ ახალი პაროლი {{ email }}-სთვის",
+      "password": "პაროლი",
+      "password_confirm": "პაროლის დადასტურება",
+      "submit": "პაროლის განახლება"
+    }
+  },
+  "gift_cards": {
+    "issued": {
+      "title": "თქვენი {{ value }} სასაჩუქრე ბარათი {{ shop }}-დან!",
+      "subtext": "თქვენი სასაჩუქრე ბარათი",
+      "gift_card_code": "სასაჩუქრე ბარათის კოდი",
+      "shop_link": "შოპინგის გაგრძელება",
+      "remaining_html": "ნაშთი {{ balance }}",
+      "add_to_apple_wallet": "დამატება Apple Wallet-ში",
+      "qr_image_alt": "QR კოდი — დაასკანირეთ სასაჩუქრე ბარათის გამოსაყენებლად",
+      "copy_code": "კოდის კოპირება",
+      "expired": "ვადაგასული",
+      "copy_code_success": "კოდი დაკოპირდა",
+      "print_gift_card": "ბეჭდვა"
+    }
+  },
+  "wishlist": {
+    "general": {
+      "wishlist": "სურვილების სია",
+      "title": "სურვილების სია",
+      "text_icon": "სურვილების სია",
+      "added": "დაემატა სურვილების სიას",
+      "product_image": "სურათი",
+      "product_name": "პროდუქტის სახელი",
+      "price": "ფასი",
+      "add_1": "დამატება",
+      "add": "სურვილების სიაში დამატება",
+      "remove": "სურვილების სიიდან ამოშლა",
+      "share": "სურვილების სიის გაზიარება ელფოსტით",
+      "empty": "სურვილების სია ცარიელია. აღმოაჩინე ჩვენი ასორტიმენტი.",
+      "continue_shopping": "ასორტიმენტის ნახვა"
+    }
+  },
+  "compare": {
+    "general": {
+      "title": "შედარება",
+      "add": "შედარებაში დამატება",
+      "added": "შედარებაშია",
+      "remove_compare": "შედარებიდან ამოშლა",
+      "remove_all": "ყველას ამოშლა",
+      "product": "პროდუქტი",
+      "sku": "SKU",
+      "review": "შეფასება",
+      "description": "აღწერა",
+      "collection": "კოლექცია",
+      "availability": "ხელმისაწვდომობა",
+      "product_type": "პროდუქტის ტიპი",
+      "other_details": "სხვა დეტალები",
+      "message": "შედარებისთვის მინიმუმ ორი პროდუქტი უნდა აირჩიოთ."
+    }
+  },
+  "someone_purcharse": {
+    "general": {
+      "text_1": "ცოტა ხნის წინ ვიღაცამ იყიდა",
+      "ago": "წინ,",
+      "from": "დან"
+    }
+  },
+  "before_you_leave": {
+    "general": {
+      "recommended_product": "რეკომენდებული",
+      "back_to_store": "მაღაზიაში დაბრუნება",
+      "continue_shopping": "შოპინგის გაგრძელება"
+    }
+  },
+  "recently_viewed": {
+    "general": {
+      "product_title": "ბოლოს ნანახი პროდუქტები",
+      "no_product": "პროდუქტები ვერ მოიძებნა.",
+      "share_title": "გაზიარება",
+      "newsletter": "გამოწერა"
+    }
+  },
+  "calculator_free_shipping_message": {
+    "general": {
+      "free_shipping_message": "უფასო მიწოდება შეკვეთებზე",
+      "free_shipping_message_1": "თქვენ გაქვთ უფასო მიწოდება!",
+      "free_shipping_message_2": "მხოლოდ",
+      "free_shipping_message_3": "დარჩა",
+      "free_shipping_message_4": "უფასო მიწოდებამდე",
+      "free_shipping_1": "უფასო",
+      "free_shipping_2": "მიმდინარე"
+    }
+  },
+  "notify_form": {
+    "general": {
+      "label": "შემატყობინე",
+      "title": "დატოვეთ ელფოსტა და შეგატყობინებთ, როცა პროდუქტი/ვარიანტი მარაგში დაბრუნდება",
+      "placeholder": "შეიყვანეთ ელფოსტა",
+      "submit": "გამოწერა",
+      "success": "გმადლობთ! მოთხოვნა მიღებულია და შეგატყობინებთ, როცა პროდუქტი ხელმისაწვდომი გახდება.",
+      "error": "გთხოვთ, გამოიყენოთ სწორი ელფოსტის მისამართი."
+    }
+  },
+  "ask_an_expert": {
+    "general": {
+      "text": "ექსპერტის კითხვა",
+      "name": "თქვენი სახელი",
+      "mail": "თქვენი ელფოსტა",
+      "phone": "თქვენი ტელეფონი",
+      "message": "რაში შეგვიძლია დაგეხმაროთ?",
+      "submit": "კითხვის გაგზავნა",
+      "success": "გმადლობთ. თქვენი შეტყობინება მიღებულია და მალე გიპასუხებთ.",
+      "button": "ექსპერტის ფორმის გახსნა"
+    }
+  },
+  "countdown": {
+    "general": {
+      "text": "შეზღუდული შეთავაზებები მთავრდება:",
+      "day": "D",
+      "hour": "H",
+      "min": "M",
+      "sec": "S",
+      "d": "d",
+      "h": "h",
+      "m": "m",
+      "s": "s",
+      "day_2": "დღე",
+      "hour_2": "საათი",
+      "min_2": "წთ",
+      "sec_2": "წმ",
+      "days": "დღე",
+      "hours": "საათი",
+      "mins": "წთ",
+      "secs": "წმ"
+    }
+  },
+  "customer_viewing": {
+    "general": {
+      "text": "{{ number }} მომხმარებელი უყურებს ამ პროდუქტს"
+    }
+  },
+  "size_chart": {
+    "general": {
+      "title": "ზომების ცხრილი",
+      "text": "ზომების გზამკვლევი"
+    }
+  },
+  "compare_color": {
+    "general": {
+      "title": "ფერის შედარება",
+      "text": "შესადარებლად დააწკაპუნეთ ფერზე/ნიმუშზე; გადასაწყობად გადაიტანეთ სურათები"
+    }
+  },
+  "lookbook": {
+    "view_all": "მთელი ლუქის ნახვა",
+    "shop_look": "ლუქის შეძენა"
+  },
+  "bulk_editor_page": {
+    "general": {
+      "all_collection": "ყველა პროდუქტი",
+      "select_collection": "აირჩიეთ კატეგორია",
+      "submit": "რედაქტორის გაგზავნა",
+      "edit_metafields": "მეტაველების რედაქტირება პროდუქტებში."
+    }
+  },
+  "find_a_store": {
+    "no_stores": "ამჟამად მაღაზიის პრეზენტაციაზე ვმუშაობთ. გთხოვთ, მოგვიანებით დაბრუნდეთ..."
+  },
+  "recipient": {
+    "form": {
+      "checkbox": "მინდა ეს საჩუქრად გავაგზავნო",
+      "email_label": "მიმღების ელფოსტა",
+      "email_label_optional": "მიმღების ელფოსტა (არასავალდებულო)",
+      "email": "ელფოსტა",
+      "name_label": "მიმღების სახელი (არასავალდებულო)",
+      "name": "სახელი",
+      "message_label": "შეტყობინება (არასავალდებულო)",
+      "message": "შეტყობინება",
+      "max_characters": "მაქსიმუმ {{ max_chars }} სიმბოლო",
+      "send_on": "YYYY-MM-DD",
+      "send_on_label": "გაგზავნის თარიღი (არასავალდებულო)"
+    }
+  },
+  "popup": {
+    "promotion": {
+      "copy": "კოპირება",
+      "success_message_copy": "დაკოპირდა"
+    }
+  },
+  "cart": {
+    "ajax_cart": {
+      "close": "დახურვა",
+      "cart": "კალათა"
+    }
+  },
+  "collections": {
+    "general": {
+      "no_matches": "პროდუქტები ვერ მოიძებნა"
+    }
+  },
+  "mm_home": {
+    "hero": {
+      "eyebrow": "შენთვის და შენი პატარა სასწაულისთვის",
+      "heading": "ზრუნვა შენზე და შენს პატარაზე",
+      "text": "აღმოაჩინე გერმანიიდან ჩამოტანილი მოვლისა და ჰიგიენის პროდუქტები.",
+      "button_kids": "ბავშვებისთვის",
+      "button_mamas": "დედებისთვის",
+      "image_alt": "დედა პატარასთან და ჩვილთან რბილ დღის სინათლეში"
+    },
+    "categories": {
+      "heading": "კატეგორიები",
+      "kids_label": "ბავშვებისთვის",
+      "kids_desc": "მოვლა და ჰიგიენა პატარებისთვის",
+      "mamas_label": "დედებისთვის",
+      "mamas_desc": "მოვლა დედებისთვის"
+    },
+    "info": {
+      "heading": "ინფორმაცია",
+      "import": "გერმანიიდან ჩამოტანილი",
+      "audience": "ბავშვებისთვის და დედებისთვის",
+      "order": "მარტივი ონლაინ შეკვეთა"
+    },
+    "products": {
+      "heading": "შერჩეული პროდუქტები",
+      "view_all": "ყველა პროდუქტის ნახვა"
+    },
+    "needs": {
+      "heading": "შეიძინე საჭიროების მიხედვით",
+      "skin": "კანის მოვლა",
+      "bath": "აბაზანა და ჰიგიენა",
+      "face": "სახის მოვლა",
+      "body": "სხეულის მოვლა"
+    },
+    "about": {
+      "heading": "გერმანიიდან — შენთვის",
+      "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
+      "link": "ჩვენს შესახებ"
+    },
+    "brands": {
+      "heading": "ბრენდები ჩვენს ასორტიმენტში",
+      "note": "ნაჩვენები ბრენდები არის ასორტიმენტში წარმოდგენილი სახელები და არ ნიშნავს ოფიციალურ პარტნიორობას."
+    },
+    "faq": {
+      "heading": "ხშირად დასმული კითხვები",
+      "q_order": "როგორ ხდება შეკვეთა?",
+      "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთის დასრულებისას შეკვეთა მიიღება; გადახდა ხდება საბანკო გადარიცხვით.",
+      "q_shipping": "რა ღირს მიწოდება?",
+      "a_shipping": "მიწოდება თბილისში: 6 ₾. თვითგატანა თბილისში უფასოა. გადახდა საბანკო გადარიცხვით. შეკვეთები მუშავდება და იგზავნება გადახდის დადასტურების შემდეგ.",
+      "q_payment": "როგორ მუშაობს გადახდა?",
+      "a_payment": "გადახდა ხდება საბანკო გადარიცხვით. გადაირიცხე შეკვეთის ზუსტი ჯამი ლარში (₾) მითითებულ ანგარიშზე და გადმორიცხვის დანიშნულებაში მიუთითე შეკვეთის ნომერი. შეკვეთა მიღებულია, მაგრამ ჯერ არ არის გადახდილი; დამუშავება და გაგზავნა იწყება მხოლოდ თანხის შემოსვლის დადასტურების შემდეგ.",
+      "q_returns": "შეიძლება პროდუქტის დაბრუნება?",
+      "a_returns": "არასწორი, დაზიანებული ან არასრული მიწოდებისას მოგვწერე რაც შეიძლება მალე — მიუთითე შეკვეთის ნომერი, პროდუქტი და მოკლე აღწერა; დაზიანებისას ფოტო დაგვეხმარება. თანხის დაბრუნება, თუ შეთანხმდება, ხდება საბანკო გადარიცხვით (არა ავტომატურად). დეტალური პირობები იხილე დაბრუნების წესებში. პროდუქტი უკან არ გააგზავნო წინასწარი შეთანხმების გარეშე.",
+      "a_returns_contact": "ელფოსტა",
+      "a_returns_policy": "დაბრუნების წესები",
+      "q_origin": "საიდან მოდის პროდუქტები?",
+      "a_origin": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
+    },
+    "category_pills": {
+      "heading": "მოვლა და ჰიგიენა"
+    }
+  },
+  "mm_badges": {
+    "sold_out": "არ არის მარაგში",
+    "sale": "ფასდაკლება"
+  },
+  "mm_pages": {
+    "about": {
+      "eyebrow": "MOTHER & ME",
+      "heading": "ჩვენს შესახებ",
+      "intro": "MOTHER & ME არის ონლაინ მაღაზია საქართველოში. ჩვენ ვირჩევთ მოვლისა და ყოველდღიური მოხმარების პროდუქტებს გერმანიაში და ვაიმპორტებთ აქ — ჩვილების, ბავშვებისა და დედებისთვის.",
+      "image_alt": "MOTHER & ME ასორტიმენტის პროდუქტები",
+      "who_heading": "ვინ ვართ ჩვენ",
+      "who_text": "ჩვენ ვართ მცირე ონლაინ მაღაზია, რომელიც ოჯახებს საქართველოში სთავაზობს გერმანიიდან შერჩეულ მოვლისა და ჰიგიენის პროდუქტებს. პროდუქტებს ვიძენთ გერმანიაში და ვყიდით აქ ონლაინ. იმპორტი გერმანიიდან არ ნიშნავს ავტომატურად იმას, რომ ყველა პროდუქტი გერმანიაშია წარმოებული.",
+      "why_heading": "რისთვის ვარსებობთ",
+      "why_text": "გვინდა, რომ მშობლებმა და მომავალმა მშობლებმა ადვილად იპოვონ საჭირო მოვლის საშუალებები — გამჭვირვალე ფასებით ლარში, გასაგები შეკვეთით და მიწოდებით ან თვითგატანით თბილისში.",
+      "select_heading": "როგორ ვირჩევთ და ვიძენთ პროდუქტებს",
+      "select_text": "ასორტიმენტი ეფუძნება ყოველდღიურ საჭიროებებს: კანის მოვლა, აბაზანა და ჰიგიენა, კვება, აქსესუარები, ასევე პროდუქტები ორსულობისა და ლაქტაციის, სახისა და სხეულის მოვლისთვის. პროდუქტებს ვიძენთ გერმანიაში და ვაიმპორტებთ საქართველოში.",
+      "brands_note": "გვერდზე ნაჩვენები ბრენდების სახელები ასახავს ასორტიმენტს და არ ნიშნავს ოფიციალურ პარტნიორობას. MOTHER & ME არ არის dm-ის ან სხვა ბრენდების ოფიციალური წარმომადგენელი საქართველოში.",
+      "flow_heading": "შეკვეთიდან მიწოდებამდე",
+      "flow_step_1": "აირჩიე პროდუქტები და დაამატე კალათაში. ფასები მითითებულია ლარში (₾).",
+      "flow_step_2": "დაასრულე შეკვეთა ონლაინ. შეკვეთის შემდეგ მიიღებ გადახდის ინსტრუქციას და შეკვეთის ნომერს.",
+      "flow_step_3": "გადაირიცხე ზუსტი თანხა საბანკო გადარიცხვით და დანიშნულებაში მიუთითე შეკვეთის ნომერი.",
+      "flow_step_4": "თანხის შემოსვლის დადასტურების შემდეგ ვამუშავებთ შეკვეთას — მიწოდებას ან თვითგატანის მომზადებას.",
+      "pay_heading": "როგორ მუშაობს საბანკო გადარიცხვა",
+      "pay_step_1": "შეკვეთას ასრულებ საიტზე.",
+      "pay_step_2": "მიიღებ გადახდის ინსტრუქციას და შეკვეთის ნომერს.",
+      "pay_step_3": "გადაირიცხე ზუსტი თანხა ლარში; დანიშნულებაში მიუთითე შეკვეთის ნომერი.",
+      "pay_step_4": "თანხის შემოსვლის დადასტურების შემდეგ ვიწყებთ დამუშავებას.",
+      "pay_note": "ანგარიშის რეკვიზიტები მოცემულია შეკვეთის შემდეგ მიღებულ ინსტრუქციაში. ამ გვერდზე საბანკო მონაცემებს არ ვაქვეყნებთ.",
+      "ship_heading": "მიწოდება და თვითგატანა",
+      "ship_text": "მიწოდება თბილისში: 6 ₾. თვითგატანა თბილისში უფასოა — მისამართი მითითებულია საკონტაქტო გვერდზე და არის თვითგატანის ადგილი, არა ღია საცალო მაღაზია. თვითგატანის შეკვეთა, როგორც წესი, გადახდის დადასტურების შემდეგ 24 საათში მზადაა.",
+      "policies_nav": "დეტალური პირობები",
+      "policies_shipping": "მიწოდების პირობები",
+      "policies_refund": "დაბრუნების პირობები",
+      "cta_nav": "შემდეგი ნაბიჯები",
+      "cta_kids": "ბავშვებისთვის",
+      "cta_mamas": "დედებისთვის",
+      "cta_all": "ყველა პროდუქტი",
+      "cta_contact": "კონტაქტი"
+    },
+    "business": {
+      "eyebrow": "MOTHER & ME",
+      "heading": "B2B და პარტნიორობა",
+      "intro": "კომპანიებს შეუძლიათ მოგვმართონ როგორც მომწოდებლებმა, საბითუმო ან ხელახალი გაყიდვის დაინტერესებულმა მხარეებმა, ან თანამშრომლობის პარტნიორებმა. ეს გვერდი განკუთვნილია კვალიფიციური ბიზნესანკეტებისთვის — არა ავტომატური ჰანდლერის ანგარიშისთვის.",
+      "bridge": "MOTHER & ME არის ონლაინ მაღაზია საქართველოში. ჩვენ ვირჩევთ და ვიძენთ მოვლისა და ჰიგიენის პროდუქტებს გერმანიაში და ვაიმპორტებთ აქ. გერმანიაში გაყიდვა ან სრული იმპორტსერვისი ამ გვერდზე არ არის შეთავაზებული; ასეთი თანამშრომლობა განიხილება მხოლოდ მოთხოვნის საფუძველზე.",
+      "process_heading": "როგორ მუშაობს მოთხოვნა",
+      "process_1": "გამოაგზავნეთ მოკლე ბიზნესანკეტა.",
+      "process_2": "ჩვენ პირადად განვიხილავთ თითოეულ მოთხოვნას.",
+      "process_3": "შესაბამისობის შემთხვევაში ვაგრძელებთ ინდივიდუალურ შეთანხმებას.",
+      "form_heading": "ბიზნესანკეტის ფორმა",
+      "form_note": "ველები მონიშნულია როგორც სავალდებულო ან არასავალდებულო. მოთხოვნა ჯერ არ არის შეკვეთა და არ ქმნის პარტნიორობას.",
+      "success": "მადლობა. თქვენი ბიზნესანკეტა მიღებულია. ჩვენ განვიხილავთ მას და საჭიროების შემთხვევაში დაგიკავშირდებით მითითებულ ელფოსტაზე.",
+      "disclaimer": "ანკეტის გაგზავნა არ ნიშნავს შეკვეთას, ფასების შეთანხმებას ან თანამშრომლობის დადასტურებას.",
+      "submit": "ანკეტის გაგზავნა",
+      "submitting": "იგზავნება…",
+      "error_general": "ანკეტის გაგზავნა ვერ მოხერხდა. გთხოვთ შეამოწმოთ სავალდებულო ველები და კვლავ სცადოთ.",
+      "error_email": "გთხოვთ მიუთითოთ სწორი სამუშაო ელფოსტა.",
+      "email_subject": "B2B — MOTHER & ME",
+      "nav_label": "ბიზნესისთვის",
+      "fields": {
+        "company": "კომპანია",
+        "contact_name": "საკონტაქტო პირი",
+        "email": "სამუშაო ელფოსტა",
+        "country": "ქვეყანა",
+        "inquiry_type": "მოთხოვნის ტიპი",
+        "message": "შეტყობინება",
+        "website": "ვებსაიტი",
+        "phone": "ტელეფონი",
+        "categories": "პროდუქტის კატეგორიები",
+        "volume": "სავარაუდო რაოდენობა ან შეკვეთის მოცულობა",
+        "catalog": "კატალოგის ან პრეზენტაციის ბმული",
+        "optional": "(არასავალდებულო)"
+      },
+      "types": {
+        "supplier": "მომწოდებელი გახდომა",
+        "reseller": "ხელახალი გაყიდვა ან საბითუმო შეკვეთა",
+        "distribution": "დისტრიბუცია გერმანია ↔ საქართველო",
+        "other": "სხვა ბიზნესთანამშრომლობა"
+      },
+      "cards": {
+        "supplier": {
+          "title": "მომწოდებელი გახდომა",
+          "text": "თუ გსურთ თქვენი პროდუქტების შეთავაზება ჩვენი ასორტიმენტისთვის, გამოგვიგზავნეთ მოკლე ინფორმაცია კომპანიასა და კატეგორიებზე."
+        },
+        "reseller": {
+          "title": "ხელახალი გაყიდვა ან საბითუმო შეკვეთა",
+          "text": "საცალო ან საბითუმო შესყიდვის ინტერესისთვის აღწერეთ საჭიროებები. ფასები და პირობები განიხილება მხოლოდ ინდივიდუალურად."
+        },
+        "distribution": {
+          "title": "დისტრიბუცია გერმანია ↔ საქართველო",
+          "text": "გერმანიასა და საქართველოს შორის შესაძლო თანამშრომლობა განიხილება მოთხოვნის საფუძველზე. არსებული გაყიდვების ქსელი ან ექსკლუზივი არ იგულისხმება."
+        },
+        "other": {
+          "title": "სხვა ბიზნესთანამშრომლობა",
+          "text": "მედია, ლოჯისტიკა, ერთობლივი პროექტები ან სხვა შეთავაზება — მოკლედ აღწერეთ იდეა."
+        }
+      }
+    }
+  },
+  "mm_shipping": {
+    "tbilisi_rate": "მიწოდება თბილისში: 6 ₾.",
+    "pickup_free": "თვითგატანა თბილისში უფასოა."
+  }
+}
