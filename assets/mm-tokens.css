@@ -99,7 +99,6 @@
 .mm-products__heading,
 .mm-products__view-all,
 .mm-products__setup,
-.mm-products .mm-product-card__title,
 .mm-products .mm-product-card__vendor,
 .mm-products .mm-product-card__price {
   overflow-wrap: anywhere;
@@ -109,6 +108,8 @@
   height: auto;
   max-height: none;
 }
+
+/* Title clamp lives in mm-product-card.css — do not reset max-height/height here */
 
 body.template-index {
   background-color: var(--mm-page);
@@ -129,7 +130,6 @@ body.template-index:lang(ka) .mm-categories__label,
 body.template-index:lang(ka) .mm-categories__desc,
 body.template-index:lang(ka) .mm-info-strip__text,
 body.template-index:lang(ka) .mm-products__heading,
-body.template-index:lang(ka) .mm-product-card__title,
 body.template-index:lang(ka) .mm-needs__heading,
 body.template-index:lang(ka) .mm-needs__label,
 body.template-index:lang(ka) .mm-about__heading,

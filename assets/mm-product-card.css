@@ -439,7 +439,8 @@
  */
 .mm-product-card,
 .mm-collection-card {
-  --mm-card-title-lh: 1.5;
+  /* 1.55 gives Noto Sans Georgian room for ascenders/descenders */
+  --mm-card-title-lh: 1.55;
   --mm-card-title-lines: 3;
   display: flex;
   flex-direction: column;
@@ -474,19 +475,20 @@
 .mm-collection-card .mm-collection-card__heading,
 .mm-collection-card .mm-collection-card__title,
 .mm-collection-card .card-title.mm-collection-card__title {
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+  /* Must stay -webkit-box for clamp; theme/tokens must not override to flow-root/block */
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
   -webkit-line-clamp: var(--mm-card-title-lines);
   line-clamp: var(--mm-card-title-lines);
   overflow: hidden;
   margin: 0 0 8px;
-  padding: 0.12em 0;
+  padding: 0.15em 0;
   box-sizing: content-box;
   color: var(--mm-card-ink);
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
   font-size: 15px;
   font-weight: 600;
-  line-height: var(--mm-card-title-lh);
+  line-height: var(--mm-card-title-lh) !important;
   letter-spacing: normal;
   text-align: left;
   text-transform: none;
@@ -494,8 +496,8 @@
   white-space: normal;
   overflow-wrap: anywhere;
   word-break: break-word;
-  /* Reserve 3 lines; padding gives glyph room — never a tighter max-height */
-  min-height: calc(var(--mm-card-title-lh) * 1em * var(--mm-card-title-lines) + 0.24em);
+  /* Reserve 3 line boxes; clamp (not max-height) truncates — avoids mid-glyph cuts */
+  min-height: calc(var(--mm-card-title-lh) * 1em * var(--mm-card-title-lines) + 0.3em);
   max-height: none;
 }
 
