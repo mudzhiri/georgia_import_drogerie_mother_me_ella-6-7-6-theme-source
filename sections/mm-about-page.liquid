@@ -1,0 +1,163 @@
+{{ 'mm-about-page.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_pages.about.heading' | t
+  endif
+  if heading contains '&amp;'
+    assign heading = heading | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+
+  assign intro = section.settings.intro
+  if intro == blank
+    assign intro = 'mm_pages.about.intro' | t
+  endif
+  if intro contains '&amp;'
+    assign intro = intro | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+
+  assign kids_url = collections['ბავშვი'].url | default: routes.collections_url
+  assign mama_url = collections['დედა'].url | default: routes.collections_url
+  assign all_url = routes.all_products_collection_url
+  assign contact_page = pages['contact']
+  if contact_page == empty
+    assign contact_page = pages['contact-us']
+  endif
+  assign contact_url = contact_page.url | default: '/pages/contact'
+
+  assign image = section.settings.image
+  assign image_alt = section.settings.image_alt
+  if image_alt == blank
+    assign image_alt = 'mm_pages.about.image_alt' | t
+  endif
+-%}
+
+<section
+  id="mm-about-page-{{ section.id }}"
+  class="mm-about-page"
+  aria-labelledby="mm-about-page-heading-{{ section.id }}"
+>
+  <div class="mm-about-page__inner">
+    <header class="mm-about-page__header">
+      <p class="mm-about-page__eyebrow">{{ 'mm_pages.about.eyebrow' | t }}</p>
+      <h1 id="mm-about-page-heading-{{ section.id }}" class="mm-about-page__heading">
+        {{ heading | escape }}
+      </h1>
+      <p class="mm-about-page__intro">{{ intro | escape }}</p>
+    </header>
+
+    {%- if image != blank -%}
+      <figure class="mm-about-page__figure">
+        {{
+          image
+          | image_url: width: 1600
+          | image_tag:
+            loading: 'lazy',
+            widths: '600, 900, 1200, 1600',
+            sizes: '(min-width: 900px) 720px, 100vw',
+            alt: image_alt,
+            class: 'mm-about-page__image'
+        }}
+        {%- if section.settings.image_caption != blank -%}
+          <figcaption class="mm-about-page__caption">{{ section.settings.image_caption | escape }}</figcaption>
+        {%- endif -%}
+      </figure>
+    {%- endif -%}
+
+    <div class="mm-about-page__sections">
+      <section class="mm-about-page__block" aria-labelledby="mm-about-who-{{ section.id }}">
+        <h2 id="mm-about-who-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.who_heading' | t }}
+        </h2>
+        <p class="mm-about-page__text">{{ 'mm_pages.about.who_text' | t }}</p>
+      </section>
+
+      <section class="mm-about-page__block" aria-labelledby="mm-about-select-{{ section.id }}">
+        <h2 id="mm-about-select-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.select_heading' | t }}
+        </h2>
+        <p class="mm-about-page__text">{{ 'mm_pages.about.select_text' | t }}</p>
+        <p class="mm-about-page__note">{{ 'mm_pages.about.brands_note' | t }}</p>
+      </section>
+
+      <section class="mm-about-page__block" aria-labelledby="mm-about-flow-{{ section.id }}">
+        <h2 id="mm-about-flow-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.flow_heading' | t }}
+        </h2>
+        <ol class="mm-about-page__steps">
+          <li>{{ 'mm_pages.about.flow_step_1' | t }}</li>
+          <li>{{ 'mm_pages.about.flow_step_2' | t }}</li>
+          <li>{{ 'mm_pages.about.flow_step_3' | t }}</li>
+          <li>{{ 'mm_pages.about.flow_step_4' | t }}</li>
+        </ol>
+      </section>
+
+      <section class="mm-about-page__block" aria-labelledby="mm-about-ship-{{ section.id }}">
+        <h2 id="mm-about-ship-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.ship_heading' | t }}
+        </h2>
+        <p class="mm-about-page__text">{{ 'mm_pages.about.ship_text' | t }}</p>
+      </section>
+    </div>
+
+    <nav class="mm-about-page__cta" aria-label="{{ 'mm_pages.about.cta_nav' | t | escape }}">
+      <a class="mm-about-page__btn mm-about-page__btn--primary" href="{{ kids_url }}">
+        {{ 'mm_pages.about.cta_kids' | t }}
+      </a>
+      <a class="mm-about-page__btn mm-about-page__btn--primary" href="{{ mama_url }}">
+        {{ 'mm_pages.about.cta_mamas' | t }}
+      </a>
+      <a class="mm-about-page__btn mm-about-page__btn--ghost" href="{{ all_url }}">
+        {{ 'mm_pages.about.cta_all' | t }}
+      </a>
+      <a class="mm-about-page__btn mm-about-page__btn--ghost" href="{{ contact_url }}">
+        {{ 'mm_pages.about.cta_contact' | t }}
+      </a>
+    </nav>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "MM About page",
+  "tag": "section",
+  "class": "section-mm-about-page",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading override",
+      "info": "Leave blank for locale text."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro override",
+      "info": "Leave blank for locale text. Only confirmed shop facts."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Authentic photo (optional)",
+      "info": "Only real photos of products, packing, or the business. No stock people as team."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text"
+    },
+    {
+      "type": "text",
+      "id": "image_caption",
+      "label": "Image caption (optional)",
+      "info": "Describe what the photo actually shows. Do not claim unconfirmed locations."
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM About page"
+    }
+  ]
+}
+{% endschema %}

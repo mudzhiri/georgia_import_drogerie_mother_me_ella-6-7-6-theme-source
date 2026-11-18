@@ -57,6 +57,23 @@
   assign message_id = 'mm-contact-message-' | append: section.id
   assign email_error_id = 'mm-contact-email-error-' | append: section.id
   assign message_error_id = 'mm-contact-message-error-' | append: section.id
+
+  assign about_page = pages['about']
+  if about_page == empty
+    assign about_page = pages['about-us']
+  endif
+  if about_page == empty
+    assign about_page = pages['uber-uns']
+  endif
+  assign about_url = ''
+  if about_page != empty and about_page.url != blank
+    assign about_url = about_page.url
+  endif
+
+  assign contact_intro = section.settings.intro
+  if contact_intro == blank
+    assign contact_intro = 'templates.contact.intro' | t
+  endif
 -%}
 
 <section
@@ -68,6 +85,9 @@
     <h1 id="mm-contact-heading-{{ section.id }}" class="mm-contact__heading">
       {{ heading | escape }}
     </h1>
+    {%- if contact_intro != blank -%}
+      <p class="mm-contact__intro">{{ contact_intro | escape }}</p>
+    {%- endif -%}
 
     <div class="mm-contact__layout{% unless has_details %} mm-contact__layout--form-only{% endunless %}">
       {%- if has_details -%}
@@ -112,9 +132,19 @@
                     <span class="mm-contact__address-line">{{ shop.address.country | escape }}</span>
                   {%- endif -%}
                 </span>
+                <p class="mm-contact__hint">{{ 'templates.contact.info.address_note' | t }}</p>
               </li>
             {%- endif -%}
+            <li class="mm-contact__item">
+              <span class="mm-contact__label">{{ 'templates.contact.info.shipping' | t }}</span>
+              <span class="mm-contact__value">{{ 'templates.contact.info.shipping_note' | t }}</span>
+            </li>
           </ul>
+          {%- if about_url != blank -%}
+            <a class="mm-contact__about-link" href="{{ about_url }}">
+              {{ 'templates.contact.info.about_link' | t }}
+            </a>
+          {%- endif -%}
         </aside>
       {%- endif -%}
 
@@ -272,6 +302,12 @@
       "info": "Leave blank for Georgian default დაგვიკავშირდით."
     },
     {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro override",
+      "info": "Leave blank for locale intro. Only confirmed contact facts."
+    },
+    {
       "type": "text",
       "id": "contact_email",
       "label": "Public contact email",
@@ -280,7 +316,7 @@
     },
     {
       "type": "paragraph",
-      "content": "Phone and address come only from Shopify Settings → Store details. Ella demo values are hidden. Address is never labeled as a store or pickup point. No map embed."
+      "content": "Phone and address come only from Shopify Settings → Store details. Ella demo values are hidden. Address is labeled as pickup location when shown. No map embed. No invented opening hours."
     }
   ],
   "presets": [

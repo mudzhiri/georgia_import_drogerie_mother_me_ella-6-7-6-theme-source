@@ -10,14 +10,12 @@
 {
   "sections": {
     "mm_about_page": {
-      "type": "mm-about",
+      "type": "mm-about-page",
       "settings": {
-        "heading_tag": "h1",
         "heading": "",
-        "text": "",
-        "button_label": "",
-        "button_link": "",
-        "image_alt": ""
+        "intro": "",
+        "image_alt": "",
+        "image_caption": ""
       }
     }
   },
