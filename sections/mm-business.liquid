@@ -1,0 +1,567 @@
+{{ 'mm-business.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign t = 'mm_pages.business'
+
+  if section.settings.eyebrow != blank
+    assign eyebrow = section.settings.eyebrow
+  else
+    assign eyebrow = t | append: '.eyebrow' | t
+  endif
+
+  if section.settings.heading != blank
+    assign heading = section.settings.heading
+  else
+    assign heading = t | append: '.heading' | t
+  endif
+
+  if section.settings.intro != blank
+    assign intro = section.settings.intro
+  else
+    assign intro = t | append: '.intro' | t
+  endif
+
+  if section.settings.bridge != blank
+    assign bridge = section.settings.bridge
+  else
+    assign bridge = t | append: '.bridge' | t
+  endif
+
+  if section.settings.process_heading != blank
+    assign process_heading = section.settings.process_heading
+  else
+    assign process_heading = t | append: '.process_heading' | t
+  endif
+
+  if section.settings.process_1 != blank
+    assign process_1 = section.settings.process_1
+  else
+    assign process_1 = t | append: '.process_1' | t
+  endif
+
+  if section.settings.process_2 != blank
+    assign process_2 = section.settings.process_2
+  else
+    assign process_2 = t | append: '.process_2' | t
+  endif
+
+  if section.settings.process_3 != blank
+    assign process_3 = section.settings.process_3
+  else
+    assign process_3 = t | append: '.process_3' | t
+  endif
+
+  if section.settings.form_heading != blank
+    assign form_heading = section.settings.form_heading
+  else
+    assign form_heading = t | append: '.form_heading' | t
+  endif
+
+  if section.settings.form_note != blank
+    assign form_note = section.settings.form_note
+  else
+    assign form_note = t | append: '.form_note' | t
+  endif
+
+  if section.settings.success_message != blank
+    assign success_message = section.settings.success_message
+  else
+    assign success_message = t | append: '.success' | t
+  endif
+
+  if section.settings.disclaimer != blank
+    assign disclaimer = section.settings.disclaimer
+  else
+    assign disclaimer = t | append: '.disclaimer' | t
+  endif
+
+  if section.settings.card_supplier_title != blank
+    assign card_supplier_title = section.settings.card_supplier_title
+  else
+    assign card_supplier_title = t | append: '.cards.supplier.title' | t
+  endif
+  if section.settings.card_supplier_text != blank
+    assign card_supplier_text = section.settings.card_supplier_text
+  else
+    assign card_supplier_text = t | append: '.cards.supplier.text' | t
+  endif
+
+  if section.settings.card_reseller_title != blank
+    assign card_reseller_title = section.settings.card_reseller_title
+  else
+    assign card_reseller_title = t | append: '.cards.reseller.title' | t
+  endif
+  if section.settings.card_reseller_text != blank
+    assign card_reseller_text = section.settings.card_reseller_text
+  else
+    assign card_reseller_text = t | append: '.cards.reseller.text' | t
+  endif
+
+  if section.settings.card_distribution_title != blank
+    assign card_distribution_title = section.settings.card_distribution_title
+  else
+    assign card_distribution_title = t | append: '.cards.distribution.title' | t
+  endif
+  if section.settings.card_distribution_text != blank
+    assign card_distribution_text = section.settings.card_distribution_text
+  else
+    assign card_distribution_text = t | append: '.cards.distribution.text' | t
+  endif
+
+  if section.settings.card_other_title != blank
+    assign card_other_title = section.settings.card_other_title
+  else
+    assign card_other_title = t | append: '.cards.other.title' | t
+  endif
+  if section.settings.card_other_text != blank
+    assign card_other_text = section.settings.card_other_text
+  else
+    assign card_other_text = t | append: '.cards.other.text' | t
+  endif
+
+  assign form_id = 'mm-BusinessForm-' | append: section.id
+  assign company_id = 'mm-biz-company-' | append: section.id
+  assign name_id = 'mm-biz-name-' | append: section.id
+  assign email_id = 'mm-biz-email-' | append: section.id
+  assign country_id = 'mm-biz-country-' | append: section.id
+  assign type_id = 'mm-biz-type-' | append: section.id
+  assign message_id = 'mm-biz-message-' | append: section.id
+  assign website_id = 'mm-biz-website-' | append: section.id
+  assign phone_id = 'mm-biz-phone-' | append: section.id
+  assign categories_id = 'mm-biz-categories-' | append: section.id
+  assign volume_id = 'mm-biz-volume-' | append: section.id
+  assign catalog_id = 'mm-biz-catalog-' | append: section.id
+-%}
+
+<section
+  id="mm-business-{{ section.id }}"
+  class="mm-business"
+  data-mm-business
+  aria-labelledby="mm-business-heading-{{ section.id }}"
+>
+  <div class="mm-business__inner">
+    <header class="mm-business__hero">
+      {%- if eyebrow != blank -%}
+        <p class="mm-business__eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      <h1 id="mm-business-heading-{{ section.id }}" class="mm-business__heading">
+        {{ heading | escape }}
+      </h1>
+      {%- if intro != blank -%}
+        <p class="mm-business__intro">{{ intro | escape }}</p>
+      {%- endif -%}
+      {%- if bridge != blank -%}
+        <p class="mm-business__bridge">{{ bridge | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <ul class="mm-business__cards" role="list">
+      <li>
+        <button
+          type="button"
+          class="mm-business__card"
+          data-mm-business-card="supplier"
+          aria-pressed="false"
+        >
+          <span class="mm-business__card-title">{{ card_supplier_title | escape }}</span>
+          <span class="mm-business__card-text">{{ card_supplier_text | escape }}</span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="mm-business__card"
+          data-mm-business-card="reseller"
+          aria-pressed="false"
+        >
+          <span class="mm-business__card-title">{{ card_reseller_title | escape }}</span>
+          <span class="mm-business__card-text">{{ card_reseller_text | escape }}</span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="mm-business__card"
+          data-mm-business-card="distribution"
+          aria-pressed="false"
+        >
+          <span class="mm-business__card-title">{{ card_distribution_title | escape }}</span>
+          <span class="mm-business__card-text">{{ card_distribution_text | escape }}</span>
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="mm-business__card"
+          data-mm-business-card="other"
+          aria-pressed="false"
+        >
+          <span class="mm-business__card-title">{{ card_other_title | escape }}</span>
+          <span class="mm-business__card-text">{{ card_other_text | escape }}</span>
+        </button>
+      </li>
+    </ul>
+
+    <div class="mm-business__process">
+      <h2 class="mm-business__process-heading">{{ process_heading | escape }}</h2>
+      <ol class="mm-business__process-list">
+        <li class="mm-business__process-item">{{ process_1 | escape }}</li>
+        <li class="mm-business__process-item">{{ process_2 | escape }}</li>
+        <li class="mm-business__process-item">{{ process_3 | escape }}</li>
+      </ol>
+    </div>
+
+    <div id="mm-business-form" class="mm-business__form-wrap">
+      <h2 class="mm-business__form-heading">{{ form_heading | escape }}</h2>
+      {%- if form_note != blank -%}
+        <p class="mm-business__form-note">{{ form_note | escape }}</p>
+      {%- endif -%}
+
+      {%- form 'contact', id: form_id, class: 'mm-business__form', data-mm-business-form: '' -%}
+        {%- if form.posted_successfully? -%}
+          <p class="mm-business__success" role="status" tabindex="-1" data-mm-business-success>
+            {{ success_message | escape }}
+          </p>
+        {%- endif -%}
+
+        {%- if form.errors -%}
+          <div class="mm-business__errors" role="alert" tabindex="-1">
+            {{ form.errors | default_errors }}
+          </div>
+        {%- endif -%}
+
+        {%- comment -%}
+          Subject line prefix so inbox sorting shows B2B clearly.
+          Shopify includes all contact[...] fields in the notification email.
+        {%- endcomment -%}
+        <input type="hidden" name="contact[subject]" value="{{ 'mm_pages.business.email_subject' | t | escape }}">
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ company_id }}">
+            {{ 'mm_pages.business.fields.company' | t }}
+          </label>
+          <input
+            id="{{ company_id }}"
+            class="mm-business__input"
+            type="text"
+            name="contact[company]"
+            autocomplete="organization"
+            required
+            value="{% if form.company %}{{ form.company | escape }}{% endif %}"
+            {% if form.errors contains 'company' %}aria-invalid="true"{% endif %}
+          >
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ name_id }}">
+            {{ 'mm_pages.business.fields.contact_name' | t }}
+          </label>
+          <input
+            id="{{ name_id }}"
+            class="mm-business__input"
+            type="text"
+            name="contact[name]"
+            autocomplete="name"
+            required
+            value="{% if form.name %}{{ form.name | escape }}{% endif %}"
+            {% if form.errors contains 'name' %}aria-invalid="true"{% endif %}
+          >
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ email_id }}">
+            {{ 'mm_pages.business.fields.email' | t }}
+          </label>
+          <input
+            id="{{ email_id }}"
+            class="mm-business__input"
+            type="email"
+            name="contact[email]"
+            autocomplete="email"
+            required
+            spellcheck="false"
+            value="{% if form.email %}{{ form.email | escape }}{% endif %}"
+            {% if form.errors contains 'email' %}
+              aria-invalid="true"
+              aria-describedby="mm-biz-email-error-{{ section.id }}"
+            {% endif %}
+          >
+          {%- if form.errors contains 'email' -%}
+            <p id="mm-biz-email-error-{{ section.id }}" class="mm-business__error">
+              {{ form.errors.translated_fields.email | capitalize }}
+              {{ form.errors.messages.email }}
+            </p>
+          {%- endif -%}
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ country_id }}">
+            {{ 'mm_pages.business.fields.country' | t }}
+          </label>
+          <input
+            id="{{ country_id }}"
+            class="mm-business__input"
+            type="text"
+            name="contact[country]"
+            autocomplete="country-name"
+            required
+            value="{% if form.country %}{{ form.country | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ type_id }}">
+            {{ 'mm_pages.business.fields.inquiry_type' | t }}
+          </label>
+          <select
+            id="{{ type_id }}"
+            class="mm-business__select"
+            name="contact[inquiry_type]"
+            required
+            data-mm-business-type
+          >
+            <option value="supplier">{{ 'mm_pages.business.types.supplier' | t }}</option>
+            <option value="reseller">{{ 'mm_pages.business.types.reseller' | t }}</option>
+            <option value="distribution">{{ 'mm_pages.business.types.distribution' | t }}</option>
+            <option value="other" selected>{{ 'mm_pages.business.types.other' | t }}</option>
+          </select>
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ website_id }}">
+            {{ 'mm_pages.business.fields.website' | t }}
+            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+          </label>
+          <input
+            id="{{ website_id }}"
+            class="mm-business__input"
+            type="url"
+            name="contact[website]"
+            autocomplete="url"
+            inputmode="url"
+            placeholder="https://"
+            value="{% if form.website %}{{ form.website | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ phone_id }}">
+            {{ 'mm_pages.business.fields.phone' | t }}
+            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+          </label>
+          <input
+            id="{{ phone_id }}"
+            class="mm-business__input"
+            type="tel"
+            name="contact[phone]"
+            autocomplete="tel"
+            value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field" data-mm-business-show-for="supplier,reseller,distribution">
+          <label class="mm-business__label" for="{{ categories_id }}">
+            {{ 'mm_pages.business.fields.categories' | t }}
+            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+          </label>
+          <input
+            id="{{ categories_id }}"
+            class="mm-business__input"
+            type="text"
+            name="contact[product_categories]"
+            value="{% if form.product_categories %}{{ form.product_categories | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field" data-mm-business-show-for="reseller,distribution">
+          <label class="mm-business__label" for="{{ volume_id }}">
+            {{ 'mm_pages.business.fields.volume' | t }}
+            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+          </label>
+          <input
+            id="{{ volume_id }}"
+            class="mm-business__input"
+            type="text"
+            name="contact[order_volume]"
+            value="{% if form.order_volume %}{{ form.order_volume | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field" data-mm-business-show-for="supplier,other">
+          <label class="mm-business__label" for="{{ catalog_id }}">
+            {{ 'mm_pages.business.fields.catalog' | t }}
+            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+          </label>
+          <input
+            id="{{ catalog_id }}"
+            class="mm-business__input"
+            type="url"
+            name="contact[catalog_url]"
+            inputmode="url"
+            placeholder="https://"
+            value="{% if form.catalog_url %}{{ form.catalog_url | escape }}{% endif %}"
+          >
+        </div>
+
+        <div class="mm-business__field">
+          <label class="mm-business__label" for="{{ message_id }}">
+            {{ 'mm_pages.business.fields.message' | t }}
+          </label>
+          <textarea
+            id="{{ message_id }}"
+            class="mm-business__textarea"
+            name="contact[body]"
+            rows="6"
+            required
+            {% if form.errors contains 'body' %}aria-invalid="true"{% endif %}
+          >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+        </div>
+
+        <button type="submit" class="mm-business__submit">
+          {{ 'mm_pages.business.submit' | t }}
+        </button>
+
+        {%- if disclaimer != blank -%}
+          <p class="mm-business__disclaimer">{{ disclaimer | escape }}</p>
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'mm-business.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "MM Business / B2B",
+  "tag": "section",
+  "class": "section-mm-business",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "MOTHER & ME"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "B2B და პარტნიორობა"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "info": "Leave blank to use locale default."
+    },
+    {
+      "type": "textarea",
+      "id": "bridge",
+      "label": "Germany ↔ Georgia note",
+      "info": "Leave blank to use locale default (confirmed facts only)."
+    },
+    {
+      "type": "header",
+      "content": "Inquiry cards"
+    },
+    {
+      "type": "text",
+      "id": "card_supplier_title",
+      "label": "Supplier card title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_supplier_text",
+      "label": "Supplier card text"
+    },
+    {
+      "type": "text",
+      "id": "card_reseller_title",
+      "label": "Reseller card title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_reseller_text",
+      "label": "Reseller card text"
+    },
+    {
+      "type": "text",
+      "id": "card_distribution_title",
+      "label": "Distribution card title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_distribution_text",
+      "label": "Distribution card text"
+    },
+    {
+      "type": "text",
+      "id": "card_other_title",
+      "label": "Other card title"
+    },
+    {
+      "type": "textarea",
+      "id": "card_other_text",
+      "label": "Other card text"
+    },
+    {
+      "type": "header",
+      "content": "Process"
+    },
+    {
+      "type": "text",
+      "id": "process_heading",
+      "label": "Process heading"
+    },
+    {
+      "type": "text",
+      "id": "process_1",
+      "label": "Step 1"
+    },
+    {
+      "type": "text",
+      "id": "process_2",
+      "label": "Step 2"
+    },
+    {
+      "type": "text",
+      "id": "process_3",
+      "label": "Step 3"
+    },
+    {
+      "type": "header",
+      "content": "Form"
+    },
+    {
+      "type": "text",
+      "id": "form_heading",
+      "label": "Form heading"
+    },
+    {
+      "type": "textarea",
+      "id": "form_note",
+      "label": "Form note"
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Success message"
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer under submit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Business / B2B"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,41 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "mm_business": {
+      "type": "mm-business",
+      "settings": {
+        "eyebrow": "MOTHER & ME",
+        "heading": "B2B და პარტნიორობა",
+        "intro": "",
+        "bridge": "",
+        "card_supplier_title": "",
+        "card_supplier_text": "",
+        "card_reseller_title": "",
+        "card_reseller_text": "",
+        "card_distribution_title": "",
+        "card_distribution_text": "",
+        "card_other_title": "",
+        "card_other_text": "",
+        "process_heading": "",
+        "process_1": "",
+        "process_2": "",
+        "process_3": "",
+        "form_heading": "",
+        "form_note": "",
+        "success_message": "",
+        "disclaimer": ""
+      }
+    }
+  },
+  "order": [
+    "mm_business"
+  ]
+}

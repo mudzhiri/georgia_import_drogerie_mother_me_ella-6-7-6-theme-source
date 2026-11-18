@@ -735,9 +735,10 @@
       "link_contact": "კონტაქტი",
       "link_shipping": "მიწოდება",
       "link_refund": "დაბრუნება",
-      "link_about": "ჩვენს შესახებ",
-      "link_privacy": "კონფიდენციალურობა",
-      "link_terms": "წესები და პირობები"
+      "link_about": "Über uns",
+      "link_business": "Für Unternehmen",
+      "link_privacy": "Datenschutz",
+      "link_terms": "AGB"
     }
   },
   "localization": {
@@ -1165,6 +1166,61 @@
       "policies_nav": "Ausführliche Bedingungen",
       "policies_shipping": "Lieferbedingungen",
       "policies_refund": "Rückgabebedingungen"
+    },
+    "business": {
+      "eyebrow": "MOTHER & ME",
+      "heading": "B2B und Partnerschaften",
+      "intro": "Unternehmen können uns als Lieferanten, Groß- oder Wiederverkaufskäufer oder Kooperationspartner kontaktieren. Diese Seite dient qualifizierten Geschäftsanfragen — nicht automatischen Händlerkonten.",
+      "bridge": "MOTHER & ME ist ein Online-Shop in Georgien. Wir wählen Pflege- und Hygieneprodukte in Deutschland aus, kaufen sie dort und importieren sie hierher. Verkauf in Deutschland oder ein umfassender Importservice wird auf dieser Seite nicht angeboten; solche Zusammenarbeit wird nur auf Anfrage geprüft.",
+      "process_heading": "So läuft eine Anfrage",
+      "process_1": "Senden Sie eine kurze Geschäftsanfrage.",
+      "process_2": "Wir prüfen jede Anfrage persönlich.",
+      "process_3": "Bei Passung folgt die individuelle Abstimmung.",
+      "form_heading": "Formular für Geschäftsanfragen",
+      "form_note": "Felder sind als Pflicht oder optional gekennzeichnet. Eine Anfrage ist keine Bestellung und begründet keine Partnerschaft.",
+      "success": "Danke. Ihre Geschäftsanfrage ist eingegangen. Wir prüfen sie und melden uns bei Bedarf an die angegebene E-Mail-Adresse.",
+      "disclaimer": "Das Absenden begründet keine Bestellung, Preisvereinbarung oder bestätigte Kooperation.",
+      "submit": "Anfrage senden",
+      "email_subject": "B2B-Anfrage — MOTHER & ME",
+      "nav_label": "Für Unternehmen",
+      "fields": {
+        "company": "Firma",
+        "contact_name": "Ansprechpartner",
+        "email": "Geschäftliche E-Mail",
+        "country": "Land",
+        "inquiry_type": "Anfrageart",
+        "message": "Nachricht",
+        "website": "Website",
+        "phone": "Telefon",
+        "categories": "Produktkategorien",
+        "volume": "Ungefähre Mengen oder Bestellvolumen",
+        "catalog": "Link zu Katalog oder Unternehmenspräsentation",
+        "optional": "(optional)"
+      },
+      "types": {
+        "supplier": "Lieferant werden",
+        "reseller": "Wiederverkauf oder Großbestellung",
+        "distribution": "Vertrieb Deutschland ↔ Georgien",
+        "other": "Andere geschäftliche Zusammenarbeit"
+      },
+      "cards": {
+        "supplier": {
+          "title": "Lieferant werden",
+          "text": "Wenn Sie Produkte für unser Sortiment anbieten möchten, senden Sie kurze Informationen zu Firma und Kategorien."
+        },
+        "reseller": {
+          "title": "Wiederverkauf oder Großbestellung",
+          "text": "Bei Interesse an Einzel- oder Großhandel beschreiben Sie Ihren Bedarf. Preise und Konditionen nur individuell."
+        },
+        "distribution": {
+          "title": "Vertrieb Deutschland ↔ Georgien",
+          "text": "Mögliche Zusammenarbeit zwischen Deutschland und Georgien wird auf Anfrage geprüft. Kein bestehendes Vertriebsnetz und keine Exklusivität."
+        },
+        "other": {
+          "title": "Andere geschäftliche Zusammenarbeit",
+          "text": "Medien, Logistik, gemeinsame Projekte oder ein anderes Angebot — kurz beschreiben."
+        }
+      }
     }
   },
   "mm_shipping": {

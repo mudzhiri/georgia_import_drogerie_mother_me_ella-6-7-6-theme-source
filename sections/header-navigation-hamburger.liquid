@@ -302,6 +302,18 @@
                     {%- endif -%}
                 {%- endif -%}
 
+                {%- comment -%}
+                  Subtle B2B entry — theme-rendered only; does not modify shared live menus.
+                {%- endcomment -%}
+                {%- assign mm_business_page = pages['business'] -%}
+                {%- if mm_business_page != empty and mm_business_page.url != blank -%}
+                  <a
+                    href="{{ mm_business_page.url }}"
+                    class="header__icon mm-header__business-link link link--text text-center"
+                  >
+                    <span class="mm-header__business-link-text">{{ 'mm_pages.business.nav_label' | t }}</span>
+                  </a>
+                {%- endif -%}
                 {%- if block.settings.customer_icon == '1' -%}
                     {%- if shop.customer_accounts_enabled -%}
                         {%- if block.settings.show_customer or block.settings.show_customer_sticky -%}

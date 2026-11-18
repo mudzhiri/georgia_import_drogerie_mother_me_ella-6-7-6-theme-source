@@ -1862,3 +1862,40 @@ html.mm-sticky-header-on .background-overlay {
 html.mm-sticky-header-on .mm-lang__dropdown {
   z-index: 140;
 }
+
+/* Subtle B2B header entry (theme-rendered; not a menu edit) */
+.mm-header__business-link {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 6px;
+  color: var(--header_icons_color, #214d43);
+  text-decoration: none;
+}
+
+.mm-header__business-link-text {
+  font-family: var(--mm-nav-font, var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif));
+  font-size: var(--mm-nav-size, 0.8125rem);
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: normal;
+  white-space: nowrap;
+}
+
+.mm-header__business-link:hover,
+.mm-header__business-link:focus-visible {
+  color: var(--header_icons_color_hover, #173b33);
+}
+
+.mm-header__business-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media screen and (min-width: 1025px) {
+  .mm-header__business-link {
+    display: inline-flex;
+  }
+}

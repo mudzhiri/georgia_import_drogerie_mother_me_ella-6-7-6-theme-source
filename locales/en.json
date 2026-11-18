@@ -735,9 +735,10 @@
       "link_contact": "კონტაქტი",
       "link_shipping": "მიწოდება",
       "link_refund": "დაბრუნება",
-      "link_about": "ჩვენს შესახებ",
-      "link_privacy": "კონფიდენციალურობა",
-      "link_terms": "წესები და პირობები"
+      "link_about": "About us",
+      "link_business": "For business",
+      "link_privacy": "Privacy",
+      "link_terms": "Terms"
     }
   },
   "localization": {
@@ -1165,6 +1166,61 @@
       "policies_nav": "Detailed terms",
       "policies_shipping": "Shipping policy",
       "policies_refund": "Refund policy"
+    },
+    "business": {
+      "eyebrow": "MOTHER & ME",
+      "heading": "B2B and partnerships",
+      "intro": "Companies can contact us as suppliers, wholesale or resale buyers, or cooperation partners. This page is for qualified business inquiries — not automatic dealer accounts.",
+      "bridge": "MOTHER & ME is an online store in Georgia. We select and purchase care and hygiene products in Germany and import them here. Selling in Germany or a full import service is not offered on this page; such cooperation is considered only on request.",
+      "process_heading": "How an inquiry works",
+      "process_1": "Send a short business inquiry.",
+      "process_2": "We review each request personally.",
+      "process_3": "If it fits, we continue with individual coordination.",
+      "form_heading": "Business inquiry form",
+      "form_note": "Fields are marked required or optional. An inquiry is not an order and does not create a partnership.",
+      "success": "Thank you. Your business inquiry has been received. We will review it and contact you on the email you provided if needed.",
+      "disclaimer": "Submitting this form is not an order, a price agreement, or a confirmed partnership.",
+      "submit": "Send inquiry",
+      "email_subject": "B2B inquiry — MOTHER & ME",
+      "nav_label": "For business",
+      "fields": {
+        "company": "Company",
+        "contact_name": "Contact person",
+        "email": "Business email",
+        "country": "Country",
+        "inquiry_type": "Inquiry type",
+        "message": "Message",
+        "website": "Website",
+        "phone": "Phone",
+        "categories": "Product categories",
+        "volume": "Approximate quantity or order volume",
+        "catalog": "Catalog or company presentation link",
+        "optional": "(optional)"
+      },
+      "types": {
+        "supplier": "Become a supplier",
+        "reseller": "Resale or wholesale order",
+        "distribution": "Distribution Germany ↔ Georgia",
+        "other": "Other business cooperation"
+      },
+      "cards": {
+        "supplier": {
+          "title": "Become a supplier",
+          "text": "If you want to offer your products for our assortment, send brief company and category information."
+        },
+        "reseller": {
+          "title": "Resale or wholesale order",
+          "text": "For retail or wholesale purchase interest, describe your needs. Prices and terms are discussed individually only."
+        },
+        "distribution": {
+          "title": "Distribution Germany ↔ Georgia",
+          "text": "Possible cooperation between Germany and Georgia is considered on request. No existing sales network or exclusivity is implied."
+        },
+        "other": {
+          "title": "Other business cooperation",
+          "text": "Media, logistics, joint projects, or another proposal — briefly describe the idea."
+        }
+      }
     }
   },
   "mm_shipping": {

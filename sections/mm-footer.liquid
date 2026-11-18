@@ -119,13 +119,20 @@
     assign show_about_page = true
   endif
 
+  # Theme-rendered B2B link — does not edit shared Shopify navigation menus.
+  assign business_page = pages['business']
+  assign show_business_page = false
+  if section.settings.show_business_link and business_page != empty and business_page.url != blank
+    assign show_business_page = true
+  endif
+
   assign has_customers_links = false
   if has_customers_menu or show_shipping or show_refund or show_contact_page
     assign has_customers_links = true
   endif
 
   assign has_info_links = false
-  if has_info_menu or show_privacy or show_terms or show_about_page
+  if has_info_menu or show_privacy or show_terms or show_about_page or show_business_page
     assign has_info_links = true
   endif
 
@@ -509,6 +516,11 @@
                 <a class="mm-footer__nav-link" href="{{ about_page.url }}">{{ 'sections.mm_footer.link_about' | t }}</a>
               </li>
             {%- endif -%}
+            {%- if show_business_page -%}
+              <li>
+                <a class="mm-footer__nav-link" href="{{ business_page.url }}">{{ 'sections.mm_footer.link_business' | t }}</a>
+              </li>
+            {%- endif -%}
             {%- if show_privacy -%}
               <li>
                 <a class="mm-footer__nav-link" href="{{ privacy_policy.url }}">
@@ -658,6 +670,13 @@
       "label": "Include privacy and terms policies",
       "default": true,
       "info": "Adds published Shopify privacy and terms policies when they exist."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_business_link",
+      "label": "Show B2B / business page link",
+      "default": true,
+      "info": "Adds a theme-rendered link to /pages/business when that page exists. Does not edit shared Shopify menus."
     },
     {
       "type": "header",
