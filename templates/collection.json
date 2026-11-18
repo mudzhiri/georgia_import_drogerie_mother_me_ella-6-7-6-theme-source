@@ -81,7 +81,7 @@
         "3978fd59-b580-49e1-9893-38d762f48f10": {
           "type": "product_block",
           "settings": {
-            "heading": "Featured Products",
+            "heading": "ბესტ სელერები",
             "product_block_collection": "best-sellers",
             "product_block_layout": "slider",
             "product_block_limit": 3,
@@ -105,6 +105,7 @@
         },
         "2f7f02ac-4072-40ea-844f-59943e256971": {
           "type": "text",
+          "disabled": true,
           "settings": {
             "heading": "Custom Block",
             "text": "<p>Custom CMS block displayed at the left sidebar on the Catalog Page. Put your own content here: text, html, images, media... or whatever you like.</p>\n\n<p>There are many similar sample content placeholders across the store. All editable from admin panel.</p>"
