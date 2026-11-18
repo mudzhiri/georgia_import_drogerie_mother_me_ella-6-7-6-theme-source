@@ -184,6 +184,9 @@
       "account": "ანგარიში",
       "collections": "კატეგორიები"
     },
+    "popup": {
+      "warning_placeholder": "გაფრთხილება"
+    },
     "categories": "კატეგორიები"
   },
   "brands_page": {

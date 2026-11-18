@@ -184,6 +184,9 @@
       "account": "Account",
       "collections": "Categories"
     },
+    "popup": {
+      "warning_placeholder": "Warning"
+    },
     "categories": "Categories"
   },
   "brands_page": {

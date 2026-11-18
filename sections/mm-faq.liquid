@@ -35,6 +35,13 @@
       if block.settings.answer != blank
         assign answer = block.settings.answer
       endif
+      # Decode a stored &amp; once before | escape (avoids visible "MOTHER &amp; ME").
+      if question contains '&amp;'
+        assign question = question | replace: '&amp;', '&' | replace: '&#38;', '&'
+      endif
+      if answer contains '&amp;'
+        assign answer = answer | replace: '&amp;', '&' | replace: '&#38;', '&'
+      endif
     -%}
     {%- if question != blank and answer != blank -%}
       {%- assign item_id = 'mm-faq-item-' | append: section.id | append: '-' | append: block.id -%}

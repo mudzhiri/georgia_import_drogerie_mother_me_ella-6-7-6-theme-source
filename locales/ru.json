@@ -184,6 +184,9 @@
       "account": "Аккаунт",
       "collections": "Категории"
     },
+    "popup": {
+      "warning_placeholder": "Предупреждение"
+    },
     "categories": "Категории"
   },
   "brands_page": {

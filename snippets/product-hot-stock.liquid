@@ -4,7 +4,14 @@
     assign spacing_bottom = block.settings.spacing_bottom
     assign color_text = block.settings.color_text
 
-    if current_variant.inventory_management and current_variant.inventory_quantity > 0 and current_variant.inventory_quantity <= productMaxStock
+    assign inventory_qty = current_variant.inventory_quantity | default: 0 | plus: 0
+    assign has_tracked_stock = false
+    if current_variant.inventory_management != blank
+      assign has_tracked_stock = true
+    endif
+
+    # Only show scarcity when inventory is tracked AND a real positive quantity is known.
+    if has_tracked_stock and inventory_qty > 0 and inventory_qty <= productMaxStock
         assign checkShowHotStock = true
     else
         assign checkShowHotStock = false
@@ -16,18 +23,22 @@
     --spacing-bottom: {{ spacing_bottom | append: 'px' }};
     --color-text: {{ color_text }}"
 >
-    <div class="productView-hotStock style-{{ hot_stock_style }}{% unless checkShowHotStock %} is-hide{% endunless %}" data-hot-stock="{{ productMaxStock }}" {{variantCount}} {% if variantCount < 2 %} data-current-inventory="{{ current_variant.inventory_quantity }}"{% endif %}>
-        {%- if hot_stock_style == '2' -%}
-            <span class="hotStock-text">
-                {{ 'products.product.hot_stock_2' | t : inventory: current_variant.inventory_quantity }}
-            </span>
-            <div class="hotStock-progress">
-                <span class="hotStock-progress-item"></span>
-            </div>
+    <div class="productView-hotStock style-{{ hot_stock_style }}{% unless checkShowHotStock %} is-hide{% endunless %}" data-hot-stock="{{ productMaxStock }}" {{variantCount}} {% if variantCount < 2 and checkShowHotStock %} data-current-inventory="{{ inventory_qty }}"{% endif %}>
+        {%- if checkShowHotStock -%}
+            {%- if hot_stock_style == '2' -%}
+                <span class="hotStock-text">
+                    {{ 'products.product.hot_stock_2' | t : inventory: inventory_qty }}
+                </span>
+                <div class="hotStock-progress">
+                    <span class="hotStock-progress-item"></span>
+                </div>
+            {%- else -%}
+                <span class="hotStock-text">
+                    {{ 'products.product.hot_stock' | t : inventory: inventory_qty }}
+                </span>
+            {%- endif -%}
         {%- else -%}
-            <span class="hotStock-text">
-                {{ 'products.product.hot_stock' | t : inventory: current_variant.inventory_quantity }}
-            </span>
+            <span class="hotStock-text" hidden></span>
         {%- endif -%}
     </div>
 </div>

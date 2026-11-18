@@ -26,6 +26,12 @@
 					assign key = block.settings.product_tab_key_metafield
                     assign source = block.settings.product_custom_source
 					assign has_tab = false
+
+					if block.type == 'description'
+						if title == blank or title == 'Description' or title == 'description'
+							assign title = 'products.product.info_accordion.description' | t
+						endif
+					endif
     
                     if source == 'dynamic'
                        assign meta_ref = key
@@ -63,8 +69,8 @@
 				-%}
 				{%- if has_tab and title != blank -%}
 					<li class="tab">
-			            <a class="tab-title{% if block.type == 'description' and tab_layout == 'horizontal' %} is-open{% endif %}" href="#tab-{{ block.settings.title | escape | handleize }}" style="--border-color: {{ border_color }}">
-			                {{ block.settings.title | escape }}
+			            <a class="tab-title{% if block.type == 'description' and tab_layout == 'horizontal' %} is-open{% endif %}" href="#tab-{{ title | escape | handleize }}" style="--border-color: {{ border_color }}">
+			                {{ title | escape }}
 			            </a>
 			        </li>
 			    {%- endif -%}
@@ -78,6 +84,12 @@
 				assign has_tab = false
 				assign source = block.settings.product_custom_source
 				assign key = block.settings.product_tab_key_metafield
+
+				if block.type == 'description'
+					if title == blank or title == 'Description' or title == 'description'
+						assign title = 'products.product.info_accordion.description' | t
+					endif
+				endif
 
 				if source == 'dynamic'
                    assign meta_ref = key
