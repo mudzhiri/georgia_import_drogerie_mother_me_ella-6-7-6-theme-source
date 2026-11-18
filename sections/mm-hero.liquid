@@ -4,7 +4,7 @@
   <link
     rel="preload"
     as="image"
-    href="{{ section.settings.image | image_url: width: 960 }}"
+    href="{{ section.settings.image | image_url: width: 720 }}"
     imagesrcset="{{ section.settings.image | image_url: width: 480 }} 480w, {{ section.settings.image | image_url: width: 720 }} 720w, {{ section.settings.image | image_url: width: 960 }} 960w, {{ section.settings.image | image_url: width: 1200 }} 1200w, {{ section.settings.image | image_url: width: 1600 }} 1600w"
     imagesizes="(min-width: 900px) min(660px, 55vw), calc(100vw - 32px)"
     fetchpriority="high"
@@ -13,7 +13,7 @@
   <link
     rel="preload"
     as="image"
-    href="{{ 'mm-hero-mother-child.jpg' | asset_img_url: '960x' }}"
+    href="{{ 'mm-hero-mother-child.jpg' | asset_img_url: '720x' }}"
     imagesrcset="{{ 'mm-hero-mother-child.jpg' | asset_img_url: '480x' }} 480w, {{ 'mm-hero-mother-child.jpg' | asset_img_url: '720x' }} 720w, {{ 'mm-hero-mother-child.jpg' | asset_img_url: '960x' }} 960w, {{ 'mm-hero-mother-child.jpg' | asset_img_url: '1200x' }} 1200w, {{ 'mm-hero-mother-child.jpg' | asset_img_url: '1600x' }} 1600w"
     imagesizes="(min-width: 900px) min(660px, 55vw), calc(100vw - 32px)"
     fetchpriority="high"
