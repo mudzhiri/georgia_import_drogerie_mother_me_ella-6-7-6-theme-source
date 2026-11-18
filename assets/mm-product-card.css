@@ -439,8 +439,8 @@
  */
 .mm-product-card,
 .mm-collection-card {
-  /* 1.55 gives Noto Sans Georgian room for ascenders/descenders */
-  --mm-card-title-lh: 1.55;
+  /* 1.6 gives Noto Sans Georgian room for ascenders/descenders */
+  --mm-card-title-lh: 1.6;
   --mm-card-title-lines: 3;
   display: flex;
   flex-direction: column;
