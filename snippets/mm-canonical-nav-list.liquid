@@ -1,0 +1,149 @@
+{%- comment -%}
+  MOTHER & ME — theme-local navigation (does not edit the shared Shopify menu).
+  Two top entries: ბავშვი + დედა. Collection handles unchanged.
+  Accepts: listClass, alignment (optional)
+{%- endcomment -%}
+{%- liquid
+  assign mm_align = alignment | default: 'center'
+  assign c_kids = collections['ბავშვი']
+  assign c_skin = collections['ბავშვის-კანის-მოვლა']
+  assign c_bath = collections['აბაზანა-და-რეცხვა']
+  assign c_food = collections['ბავშვის-კვება']
+  assign c_toys = collections['სათამაშოები-და-აქსესუარები']
+  assign c_mama = collections['დედა']
+  assign c_lact = collections['ძუძუთი-კვება-და-ორსულობა']
+  assign c_face = collections['სახის-მოვლა']
+  assign c_body = collections['სხეულის-მოვლა']
+  assign c_deo = collections['დეოდორანტები']
+  assign c_makeup = collections['მაკიაჟი']
+
+  assign label_kids = 'ბავშვი'
+  assign label_skin = 'კანის მოვლა'
+  assign label_bath = 'აბაზანა და ჰიგიენა'
+  assign label_food = 'კვება'
+  assign label_toys = 'სათამაშოები და აქსესუარები'
+  assign label_mama = 'დედა'
+  assign label_lact = 'ორსულობა და ლაქტაცია'
+  assign label_face = 'სახის მოვლა'
+  assign label_body = 'სხეულის მოვლა'
+  assign label_deo = 'დეოდორანტები'
+  assign label_makeup = 'დეკორატიული კოსმეტიკა'
+  assign label_all = 'ყველა პროდუქტი'
+-%}
+<ul class="{{ listClass }} text-{{ mm_align }}" role="list" data-mm-canonical-nav>
+  {%- if c_kids != blank and c_kids.all_products_count > 0 -%}
+    <li class="menu-lv-item menu-lv-1 text-left no-megamenu dropdown" data-mm-nav-group="kids">
+      <a
+        class="menu-lv-1__action header__menu-item list-menu__item link focus-inset menu_mobile_link link-effect"
+        href="{{ c_kids.url }}"
+      >
+        <span class="text p-relative">{{ label_kids }}</span>
+        <span class="icon-dropdown" data-toggle-menu-mb>{% render 'icon-caret-right' %}</span>
+      </a>
+      <ul class="header__submenu list-menu list-menu--disclosure list-menu--disclosure-1 caption-large motion-reduce" role="list">
+        <div class="nav-title-mobile text-center">
+          <span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span>{{ label_kids }}
+        </div>
+        <li class="menu-lv-item menu-lv-2 text-left navigation_all_mobile d-none">
+          <a href="{{ c_kids.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+            <span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ label_kids }}</span>
+          </a>
+        </li>
+        {%- if c_skin != blank and c_skin.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_skin.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_skin }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_bath != blank and c_bath.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_bath.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_bath }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_food != blank and c_food.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_food.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_food }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_toys != blank and c_toys.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_toys.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_toys }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </li>
+  {%- endif -%}
+
+  {%- if c_mama != blank and c_mama.all_products_count > 0 -%}
+    <li class="menu-lv-item menu-lv-1 text-left no-megamenu dropdown" data-mm-nav-group="mamas">
+      <a
+        class="menu-lv-1__action header__menu-item list-menu__item link focus-inset menu_mobile_link link-effect"
+        href="{{ c_mama.url }}"
+      >
+        <span class="text p-relative">{{ label_mama }}</span>
+        <span class="icon-dropdown" data-toggle-menu-mb>{% render 'icon-caret-right' %}</span>
+      </a>
+      <ul class="header__submenu list-menu list-menu--disclosure list-menu--disclosure-1 caption-large motion-reduce" role="list">
+        <div class="nav-title-mobile text-center">
+          <span class="icon-dropdown">{% render 'icon-arrow-nav' %}</span>{{ label_mama }}
+        </div>
+        <li class="menu-lv-item menu-lv-2 text-left navigation_all_mobile d-none">
+          <a href="{{ c_mama.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+            <span class="text p-relative">{{ 'general.navigation.go_to' | t }} {{ label_mama }}</span>
+          </a>
+        </li>
+        {%- if c_lact != blank and c_lact.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_lact.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_lact }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_face != blank and c_face.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_face.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_face }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_body != blank and c_body.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_body.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_body }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_deo != blank and c_deo.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_deo.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_deo }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+        {%- if c_makeup != blank and c_makeup.all_products_count > 0 -%}
+          <li class="menu-lv-item menu-lv-2 text-left">
+            <a href="{{ c_makeup.url }}" class="menu-lv-2__action header__menu-item list-menu__item link link--text focus-inset caption-large link-effect">
+              <span class="text p-relative">{{ label_makeup }}</span>
+            </a>
+          </li>
+        {%- endif -%}
+      </ul>
+    </li>
+  {%- endif -%}
+
+  <li class="menu-lv-item menu-lv-1 text-left no-megamenu" data-mm-nav-group="all">
+    <a
+      class="menu-lv-1__action header__menu-item list-menu__item link link--text focus-inset link-effect"
+      href="{{ routes.all_products_collection_url }}"
+    >
+      <span class="text p-relative">{{ label_all }}</span>
+    </a>
+  </li>
+</ul>

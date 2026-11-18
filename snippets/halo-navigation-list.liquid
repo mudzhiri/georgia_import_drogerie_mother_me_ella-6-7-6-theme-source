@@ -1,3 +1,6 @@
+{%- if settings.mm_use_canonical_nav -%}
+  {% render 'mm-canonical-nav-list', listClass: listClass, alignment: alignment %}
+{%- else -%}
 <ul class="{{ listClass }} text-{{alignment}}" role="list">
     {%- liquid
         if search.terms != blank and template.suffix == 'ajax_mega_menu'
@@ -192,3 +195,4 @@
         {%- endif -%}
     {%- endfor -%}
 </ul>
+{%- endif -%}
