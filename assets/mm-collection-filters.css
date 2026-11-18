@@ -210,8 +210,20 @@
     max-height: 148px;
     overflow-y: auto;
     padding-right: 2px;
-    scrollbar-width: thin;
-    scrollbar-color: #c5d0c9 transparent;
+  }
+
+  /* Thin scrollbar via WebKit pseudo-elements (Chrome, Safari, Samsung Internet). */
+  .mm-filters__group .mm-filters__options::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .mm-filters__group .mm-filters__options::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .mm-filters__group .mm-filters__options::-webkit-scrollbar-thumb {
+    background: #c5d0c9;
+    border-radius: 3px;
   }
 }
 
