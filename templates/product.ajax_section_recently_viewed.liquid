@@ -1,15 +1,12 @@
 {% layout none %}
-
-<div class="product">
-    {% render 'product-grid-layout',
-        product_card_product: product,
-        portrait_aspect_ratio: '100',
-        complementary_product_button_atc: true,
-        serial: 1,
-        sectionId: sectionId,
-        media_size: 'square',
-        hasCountdown: hasCountdown,
-        loading: true,
-        mm_pdp_reco_card: true
+{%- comment -%}
+  Recently viewed card fragment — live product data only, shared mm-product-card.
+{%- endcomment -%}
+{%- if product != blank and product.published_at != blank -%}
+  <div class="product mm-pdp-reco-grid__item" data-mm-rv-handle="{{ product.handle | escape }}">
+    {% render 'mm-product-card',
+      product: product,
+      section_id: 'recently-viewed'
     %}
-</div>
+  </div>
+{%- endif -%}

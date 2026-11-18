@@ -4,23 +4,20 @@
         assign as_grid_gap = section.settings.grid_gap
         assign grid_gap = section.settings.grid_gap | times: 0.5 | append: 'px'
         assign container = section.settings.product_recently_viewed_container
-        assign limit = section.settings.product_recently_viewed_limit | at_most: 8
-        assign layout = section.settings.product_recently_viewed_layout
-        assign infinite_scroll = section.settings.product_recently_viewed_infinite_scroll
+        assign limit = section.settings.product_recently_viewed_limit | at_most: 4
+        assign layout = 'grid'
         assign block_title = 'products.product.recently_viewed_products' | t
         if block_title == blank or block_title == 'products.product.recently_viewed_products'
           assign block_title = section.settings.product_recently_viewed_title
         endif
+        if block_title == blank
+          assign block_title = 'ბოლოს ნანახი პროდუქტები'
+        endif
         assign block_title_align = section.settings.product_recently_viewed_title_align
         assign image_ratio = 'square'
-        assign swipe_on_mobile = section.settings.product_recently_viewed_swipe_on_mobile
+        assign swipe = false
         assign padding_top = section.settings.padding_top | append: 'px'
         assign padding_bottom = section.settings.padding_bottom | append: 'px'
-        assign products_to_display = limit
-        assign swipe = false
-        if swipe_on_mobile == true and layout == 'grid' and products_to_display > 2
-            assign swipe = true
-        endif
     -%}
     <style type="text/css" media="screen">
         {%- liquid
@@ -312,91 +309,40 @@
             }
         }
     </style>
-    <{% if swipe %}product-slider-component{% else %}div{% endif %} class="halo-block halo-product-block halo-recently-viewed-block section-block-{{section.id}} mm-pdp-reco--pending{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" id="halo-recently-viewed-block-{{ section.id }}" data-recently-viewed-block data-limit="{{ limit }}" data-layout="{{ layout }}" sectionId="{{ section.id }}" data-image-ratio="square" data-swipe="{{ swipe }}" data-current-handle="{{ product.handle | escape }}" style="--grid-gap: {{ grid_gap }}">
-        <{% if layout == 'scroll' %}product-scroller{% else %}div{% endif %} class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
+    <div
+      class="halo-block halo-product-block halo-recently-viewed-block mm-pdp-reco section-block-{{ section.id }} mm-pdp-reco--pending{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
+      id="halo-recently-viewed-block-{{ section.id }}"
+      data-recently-viewed-block
+      data-limit="{{ limit }}"
+      data-layout="grid"
+      sectionId="{{ section.id }}"
+      data-image-ratio="square"
+      data-swipe="false"
+      data-current-handle="{{ product.handle | escape }}"
+      style="--grid-gap: {{ grid_gap }}; --mm-reco-gap: {{ as_grid_gap | append: 'px' }};"
+      hidden
+    >
+        <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
             {%- if block_title != blank -%}
-                <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}">
-                    <h3 class="title{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
+                <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
+                    <h3 class="title">
                         <span class="text">{{ block_title | escape }}</span>
                     </h3>
                 </div>
             {%- endif -%}
-            <div class="halo-block-content {% if layout == 'scroll' %}is-scroll{% endif %}" {% if layout == 'scroll' %}data-drag-container{% endif %}>
-                {%- if layout== 'grid' -%}
-                    {%- liquid
-                        assign product_limit = 0
-                        assign column = section.settings.product_recently_viewed_per_row
-                        if infinite_scroll
-                            assign product_limit = limit
-                        endif
-                    -%}
-                    <div class="recentlyViewed-row products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}" id="recently-viewed-products-list-2" aria-busy="false" aria-live="polite">
-                {%- elsif layout == 'slider' -%}
-                    {%- liquid
-                        assign column = section.settings.product_recently_viewed_show
-                        assign dots = section.settings.product_recently_viewed_dots
-                        assign dots_mb = section.settings.product_recently_viewed_dots_mb
-                        assign arrows = section.settings.product_recently_viewed_arrows
-                        assign arrows_mb = section.settings.product_recently_viewed_arrows_mb
-                    -%}
-                    <div class="recentlyViewed-row products-carousel column-{{ column }}"
-                        data-item-to-show="{{ column }}"
-                        data-item-dots="{{ dots }}"
-                        data-item-dots-mb="{{ dots_mb }}"
-                        data-item-arrows="{{ arrows }}"
-                        data-item-arrows-mb="{{ arrows_mb }}"
-                        data-infinite="false"
-                        id="recently-viewed-products-list-2"
-                        aria-busy="false"
-                        aria-live="polite"
-                    >
-                {% elsif layout == 'scroll' %}
-                    {% liquid
-                        assign column = section.settings.product_block_per_view 
-                        assign show_half = false
-
-                        assign scroll_height = section.settings.scroll_height | append: 'px'
-                        assign scroll_track_bg = section.settings.scroll_track_bg
-                        assign scroll_thumb_color = section.settings.scroll_thumb_color
-                        assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
-                    %} 
-                    <div        
-                        class="recentlyViewed-row products-flex disable-srollbar-mb column-{{ column }}" 
-                        data-drag-parent
-                        style="--count: {{ column }};
-                            --scrollbar-height: {{ scroll_height }};
-                            --scrollbar-track-color: {% if scroll_track_bg != blank and scroll_track_bg != 'rgba(0,0,0,0)' %}{{ scroll_track_bg }} {% endif %};
-                            --scrollbar-thumb-color: {% if scroll_thumb_color != blank and scroll_thumb_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_color }} {% endif %};
-                            --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
-                        "
-                        id="recently-viewed-products-list-2"
-                        aria-busy="false"
-                        aria-live="polite"
-                    >
-                {%- endif -%}
-                </div>
-                {%- if swipe -%}
-                    <div class="slider-buttons no-js-hidden medium-hide small-hide">
-                        <div class="slider-counter">
-                            <span class="slider-counter--current">1</span>
-                            <span aria-hidden="true"> / </span>
-                            <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
-                            <span class="slider-counter--total">0</span>
-                        </div>
-                        <div class="slider-action">
-                            <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">
-                                {% render 'icon-caret' %}
-                            </button>
-                            <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}">
-                                {% render 'icon-caret' %}
-                            </button>
-                        </div>
-                    </div>
-                {%- endif -%}
+            <div class="halo-block-content">
+                <div
+                  class="recentlyViewed-row products-grid mm-pdp-reco-grid column-{{ limit }}"
+                  data-products-to-show="{{ limit }}"
+                  data-mm-reco-count="0"
+                  id="recently-viewed-products-list-2"
+                  aria-busy="false"
+                  aria-live="polite"
+                ></div>
             </div>
-        </{% if layout == 'scroll' %}product-scroller{% else %}div{% endif %}>
-    </{% if swipe %}product-slider-component{% else %}div{% endif %}>
-    {{ 'recently-viewed-product.js' | asset_url | script_tag }}
+        </div>
+    </div>
+    <script src="{{ 'recently-viewed-product.js' | asset_url }}" defer></script>
     <script type="text/javascript">
         (function () {
             var sectionEl = document.getElementById('halo-recently-viewed-block-{{ section.id }}');
@@ -418,6 +364,13 @@
                 }
             }
 
+            function normalizeHandle(handle) {
+                try {
+                    handle = decodeURIComponent(String(handle || ''));
+                } catch (e) {}
+                return String(handle).split('?')[0].split('#')[0].replace(/^\/+|\/+$/g, '');
+            }
+
             function startWhenReady(attempt) {
                 if (!window.Shopify || !Shopify.Products || typeof Shopify.Products.recordRecentlyViewed !== 'function') {
                     if ((attempt || 0) > 120) {
@@ -429,7 +382,7 @@
                 }
 
                 try {
-                    Shopify.Products.recordRecentlyViewed({ howManyToStoreInMemory: 8 });
+                    Shopify.Products.recordRecentlyViewed({ howManyToStoreInMemory: 12 });
                 } catch (e) {}
 
                 var queue = [];
@@ -442,12 +395,13 @@
                     return;
                 }
 
-                queue = queue.filter(function (handle, index, arr) {
-                    var normalized = decodeURIComponent(handle).split('?')[0].replace(/\/$/, '');
-                    if (!normalized || normalized === currentHandle) return false;
-                    return arr.findIndex(function (h) {
-                        return decodeURIComponent(h).split('?')[0].replace(/\/$/, '') === normalized;
-                    }) === index;
+                var seen = {};
+                queue = queue.filter(function (handle) {
+                    var normalized = normalizeHandle(handle);
+                    if (!normalized || normalized === normalizeHandle(currentHandle)) return false;
+                    if (seen[normalized]) return false;
+                    seen[normalized] = true;
+                    return true;
                 });
 
                 if (!queue.length) {
@@ -463,28 +417,31 @@
                 sectionEl.removeAttribute('hidden');
 
                 var list = document.getElementById('recently-viewed-products-list-2');
+                var showCount = Math.min(limit, queue.length);
                 if (list) {
                     list.setAttribute('aria-busy', 'true');
+                    list.setAttribute('data-mm-reco-count', String(showCount));
                     list.innerHTML = '';
-                    for (var i = 0; i < Math.min(limit, queue.length); i++) {
+                    for (var i = 0; i < showCount; i++) {
                         var ph = document.createElement('div');
-                        ph.className = 'product';
+                        ph.className = 'product mm-pdp-reco-grid__item';
                         ph.innerHTML = '<div class="product-item product-item--loadingNoInfo" aria-hidden="true"><span class="visually-hidden">{{ 'accessibility.loading' | t }}</span></div>';
                         list.appendChild(ph);
                     }
                 }
 
                 var timeoutId = window.setTimeout(function () {
-                    revealOrHide(list && list.querySelectorAll('.product-item:not(.product-item--loadingNoInfo)').length > 0);
+                    var ready = list && list.querySelectorAll('[data-mm-product-card]').length > 0;
+                    revealOrHide(!!ready);
                 }, 8000);
 
                 Shopify.Products.showRecentlyViewed({
-                    howManyToShow: Math.min(limit, queue.length),
-                    howManyToStoreInMemory: 8,
+                    howManyToShow: showCount,
+                    howManyToStoreInMemory: 12,
                     wrapperId: 'recently-viewed-products-list-2',
                     templateId: 'recently-viewed-product-block',
-                    layout: '{{ layout }}',
-                    swipe: {{ swipe }},
+                    layout: 'grid',
+                    swipe: false,
                     media: 'square',
                     excludeHandle: currentHandle,
                     handles: queue,
@@ -495,7 +452,10 @@
                         try {
                             var cookieValue = jQuery.cookie('shopify_recently_viewed');
                             if (cookieValue) {
-                                jQuery.cookie('shopify_recently_viewed', cookieValue, { expires: expireDay, path: '/', domain: window.location.hostname });
+                                jQuery.cookie('shopify_recently_viewed', cookieValue, {
+                                    expires: expireDay,
+                                    path: '/'
+                                });
                             }
                         } catch (e) {}
                     }
@@ -503,7 +463,11 @@
             }
 
             document.addEventListener('mm:recently-viewed-ready', function () { startWhenReady(0); }, { once: true });
-            startWhenReady(0);
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', function () { startWhenReady(0); }, { once: true });
+            } else {
+                startWhenReady(0);
+            }
         })();
     </script>
 {%- endif -%}
