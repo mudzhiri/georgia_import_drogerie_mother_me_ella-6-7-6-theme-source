@@ -280,44 +280,30 @@
                                                             -%}
                                                             {%- for value in filter.values -%}
                                                                 {%- assign item = value.value | append: ',' -%}
-                                                                {%- unless listRemainingTags contains item -%}
-                                                                    {%- if filter_hidden_tag_list == blank -%}
-                                                                        {%- assign valueIndex = valueIndex | plus: 1 -%}
-                                                                        <li class="list-menu__item facets__item {% if valueIndex > maxItemToShow and section.settings.filter_display_type == 'show-more' %}d-none{% endif %}{% if filter_swatch contains label %} facets__item--swatch{% elsif filter_rectangle contains label %} facets__item--rectangle{% endif %}">
-                                                                            <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
-                                                                            {%- if filter_swatch contains label -%}
-                                                                                <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}" title="{{ value.label | escape }}">
-                                                                                    <span class="pattern{% if value.value == 'white' or value.value == 'White' %} pattern--white{% endif %}" style="{% if filter_swatch_type == 'png' %}background-color: {{ value.value | split: ' ' | last | handle }};background-image: url({{ value.value | strip | handleize | handle | append: '.' | append: file_extension | file_url }}){% else %}background-color: {{ value.value | split: ' ' | last | handle }}{% endif %}"></span>
-                                                                                    <span class="visually-hidden">{{ value.label | escape }}</span>
-                                                                                </label>
-                                                                            {%- elsif filter_rectangle contains label -%}
-                                                                                <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain"
-                                                                                    class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}"><span class="text">{{ value.label | escape }}</span></label>
-                                                                            {%- else -%}
-                                                                                <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ value.label | escape }}<span class="count">({{ value.count }})</span></label>
-                                                                            {%- endif -%}
-                                                                        </li>
-                                                                    {%- else -%}
-                                                                        {%- unless filter_hidden_tag_list contains item -%}
-                                                                            {%- assign valueIndex = valueIndex | plus: 1 -%}
-                                                                            <li class="list-menu__item facets__item {% if valueIndex > maxItemToShow and section.settings.filter_display_type == 'show-more' %}d-none{% endif %}{% if filter_swatch contains label %} facets__item--swatch{% elsif filter_rectangle contains label %} facets__item--rectangle{% endif %}">
-                                                                                <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
-                                                                                {%- if filter_swatch contains label -%}
-                                                                                    <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain"
-                                                                                        class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}" title="{{ value.label | escape }}">
-                                                                                        <span class="pattern{% if value.value == 'white' or value.value == 'White' %} pattern--white{% endif %}" style="{% if filter_swatch_type == 'png' %}background-color: {{ value.value | split: ' ' | last | handle }};background-image: url({{ value.value | strip | handleize | handle | append: '.' | append: file_extension | file_url }}){% else %}background-color: {{ value.value | split: ' ' | last | handle }}{% endif %}"></span>
-                                                                                        <span class="visually-hidden">{{ value.label | escape }}</span>
-                                                                                    </label>
-                                                                                {%- elsif filter_rectangle contains label -%}
-                                                                                    <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain"
-                                                                                        class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}"><span class="text">{{ value.label | escape }}</span></label>
-                                                                                {%- else -%}
-                                                                                    <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain"
-                                                                                        class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ value.label | escape }}<span class="count">({{ value.count }})</span></label>
-                                                                                {%- endif -%}
-                                                                            </li>
-                                                                        {%- endunless -%}
-                                                                    {%- endif -%}
+                                                                {%- liquid
+                                                                    assign skip_remaining_value = false
+                                                                    if listRemainingTags contains item
+                                                                        assign skip_remaining_value = true
+                                                                    elsif filter_hidden_tag_list != blank and filter_hidden_tag_list contains item
+                                                                        assign skip_remaining_value = true
+                                                                    endif
+                                                                -%}
+                                                                {%- unless skip_remaining_value -%}
+                                                                    {%- assign valueIndex = valueIndex | plus: 1 -%}
+                                                                    <li class="list-menu__item facets__item {% if valueIndex > maxItemToShow and section.settings.filter_display_type == 'show-more' %}d-none{% endif %}{% if filter_swatch contains label %} facets__item--swatch{% elsif filter_rectangle contains label %} facets__item--rectangle{% endif %}">
+                                                                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                                                                        {%- if filter_swatch contains label -%}
+                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}" title="{{ value.label | escape }}">
+                                                                                <span class="pattern{% if value.value == 'white' or value.value == 'White' %} pattern--white{% endif %}" style="{% if filter_swatch_type == 'png' %}background-color: {{ value.value | split: ' ' | last | handle }};background-image: url({{ value.value | strip | handleize | handle | append: '.' | append: file_extension | file_url }}){% else %}background-color: {{ value.value | split: ' ' | last | handle }}{% endif %}"></span>
+                                                                                <span class="visually-hidden">{{ value.label | escape }}</span>
+                                                                            </label>
+                                                                        {%- elsif filter_rectangle contains label -%}
+                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain"
+                                                                                class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}"><span class="text">{{ value.label | escape }}</span></label>
+                                                                        {%- else -%}
+                                                                            <label for="Filter-{{ filter.label | escape | handleize }}-{{ indexTag | append: forloop.index }}-remain" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %} form-label--checkbox">{{ value.label | escape }}<span class="count">({{ value.count }})</span></label>
+                                                                        {%- endif -%}
+                                                                    </li>
                                                                 {%- endunless -%}
                                                             {%- endfor -%}
                                                         </ul>
