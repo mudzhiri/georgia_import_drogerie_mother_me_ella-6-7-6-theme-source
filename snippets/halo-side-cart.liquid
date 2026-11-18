@@ -114,7 +114,15 @@
                                 endif 
                             -%}  
                             <div class="previewCartItem-price" data-price="{{ price_to_display }}" data-original-price="{{ item.original_price }}">
+                                <span class="mm-cart-unit-price">
+                                  <span class="visually-hidden">{{ 'sections.cart.unit_price' | t }}:</span>
+                                  {{ price_to_display | money }}
+                                  <span aria-hidden="true">×</span>
+                                  <span class="visually-hidden">{{ 'products.product.quantity.label' | t }}</span>
+                                  {{ item.quantity }}
+                                </span>
                                 <span class="price">
+                                    <span class="visually-hidden">{{ 'sections.cart.line_total' | t }}:</span>
                                     {%- assign current_variant = item.variant -%}
                                     {% if item.original_line_price != item.final_line_price %}
                                         <span class="previewCartItem-saving-price">
@@ -385,6 +393,7 @@
                 </div>
             </li>
         </ul>
+        {% render 'mm-cart-cost-note', context: 'drawer' %}
         <div class="previewCartAction text-left">
             {%- if settings.show_global_checkbox -%}
                 <div class="previewCartCheckbox global-checkbox">

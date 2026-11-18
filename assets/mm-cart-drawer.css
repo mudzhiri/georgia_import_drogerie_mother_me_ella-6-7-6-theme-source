@@ -450,6 +450,38 @@ body.mm-theme-preview #halo-cart-sidebar.halo-cart-sidebar {
   outline-offset: 3px;
 }
 
+#halo-cart-sidebar .mm-cart-unit-price {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--mm-text-secondary, #59665f);
+}
+
+#halo-cart-sidebar .mm-cart-cost-note {
+  margin: 0 0 12px;
+  padding: 12px 0 0;
+  border-top: 1px solid var(--mm-border, #dee5df);
+}
+
+#halo-cart-sidebar .mm-cart-cost-note p {
+  margin: 0 0 8px;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  color: var(--mm-text-secondary, #59665f);
+  overflow-wrap: anywhere;
+}
+
+#halo-cart-sidebar .mm-cart-cost-note p:last-child {
+  margin-bottom: 0;
+}
+
+#halo-cart-sidebar .button-checkout {
+  width: 100%;
+  min-height: 48px;
+}
+
 #halo-cart-sidebar.mm-cart-updating {
   pointer-events: none;
 }

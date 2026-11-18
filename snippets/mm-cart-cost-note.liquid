@@ -1,0 +1,15 @@
+{%- comment -%}
+  MOTHER & ME — shipping/payment note for cart drawer + cart page.
+  Uses confirmed Admin rates only (flat 8 GEL delivery). No invented bank details.
+{%- endcomment -%}
+{%- liquid
+  assign note_context = context | default: 'drawer'
+-%}
+<div class="mm-cart-cost-note" data-mm-cart-cost-note="{{ note_context | escape }}">
+  <p class="mm-cart-cost-note__shipping">
+    {{ 'sections.cart.mm_shipping_note' | t }}
+  </p>
+  <p class="mm-cart-cost-note__payment">
+    {{ 'sections.cart.mm_payment_note' | t }}
+  </p>
+</div>

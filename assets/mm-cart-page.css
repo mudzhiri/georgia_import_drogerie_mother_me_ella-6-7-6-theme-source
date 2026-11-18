@@ -535,6 +535,41 @@
   margin-bottom: 16px;
 }
 
+.template-cart .mm-cart-cost-note {
+  margin: 0;
+  padding: 12px 0 0;
+}
+
+.template-cart .mm-cart-cost-note p {
+  margin: 0 0 8px;
+  color: var(--mm-cart-page-muted);
+  font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
+  font-size: 0.8125rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.template-cart .mm-cart-cost-note p:last-child {
+  margin-bottom: 0;
+}
+
+.template-cart .shipTotal.mm-cart-page-notes {
+  list-style: none;
+  padding: 0;
+  margin: 8px 0 0;
+}
+
+@media screen and (max-width: 767px) {
+  .template-cart .cart-total.enable_sticky_buttton .sticky_button_checkout_mb {
+    z-index: 30;
+    padding-bottom: max(12px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .template-cart .cart-content-wrapper {
+    padding-bottom: 120px;
+  }
+}
+
 /* Empty state: keep cream band flush with page */
 .template-cart .cart-content-empty {
   margin: 0 -16px;

@@ -219,7 +219,16 @@
         return origChange.call(this, variant_id, quantity, index, callback);
       }
       if (updating) return;
-      mmFetchUpdate(index, quantity, callback, lastItemRow);
+      const qty = Number(quantity);
+      if (!Number.isFinite(qty) || qty < 0 || !Number.isInteger(qty)) {
+        showItemError(
+          (window.cartStrings && window.cartStrings.quantityError) ||
+            (window.cartStrings && window.cartStrings.error) ||
+            'Invalid quantity'
+        );
+        return;
+      }
+      mmFetchUpdate(index, qty, callback, lastItemRow);
     };
 
     Shopify.removeItem = function (variant_id, index, callback) {

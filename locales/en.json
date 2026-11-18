@@ -442,7 +442,7 @@
         "success": "Product added to your cart."
       },
       "trust": {
-        "free_shipping": "Free shipping from 200 ₾",
+        "free_shipping": "Shipping in Georgia: 8 ₾",
         "order_pickup": "Order online or pick up",
         "bank_transfer": "Pay by bank transfer"
       }

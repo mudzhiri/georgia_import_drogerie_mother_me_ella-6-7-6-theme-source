@@ -540,9 +540,9 @@
                                         <div class="cart-total-label"><span class="text">{{ 'general.cart.total' | t }}</span></div>  
                                         <div class="cart-total-value" data-cart-total-value="{{ cart.total_price }}"><span class="text">{{ cart.total_price | money }}</span></div>  
                                     </li>
-                                    {%- if settings.show_shipping_note -%}
-                                        <li class="shipTotal"><p class="cart-total-value form-text">{{ 'sections.cart.taxes_included_but_shipping_at_checkout' | t }}</p></li>  
-                                    {%- endif -%}
+                                    <li class="shipTotal mm-cart-page-notes">
+                                      {% render 'mm-cart-cost-note', context: 'page' %}
+                                    </li>
                                 </ul>
                                 
                                 {%- if section.settings.enable_sticky_button_checkout_mb -%}
