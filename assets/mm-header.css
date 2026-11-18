@@ -846,17 +846,28 @@ html.mm-search-open {
     position: relative;
   }
 
+  /* One type system for all top-level cats (flat + dropdown row links) */
+  .header-nav-hamburger--style1 .main-menu {
+    --mm-nav-font: var(--mm-font-sans, "Noto Sans Georgian", "Noto Sans", system-ui, sans-serif);
+    --mm-nav-size: 0.9375rem; /* 15px */
+    --mm-nav-weight: 600;
+    --mm-nav-line: 1.45;
+    --mm-nav-tracking: 0.01em;
+  }
+
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a.menu-lv-1__action,
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a {
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row > a.menu-lv-1__action,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row > a {
     position: relative;
     display: inline-flex !important;
     align-items: center;
     gap: 6px;
-    font-family: var(--mm-body), "Noto Sans Georgian", system-ui, sans-serif !important;
-    font-size: 0.9375rem !important; /* 15px */
-    line-height: 1.45 !important;
-    font-weight: 600 !important;
-    letter-spacing: 0.01em !important;
+    font-family: var(--mm-nav-font) !important;
+    font-size: var(--mm-nav-size) !important;
+    line-height: var(--mm-nav-line) !important;
+    font-weight: var(--mm-nav-weight) !important;
+    letter-spacing: var(--mm-nav-tracking) !important;
     text-transform: none !important;
     color: #214d43 !important;
     background: transparent !important;
@@ -872,8 +883,14 @@ html.mm-search-open {
       box-shadow var(--mm-header-motion, 200ms ease);
   }
 
-  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .text {
+  .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a .text,
+  .header-nav-hamburger--style1 .main-menu .mm-cat-item__row > a .text {
     position: relative;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
     color: inherit !important;
     border: 0 !important;
     background-image: linear-gradient(currentColor, currentColor);
@@ -1029,10 +1046,11 @@ html.mm-search-open {
     width: 100%;
     min-height: 44px;
     padding: 10px 14px !important;
-    font-family: var(--mm-body), "Noto Sans Georgian", system-ui, sans-serif !important;
-    font-size: 0.9375rem !important;
+    font-family: var(--mm-nav-font) !important;
+    font-size: var(--mm-nav-size) !important;
     font-weight: 500 !important;
-    line-height: 1.45 !important;
+    line-height: var(--mm-nav-line) !important;
+    letter-spacing: var(--mm-nav-tracking) !important;
     color: #214d43 !important;
     background: transparent !important;
     text-transform: none !important;
@@ -1043,6 +1061,11 @@ html.mm-search-open {
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-2 > a .text,
   .header-nav-hamburger--style1 .main-menu .menu-lv-2 .menu-lv-2__action .text {
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+    letter-spacing: inherit !important;
     color: inherit !important;
     border: 0 !important;
   }
