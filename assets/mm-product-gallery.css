@@ -289,7 +289,7 @@
   --mm-pdp-action-ink: #214d43;
   --mm-pdp-action-cream: #faf8f4;
   --mm-pdp-action-border: #c9d5cd;
-  --mm-pdp-action-heart: #c45c3e;
+  --mm-pdp-action-heart: #214d43;
   position: absolute;
   top: 12px;
   right: 12px;
@@ -391,8 +391,24 @@
 
 .mm-pdp-actions__wishlist.wishlist-added {
   color: var(--mm-pdp-action-heart);
-  border-color: #e8c4ad;
-  background: #fff7f2;
+  border-color: var(--mm-pdp-action-ink);
+  background: #eaf1ec;
+}
+
+.mm-pdp-actions__wishlist.is-animating {
+  animation: mm-pdp-wishlist-pop 280ms ease;
+}
+
+@keyframes mm-pdp-wishlist-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-pdp-actions__wishlist.is-animating {
+    animation: none;
+  }
 }
 
 .mm-pdp-actions__wishlist.wishlist-added .mm-pdp-actions__icon--outline {

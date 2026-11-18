@@ -259,7 +259,8 @@
 }
 
 .mm-card-media__nav--prev { left: 6px; }
-.mm-card-media__nav--next { right: 6px; }
+/* Keep clear of top-right wishlist control */
+.mm-card-media__nav--next { right: 6px; top: calc(50% + 4px); }
 
 .mm-card-media__nav:focus {
   outline: none;

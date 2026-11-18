@@ -4,7 +4,7 @@
 {%- endcomment -%}
 {%- liquid
   assign mm_wl_add = 'wishlist.general.add' | t
-  assign mm_wl_added = 'wishlist.general.added' | t
+  assign mm_wl_remove = 'wishlist.general.remove' | t
 -%}
 <button
   type="button"
@@ -15,6 +15,8 @@
   title="{{ mm_wl_add | escape }}"
   aria-label="{{ mm_wl_add | escape }}"
   aria-pressed="false"
+  data-mm-wl-add="{{ mm_wl_add | escape }}"
+  data-mm-wl-remove="{{ mm_wl_remove | escape }}"
 >
   <span class="visually-hidden text">{{ mm_wl_add }}</span>
   <span class="mm-card-wishlist__icon mm-card-wishlist__icon--outline" aria-hidden="true">

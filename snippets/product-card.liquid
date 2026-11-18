@@ -202,7 +202,6 @@
                     {%- if mm_is_collection_card -%}
                       <div class="mm-card-actions">
                         {% render 'mm-card-wishlist-btn', product: product_card_product %}
-                        {% render 'mm-card-share-btn', product: product_card_product %}
                       </div>
                       {%- if mm_card_image_count > 1 -%}
                         <button type="button" class="mm-card-media__nav mm-card-media__nav--prev" data-mm-gallery-prev aria-label="{{ mm_prev_label | escape }}"><span aria-hidden="true">‹</span></button>

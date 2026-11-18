@@ -273,138 +273,15 @@
     setGalleryIndex(gallery, dx < 0 ? cur + 1 : cur - 1, { blockClick: true });
   }
 
-  /* Wishlist: sync aria + light animation; storage handled by theme.js */
-  function syncWishlistUi() {
-    var list = [];
-    try {
-      list = JSON.parse(localStorage.getItem('wishlistItem') || '[]') || [];
-    } catch (e) {
-      list = [];
-    }
-    document.querySelectorAll('.mm-card-wishlist[data-wishlist-handle]').forEach(function (btn) {
-      var handle = btn.getAttribute('data-wishlist-handle');
-      var on = list.indexOf(handle) !== -1;
-      btn.classList.toggle('wishlist-added', on);
-      btn.setAttribute('aria-pressed', on ? 'true' : 'false');
-      var label = on
-        ? (window.wishlist && window.wishlist.added) || btn.getAttribute('title')
-        : (window.wishlist && window.wishlist.add) || btn.getAttribute('title');
-      if (label) {
-        btn.setAttribute('aria-label', label);
-        btn.setAttribute('title', label);
-        var text = btn.querySelector('.text');
-        if (text) text.textContent = label;
-      }
-    });
-    document.querySelectorAll('[data-wishlist-count]').forEach(function (el) {
-      el.textContent = String(list.length);
-      var bubble = el.closest('.wishlist-count-bubble');
-      if (bubble) {
-        if (list.length) bubble.removeAttribute('hidden');
-        else bubble.setAttribute('hidden', '');
-      }
-    });
-  }
-
-  function onWishlistClick(event) {
-    var btn = event.target.closest('.mm-card-wishlist[data-wishlist]');
-    if (!btn) return;
-    event.preventDefault();
-    /* Let theme.js handle storage when enabled; otherwise store locally. */
-    if (!(window.wishlist && window.wishlist.show)) {
-      event.stopPropagation();
-      try {
-        var handle = btn.getAttribute('data-wishlist-handle');
-        var list = JSON.parse(localStorage.getItem('wishlistItem') || '[]') || [];
-        var idx = list.indexOf(handle);
-        if (idx === -1) list.push(handle);
-        else list.splice(idx, 1);
-        localStorage.setItem('wishlistItem', JSON.stringify(list));
-      } catch (e) { /* ignore quota */ }
-    }
-    window.setTimeout(function () {
-      syncWishlistUi();
-      if (btn.classList.contains('wishlist-added')) {
-        btn.classList.add('is-animating');
-        window.setTimeout(function () {
-          btn.classList.remove('is-animating');
-        }, 300);
-      }
-    }, 30);
-  }
-
-  function copyShareLink(url) {
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      return navigator.clipboard.writeText(url);
-    }
-    return new Promise(function (resolve, reject) {
-      try {
-        var input = document.createElement('input');
-        input.value = url;
-        input.setAttribute('readonly', '');
-        input.style.position = 'fixed';
-        input.style.opacity = '0';
-        document.body.appendChild(input);
-        input.select();
-        document.execCommand('copy');
-        input.remove();
-        resolve();
-      } catch (err) {
-        reject(err);
-      }
-    });
-  }
-
-  function markShareCopied(btn) {
-    var copied = btn.getAttribute('data-mm-share-copied') || 'Copied';
-    btn.classList.add('is-copied');
-    btn.setAttribute('aria-label', copied);
-    btn.setAttribute('title', copied);
-    window.setTimeout(function () {
-      btn.classList.remove('is-copied');
-      var label = btn.getAttribute('data-mm-share-label');
-      if (label) {
-        btn.setAttribute('aria-label', label);
-        btn.setAttribute('title', label);
-      }
-    }, 1800);
-  }
-
-  function onShareClick(event) {
-    var btn = event.target.closest('.mm-card-share[data-mm-share]');
-    if (!btn) return;
-    event.preventDefault();
-    event.stopPropagation();
-    if (!btn.getAttribute('data-mm-share-label')) {
-      btn.setAttribute('data-mm-share-label', btn.getAttribute('aria-label') || btn.getAttribute('title') || '');
-    }
-    var url = btn.getAttribute('data-mm-share-url') || window.location.href;
-    var title = btn.getAttribute('data-mm-share-title') || document.title;
-    var sharePromise = navigator.share
-      ? navigator.share({ title: title, url: url })
-      : copyShareLink(url).then(function () {
-          markShareCopied(btn);
-        });
-    Promise.resolve(sharePromise).catch(function (err) {
-      if (err && err.name === 'AbortError') return;
-      copyShareLink(url)
-        .then(function () {
-          markShareCopied(btn);
-        })
-        .catch(function () { /* ignore */ });
-    });
-  }
+  /* Wishlist/share: owned by mm-wishlist.js / mm-share.js (avoid double listeners). */
 
   function refreshAfterDomChange() {
     document.querySelectorAll('[data-mm-card-gallery]').forEach(function (gallery) {
       var images = parseImages(gallery);
       if (images.length > 1) ensureDots(gallery, images.length);
     });
-    syncWishlistUi();
-    if (window.halo && typeof window.halo.setLocalStorageProductForWishlist === 'function') {
-      try {
-        window.halo.setLocalStorageProductForWishlist();
-      } catch (e) { /* ignore */ }
+    if (window.mmWishlist && typeof window.mmWishlist.sync === 'function') {
+      window.mmWishlist.sync();
     }
   }
 
@@ -419,8 +296,6 @@
     document.addEventListener('submit', onSubmit, true);
     document.addEventListener('click', onGalleryClick, true);
     document.addEventListener('click', onMediaLinkClick, true);
-    document.addEventListener('click', onWishlistClick, true);
-    document.addEventListener('click', onShareClick, true);
     document.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
     document.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
     document.addEventListener('touchend', onTouchEnd, { passive: true, capture: true });

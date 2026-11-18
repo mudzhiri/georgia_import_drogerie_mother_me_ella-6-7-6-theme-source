@@ -1,15 +1,10 @@
 {%- comment -%}
-  DM-style wishlist + share overlay on PDP media (top-right).
-  Wishlist uses existing theme [data-wishlist] / localStorage handlers.
+  PDP media overlay: wishlist only (top-right).
+  Share lives next to the product title (see product-title / mm-pdp-title-share).
 {%- endcomment -%}
 {%- liquid
-  assign share_url = shop.url | append: product.url
-  assign share_title = product.title | escape
-  assign share_label = 'products.product.share' | t
-  assign share_copied = 'products.product.share_copied' | t
-  if share_copied == blank or share_copied contains 'Translation missing'
-    assign share_copied = 'ბმული დაკოპირდა'
-  endif
+  assign mm_wl_add = 'wishlist.general.add' | t
+  assign mm_wl_remove = 'wishlist.general.remove' | t
 -%}
 <div class="mm-pdp-actions" data-mm-pdp-actions>
   <button
@@ -18,8 +13,11 @@
     data-wishlist
     data-wishlist-handle="{{ product.handle | escape }}"
     data-product-id="{{ product.id }}"
-    aria-label="{{ 'wishlist.general.add' | t | escape }}"
-    title="{{ 'wishlist.general.add' | t | escape }}"
+    aria-label="{{ mm_wl_add | escape }}"
+    title="{{ mm_wl_add | escape }}"
+    aria-pressed="false"
+    data-mm-wl-add="{{ mm_wl_add | escape }}"
+    data-mm-wl-remove="{{ mm_wl_remove | escape }}"
   >
     <span class="mm-pdp-actions__icon mm-pdp-actions__icon--outline" aria-hidden="true">
       <svg viewBox="0 0 24 24" width="26" height="26" fill="none" focusable="false">
@@ -39,23 +37,6 @@
         />
       </svg>
     </span>
-    <span class="visually-hidden text">{{ 'wishlist.general.add' | t }}</span>
+    <span class="visually-hidden text">{{ mm_wl_add }}</span>
   </button>
-
-  <button
-    type="button"
-    class="mm-pdp-actions__btn mm-pdp-actions__share"
-    data-mm-share
-    data-mm-share-url="{{ share_url | escape }}"
-    data-mm-share-title="{{ share_title }}"
-    data-mm-share-copied="{{ share_copied | escape }}"
-    aria-label="{{ share_label | escape }}"
-    title="{{ share_label | escape }}"
-  >
-    <span class="mm-pdp-actions__icon" aria-hidden="true">
-      {% render 'icon-share' %}
-    </span>
-  </button>
-
-  <p class="mm-pdp-actions__toast" data-mm-share-toast hidden role="status" aria-live="polite"></p>
 </div>

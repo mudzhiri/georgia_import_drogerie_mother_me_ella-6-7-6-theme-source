@@ -1328,17 +1328,7 @@
                                             {%- endif -%}
                                         </div>
                                     {%- when 'share' -%}
-                                        {%- if check_show_share == '1' -%}
-                                            <div class="productView-moreItem{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
-                                                style="--spacing-top: {{ spacing_top | append: 'px' }};
-                                                --spacing-bottom: {{ spacing_bottom | append: 'px' }}"
-                                            >
-                                                {% render 'halo-share',
-                                                    product: product,
-                                                    share_layout: check_show_share
-                                                %}
-                                            </div>
-                                        {%- endif -%}
+                                        {%- comment -%} Share lives next to the product title (MM). {%- endcomment -%}
                                     {%- when 'trust_image' -%}
                                         {%- liquid
                                             assign show_trust_image = block.settings.show_trust_image

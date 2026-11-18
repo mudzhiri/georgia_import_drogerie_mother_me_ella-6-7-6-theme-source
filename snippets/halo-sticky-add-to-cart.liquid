@@ -192,17 +192,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    {%- if settings.show_wishlist -%}
-                        <div class="sticky-wishlist clearfix">
-                            <a role="link" aria-disabled="true" data-wishlist data-wishlist-handle="{{ product.handle }}" data-product-id="{{ product.id }}">
-                                <span class="visually-hidden">
-                                    {{ 'wishlist.general.add' | t }}
-                                </span>
-                                {% render 'icon-heart' %}
-                                {% if settings.show_wishlist_full_icon %}{% render 'icon-heart-add-2' %}{% endif %}
-                            </a>
-                        </div>
-                    {%- endif -%}
+                    {%- comment -%} Wishlist lives on PDP media only (MM). {%- endcomment -%}
                 </div>
             </div>
         </div>

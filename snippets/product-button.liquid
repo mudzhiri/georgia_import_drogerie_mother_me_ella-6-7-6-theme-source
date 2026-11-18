@@ -269,14 +269,7 @@
                               hidden
                             ></div>
                         </div>
-                        {%- if settings.show_wishlist -%}
-                            <div class="productView-wishlist clearfix{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
-                                <a role="link" aria-disabled="true" data-wishlist data-wishlist-handle="{{ product.handle }}" data-product-id="{{ product.id }}"><span class="visually-hidden">{{ 'wishlist.general.add' | t }}</span>{% render 'icon-heart' %}{% if settings.show_wishlist_full_icon %}{% render 'icon-heart-add-2' %}{% endif %}</a>
-                            </div>
-                        {%- endif -%}
-                        {%- if check_show_share == '2' -%}
-                            {% render 'halo-share', product: product, share_layout: check_show_share %}
-                        {%- endif -%}
+                        {%- comment -%} Wishlist lives on media; share lives next to title (MM). {%- endcomment -%}
                     </div>
                 </div>
                 {%- if show_dynamic_checkout or show_dynamic_checkout_sticky_atc_always_mb -%}
