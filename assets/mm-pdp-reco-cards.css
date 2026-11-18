@@ -1,6 +1,6 @@
 /**
- * MOTHER & ME — PDP Related + Recently Viewed cards only.
- * Mirrors collection / homepage card geometry without touching the main gallery.
+ * MOTHER & ME — PDP Related products (+ shared hooks for Recently Viewed).
+ * Grid of shared mm-product-card; no auto-slider.
  */
 
 .halo-recommendations-block,
@@ -12,18 +12,7 @@
   --mm-reco-radius: 16px;
   --mm-reco-ease: ease-out;
   --mm-reco-duration: 200ms;
-}
-
-.halo-recommendations-block .mm-card-media,
-.halo-recently-viewed-block .mm-card-media {
-  --mm-card-img-pad: 20px;
-}
-
-@media screen and (min-width: 768px) {
-  .halo-recommendations-block .mm-card-media,
-  .halo-recently-viewed-block .mm-card-media {
-    --mm-card-img-pad: 28px;
-  }
+  --mm-reco-gap: 20px;
 }
 
 .halo-recommendations-block.mm-pdp-reco--empty,
@@ -35,7 +24,6 @@
   min-height: 0 !important;
 }
 
-/* Keep a zero-height observer target until history is known; do not use display:none. */
 .halo-recently-viewed-block.mm-pdp-reco--pending {
   visibility: hidden;
   height: 0;
@@ -52,15 +40,92 @@
   text-align: center;
 }
 
-.halo-recommendations-block .products-carousel .product,
-.halo-recently-viewed-block .products-carousel .product,
-.halo-recommendations-block .products-grid .product,
-.halo-recently-viewed-block .products-grid .product {
-  display: flex;
-  height: auto;
-  min-width: 0;
+/* —— Related products grid —— */
+.halo-recommendations-block .mm-pdp-reco-grid,
+.halo-recently-viewed-block .mm-pdp-reco-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: center;
 }
 
+@media screen and (min-width: 750px) {
+  .halo-recommendations-block .mm-pdp-reco-grid,
+  .halo-recently-viewed-block .mm-pdp-reco-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--mm-reco-gap, 20px);
+  }
+
+  .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="1"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="1"] {
+    grid-template-columns: minmax(0, 280px);
+  }
+
+  .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="2"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="2"] {
+    grid-template-columns: repeat(2, minmax(0, 280px));
+  }
+
+  .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="3"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="3"] {
+    grid-template-columns: repeat(3, minmax(0, 280px));
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .halo-recommendations-block .mm-pdp-reco-grid[data-mm-reco-count="1"],
+  .halo-recently-viewed-block .mm-pdp-reco-grid[data-mm-reco-count="1"] {
+    grid-template-columns: minmax(0, 1fr);
+    max-width: 220px;
+    margin-inline: auto;
+  }
+}
+
+.halo-recommendations-block .mm-pdp-reco-grid__item,
+.halo-recently-viewed-block .mm-pdp-reco-grid__item,
+.halo-recommendations-block .mm-pdp-reco-grid .product,
+.halo-recently-viewed-block .mm-pdp-reco-grid .product {
+  display: flex;
+  min-width: 0;
+  height: auto;
+  margin: 0;
+  padding: 0;
+}
+
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton {
+  min-height: 0;
+}
+
+.halo-recommendations-block.mm-pdp-reco--loading .halo-block-content {
+  min-height: 0;
+}
+
+/* Shared mm-product-card in reco */
+.halo-recommendations-block .mm-product-card,
+.halo-recently-viewed-block .mm-product-card {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.halo-recommendations-block .mm-card-media,
+.halo-recently-viewed-block .mm-card-media {
+  --mm-card-img-pad: 20px;
+}
+
+@media screen and (min-width: 768px) {
+  .halo-recommendations-block .mm-card-media,
+  .halo-recently-viewed-block .mm-card-media {
+    --mm-card-img-pad: 28px;
+  }
+}
+
+/* Legacy collection-card path (recently viewed / older markup) */
 .halo-recommendations-block .mm-collection-card,
 .halo-recently-viewed-block .mm-collection-card {
   width: 100%;
@@ -129,71 +194,6 @@
   box-sizing: border-box;
 }
 
-/* Image geometry comes from mm-product-card.css (.mm-collection-card .mm-card-media > img).
-   Keep opacity/hover only here — do not reintroduce a second positioning model. */
-.halo-recommendations-block .card-media > img,
-.halo-recommendations-block .card-media > video,
-.halo-recommendations-block .card-media > .placeholder-svg,
-.halo-recommendations-block .card-media > .mm-product-card-placeholder,
-.halo-recently-viewed-block .card-media > img,
-.halo-recently-viewed-block .card-media > video,
-.halo-recently-viewed-block .card-media > .placeholder-svg,
-.halo-recently-viewed-block .card-media > .mm-product-card-placeholder {
-  opacity: 1;
-}
-
-.halo-recommendations-block .card-media.media--hover-effect > img + img,
-.halo-recommendations-block .card-media.media--hover-effect > img + video,
-.halo-recently-viewed-block .card-media.media--hover-effect > img + img,
-.halo-recently-viewed-block .card-media.media--hover-effect > img + video {
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms ease-out;
-}
-
-.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
-.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + img,
-.halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + video,
-.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
-.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + img,
-.halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + video {
-  transform: translate(-50%, -50%);
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
-  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img:first-child:not(:only-child),
-  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
-  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img:first-child:not(:only-child) {
-    opacity: 0;
-  }
-
-  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + img,
-  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img + video,
-  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img + img,
-  .halo-recommendations-block .card-product:focus-within .card-media.media--hover-effect > img + video,
-  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + img,
-  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img + video,
-  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img + img,
-  .halo-recently-viewed-block .card-product:focus-within .card-media.media--hover-effect > img + video {
-    opacity: 1;
-  }
-}
-
-@media (hover: none), (pointer: coarse) {
-  .halo-recommendations-block .card-media.media--hover-effect > img + img,
-  .halo-recommendations-block .card-media.media--hover-effect > img + video,
-  .halo-recently-viewed-block .card-media.media--hover-effect > img + img,
-  .halo-recently-viewed-block .card-media.media--hover-effect > img + video {
-    opacity: 0 !important;
-  }
-
-  .halo-recommendations-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child),
-  .halo-recently-viewed-block .card-product:hover .card-media.media--hover-effect > img:first-child:not(:only-child) {
-    opacity: 1 !important;
-  }
-}
-
 .halo-recommendations-block .card-quickview,
 .halo-recommendations-block .card-quickviewIcon,
 .halo-recommendations-block .card-compare,
@@ -207,119 +207,11 @@
   display: none !important;
 }
 
-.halo-recommendations-block .mm-collection-card .card-information,
-.halo-recently-viewed-block .mm-collection-card .card-information {
-  display: flex;
-  flex-direction: column;
-  flex: 1 1 auto;
-  text-align: left;
-}
-
-.halo-recommendations-block .mm-collection-card__content,
-.halo-recently-viewed-block .mm-collection-card__content {
-  text-align: left;
-}
-
-/* Brand/title/footer: shared MM card rules in mm-product-card.css */
-.halo-recommendations-block .mm-collection-card__brand,
-.halo-recently-viewed-block .mm-collection-card__brand {
-  color: var(--mm-reco-muted);
-}
-
-.halo-recommendations-block .mm-collection-card__title,
-.halo-recommendations-block .mm-collection-card .card-title.mm-collection-card__title,
-.halo-recently-viewed-block .mm-collection-card__title,
-.halo-recently-viewed-block .mm-collection-card .card-title.mm-collection-card__title {
-  color: var(--mm-reco-ink);
-  font-weight: 600;
-}
-
-.halo-recommendations-block .mm-collection-card__footer,
-.halo-recently-viewed-block .mm-collection-card__footer {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: auto;
-  padding-top: 8px;
-  text-align: left;
-}
-
-.halo-recommendations-block .mm-collection-card__price,
-.halo-recently-viewed-block .mm-collection-card__price {
-  margin: 0;
-  min-width: 0;
-  text-align: left;
-}
-
-.halo-recommendations-block .mm-card-quick-cart,
-.halo-recently-viewed-block .mm-card-quick-cart {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin: 8px 0 0;
-  padding: 0;
-}
-
-.halo-recommendations-block .mm-card-quick-cart__btn,
-.halo-recently-viewed-block .mm-card-quick-cart__btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  min-width: 44px;
-  min-height: 44px;
-  margin: 0;
-  padding: 0;
-  border: 1px solid #dee5df;
-  border-radius: 50%;
-  background: #ffffff;
-  color: #214d43;
-  box-sizing: border-box;
-  text-decoration: none;
-  cursor: pointer;
-  appearance: none;
-  transition:
-    background-color 180ms ease,
-    border-color 180ms ease,
-    color 180ms ease,
-    transform 180ms ease;
-}
-
-.halo-recommendations-block .mm-card-quick-cart__btn:hover,
-.halo-recently-viewed-block .mm-card-quick-cart__btn:hover {
-  background: #eaf1ec;
-  border-color: #c9d5cd;
-  color: #173b33;
-}
-
-.halo-recommendations-block .mm-card-quick-cart__btn:focus-visible,
-.halo-recently-viewed-block .mm-card-quick-cart__btn:focus-visible {
-  outline: 2px solid #214d43;
-  outline-offset: 2px;
-}
-
-.halo-recommendations-block .mm-card-quick-cart__icon,
-.halo-recently-viewed-block .mm-card-quick-cart__icon {
-  display: flex;
-  width: 22px;
-  height: 22px;
-  line-height: 0;
-}
-
-.halo-recommendations-block .mm-card-quick-cart__icon .icon-cart,
-.halo-recently-viewed-block .mm-card-quick-cart__icon .icon-cart {
-  width: 22px;
-  height: 22px;
-  fill: currentColor;
-}
-
 .halo-recommendations-block .card-summary,
 .halo-recently-viewed-block .card-summary {
   display: none !important;
 }
 
-/* Loading placeholders only while fetch is active */
 .halo-recently-viewed-block:not(.mm-pdp-reco--loading) .product-item--loadingNoInfo {
   display: none !important;
 }
@@ -328,26 +220,8 @@
   min-height: 0;
 }
 
-.halo-recommendations-block .slick-list,
-.halo-recently-viewed-block .slick-list {
-  height: auto !important;
-}
-
-.halo-recommendations-block .slick-track,
-.halo-recently-viewed-block .slick-track {
-  display: flex !important;
-  align-items: stretch;
-}
-
-.halo-recommendations-block .slick-slide,
-.halo-recently-viewed-block .slick-slide {
-  height: auto;
-  display: flex !important;
-}
-
-.halo-recommendations-block .slick-slide > div,
-.halo-recently-viewed-block .slick-slide > div {
-  display: flex;
-  width: 100%;
-  height: 100%;
+/* No auto-running sliders in related block */
+.halo-recommendations-block .slick-slider,
+.halo-recommendations-block .products-carousel {
+  display: none !important;
 }

@@ -1869,104 +1869,117 @@
         },
 
         buildRecommendationBlock: function(){
-            if (document.querySelector('[data-recommendations-block]') == null) return;
+            var $this = document.querySelector('[data-recommendations-block]');
+            if (!$this) return;
 
-            var $this = document.querySelector('[data-recommendations-block]'),
-                layout = $this.dataset.layout;
-                swipe = $this.dataset.swipe;
+            if ($this.dataset.mmRecoBound === '1') return;
+            $this.dataset.mmRecoBound = '1';
 
-            const config = {
-                threshold: 0,
-            }
+            var requestId = 0;
+            var controller = null;
+            var productId = $this.getAttribute('data-product-id') || '';
 
-            const handleIntersection = (entries, observer) => {
-                const recommendationsContainer = $this.querySelector('.wrapper-container');
-                if (!entries[0].isIntersecting) return;
-                if ($this.innerHTML.trim() != '' && !recommendationsContainer.classList.contains('product-recommendations-loading') && !recommendationsContainer.classList.contains('has-product')) return;
-                recommendationsContainer.classList.add('has-product');
+            var hideReco = function(el) {
+                el.classList.add('mm-pdp-reco--empty');
+                el.classList.remove('mm-pdp-reco--loading');
+                el.setAttribute('hidden', 'hidden');
+            };
 
-                fetch($this.dataset.url)
-                .then(response => response.text())
-                .then(text => {
-                    const html = document.createElement('div');
-                    html.innerHTML = text;
-                    const recommendations = html.querySelector('[data-recommendations-block]');
-                    if (recommendations && recommendations.innerHTML.trim().length) {
-                        $this.innerHTML = recommendations.innerHTML;
+            var showReco = function(el) {
+                el.classList.remove('mm-pdp-reco--empty', 'mm-pdp-reco--loading');
+                el.removeAttribute('hidden');
+            };
 
-                        var productItems = $($this).find('.product-item')
-                        var firstProductData = productItems.eq(0).data('json-product')
-                        if (!firstProductData) {
-                            $this.classList.add('mm-pdp-reco--empty');
-                            $this.setAttribute('hidden', 'hidden');
+            var hasCards = function(root) {
+                return !!(root && root.querySelector('[data-mm-product-card], .mm-product-card, .mm-collection-card .card-title'));
+            };
+
+            var refreshMmCards = function() {
+                document.dispatchEvent(new CustomEvent('mm:collection:updated'));
+                if (window.mmWishlist && typeof window.mmWishlist.sync === 'function') {
+                    window.mmWishlist.sync();
+                } else if (window.wishlist && window.wishlist.show && typeof halo.setLocalStorageProductForWishlist === 'function') {
+                    halo.setLocalStorageProductForWishlist();
+                }
+            };
+
+            var fetchRecommendations = function() {
+                var url = $this.getAttribute('data-url');
+                if (!url) {
+                    hideReco($this);
+                    return;
+                }
+
+                if (controller) {
+                    try { controller.abort(); } catch (e) {}
+                }
+                controller = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+                var myRequest = ++requestId;
+                $this.classList.add('mm-pdp-reco--loading');
+
+                var fetchOpts = { credentials: 'same-origin' };
+                if (controller) fetchOpts.signal = controller.signal;
+
+                fetch(url, fetchOpts)
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('reco_http');
+                        return response.text();
+                    })
+                    .then(function(text) {
+                        if (myRequest !== requestId) return;
+                        var html = document.createElement('div');
+                        html.innerHTML = text;
+                        var recommendations = html.querySelector('[data-recommendations-block]');
+                        if (!recommendations || !recommendations.innerHTML.trim().length) {
+                            hideReco($this);
                             return;
                         }
 
-                        $this.classList.remove('mm-pdp-reco--empty');
-                        $this.removeAttribute('hidden');
+                        $this.innerHTML = recommendations.innerHTML;
+                        $this.classList.remove('mm-pdp-reco--loading');
 
-                        if (layout == 'slider') {
-                            halo.productBlockSilder($($this));
+                        if (!hasCards($this)) {
+                            hideReco($this);
+                            return;
                         }
 
-                        var productItems = $($this).find('.product-item')
-                        productItems.each(async (index, rawProduct) => {
-                            var product = $(rawProduct);
-                            var productId = product.data('product-id');
-                            var productJson = product.data('json-product');
-                            var handle = productJson.handle
-                            
-                            await  $.ajax({
-                                type: 'get',
-                                url: window.routes.root + '/products/' + handle + '?view=ajax_variant_quantity',
-                                beforeSend: function () {},
-                                success: function (data) {
-                                    const element = new DOMParser().parseFromString(data, 'text/html')
-                                    if (element.querySelector(`[data-quantity-product-id="${productId}"]`)) {
-                                        const quantityInfo = JSON.parse(element.querySelector(`[data-quantity-product-id="${productId}"]`).innerHTML)
-                                        window[`quick_view_inven_array_${productId}`] = quantityInfo
-                                    }
-                                },      
-                                error: function (xhr, text) {
-                                    halo.showWarning($.parseJSON(xhr.responseText).description);
-                                },
-                                complete: function () {}
-                            });
-                        }) 
+                        showReco($this);
+                        refreshMmCards();
 
-                        const loadingImages = $this.querySelectorAll('.media--loading-effect img');
-                        this.observeImageLazyloaded(loadingImages);
-
-                        if(window.compare.show){
-                            var $compareLink = $('[data-compare-link]');
-
-                            halo.setLocalStorageProductForCompare($compareLink);
+                        var loadingImages = $this.querySelectorAll('.media--loading-effect img');
+                        if (loadingImages.length && typeof halo.observeImageLazyloaded === 'function') {
+                            halo.observeImageLazyloaded(loadingImages);
                         }
-
-                        if(window.wishlist.show){
-                            halo.setLocalStorageProductForWishlist();
+                        if (typeof halo.calculateTranslateYHeight === 'function') {
+                            halo.calculateTranslateYHeight();
                         }
+                    })
+                    .catch(function(e) {
+                        if (e && e.name === 'AbortError') return;
+                        if (myRequest !== requestId) return;
+                        hideReco($this);
+                    });
+            };
 
-                        if ($('body').hasClass('cursor-fixed__show')){
-                            window.sharedFunctionsAnimation.onEnterButton();
-                            window.sharedFunctionsAnimation.onLeaveButton();
-                        }
-
-                        if($body.hasClass('product-card-layout-08')) {
-                            halo.productCountdownCard();
-                        }
-
-                        this.calculateTranslateYHeight()
-                    }
-                })
-                .catch(e => {
-                    console.error(e);
-                    $this.classList.add('mm-pdp-reco--empty');
-                    $this.setAttribute('hidden', 'hidden');
-                });
+            var wrapper = $this.querySelector('.wrapper-container');
+            if (wrapper && wrapper.classList.contains('has-product') && hasCards($this)) {
+                showReco($this);
+                refreshMmCards();
+                return;
             }
 
-            new IntersectionObserver(handleIntersection.bind($this), config).observe($this);
+            var config = { threshold: 0 };
+            var handleIntersection = function(entries, observer) {
+                if (!entries[0].isIntersecting) return;
+                observer.unobserve($this);
+                var currentId = $this.getAttribute('data-product-id') || productId;
+                if (currentId && $this.dataset.url && $this.dataset.url.indexOf('product_id=') !== -1) {
+                    $this.dataset.url = $this.dataset.url.replace(/product_id=\d+/, 'product_id=' + currentId);
+                }
+                fetchRecommendations();
+            };
+
+            new IntersectionObserver(handleIntersection, config).observe($this);
         },
 
         initVideoPopup: function (){

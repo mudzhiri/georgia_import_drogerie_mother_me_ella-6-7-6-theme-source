@@ -4,30 +4,40 @@
         assign as_grid_gap = section.settings.grid_gap
         assign grid_gap = section.settings.grid_gap | times: 0.5 | append: 'px'
         assign container = section.settings.product_block_container
-        assign limit = section.settings.product_block_limit | at_most: 8
-        assign layout = section.settings.product_block_layout
+        assign limit = section.settings.product_block_limit | at_most: 4
+        assign fetch_limit = 10
+        assign layout = 'grid'
         assign block_title = 'products.product.related_products' | t
         if block_title == blank or block_title == 'products.product.related_products'
           assign block_title = section.settings.product_block_title
         endif
+        if block_title == blank
+          assign block_title = 'მსგავსი პროდუქტები'
+        endif
         assign block_title_align = section.settings.product_block_title_align
-        assign swipe_on_mobile = section.settings.product_block_swipe_on_mobile
         assign padding_top = section.settings.padding_top | append: 'px'
         assign padding_bottom = section.settings.padding_bottom | append: 'px'
         assign image_ratio = 'square'
-        assign products_to_display = recommendations.products_count
-        if recommendations.products_count > limit
-            assign products_to_display = limit
-        endif 
         assign swipe = false
-        if swipe_on_mobile == true and layout == 'grid' and products_to_display > 2
-            assign swipe = true
-        endif
         assign mm_reco_hide = false
         if recommendations.performed and recommendations.products_count == 0
           assign mm_reco_hide = true
         endif
     -%}
+    {%- if recommendations.performed and recommendations.products_count > 0 and mm_reco_hide == false -%}
+      {%- capture mm_reco_cards -%}
+        {% render 'mm-pdp-related-cards',
+          products: recommendations.products,
+          limit: limit,
+          section_id: section.id,
+          current_product: product
+        %}
+      {%- endcapture -%}
+      {%- assign mm_reco_cards_stripped = mm_reco_cards | strip -%}
+      {%- if mm_reco_cards_stripped == blank -%}
+        {%- assign mm_reco_hide = true -%}
+      {%- endif -%}
+    {%- endif -%}
     {%- unless mm_reco_hide -%}
     <style type="text/css" media="screen">
         {%- liquid
@@ -315,164 +325,53 @@
             }
         }
     </style>
-    <{% if swipe %}product-slider-component{% else %}div{% endif %} class="halo-block halo-product-block halo-recommendations-block section-block-{{section.id}}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}" id="halo-recommendations-block-{{ section.id }}" data-limit="{{ limit }}" data-layout="{{ layout }}" sectionId="{{ section.id }}" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ limit }}" data-image-ratio="{{ image_ratio }}" data-swipe="{{ swipe }}" data-recommendations-block style="--grid-gap: {{ grid_gap }}">
-        {% if recommendations.performed and recommendations.products_count > 0 %}
-            <{% if layout == 'scroll' %}product-scroller{% else %}div{% endif %} class="wrapper-container {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
-                {%- if block_title != blank -%}
-                    <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}">
-                        <h3 class="title{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
-                            <span class="text">{{ block_title | escape }}</span>
-                        </h3>
-                    </div>
-                {%- endif -%}
-                <{% if swipe %}product-slider-component{% else %}div{% endif %} class="halo-block-content {% if layout == 'scroll' %}is-scroll{% endif %}" {% if layout == 'scroll' %}data-drag-container{% endif %}>
-                    {%- if layout== 'grid' -%}
-                        {%- liquid
-                            assign product_limit = 0
-                            assign column = section.settings.product_block_per_row
-                            if infinite_scroll
-                                assign product_limit = limit
-                            endif
-                        -%}
-                        <div class="products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}">
-                    {%- elsif layout == 'slider' -%}
-                        {%- liquid
-                            assign column = section.settings.product_block_show
-                            assign dots = section.settings.product_block_dots
-                            assign dots_mb = section.settings.product_block_dots_mb
-                            assign arrows = section.settings.product_block_arrows
-                            assign arrows_mb = section.settings.product_block_arrows_mb
-                        -%}
-                        <div class="products-carousel column-{{ column }}"
-                            data-item-to-show="{{ column }}"
-                            data-item-dots="{{ dots }}"
-                            data-item-dots-mb="{{ dots_mb }}"
-                            data-item-arrows="{{ arrows }}"
-                            data-item-arrows-mb="{{ arrows_mb }}"
-                            data-infinite="true"
-                        >
-                    {% elsif layout == 'scroll' %}
-                        {% liquid
-                            assign column = section.settings.product_block_per_view 
-                            assign show_half = section.settings.show_half 
-
-                            assign scroll_height = section.settings.scroll_height | append: 'px'
-                            assign scroll_track_bg = section.settings.scroll_track_bg
-                            assign scroll_thumb_color = section.settings.scroll_thumb_color
-                            assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
-                        %}
-                        <div 
-                            class="products-flex disable-srollbar-mb column-{{ column }}{% if show_half %} show-half{% endif %}{% if swipe %} slider slider--tablet grid{% endif %}" 
-                            data-drag-parent
-                            style="--count: {{ column }};
-                                --scrollbar-height: {{ scroll_height }};
-                                --scrollbar-track-color: {% if scroll_track_bg != blank and scroll_track_bg != 'rgba(0,0,0,0)' %}{{ scroll_track_bg }} {% endif %};
-                                --scrollbar-thumb-color: {% if scroll_thumb_color != blank and scroll_thumb_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_color }} {% endif %};
-                                --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
-                            "
-                        >
-                    {%- endif -%}
-                        {%- for product in recommendations.products limit: limit -%}
-                            <div class="product{% if swipe %} slider__slide grid__item{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"{% if settings.banner_animation == 'effect_fade_up' %} style="--animation-order: {{ forloop.index }};"{% endif %}>
-                                {% render 'product-grid-layout',
-                                    product_card_product: product,
-                                    media_size: image_ratio,
-                                    portrait_aspect_ratio: '100',
-                                    complementary_product_button_atc: true,
-                                    serial: forloop.index,
-                                    sectionId: sectionId,
-                                    mm_pdp_reco_card: true
-                                %}
-                            </div>
-                        {%- endfor -%}
-                    </div>
-                    {%- if swipe -%}
-                        <div class="slider-buttons no-js-hidden{% if products_to_display < 4 %} medium-hide{% endif %}{% if products_to_display < 3 %} small-hide{% endif %}">
-                            <div class="slider-counter">
-                                <span class="slider-counter--current">1</span>
-                                <span aria-hidden="true"> / </span>
-                                <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
-                                <span class="slider-counter--total">{{ products_to_display }}</span>
-                            </div>
-                            <div class="slider-action">
-                                <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}">
-                                    {% render 'icon-caret' %}
-                                </button>
-                                <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}">
-                                    {% render 'icon-caret' %}
-                                </button>
-                            </div>
-                        </div>
-                    {%- endif -%}
-                </{% if swipe %}product-slider-component{% else %}div{% endif %}>
-            </{% if layout == 'scroll' %}product-scroller{% else %}div{% endif %}>
+    <div
+      class="halo-block halo-product-block halo-recommendations-block mm-pdp-reco section-block-{{ section.id }}{% unless recommendations.performed %} mm-pdp-reco--loading{% endunless %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}"
+      id="halo-recommendations-block-{{ section.id }}"
+      data-limit="{{ limit }}"
+      data-layout="grid"
+      data-product-id="{{ product.id }}"
+      sectionId="{{ section.id }}"
+      data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ fetch_limit }}&intent=related"
+      data-image-ratio="{{ image_ratio }}"
+      data-swipe="false"
+      data-recommendations-block
+      style="--grid-gap: {{ grid_gap }}; --mm-reco-gap: {{ as_grid_gap | append: 'px' }};"
+    >
+        {% if recommendations.performed and mm_reco_cards_stripped != blank %}
+              <div class="wrapper-container has-product {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
+                  {%- if block_title != blank -%}
+                      <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
+                          <h3 class="title">
+                              <span class="text">{{ block_title | escape }}</span>
+                          </h3>
+                      </div>
+                  {%- endif -%}
+                  <div class="halo-block-content">
+                      {{ mm_reco_cards }}
+                  </div>
+              </div>
         {% else %}
             <div class="wrapper-container product-recommendations-loading {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
                 {%- if block_title != blank -%}
-                    <div class="halo-block-header text-{{ block_title_align }} block-title--{{section.settings.style_block_header}}">
+                    <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
                         <h3 class="title">
                             <span class="text">{{ block_title | escape }}</span>
                         </h3>
                     </div>
                 {%- endif -%}
-                <div class="halo-block-content {% if layout == 'scroll' %}is-scroll{% endif %}" {% if layout == 'scroll' %}data-drag-container{% endif %}>
-                    {%- if layout== 'grid' -%}
-                        {%- liquid
-                            assign product_limit = 0
-                            assign column = section.settings.product_block_per_row
-                            if infinite_scroll
-                                assign product_limit = limit
-                            endif
-                        -%}
-                        <div class="products-grid column-{{ column }}{% if swipe %} slider slider--tablet grid grid--peek{% endif %}" data-products-to-show="{{ limit }}">
-                    {%- elsif layout == 'slider' -%}
-                        {%- liquid
-                            assign column = section.settings.product_block_show
-                            assign dots = section.settings.product_block_dots
-                            assign dots_mb = section.settings.product_block_dots_mb
-                            assign arrows = section.settings.product_block_arrows
-                            assign arrows_mb = section.settings.product_block_arrows_mb
-                        -%}
-                        <div class="products-carousel column-{{ column }}"
-                            data-item-to-show="{{ column }}"
-                            data-item-dots="{{ dots }}"
-                            data-item-dots-mb="{{ dots_mb }}"
-                            data-item-arrows="{{ arrows }}"
-                            data-item-arrows-mb="{{ arrows_mb }}"
-                        >
-                    {% elsif layout == 'scroll' %}
-                        {% liquid
-                            assign column = section.settings.product_block_per_view 
-                            assign show_half = section.settings.show_half 
-
-                            assign scroll_height = section.settings.scroll_height | append: 'px'
-                            assign scroll_track_bg = section.settings.scroll_track_bg
-                            assign scroll_thumb_color = section.settings.scroll_thumb_color
-                            assign scroll_thumb_hover_color = section.settings.scroll_thumb_hover_color
-                        %}
-                        <div 
-                            class="products-flex disable-srollbar-mb column-{{ column }}{% if show_half %} show-half{% endif %}{% if swipe %} slider slider--tablet grid{% endif %}" 
-                            data-drag-parent
-                            style="--count: {{ column }};
-                                --scrollbar-height: {{ scroll_height }};
-                                --scrollbar-track-color: {% if scroll_track_bg != blank and scroll_track_bg != 'rgba(0,0,0,0)' %}{{ scroll_track_bg }} {% endif %};
-                                --scrollbar-thumb-color: {% if scroll_thumb_color != blank and scroll_thumb_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_color }} {% endif %};
-                                --scrollbar-thumb-hover-color: {% if scroll_thumb_hover_color != blank and scroll_thumb_hover_color != 'rgba(0,0,0,0)' %}{{ scroll_thumb_hover_color }} {% endif %};
-                            "
-                        >
-                    {%- endif -%}
-                        {%- for product in (1..limit) -%}
-                            <div class="product{% if swipe %} slider__slide grid__item{% endif %}">
-                                {% render 'product-card-loading-no-info',
-                                    portrait_aspect_ratio: '133'
-                                %}
+                <div class="halo-block-content">
+                    <div class="products-grid mm-pdp-reco-grid mm-pdp-reco-grid--skeleton column-{{ limit }}" data-products-to-show="{{ limit }}" data-mm-reco-count="{{ limit }}" aria-hidden="true">
+                        {%- for i in (1..limit) -%}
+                            <div class="product mm-pdp-reco-grid__item">
+                                {% render 'product-card-loading-no-info', portrait_aspect_ratio: '100' %}
                             </div>
                         {%- endfor -%}
                     </div>
                 </div>
             </div>
         {% endif %}
-    </{% if swipe %}product-slider-component{% else %}div{% endif %}>
+    </div>
     {%- endunless -%}
 {%- endif -%}
 

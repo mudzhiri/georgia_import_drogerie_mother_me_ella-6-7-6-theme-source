@@ -1,0 +1,155 @@
+{%- comment -%}
+  MOTHER & ME — Related products grid (PDP).
+  Uses Shopify recommendations (intent=related), soft audience filter via
+  confirmed collection handles, then shared mm-product-card.
+  Accepts: products (array-like), limit, section_id, current_product
+{%- endcomment -%}
+{%- liquid
+  assign mm_limit = limit | default: 4 | at_most: 4
+  assign mm_current = current_product
+  assign mm_src_baby = false
+  assign mm_src_mother = false
+
+  if mm_current != blank
+    for c in mm_current.collections
+      assign h = c.handle
+      if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+        assign mm_src_baby = true
+      endif
+      if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+        assign mm_src_mother = true
+      endif
+    endfor
+  endif
+
+  assign mm_src_strict = false
+  if mm_src_baby and mm_src_mother == false
+    assign mm_src_strict = 'baby'
+  elsif mm_src_mother and mm_src_baby == false
+    assign mm_src_strict = 'mother'
+  endif
+
+  assign mm_picked_ids = ','
+  assign mm_picked_count = 0
+-%}
+
+{%- comment -%} Pass 1: available matches {%- endcomment -%}
+{%- for reco in products -%}
+  {%- liquid
+    if mm_picked_count >= mm_limit
+      break
+    endif
+    if reco.id == mm_current.id
+      continue
+    endif
+    assign id_token = ',' | append: reco.id | append: ','
+    if mm_picked_ids contains id_token
+      continue
+    endif
+    unless reco.available
+      continue
+    endunless
+
+    assign reco_baby = false
+    assign reco_mother = false
+    for c in reco.collections
+      assign h = c.handle
+      if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+        assign reco_baby = true
+      endif
+      if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+        assign reco_mother = true
+      endif
+    endfor
+
+    assign mm_skip = false
+    if mm_src_strict == 'baby'
+      if reco_mother and reco_baby == false
+        assign mm_skip = true
+      endif
+    elsif mm_src_strict == 'mother'
+      if reco_baby and reco_mother == false
+        assign mm_skip = true
+      endif
+    endif
+    if mm_skip
+      continue
+    endif
+
+    assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
+    assign mm_picked_count = mm_picked_count | plus: 1
+  -%}
+{%- endfor -%}
+
+{%- comment -%} Pass 2: fill with unpublished-availability matches only if still short {%- endcomment -%}
+{%- if mm_picked_count < mm_limit -%}
+  {%- for reco in products -%}
+    {%- liquid
+      if mm_picked_count >= mm_limit
+        break
+      endif
+      if reco.id == mm_current.id
+        continue
+      endif
+      assign id_token = ',' | append: reco.id | append: ','
+      if mm_picked_ids contains id_token
+        continue
+      endif
+      if reco.available
+        continue
+      endif
+
+      assign reco_baby = false
+      assign reco_mother = false
+      for c in reco.collections
+        assign h = c.handle
+        if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+          assign reco_baby = true
+        endif
+        if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+          assign reco_mother = true
+        endif
+      endfor
+
+      assign mm_skip = false
+      if mm_src_strict == 'baby'
+        if reco_mother and reco_baby == false
+          assign mm_skip = true
+        endif
+      elsif mm_src_strict == 'mother'
+        if reco_baby and reco_mother == false
+          assign mm_skip = true
+        endif
+      endif
+      if mm_skip
+        continue
+      endif
+
+      assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
+      assign mm_picked_count = mm_picked_count | plus: 1
+    -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- if mm_picked_count > 0 -%}
+  <div
+    class="products-grid mm-pdp-reco-grid column-{{ mm_picked_count | at_most: 4 }}"
+    data-products-to-show="{{ mm_picked_count }}"
+    data-mm-reco-count="{{ mm_picked_count }}"
+  >
+    {%- for reco in products -%}
+      {%- liquid
+        assign id_token = ',' | append: reco.id | append: ','
+        unless mm_picked_ids contains id_token
+          continue
+        endunless
+      -%}
+      <div class="product mm-pdp-reco-grid__item">
+        {% render 'mm-product-card',
+          product: reco,
+          section_id: section_id
+        %}
+      </div>
+    {%- endfor -%}
+  </div>
+{%- endif -%}
