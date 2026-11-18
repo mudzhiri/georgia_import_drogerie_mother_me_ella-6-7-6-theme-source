@@ -26,6 +26,10 @@
   else
     assign bridge = t | append: '.bridge' | t
   endif
+  # Decode stored &amp; once before | escape (avoids visible "MOTHER &amp; ME").
+  if bridge contains '&amp;' or bridge contains '&#38;'
+    assign bridge = bridge | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
 
   if section.settings.process_heading != blank
     assign process_heading = section.settings.process_heading
