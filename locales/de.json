@@ -1192,6 +1192,8 @@
       "error_email": "Bitte eine gültige geschäftliche E-Mail-Adresse angeben.",
       "email_subject": "B2B — MOTHER & ME",
       "nav_label": "Für Unternehmen",
+      "cards_heading": "Anfrageart wählen",
+      "selection_prefix": "Gewählte Anfrageart:",
       "fields": {
         "company": "Firma",
         "contact_name": "Ansprechpartner",
@@ -1207,26 +1209,26 @@
         "optional": "(optional)"
       },
       "types": {
-        "supplier": "Lieferant werden",
-        "reseller": "Wiederverkauf oder Großbestellung",
-        "distribution": "Vertrieb Deutschland ↔ Georgien",
-        "other": "Andere geschäftliche Zusammenarbeit"
+        "supplier": "Produkte als Lieferant anbieten",
+        "reseller": "Produkte gewerblich einkaufen",
+        "distribution": "Vertriebspartnerschaft Deutschland–Georgien",
+        "other": "Andere Kooperation anfragen"
       },
       "cards": {
         "supplier": {
-          "title": "Lieferant werden",
-          "text": "Wenn Sie Produkte für unser Sortiment anbieten möchten, senden Sie kurze Informationen zu Firma und Kategorien."
+          "title": "Produkte als Lieferant anbieten",
+          "text": "Sie bieten uns Ihre Produkte für unser Sortiment an. Senden Sie kurze Informationen zu Firma und Kategorien."
         },
         "reseller": {
-          "title": "Wiederverkauf oder Großbestellung",
-          "text": "Bei Interesse an Einzel- oder Großhandel beschreiben Sie Ihren Bedarf. Preise und Konditionen nur individuell."
+          "title": "Produkte gewerblich einkaufen",
+          "text": "Sie möchten Produkte von uns gewerblich oder als Großbestellung kaufen. Beschreiben Sie den Bedarf. Preise und Konditionen nur individuell — keine garantierten Händlerkonditionen."
         },
         "distribution": {
-          "title": "Vertrieb Deutschland ↔ Georgien",
-          "text": "Mögliche Zusammenarbeit zwischen Deutschland und Georgien wird auf Anfrage geprüft. Kein bestehendes Vertriebsnetz und keine Exklusivität."
+          "title": "Vertriebspartnerschaft Deutschland–Georgien",
+          "text": "Sie möchten eine mögliche Zusammenarbeit zwischen Deutschland und Georgien besprechen. Nur Anfrage — kein bestehendes Vertriebsnetz und keine Exklusivität."
         },
         "other": {
-          "title": "Andere geschäftliche Zusammenarbeit",
+          "title": "Andere Kooperation anfragen",
           "text": "Medien, Logistik, gemeinsame Projekte oder ein anderes Angebot — kurz beschreiben."
         }
       }

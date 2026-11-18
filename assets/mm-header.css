@@ -1899,3 +1899,28 @@ html.mm-sticky-header-on .mm-lang__dropdown {
     display: inline-flex;
   }
 }
+
+/* Mobile drawer B2B entry — same label/target as header + footer */
+.mm-drawer__business-link {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 10px 0;
+  color: var(--mm-biz-heading, #214d43);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.mm-drawer__business-link:hover,
+.mm-drawer__business-link:focus-visible {
+  color: #173b33;
+}
+
+.mm-drawer__business-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+  border-radius: 4px;
+}

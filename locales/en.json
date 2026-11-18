@@ -1192,6 +1192,8 @@
       "error_email": "Please enter a valid business email address.",
       "email_subject": "B2B — MOTHER & ME",
       "nav_label": "For business",
+      "cards_heading": "Choose an inquiry type",
+      "selection_prefix": "Selected inquiry type:",
       "fields": {
         "company": "Company",
         "contact_name": "Contact person",
@@ -1207,26 +1209,26 @@
         "optional": "(optional)"
       },
       "types": {
-        "supplier": "Become a supplier",
-        "reseller": "Resale or wholesale order",
-        "distribution": "Distribution Germany ↔ Georgia",
-        "other": "Other business cooperation"
+        "supplier": "Offer products as a supplier",
+        "reseller": "Buy products commercially",
+        "distribution": "Distribution partnership Germany–Georgia",
+        "other": "Other cooperation inquiry"
       },
       "cards": {
         "supplier": {
-          "title": "Become a supplier",
-          "text": "If you want to offer your products for our assortment, send brief company and category information."
+          "title": "Offer products as a supplier",
+          "text": "You offer your products for our assortment. Send brief company and category information."
         },
         "reseller": {
-          "title": "Resale or wholesale order",
-          "text": "For retail or wholesale purchase interest, describe your needs. Prices and terms are discussed individually only."
+          "title": "Buy products commercially",
+          "text": "You want to buy products from us for commercial or wholesale use. Describe your needs. Prices and terms are discussed individually only — no guaranteed dealer terms."
         },
         "distribution": {
-          "title": "Distribution Germany ↔ Georgia",
-          "text": "Possible cooperation between Germany and Georgia is considered on request. No existing sales network or exclusivity is implied."
+          "title": "Distribution partnership Germany–Georgia",
+          "text": "You want to discuss possible cooperation between Germany and Georgia. This is an inquiry only — no existing sales network or exclusivity is implied."
         },
         "other": {
-          "title": "Other business cooperation",
+          "title": "Other cooperation inquiry",
           "text": "Media, logistics, joint projects, or another proposal — briefly describe the idea."
         }
       }
