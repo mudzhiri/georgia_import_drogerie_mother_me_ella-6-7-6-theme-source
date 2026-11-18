@@ -306,6 +306,28 @@
             </button>
           </div>
         {%- endform -%}
+        <script>
+          (function () {
+            var form = document.getElementById({{ form_id | json }});
+            if (!form) return;
+            var msgRequired = {{ 'templates.contact.form.validation_required' | t | json }};
+            var msgEmail = {{ 'templates.contact.form.validation_email' | t | json }};
+            form.querySelectorAll('input, textarea').forEach(function (el) {
+              el.addEventListener('input', function () {
+                el.setCustomValidity('');
+              });
+              el.addEventListener('invalid', function () {
+                if (el.validity.valueMissing) {
+                  el.setCustomValidity(msgRequired);
+                } else if (el.validity.typeMismatch) {
+                  el.setCustomValidity(msgEmail);
+                } else {
+                  el.setCustomValidity('');
+                }
+              });
+            });
+          })();
+        </script>
       </div>
     </div>
   </div>
