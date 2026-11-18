@@ -12,16 +12,18 @@
   --mm-card-radius: 16px;
   --mm-card-duration: 200ms;
   --mm-card-ease: ease-out;
-  --mm-grid-img-pad: 16px;
-  --mm-grid-img-max: 100%;
   height: 100%;
 }
 
+.template-collection .productListing.productGrid .mm-card-media,
+.template-search .productListing .mm-card-media {
+  --mm-card-img-pad: 16px;
+}
+
 @media screen and (min-width: 768px) {
-  .template-collection .productListing.productGrid .mm-collection-card,
-  .template-search .productListing .mm-collection-card {
-    --mm-grid-img-pad: 24px;
-    --mm-grid-img-max: 80%;
+  .template-collection .productListing.productGrid .mm-card-media,
+  .template-search .productListing .mm-card-media {
+    --mm-card-img-pad: 24px;
   }
 }
 
@@ -72,28 +74,7 @@
   box-sizing: border-box;
 }
 
-.template-collection .productListing.productGrid .card-media > img,
-.template-collection .productListing.productGrid .card-media > video,
-.template-collection .productListing.productGrid .card-media > .placeholder-svg,
-.template-collection .productListing.productGrid .card-media > .mm-product-card-placeholder,
-.template-search .productListing .card-media > img,
-.template-search .productListing .card-media > video,
-.template-search .productListing .card-media > .placeholder-svg,
-.template-search .productListing .card-media > .mm-product-card-placeholder {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  width: min(var(--mm-grid-img-max, 100%), calc(100% - (2 * var(--mm-grid-img-pad, 16px))));
-  height: min(var(--mm-grid-img-max, 100%), calc(100% - (2 * var(--mm-grid-img-pad, 16px))));
-  max-width: min(var(--mm-grid-img-max, 100%), calc(100% - (2 * var(--mm-grid-img-pad, 16px))));
-  max-height: min(var(--mm-grid-img-max, 100%), calc(100% - (2 * var(--mm-grid-img-pad, 16px))));
-  margin: 0;
-  object-fit: contain;
-  object-position: center center;
-  transform: translate(-50%, -50%);
-}
+/* Image geometry: mm-product-card.css (.mm-collection-card .mm-card-media > img) */
 
 /* Front image always visible; hide broken loads */
 .template-collection .productListing.productGrid .card-media > img:first-of-type,

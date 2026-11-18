@@ -10,17 +10,19 @@
   --mm-reco-muted: #59665f;
   --mm-reco-accent: #214d43;
   --mm-reco-radius: 16px;
-  --mm-reco-img-pad: 16px;
-  --mm-reco-img-max: 80%;
   --mm-reco-ease: ease-out;
   --mm-reco-duration: 200ms;
 }
 
+.halo-recommendations-block .mm-card-media,
+.halo-recently-viewed-block .mm-card-media {
+  --mm-card-img-pad: 16px;
+}
+
 @media screen and (min-width: 768px) {
-  .halo-recommendations-block,
-  .halo-recently-viewed-block {
-    --mm-reco-img-pad: 24px;
-    --mm-reco-img-max: 78%;
+  .halo-recommendations-block .mm-card-media,
+  .halo-recently-viewed-block .mm-card-media {
+    --mm-card-img-pad: 24px;
   }
 }
 
@@ -127,6 +129,8 @@
   box-sizing: border-box;
 }
 
+/* Image geometry comes from mm-product-card.css (.mm-collection-card .mm-card-media > img).
+   Keep opacity/hover only here — do not reintroduce a second positioning model. */
 .halo-recommendations-block .card-media > img,
 .halo-recommendations-block .card-media > video,
 .halo-recommendations-block .card-media > .placeholder-svg,
@@ -135,19 +139,6 @@
 .halo-recently-viewed-block .card-media > video,
 .halo-recently-viewed-block .card-media > .placeholder-svg,
 .halo-recently-viewed-block .card-media > .mm-product-card-placeholder {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  max-width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  max-height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  margin: 0;
-  object-fit: contain;
-  object-position: center center;
-  transform: translate(-50%, -50%);
   opacity: 1;
 }
 

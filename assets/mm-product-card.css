@@ -14,8 +14,15 @@
 
 /* —— Media shell —— */
 .mm-card-media {
+  --mm-card-img-pad: 16px;
   position: relative;
   isolation: isolate;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-card-media {
+    --mm-card-img-pad: 24px;
+  }
 }
 
 .mm-product-card__media-wrap.mm-card-media {
@@ -27,24 +34,35 @@
   border-radius: 8px;
 }
 
-.mm-product-card .mm-card-media__link {
+.mm-product-card .mm-card-media__link,
+.mm-collection-card .mm-card-media > .card-link {
   position: absolute;
   inset: 0;
   display: block;
-  z-index: 1;
+  z-index: 2;
   text-decoration: none;
 }
 
+/*
+ * Centered contain — must use top/left 50% WITH translate(-50%,-50%).
+ * Do not mix with top/left 5% (that combo shifts images into the top-left corner).
+ */
 .mm-product-card .mm-card-media__image,
 .mm-product-card .mm-product-card__image,
-.mm-collection-card .mm-card-media img:first-of-type {
+.mm-collection-card .mm-card-media > img {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 90%;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  width: calc(100% - (2 * var(--mm-card-img-pad)));
+  height: calc(100% - (2 * var(--mm-card-img-pad)));
+  max-width: calc(100% - (2 * var(--mm-card-img-pad)));
+  max-height: calc(100% - (2 * var(--mm-card-img-pad)));
+  margin: 0;
   object-fit: contain;
-  object-position: center;
+  object-position: center center;
+  transform: translate(-50%, -50%);
   transition: opacity var(--mm-card-duration) var(--mm-card-ease);
 }
 
