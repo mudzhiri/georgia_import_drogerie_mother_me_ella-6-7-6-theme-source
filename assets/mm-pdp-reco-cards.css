@@ -162,6 +162,15 @@
   min-height: 0;
 }
 
+/* Skeleton must not show locale placeholder titles ("მაგალითის პროდუქტი"). */
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton .card-title,
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton .card-information,
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton .product-title,
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton .card-vendor,
+.halo-recommendations-block .mm-pdp-reco-grid--skeleton .price {
+  visibility: hidden !important;
+}
+
 .halo-recommendations-block.mm-pdp-reco--loading .halo-block-content {
   min-height: 0;
 }

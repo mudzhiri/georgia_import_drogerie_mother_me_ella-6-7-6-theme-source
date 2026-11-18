@@ -1955,7 +1955,13 @@
                         }
                     })
                     .catch(function(e) {
-                        if (e && e.name === 'AbortError') return;
+                        if (e && e.name === 'AbortError') {
+                            // Superseded request: active fetch keeps loading. Orphan abort: clear skeleton.
+                            if (myRequest === requestId) {
+                                $this.classList.remove('mm-pdp-reco--loading');
+                            }
+                            return;
+                        }
                         if (myRequest !== requestId) return;
                         hideReco($this);
                     });
@@ -1968,10 +1974,7 @@
                 return;
             }
 
-            var config = { threshold: 0 };
-            var handleIntersection = function(entries, observer) {
-                if (!entries[0].isIntersecting) return;
-                observer.unobserve($this);
+            var startFetch = function() {
                 var currentId = $this.getAttribute('data-product-id') || productId;
                 if (currentId && $this.dataset.url && $this.dataset.url.indexOf('product_id=') !== -1) {
                     $this.dataset.url = $this.dataset.url.replace(/product_id=\d+/, 'product_id=' + currentId);
@@ -1979,7 +1982,17 @@
                 fetchRecommendations();
             };
 
-            new IntersectionObserver(handleIntersection, config).observe($this);
+            // Fetch as soon as the block exists — waiting for IO left the skeleton
+            // ("მაგალითის პროდუქტი") visible when the section title was on-screen but
+            // the observer never completed (drawer/overlay/timing).
+            startFetch();
+
+            // Safety: if still skeleton after 8s, hide rather than show fake products.
+            window.setTimeout(function() {
+                if ($this.classList.contains('mm-pdp-reco--loading') && !hasCards($this)) {
+                    hideReco($this);
+                }
+            }, 8000);
         },
 
         initVideoPopup: function (){
