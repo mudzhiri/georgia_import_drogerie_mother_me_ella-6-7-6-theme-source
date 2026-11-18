@@ -362,6 +362,16 @@
   display: block;
 }
 
+.mm-pdp-actions__icon--outline svg path {
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+.mm-pdp-actions__icon--filled svg path {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
 /* Beat theme `.icon { stroke: transparent }` — share glyph is stroke-only */
 .mm-pdp-actions__share {
   color: var(--mm-pdp-action-ink);
