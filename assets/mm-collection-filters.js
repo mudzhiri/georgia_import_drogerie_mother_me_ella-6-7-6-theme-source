@@ -19,21 +19,8 @@
     return el.id.replace(/^shopify-section-/, '');
   };
 
-  let scrollLockY = 0;
-  const setScrollLock = (lock) => {
-    const root = document.documentElement;
-    if (lock) {
-      if (root.classList.contains('mm-filters-scroll-lock')) return;
-      scrollLockY = window.scrollY || window.pageYOffset || 0;
-      root.classList.add('mm-filters-scroll-lock');
-      document.body.style.top = `-${scrollLockY}px`;
-    } else {
-      if (!root.classList.contains('mm-filters-scroll-lock')) return;
-      root.classList.remove('mm-filters-scroll-lock');
-      document.body.style.top = '';
-      window.scrollTo(0, scrollLockY);
-    }
-  };
+  // No body scroll lock (MM quality: panels must not lock page scroll).
+  const setScrollLock = () => {};
 
   const validatePrice = (form) => {
     if (!form) return true;
@@ -86,16 +73,6 @@
     url.search = params.toString();
     return url;
   };
-
-  const markBrokenCardImage = (event) => {
-    const img = event.target;
-    if (!img || img.tagName !== 'IMG') return;
-    if (!img.closest('.mm-collection-card, .productListing')) return;
-    img.setAttribute('data-mm-broken', '1');
-    img.removeAttribute('src');
-    img.removeAttribute('srcset');
-  };
-  document.addEventListener('error', markBrokenCardImage, true);
 
   class MmFilters {
     constructor(root) {
