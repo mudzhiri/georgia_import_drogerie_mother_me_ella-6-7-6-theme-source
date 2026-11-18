@@ -1,12 +1,13 @@
 {%- comment -%}
   MOTHER & ME — Related products grid (PDP).
-  Uses Shopify recommendations (intent=related), soft audience filter via
-  confirmed collection handles, then shared mm-product-card.
-  Accepts: products (array-like), limit, section_id, current_product
+  Shopify recommendations (intent=related) only — no custom engine.
+  Soft ranking: same product.type first, then audience-safe via known collection handles.
+  Accepts: products, limit, section_id, current_product
 {%- endcomment -%}
 {%- liquid
   assign mm_limit = limit | default: 4 | at_most: 4
   assign mm_current = current_product
+  assign mm_src_type = mm_current.type | strip
   assign mm_src_baby = false
   assign mm_src_mother = false
 
@@ -31,58 +32,20 @@
 
   assign mm_picked_ids = ','
   assign mm_picked_count = 0
+  assign mm_type_match_count = 0
 -%}
 
-{%- comment -%} Pass 1: available matches {%- endcomment -%}
-{%- for reco in products -%}
-  {%- liquid
-    if mm_picked_count >= mm_limit
-      break
-    endif
-    if reco.id == mm_current.id
-      continue
-    endif
-    assign id_token = ',' | append: reco.id | append: ','
-    if mm_picked_ids contains id_token
-      continue
-    endif
-    unless reco.available
-      continue
-    endunless
+{%- comment -%} Count same-type candidates in the Shopify pool {%- endcomment -%}
+{%- if mm_src_type != blank -%}
+  {%- for reco in products -%}
+    {%- if reco.id != mm_current.id and reco.type == mm_src_type -%}
+      {%- assign mm_type_match_count = mm_type_match_count | plus: 1 -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 
-    assign reco_baby = false
-    assign reco_mother = false
-    for c in reco.collections
-      assign h = c.handle
-      if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
-        assign reco_baby = true
-      endif
-      if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
-        assign reco_mother = true
-      endif
-    endfor
-
-    assign mm_skip = false
-    if mm_src_strict == 'baby'
-      if reco_mother and reco_baby == false
-        assign mm_skip = true
-      endif
-    elsif mm_src_strict == 'mother'
-      if reco_baby and reco_mother == false
-        assign mm_skip = true
-      endif
-    endif
-    if mm_skip
-      continue
-    endif
-
-    assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
-    assign mm_picked_count = mm_picked_count | plus: 1
-  -%}
-{%- endfor -%}
-
-{%- comment -%} Pass 2: fill with unpublished-availability matches only if still short {%- endcomment -%}
-{%- if mm_picked_count < mm_limit -%}
+{%- comment -%} Pass 1: available + same product type (when Shopify returns any) {%- endcomment -%}
+{%- if mm_src_type != blank and mm_type_match_count > 0 -%}
   {%- for reco in products -%}
     {%- liquid
       if mm_picked_count >= mm_limit
@@ -91,11 +54,14 @@
       if reco.id == mm_current.id
         continue
       endif
-      assign id_token = ',' | append: reco.id | append: ','
-      if mm_picked_ids contains id_token
+      unless reco.available
+        continue
+      endunless
+      if reco.type != mm_src_type
         continue
       endif
-      if reco.available
+      assign id_token = ',' | append: reco.id | append: ','
+      if mm_picked_ids contains id_token
         continue
       endif
 
@@ -110,7 +76,55 @@
           assign reco_mother = true
         endif
       endfor
+      assign mm_skip = false
+      if mm_src_strict == 'baby'
+        if reco_mother and reco_baby == false
+          assign mm_skip = true
+        endif
+      elsif mm_src_strict == 'mother'
+        if reco_baby and reco_mother == false
+          assign mm_skip = true
+        endif
+      endif
+      if mm_skip
+        continue
+      endif
 
+      assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
+      assign mm_picked_count = mm_picked_count | plus: 1
+    -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment -%} Pass 2: audience-safe available fill only when no same-type pool {%- endcomment -%}
+{%- if mm_picked_count == 0 -%}
+  {%- for reco in products -%}
+    {%- liquid
+      if mm_picked_count >= mm_limit
+        break
+      endif
+      if reco.id == mm_current.id
+        continue
+      endif
+      unless reco.available
+        continue
+      endunless
+      assign id_token = ',' | append: reco.id | append: ','
+      if mm_picked_ids contains id_token
+        continue
+      endif
+
+      assign reco_baby = false
+      assign reco_mother = false
+      for c in reco.collections
+        assign h = c.handle
+        if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+          assign reco_baby = true
+        endif
+        if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+          assign reco_mother = true
+        endif
+      endfor
       assign mm_skip = false
       if mm_src_strict == 'baby'
         if reco_mother and reco_baby == false
