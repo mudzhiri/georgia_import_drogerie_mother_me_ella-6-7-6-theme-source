@@ -11,7 +11,12 @@
   "sections": {
     "mm_contact": {
       "type": "mm-contact",
-      "settings": {}
+      "settings": {
+        "heading": "",
+        "intro": "",
+        "contact_email": "info@motherandme.ge",
+        "facebook_url": "https://www.facebook.com/profile.php?id=61596296087284"
+      }
     }
   },
   "order": [

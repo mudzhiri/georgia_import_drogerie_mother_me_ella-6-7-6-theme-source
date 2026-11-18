@@ -264,6 +264,10 @@ class VariantSelects extends HTMLElement {
                         else {
                             this.item.find('[data-inventory] .productView-info-value').text(window.inventory_text.inStock);
                         }
+                    } else if (this.currentVariant?.available) {
+                        // Tracked inventory at 0 can still be sellable (continue / untracked qty).
+                        // Never claim "out of stock" while the variant remains available.
+                        this.item.find('[data-inventory] .productView-info-value').text(window.inventory_text.inStock);
                     } else {
                         this.item.find('[data-inventory] .productView-info-value').text(window.inventory_text.outOfStock);
                     }
@@ -325,7 +329,11 @@ class VariantSelects extends HTMLElement {
             }
             quantityInput.closest('quantity-input').addClass('disabled');
 
-            if(hotStock.length > 0) hotStock.addClass('is-hiden');
+            if(hotStock.length > 0) {
+                hotStock.addClass('is-hide');
+                const hotStockTextUnavailable = hotStock.find('.hotStock-text');
+                if (hotStockTextUnavailable.length) hotStockTextUnavailable.text('');
+            }
         } else {
             if (disable) {
                 var text = window.variantStrings.soldOut,
@@ -1094,24 +1102,37 @@ customElements.define("step-indicator", StepIndicator);
 
 function hotStock(inventoryQuantity) {
     const productView = document.querySelector('.productView');
+    if (!productView) return;
     const hotStock = productView.querySelector('.productView-hotStock');
     if(hotStock) {
         let hotStockText = hotStock.querySelector('.hotStock-text'),
             maxStock = parseFloat(hotStock.dataset.hotStock),
+            qty = parseFloat(inventoryQuantity),
             textStock;
 
-        if(inventoryQuantity > 0 && inventoryQuantity <= maxStock){
-            hotStock.matches('.style-2') ? textStock  = window.inventory_text.hotStock2.replace('[inventory]', inventoryQuantity) : textStock  = window.inventory_text.hotStock.replace('[inventory]', inventoryQuantity);
-            if (hotStockText) hotStockText.innerHTML = textStock;
+        // Never show scarcity for 0 / NaN / untracked quantities.
+        if(Number.isFinite(qty) && qty > 0 && Number.isFinite(maxStock) && qty <= maxStock){
+            hotStock.matches('.style-2') ? textStock  = window.inventory_text.hotStock2.replace('[inventory]', qty) : textStock  = window.inventory_text.hotStock.replace('[inventory]', qty);
+            if (hotStockText) {
+                hotStockText.textContent = textStock;
+                hotStockText.removeAttribute('hidden');
+            }
             hotStock.classList.remove('is-hide');
+            if (hotStock.matches('.style-2')) {
+                const invenProgress = qty / maxStock * 100,
+                    hotStockProgressItem = hotStock.querySelector('.hotStock-progress-item');
+                if (hotStockProgressItem) hotStockProgressItem.style.width = `${invenProgress}%`;
+            }
         } else {
+            if (hotStockText) {
+                hotStockText.textContent = '';
+                hotStockText.setAttribute('hidden', 'hidden');
+            }
             hotStock.classList.add('is-hide');
-        }
-
-        if (hotStock.matches('.style-2')) {
-            const invenProgress = inventoryQuantity / maxStock * 100,
-                hotStockProgressItem = hotStock.querySelector('.hotStock-progress-item');
-            if (hotStockProgressItem) hotStockProgressItem.style.width = `${invenProgress}%`;
+            if (hotStock.matches('.style-2')) {
+                const hotStockProgressItem = hotStock.querySelector('.hotStock-progress-item');
+                if (hotStockProgressItem) hotStockProgressItem.style.width = '0%';
+            }
         }
     }
 }

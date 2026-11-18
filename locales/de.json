@@ -184,6 +184,9 @@
       "account": "Konto",
       "collections": "Kategorien"
     },
+    "popup": {
+      "warning_placeholder": "Hinweis"
+    },
     "categories": "Kategorien"
   },
   "brands_page": {
@@ -255,7 +258,8 @@
       "newer_post": "Newer post",
       "prev_post": "Prev post",
       "next_post": "Next post",
-      "tags": "Tags:"
+      "tags": "Tags:",
+      "empty": "Noch keine Blogbeiträge."
     }
   },
   "onboarding": {
@@ -417,7 +421,30 @@
       "image_counter": "{{ current }} / {{ total }}",
       "related_products": "Ähnliche Produkte",
       "recently_viewed_products": "Zuletzt angesehen",
-      "share_copied": "Link kopiert"
+      "share_copied": "Link kopiert",
+      "info_accordion": {
+        "description": "Beschreibung",
+        "application": "Anwendung",
+        "ingredients": "Inhaltsstoffe / Materialien",
+        "warnings": "Hinweise & Alter",
+        "shipping_returns": "Lieferung & Rückgabe",
+        "shipping_short": "Details zu den Lieferbedingungen findest du in den AGB.",
+        "returns_short": "Details zur Rückgabe findest du in den AGB.",
+        "shipping_link": "Lieferbedingungen",
+        "returns_link": "Rückgabebedingungen",
+        "expand": "Öffnen",
+        "collapse": "Schließen"
+      },
+      "atc": {
+        "adding": "Wird hinzugefügt...",
+        "added": "Hinzugefügt",
+        "success": "Produkt wurde dem Warenkorb hinzugefügt."
+      },
+      "trust": {
+        "free_shipping": "Kostenloser Versand ab 200 ₾",
+        "order_pickup": "Online bestellen oder abholen",
+        "bank_transfer": "Zahlung per Überweisung"
+      }
     },
     "modal": {
       "label": "მედია გალერეა"
@@ -463,7 +490,13 @@
         "email": "ელფოსტა",
         "phone": "ტელეფონი",
         "address": "მისამართი",
-        "aside": "Kontaktinformationen"
+        "aside": "Kontaktinformationen",
+        "facebook": "Facebook",
+        "address_note": "Diese Adresse ist ein Abholpunkt in Tiflis, kein offenes Ladengeschäft. Die Abholung ist kostenlos. Bestellungen sind in der Regel innerhalb von 24 Stunden nach Zahlungsbestätigung bereit.",
+        "shipping": "Lieferung",
+        "shipping_note": "Lieferung in Georgien: 8 ₾; kostenlos ab 200 ₾. Zahlung per Überweisung.",
+        "order_hint": "Wenn du zu einer bestimmten Bestellung schreibst, gib bitte die Bestellnummer an. Quittungen oder Bankdaten sind im Formular nicht nötig.",
+        "about_link": "Mehr über uns"
       },
       "form": {
         "name": "სახელი",
@@ -474,8 +507,11 @@
         "send": "გაგზავნა",
         "post_success": "გმადლობთ შეტყობინებისთვის.",
         "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:",
-        "required": "Pflichtfeld"
-      }
+        "required": "Pflichtfeld",
+        "validation_required": "Dieses Feld ist erforderlich.",
+        "validation_email": "Bitte gib eine gültige E-Mail-Adresse ein."
+      },
+      "intro": "Fragen zu Produkt, Bestellung oder Abholung? Schreib uns über das Formular, per E-Mail oder Facebook."
     },
     "404": {
       "title": "გვერდი ვერ მოიძებნა",
@@ -1078,6 +1114,49 @@
       "a_returns": "თუ პროდუქტი დაზიანებულია ან არასწორია, დაგვიკავშირდით 7 დღის განმავლობაში შეკვეთის მიღებიდან. გახსნილი ჰიგიენური პროდუქტები დაბრუნებას არ ექვემდებარება.",
       "q_origin": "საიდან მოდის პროდუქტები?",
       "a_origin": "MOTHER & ME გთავაზობს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის."
+    },
+    "category_pills": {
+      "heading": "Pflege & Hygiene"
+    }
+  },
+  "mm_badges": {
+    "sold_out": "Ausverkauft",
+    "sale": "Sale"
+  },
+  "mm_pages": {
+    "about": {
+      "eyebrow": "MOTHER & ME",
+      "heading": "Über uns",
+      "intro": "MOTHER & ME bietet ausgewählte Pflege- und Alltagsprodukte für Babys, Kinder und Mütter in Georgien — aus Deutschland bezogen.",
+      "image_alt": "Produkte aus dem MOTHER & ME Sortiment",
+      "who_heading": "Was ist MOTHER & ME?",
+      "who_text": "Wir sind ein Online-Shop in Georgien. Unser Sortiment umfasst Pflege- und Hygieneprodukte für Kinder und Mütter, die wir aus Deutschland beziehen und hier anbieten. Das bedeutet Import aus Deutschland — nicht, dass jedes Produkt in Deutschland hergestellt wird.",
+      "why_heading": "Für wen wir da sind",
+      "why_text": "Unser Ziel: sorgfältig ausgewählte Pflege- und Hygieneprodukte aus Deutschland in Georgien leicht auffindbar zu machen — für Babys, Kinder und Mütter, mit transparenten Preisen in Lari und einem klaren Bestellablauf.",
+      "select_heading": "So wählen wir Produkte aus",
+      "select_text": "Das Sortiment orientiert sich am täglichen Pflege- und Hygienebedarf: Hautpflege, Bad & Hygiene, Ernährung, Zubehör sowie Produkte für Schwangerschaft, Stillzeit und Gesicht & Körper. Markennamen auf der Seite spiegeln das Sortiment wider und bedeuten keine offizielle Partnerschaft.",
+      "brands_note": "MOTHER & ME ist kein offizieller Vertreter von dm oder anderen Marken in Georgien.",
+      "flow_heading": "Von der Bestellung zur Lieferung",
+      "flow_step_1": "Produkte wählen und in den Warenkorb legen. Preise sind in Lari (₾) angegeben.",
+      "flow_step_2": "Bestellung online abschließen. Mit dem Checkout wird die Bestellung angelegt.",
+      "flow_step_3": "Zahlung per Überweisung. Bitte die Bestellnummer im Verwendungszweck angeben.",
+      "flow_step_4": "Bearbeitung und Versand bzw. Vorbereitung zur Abholung starten nach Zahlungsbestätigung.",
+      "ship_heading": "Lieferung & Abholung",
+      "ship_text": "Lieferung in Georgien: 8 ₾; kostenlos ab 200 ₾. Abholung in Tiflis ist kostenlos — Adresse auf der Kontaktseite. Abholbestellungen sind in der Regel innerhalb von 24 Stunden nach Zahlungsbestätigung bereit.",
+      "cta_nav": "Nächste Schritte",
+      "cta_kids": "Für Kinder",
+      "cta_mamas": "Für Mütter",
+      "cta_all": "Alle Produkte",
+      "cta_contact": "Kontakt",
+      "pay_heading": "So funktioniert die Überweisung",
+      "pay_step_1": "Bestellung auf der Website abschließen.",
+      "pay_step_2": "Du erhältst Zahlungsanweisung und Bestellnummer.",
+      "pay_step_3": "Überweise den genauen Betrag in Lari und gib die Bestellnummer im Verwendungszweck an.",
+      "pay_step_4": "Nach Zahlungsbestätigung beginnen wir mit der Bearbeitung.",
+      "pay_note": "Kontodaten stehen in der Anweisung nach der Bestellung. Auf dieser Seite veröffentlichen wir keine Bankdaten.",
+      "policies_nav": "Ausführliche Bedingungen",
+      "policies_shipping": "Lieferbedingungen",
+      "policies_refund": "Rückgabebedingungen"
     }
   }
 }
