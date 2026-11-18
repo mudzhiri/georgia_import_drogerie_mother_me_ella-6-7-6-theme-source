@@ -10,17 +10,19 @@
   --mm-reco-muted: #59665f;
   --mm-reco-accent: #214d43;
   --mm-reco-radius: 16px;
-  --mm-reco-img-pad: 16px;
-  --mm-reco-img-max: 80%;
   --mm-reco-ease: ease-out;
   --mm-reco-duration: 200ms;
 }
 
+.halo-recommendations-block .mm-card-media,
+.halo-recently-viewed-block .mm-card-media {
+  --mm-card-img-pad: 20px;
+}
+
 @media screen and (min-width: 768px) {
-  .halo-recommendations-block,
-  .halo-recently-viewed-block {
-    --mm-reco-img-pad: 24px;
-    --mm-reco-img-max: 78%;
+  .halo-recommendations-block .mm-card-media,
+  .halo-recently-viewed-block .mm-card-media {
+    --mm-card-img-pad: 28px;
   }
 }
 
@@ -127,6 +129,8 @@
   box-sizing: border-box;
 }
 
+/* Image geometry comes from mm-product-card.css (.mm-collection-card .mm-card-media > img).
+   Keep opacity/hover only here — do not reintroduce a second positioning model. */
 .halo-recommendations-block .card-media > img,
 .halo-recommendations-block .card-media > video,
 .halo-recommendations-block .card-media > .placeholder-svg,
@@ -135,19 +139,6 @@
 .halo-recently-viewed-block .card-media > video,
 .halo-recently-viewed-block .card-media > .placeholder-svg,
 .halo-recently-viewed-block .card-media > .mm-product-card-placeholder {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  right: auto;
-  bottom: auto;
-  width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  max-width: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  max-height: min(var(--mm-reco-img-max), calc(100% - (2 * var(--mm-reco-img-pad))));
-  margin: 0;
-  object-fit: contain;
-  object-position: center center;
-  transform: translate(-50%, -50%);
   opacity: 1;
 }
 
@@ -229,64 +220,33 @@
   text-align: left;
 }
 
+/* Brand/title/footer: shared MM card rules in mm-product-card.css */
 .halo-recommendations-block .mm-collection-card__brand,
 .halo-recently-viewed-block .mm-collection-card__brand {
-  margin: 0 0 4px;
-  font-size: 12px;
-  line-height: 1.35;
-  font-weight: 400;
   color: var(--mm-reco-muted);
-  text-transform: none;
 }
 
 .halo-recommendations-block .mm-collection-card__title,
 .halo-recommendations-block .mm-collection-card .card-title.mm-collection-card__title,
 .halo-recently-viewed-block .mm-collection-card__title,
 .halo-recently-viewed-block .mm-collection-card .card-title.mm-collection-card__title {
-  display: -webkit-box;
-  overflow: hidden;
-  margin: 0;
-  min-height: calc(1.4em * 3);
-  font-size: 15px;
-  line-height: 1.4;
-  font-weight: 400;
-  text-align: left;
-  text-transform: none;
   color: var(--mm-reco-ink);
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-
-@media screen and (min-width: 768px) {
-  .halo-recommendations-block .mm-collection-card__title,
-  .halo-recommendations-block .mm-collection-card .card-title.mm-collection-card__title,
-  .halo-recently-viewed-block .mm-collection-card__title,
-  .halo-recently-viewed-block .mm-collection-card .card-title.mm-collection-card__title {
-    font-size: 16px;
-  }
+  font-weight: 600;
 }
 
 .halo-recommendations-block .mm-collection-card__footer,
 .halo-recently-viewed-block .mm-collection-card__footer {
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px 12px;
+  flex-direction: column;
+  gap: 10px;
   margin-top: auto;
-  padding-top: 12px;
-  min-height: 3.25rem;
+  padding-top: 8px;
   text-align: left;
 }
 
 .halo-recommendations-block .mm-collection-card__price,
 .halo-recently-viewed-block .mm-collection-card__price {
   margin: 0;
-  flex: 1 1 auto;
   min-width: 0;
   text-align: left;
 }

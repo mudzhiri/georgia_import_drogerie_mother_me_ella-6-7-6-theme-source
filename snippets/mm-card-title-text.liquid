@@ -1,0 +1,86 @@
+{%- comment -%}
+  Card-only title + vendor for MM product cards.
+  Shows vendor as a quiet line; strips an exact leading vendor match from the
+  displayed title only. Never mutates the product in Shopify.
+  If stripping would leave nothing useful, keeps the full title and hides vendor.
+
+  Accepts:
+  - product {Object}
+  - url {String} product URL
+  - title_class {String} CSS class for the title link/heading text
+  - vendor_class {String} CSS class for the vendor paragraph
+  - heading_class {String} optional wrapper heading class
+{%- endcomment -%}
+{%- liquid
+  assign mm_title_full = product.title | strip
+  assign mm_title_display = mm_title_full
+  assign mm_vendor_name = product.vendor | strip
+  assign mm_show_vendor = false
+  assign mm_card_url = url | default: product.url
+
+  if mm_vendor_name != blank
+    assign mm_show_vendor = true
+    assign mm_vendor_len = mm_vendor_name | size
+    assign mm_vendor_down = mm_vendor_name | downcase
+    assign mm_title_down = mm_title_full | downcase
+
+    if mm_title_down == mm_vendor_down
+      assign mm_show_vendor = false
+    elsif mm_title_full.size > mm_vendor_len
+      assign mm_title_prefix = mm_title_full | slice: 0, mm_vendor_len
+      assign mm_prefix_down = mm_title_prefix | downcase
+      if mm_prefix_down == mm_vendor_down
+        assign mm_rest_len = mm_title_full.size | minus: mm_vendor_len
+        assign mm_rest = mm_title_full | slice: mm_vendor_len, mm_rest_len | strip
+        if mm_rest != blank
+          assign mm_lead = mm_rest | slice: 0, 1
+          if mm_lead == '-' or mm_lead == '–' or mm_lead == '—' or mm_lead == ':' or mm_lead == '|'
+            assign mm_rest = mm_rest | slice: 1, mm_rest.size | strip
+          endif
+        endif
+        if mm_rest != blank
+          assign mm_title_display = mm_rest
+        else
+          assign mm_title_display = mm_title_full
+          assign mm_show_vendor = false
+        endif
+      endif
+    endif
+  endif
+
+  if title_class == blank
+    assign title_class = 'mm-product-card__title-link'
+  endif
+  if vendor_class == blank
+    assign vendor_class = 'mm-product-card__vendor'
+  endif
+-%}
+{%- if mm_show_vendor -%}
+  <p class="{{ vendor_class }}">
+    <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+    <span class="mm-card-vendor-text">{{ mm_vendor_name | escape }}</span>
+  </p>
+{%- endif -%}
+{%- if heading_class != blank -%}
+  <h3 class="{{ heading_class }}">
+    <a
+      class="{{ title_class }}"
+      href="{{ mm_card_url }}"
+      title="{{ mm_title_full | escape }}"
+      aria-label="{{ mm_title_full | escape }}"
+      data-product-title="{{ mm_title_full | escape }}"
+      data-product-url="{{ mm_card_url }}"
+    >{{ mm_title_display | escape }}</a>
+  </h3>
+{%- else -%}
+  <h3 class="mm-product-card__title">
+    <a
+      class="{{ title_class }}"
+      href="{{ mm_card_url }}"
+      title="{{ mm_title_full | escape }}"
+      aria-label="{{ mm_title_full | escape }}"
+      data-product-title="{{ mm_title_full | escape }}"
+      data-product-url="{{ mm_card_url }}"
+    >{{ mm_title_display | escape }}</a>
+  </h3>
+{%- endif -%}

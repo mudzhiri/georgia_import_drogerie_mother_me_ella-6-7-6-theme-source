@@ -1,22 +1,7 @@
 /*
  * ------------------------------------------------------------
- * IMPORTANT: The contents of this file are auto-generated.
- *
- * This file may be updated by the Shopify admin theme editor
- * or related systems. Please exercise caution as any changes
- * made to this file may be overwritten.
- * ------------------------------------------------------------
- */
-/*
- * ------------------------------------------------------------
  * MOTHER & ME — collections index (/collections)
- * Demo Ella blocks removed; editor-controlled MM cards only.
- * ------------------------------------------------------------
- */
-/*
- * ------------------------------------------------------------
- * MOTHER & ME — collections index (/collections)
- * Demo Ella blocks removed; editor-controlled MM cards only.
+ * Canonical groups: ბავშვი + დედა (no duplicate ბავშვები entry).
  * ------------------------------------------------------------
  */
 {
@@ -34,55 +19,35 @@
           "type": "collection",
           "settings": {
             "collection": "ბავშვი",
-            "label": ""
-          }
-        },
-        "col_abazana": {
-          "type": "collection",
-          "settings": {
-            "collection": "აბაზანა-და-რეცხვა",
-            "label": ""
+            "label": "ყველა ბავშვის პროდუქტი"
           }
         },
         "col_kanis": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვის-კანის-მოვლა",
-            "label": ""
+            "label": "კანის მოვლა"
+          }
+        },
+        "col_abazana": {
+          "type": "collection",
+          "settings": {
+            "collection": "აბაზანა-და-რეცხვა",
+            "label": "აბაზანა და ჰიგიენა"
           }
         },
         "col_kveba": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვის-კვება",
-            "label": ""
-          }
-        },
-        "group_bavshebi": {
-          "type": "group",
-          "settings": {
-            "title": "ბავშვები"
-          }
-        },
-        "col_bavshebi": {
-          "type": "collection",
-          "settings": {
-            "collection": "ბავშვები",
-            "label": ""
+            "label": "კვება"
           }
         },
         "col_toys": {
           "type": "collection",
           "settings": {
             "collection": "სათამაშოები-და-აქსესუარები",
-            "label": ""
-          }
-        },
-        "col_deo": {
-          "type": "collection",
-          "settings": {
-            "collection": "დეოდორანტები",
-            "label": ""
+            "label": "სათამაშოები და აქსესუარები"
           }
         },
         "group_deda": {
@@ -95,53 +60,58 @@
           "type": "collection",
           "settings": {
             "collection": "დედა",
-            "label": ""
+            "label": "ყველა დედის პროდუქტი"
           }
         },
         "col_lact": {
           "type": "collection",
           "settings": {
             "collection": "ძუძუთი-კვება-და-ორსულობა",
-            "label": ""
+            "label": "ორსულობა და ლაქტაცია"
           }
         },
         "col_face": {
           "type": "collection",
           "settings": {
             "collection": "სახის-მოვლა",
-            "label": ""
+            "label": "სახის მოვლა"
           }
         },
         "col_body": {
           "type": "collection",
           "settings": {
             "collection": "სხეულის-მოვლა",
-            "label": ""
+            "label": "სხეულის მოვლა"
+          }
+        },
+        "col_deo": {
+          "type": "collection",
+          "settings": {
+            "collection": "დეოდორანტები",
+            "label": "დეოდორანტები"
           }
         },
         "col_makeup": {
           "type": "collection",
           "settings": {
             "collection": "მაკიაჟი",
-            "label": ""
+            "label": "დეკორატიული კოსმეტიკა"
           }
         }
       },
       "block_order": [
         "group_bavshvi",
         "col_bavshvi",
-        "col_abazana",
         "col_kanis",
+        "col_abazana",
         "col_kveba",
-        "group_bavshebi",
-        "col_bavshebi",
         "col_toys",
-        "col_deo",
         "group_deda",
         "col_deda",
         "col_lact",
         "col_face",
         "col_body",
+        "col_deo",
         "col_makeup"
       ],
       "settings": {

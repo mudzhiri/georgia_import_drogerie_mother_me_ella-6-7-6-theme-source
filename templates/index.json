@@ -29,23 +29,7 @@
           "type": "pill",
           "settings": {
             "collection": "ბავშვი",
-            "label": "",
-            "link": ""
-          }
-        },
-        "pill_kids": {
-          "type": "pill",
-          "settings": {
-            "collection": "ბავშვები",
-            "label": "",
-            "link": ""
-          }
-        },
-        "pill_mama": {
-          "type": "pill",
-          "settings": {
-            "collection": "დედა",
-            "label": "",
+            "label": "ბავშვი",
             "link": ""
           }
         },
@@ -53,7 +37,7 @@
           "type": "pill",
           "settings": {
             "collection": "ბავშვის-კანის-მოვლა",
-            "label": "",
+            "label": "კანის მოვლა",
             "link": ""
           }
         },
@@ -61,7 +45,7 @@
           "type": "pill",
           "settings": {
             "collection": "აბაზანა-და-რეცხვა",
-            "label": "",
+            "label": "აბაზანა და ჰიგიენა",
             "link": ""
           }
         },
@@ -69,7 +53,7 @@
           "type": "pill",
           "settings": {
             "collection": "ბავშვის-კვება",
-            "label": "",
+            "label": "კვება",
             "link": ""
           }
         },
@@ -77,7 +61,15 @@
           "type": "pill",
           "settings": {
             "collection": "სათამაშოები-და-აქსესუარები",
-            "label": "",
+            "label": "სათამაშოები და აქსესუარები",
+            "link": ""
+          }
+        },
+        "pill_mama": {
+          "type": "pill",
+          "settings": {
+            "collection": "დედა",
+            "label": "დედა",
             "link": ""
           }
         },
@@ -85,7 +77,7 @@
           "type": "pill",
           "settings": {
             "collection": "ძუძუთი-კვება-და-ორსულობა",
-            "label": "",
+            "label": "ორსულობა და ლაქტაცია",
             "link": ""
           }
         },
@@ -93,7 +85,7 @@
           "type": "pill",
           "settings": {
             "collection": "სახის-მოვლა",
-            "label": "",
+            "label": "სახის მოვლა",
             "link": ""
           }
         },
@@ -101,7 +93,7 @@
           "type": "pill",
           "settings": {
             "collection": "სხეულის-მოვლა",
-            "label": "",
+            "label": "სხეულის მოვლა",
             "link": ""
           }
         },
@@ -109,7 +101,7 @@
           "type": "pill",
           "settings": {
             "collection": "დეოდორანტები",
-            "label": "",
+            "label": "დეოდორანტები",
             "link": ""
           }
         },
@@ -117,19 +109,18 @@
           "type": "pill",
           "settings": {
             "collection": "მაკიაჟი",
-            "label": "",
+            "label": "დეკორატიული კოსმეტიკა",
             "link": ""
           }
         }
       },
       "block_order": [
         "pill_baby",
-        "pill_kids",
-        "pill_mama",
         "pill_skin",
         "pill_bath",
         "pill_feed",
         "pill_toys",
+        "pill_mama",
         "pill_lactation",
         "pill_face",
         "pill_body",

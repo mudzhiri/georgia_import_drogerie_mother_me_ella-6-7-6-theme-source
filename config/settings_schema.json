@@ -3134,6 +3134,17 @@
       },
       {
         "type": "header",
+        "content": "MOTHER & ME navigation"
+      },
+      {
+        "type": "checkbox",
+        "id": "mm_use_canonical_nav",
+        "label": "Use theme-local category navigation",
+        "default": true,
+        "info": "Renders the MM category tree (ბავშვი / დედა) instead of the shared Shopify menu main-header. Safe for the unpublished work theme."
+      },
+      {
+        "type": "header",
         "content": "t:settings_schema.general.settings.header__3.content"
       },
       {

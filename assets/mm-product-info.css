@@ -38,6 +38,134 @@
   border-radius: 2px;
 }
 
+/* Title row + subtle share */
+.mm-pdp-title-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 0 0 12px;
+}
+
+.mm-pdp-title-row .productView-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0 !important;
+}
+
+.mm-pdp-title-share-wrap {
+  position: relative;
+  flex: 0 0 auto;
+  margin-top: 2px;
+}
+
+.mm-pdp-title-share {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 8px 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--mm-i-ink, #214d43);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.2;
+  opacity: 0.72;
+  transition:
+    opacity 180ms ease,
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.mm-pdp-title-share:hover,
+.mm-pdp-title-share:focus-visible {
+  opacity: 1;
+  background: rgba(33, 77, 67, 0.06);
+  outline: none;
+}
+
+.mm-pdp-title-share:focus-visible {
+  outline: 2px solid var(--mm-i-ink, #214d43);
+  outline-offset: 2px;
+}
+
+.mm-pdp-title-share:active {
+  transform: scale(0.98);
+}
+
+.mm-pdp-title-share__icon {
+  display: inline-flex;
+  line-height: 0;
+}
+
+.mm-pdp-title-share__icon .icon-share,
+.mm-pdp-title-share__icon svg.icon-share {
+  width: 18px;
+  height: 18px;
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+.mm-pdp-title-share__icon .icon-share circle,
+.mm-pdp-title-share__icon .icon-share path,
+.mm-pdp-title-share__icon svg.icon-share circle,
+.mm-pdp-title-share__icon svg.icon-share path {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75;
+}
+
+.mm-pdp-title-share__label {
+  display: none;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-pdp-title-share__label {
+    display: inline;
+  }
+}
+
+.mm-pdp-title-share__toast {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  z-index: 2;
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--mm-i-ink, #214d43);
+  color: #fff;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(33, 77, 67, 0.18);
+  pointer-events: none;
+}
+
+.mm-pdp-title-share__toast[hidden] {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-pdp-title-share {
+    transition: none;
+  }
+
+  .mm-pdp-title-share:active {
+    transform: none;
+  }
+}
+
 /* Title — sole H1 */
 .halo-productView-right .productView-title {
   margin: 0 0 12px !important;

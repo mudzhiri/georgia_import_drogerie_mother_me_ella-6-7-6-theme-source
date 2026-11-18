@@ -289,7 +289,7 @@
   --mm-pdp-action-ink: #214d43;
   --mm-pdp-action-cream: #faf8f4;
   --mm-pdp-action-border: #c9d5cd;
-  --mm-pdp-action-heart: #c45c3e;
+  --mm-pdp-action-heart: #214d43;
   position: absolute;
   top: 12px;
   right: 12px;
@@ -362,14 +362,63 @@
   display: block;
 }
 
+.mm-pdp-actions__icon--outline svg path {
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+.mm-pdp-actions__icon--filled svg path {
+  fill: currentColor !important;
+  stroke: none !important;
+}
+
+/* Beat theme `.icon { stroke: transparent }` — share glyph is stroke-only */
+.mm-pdp-actions__share {
+  color: var(--mm-pdp-action-ink);
+  background: var(--mm-pdp-action-cream);
+  border-color: var(--mm-pdp-action-border);
+}
+
+.mm-pdp-actions__share .icon-share,
+.mm-pdp-actions__share svg.icon-share {
+  fill: none !important;
+  stroke: currentColor !important;
+  color: var(--mm-pdp-action-ink);
+}
+
+.mm-pdp-actions__share .icon-share circle,
+.mm-pdp-actions__share .icon-share path,
+.mm-pdp-actions__share svg.icon-share circle,
+.mm-pdp-actions__share svg.icon-share path {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75;
+}
+
 .mm-pdp-actions__wishlist .mm-pdp-actions__icon--filled {
   display: none;
 }
 
 .mm-pdp-actions__wishlist.wishlist-added {
   color: var(--mm-pdp-action-heart);
-  border-color: #e8c4ad;
-  background: #fff7f2;
+  border-color: var(--mm-pdp-action-ink);
+  background: #eaf1ec;
+}
+
+.mm-pdp-actions__wishlist.is-animating {
+  animation: mm-pdp-wishlist-pop 280ms ease;
+}
+
+@keyframes mm-pdp-wishlist-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-pdp-actions__wishlist.is-animating {
+    animation: none;
+  }
 }
 
 .mm-pdp-actions__wishlist.wishlist-added .mm-pdp-actions__icon--outline {

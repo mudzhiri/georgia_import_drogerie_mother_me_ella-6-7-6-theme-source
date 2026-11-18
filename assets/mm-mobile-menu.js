@@ -25,7 +25,7 @@
     if (!root) return;
     root.querySelectorAll('.menu-lv-1.is-open, .menu-lv-1.is-hidden, .menu-lv-1.d-none').forEach((item) => {
       item.classList.remove('is-open', 'is-hidden', 'd-none');
-      const trigger = item.querySelector(':scope > a.menu_mobile_link, :scope > a.menu-lv-1__action');
+      const trigger = item.querySelector(':scope > a.menu_mobile_link, :scope > .mm-cat-item__row .mm-cat-toggle');
       if (trigger) trigger.setAttribute('aria-expanded', 'false');
     });
   }
@@ -44,6 +44,7 @@
     root.setAttribute('aria-modal', 'true');
     root.setAttribute('aria-hidden', 'false');
     syncToggleAria();
+    enhanceMobileToggles();
     const closeBtn = root.querySelector('[data-menu-close-sidebar]');
     window.setTimeout(() => {
       (closeBtn || focusableIn(root)[0])?.focus();
@@ -71,31 +72,103 @@
     document.body.classList.remove('menu_open');
   }
 
-  // Accordion: toggle submenu in place (blocks Ella drill-down)
+  function ensureMobileToggle(item) {
+    if (!item || item.dataset.mmMobileToggle === '1') return;
+    const submenu = item.querySelector(':scope > .header__submenu, :scope > .list-menu--disclosure-1');
+    let anchor = item.querySelector(':scope > a.menu_mobile_link, :scope > a.menu-lv-1__action');
+    if (!submenu || !anchor) return;
+
+    let row = item.querySelector(':scope > .mm-cat-item__row');
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'mm-cat-item__row';
+      anchor.parentNode.insertBefore(row, anchor);
+      row.appendChild(anchor);
+    }
+
+    let toggle = row.querySelector('.mm-cat-toggle');
+    if (!toggle) {
+      toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'mm-cat-toggle';
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-haspopup', 'true');
+      const title = (anchor.textContent || '').trim();
+      toggle.setAttribute('aria-label', `${title} — ქვემენიუს გახსნა`);
+      toggle.innerHTML =
+        '<svg class="mm-cat-toggle__icon" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false"><path d="M1 1.5L6 6.5L11 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      row.appendChild(toggle);
+    }
+
+    /* Hide Ella caret inside the link — toggle button owns expand. */
+    const icon = anchor.querySelector('.icon-dropdown');
+    if (icon) icon.setAttribute('hidden', '');
+
+    toggle.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+      const willOpen = !item.classList.contains('is-open');
+      item.classList.remove('is-hidden', 'd-none');
+      item.classList.toggle('is-open', willOpen);
+      toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      const title = (anchor.textContent || '').trim();
+      toggle.setAttribute(
+        'aria-label',
+        willOpen ? `${title} — ქვემენიუს დახურვა` : `${title} — ქვემენიუს გახსნა`
+      );
+    });
+
+    item.dataset.mmMobileToggle = '1';
+  }
+
+  function enhanceMobileToggles() {
+    const root = drawer();
+    if (!root) return;
+    root.querySelectorAll('.menu-lv-1.dropdown').forEach(ensureMobileToggle);
+  }
+
+  /*
+   * Block Ella/theme.js from treating the parent category link as "expand only".
+   * Expand happens via .mm-cat-toggle; the link navigates.
+   */
   document.addEventListener(
     'click',
     (event) => {
       if (!MQ.matches) return;
+      const toggle = event.target.closest('#navigation-mobile .mm-cat-toggle');
+      if (toggle) {
+        event.preventDefault();
+        event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+        return;
+      }
       const trigger = event.target.closest('#navigation-mobile .menu_mobile_link');
       if (!trigger) return;
       if (trigger.classList.contains('list-menu__item--end')) return;
-      const parent = trigger.closest('.menu-lv-1, .menu-lv-2');
-      if (!parent || !parent.classList.contains('dropdown')) return;
-
-      event.preventDefault();
-      event.stopPropagation();
-      event.stopImmediatePropagation();
-
-      const willOpen = !parent.classList.contains('is-open');
-      parent.classList.remove('is-hidden', 'd-none');
-      parent.classList.toggle('is-open', willOpen);
-      trigger.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-      trigger.setAttribute('aria-haspopup', 'true');
+      const parent = trigger.closest('.menu-lv-1.dropdown, .menu-lv-2.dropdown');
+      if (!parent) return;
+      /* Allow navigation to the parent collection URL. */
     },
     true
   );
 
-  // Escape closes drawer
+  /* Stop theme.js expand-on-link handler for parents that have our toggle. */
+  document.addEventListener(
+    'click',
+    (event) => {
+      if (!MQ.matches) return;
+      const trigger = event.target.closest(
+        '#navigation-mobile .menu-lv-1.dropdown[data-mm-mobile-toggle="1"] > .mm-cat-item__row > a.menu_mobile_link'
+      );
+      if (!trigger) return;
+      /* Do not preventDefault — navigation should proceed. Stop theme expand. */
+      event.stopPropagation();
+      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+    },
+    true
+  );
+
   document.addEventListener('keydown', (event) => {
     if (!MQ.matches || !isOpen()) return;
     if (event.key === 'Escape') {
@@ -122,7 +195,6 @@
     }
   });
 
-  // Keep close via overlay (theme already binds); ensure Escape/focus still work
   document.addEventListener('click', (event) => {
     if (!MQ.matches || !isOpen()) return;
     if (event.target.closest('.background-overlay') && !event.target.closest('#navigation-mobile')) {

@@ -455,19 +455,6 @@
   font-weight: 600;
 }
 
-/* Body scroll lock while filter panel is open */
-html.mm-filters-scroll-lock,
-html.mm-filters-scroll-lock body {
-  overflow: hidden;
-}
-
-html.mm-filters-scroll-lock body {
-  position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
-}
-
 /* Mobile panel */
 .mm-filters__overlay {
   position: fixed;

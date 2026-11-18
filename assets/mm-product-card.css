@@ -1,0 +1,593 @@
+/* MOTHER & ME — shared product card chrome (wishlist, gallery, ATC) */
+
+:root {
+  --mm-card-green: #214d43;
+  --mm-card-green-hover: #173b33;
+  --mm-card-green-active: #102822;
+  --mm-card-cream: #faf8f4;
+  --mm-card-sage: #dee5df;
+  --mm-card-ink: #242d29;
+  --mm-card-muted: #59665f;
+  --mm-card-ease: ease-out;
+  --mm-card-duration: 200ms;
+}
+
+/* —— Media shell —— */
+.mm-card-media {
+  /* Extra inset: many dm packshots are edge-flush portraits */
+  --mm-card-img-pad: 20px;
+  position: relative;
+  isolation: isolate;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-card-media {
+    --mm-card-img-pad: 28px;
+  }
+}
+
+.mm-product-card__media-wrap.mm-card-media {
+  margin: 0 0 12px;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 8px;
+}
+
+.mm-product-card .mm-card-media__link,
+.mm-collection-card .mm-card-media > .card-link {
+  position: absolute;
+  inset: 0;
+  display: block;
+  z-index: 2;
+  text-decoration: none;
+}
+
+/*
+ * Centered contain — must use top/left 50% WITH translate(-50%,-50%).
+ * Do not mix with top/left 5% (that combo shifts images into the top-left corner).
+ */
+.mm-product-card .mm-card-media__image,
+.mm-product-card .mm-product-card__image,
+.mm-collection-card .mm-card-media > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  width: calc(100% - (2 * var(--mm-card-img-pad)));
+  height: calc(100% - (2 * var(--mm-card-img-pad)));
+  max-width: calc(100% - (2 * var(--mm-card-img-pad)));
+  max-height: calc(100% - (2 * var(--mm-card-img-pad)));
+  margin: 0;
+  object-fit: contain;
+  object-position: center center;
+  transform: translate(-50%, -50%);
+  transition: opacity var(--mm-card-duration) var(--mm-card-ease);
+}
+
+/* Kill Ella hover-swap when MM gallery is active */
+.mm-collection-card .mm-card-media.mm-card-media--multi.media--hover-effect .card-media img + img,
+.mm-collection-card .mm-card-media--multi .card-media img + img {
+  display: none !important;
+}
+
+.mm-collection-card .mm-card-media--multi:hover img:first-of-type,
+.mm-collection-card .mm-card-media--multi:hover .card-media img:first-child {
+  opacity: 1 !important;
+}
+
+/* —— Wishlist + share stack (top-right on media) —— */
+.mm-card-actions {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.mm-card-wishlist,
+.mm-card-share {
+  position: relative;
+  top: auto;
+  right: auto;
+  z-index: 4;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--mm-card-sage);
+  border-radius: 50%;
+  background: var(--mm-card-cream);
+  color: var(--mm-card-green);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  pointer-events: auto;
+  flex-shrink: 0;
+  box-shadow: 0 1px 4px rgba(33, 77, 67, 0.08);
+  transition:
+    background-color var(--mm-card-duration) var(--mm-card-ease),
+    border-color var(--mm-card-duration) var(--mm-card-ease),
+    transform var(--mm-card-duration) var(--mm-card-ease),
+    color var(--mm-card-duration) var(--mm-card-ease);
+}
+
+.mm-card-wishlist:hover,
+.mm-card-share:hover {
+  background: #ffffff;
+  border-color: var(--mm-card-green);
+  color: var(--mm-card-green);
+}
+
+.mm-card-wishlist:focus,
+.mm-card-share:focus {
+  outline: none;
+}
+
+.mm-card-wishlist:focus-visible,
+.mm-card-share:focus-visible {
+  outline: 2px solid var(--mm-card-green);
+  outline-offset: 2px;
+}
+
+.mm-card-wishlist:active,
+.mm-card-share:active {
+  transform: scale(0.96);
+}
+
+.mm-card-wishlist__icon,
+.mm-card-share__icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  line-height: 0;
+}
+
+.mm-card-wishlist__icon .icon-wishlist,
+.mm-card-wishlist__icon svg {
+  width: 20px;
+  height: 20px;
+  fill: currentColor;
+  stroke: transparent;
+}
+
+/* Beat theme `.icon { stroke: transparent }` — share glyph is stroke-only */
+.mm-card-share__icon .icon-share,
+.mm-card-share__icon svg.icon-share {
+  width: 20px;
+  height: 20px;
+  fill: none !important;
+  stroke: currentColor !important;
+  color: var(--mm-card-green);
+}
+
+.mm-card-share__icon .icon-share circle,
+.mm-card-share__icon .icon-share path,
+.mm-card-share__icon svg.icon-share circle,
+.mm-card-share__icon svg.icon-share path {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75;
+}
+
+.mm-card-wishlist__icon--filled {
+  display: none;
+}
+
+.mm-card-wishlist.wishlist-added .mm-card-wishlist__icon--outline {
+  display: none;
+}
+
+.mm-card-wishlist.wishlist-added .mm-card-wishlist__icon--filled {
+  display: flex;
+  color: var(--mm-card-green);
+}
+
+.mm-card-wishlist.wishlist-added .mm-card-wishlist__icon--filled .icon-wishlist path,
+.mm-card-wishlist.wishlist-added .mm-card-wishlist__icon--filled svg path {
+  fill: currentColor;
+}
+
+.mm-card-share.is-copied {
+  border-color: var(--mm-card-green);
+  background: #ffffff;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mm-card-wishlist.is-animating {
+    animation: mm-card-wishlist-pop 280ms var(--mm-card-ease);
+  }
+}
+
+@keyframes mm-card-wishlist-pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Keep badges clear of action stack */
+.mm-product-card .mm-product-badges,
+.mm-collection-card .card__badge,
+.mm-collection-card .product-badge,
+.mm-collection-card .badge {
+  max-width: calc(100% - 56px);
+}
+
+.mm-product-card .mm-product-badges {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  z-index: 3;
+  right: auto;
+}
+
+/* —— Gallery nav —— */
+.mm-card-media__nav {
+  position: absolute;
+  top: 50%;
+  z-index: 4;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--mm-card-sage);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--mm-card-green);
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+  appearance: none;
+  transform: translateY(-50%);
+  transition:
+    opacity var(--mm-card-duration) var(--mm-card-ease),
+    background-color var(--mm-card-duration) var(--mm-card-ease);
+}
+
+.mm-card-media__nav--prev { left: 6px; }
+/* Keep clear of top-right wishlist control */
+.mm-card-media__nav--next { right: 6px; top: calc(50% + 4px); }
+
+.mm-card-media__nav:focus {
+  outline: none;
+}
+
+.mm-card-media__nav:focus-visible {
+  outline: 2px solid var(--mm-card-green);
+  outline-offset: 2px;
+  display: inline-flex;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .mm-card-media--multi:hover .mm-card-media__nav,
+  .mm-card-media--multi:focus-within .mm-card-media__nav {
+    display: inline-flex;
+  }
+}
+
+.mm-card-media__dots {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  z-index: 3;
+  display: none;
+  gap: 5px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.mm-card-media--multi .mm-card-media__dots {
+  display: flex;
+}
+
+.mm-card-media__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(33, 77, 67, 0.28);
+}
+
+.mm-card-media__dot.is-active {
+  background: var(--mm-card-green);
+}
+
+/* —— ATC under price —— */
+.mm-card-atc {
+  position: relative;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.mm-card-atc__form {
+  margin: 0;
+  width: 100%;
+}
+
+.mm-card-atc__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  box-sizing: border-box;
+  border: none;
+  border-radius: 10px;
+  background: var(--mm-card-green);
+  color: #ffffff;
+  font-family: var(--mm-font-sans, inherit);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  cursor: pointer;
+  appearance: none;
+  transition:
+    background-color var(--mm-card-duration) var(--mm-card-ease),
+    opacity var(--mm-card-duration) var(--mm-card-ease);
+}
+
+.mm-card-atc__btn:hover {
+  background: var(--mm-card-green-hover);
+  color: #ffffff;
+}
+
+.mm-card-atc__btn:active:not(:disabled):not(.mm-card-atc__btn--disabled) {
+  background: var(--mm-card-green-active);
+}
+
+.mm-card-atc__btn:focus {
+  outline: none;
+}
+
+.mm-card-atc__btn:focus-visible {
+  outline: 2px solid var(--mm-card-green);
+  outline-offset: 2px;
+}
+
+.mm-card-atc__btn.is-loading,
+.mm-card-atc__btn.is-success,
+.mm-card-atc__btn[disabled],
+.mm-card-atc__btn--disabled,
+.mm-card-atc__btn[aria-disabled='true'] {
+  background: #aeb6b1;
+  color: #ffffff;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.mm-card-atc__btn.is-success {
+  background: var(--mm-card-green);
+}
+
+.mm-card-atc__icon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  line-height: 0;
+}
+
+.mm-card-atc__icon .icon-cart,
+.mm-card-atc__icon svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+}
+
+.mm-card-atc__label {
+  min-width: 0;
+}
+
+.mm-card-atc__spinner {
+  display: none;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.mm-card-atc__btn.is-loading .mm-card-atc__spinner {
+  display: inline-block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .mm-card-atc__btn.is-loading .mm-card-atc__spinner {
+    animation: mm-card-spin 0.7s linear infinite;
+  }
+}
+
+@keyframes mm-card-spin {
+  to { transform: rotate(360deg); }
+}
+
+.mm-card-atc__error {
+  display: none;
+  margin: 8px 0 0;
+  color: #b42318;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.mm-card-atc__error.is-visible {
+  display: block;
+}
+
+/*
+ * Shared MM card text + alignment
+ * Cause previously: max-height ≈ line-clamp height + tight 1.4 lh clipped
+ * Georgian (Noto Sans Georgian) ascenders/descenders mid-glyph.
+ */
+.mm-product-card,
+.mm-collection-card {
+  /* 1.6 gives Noto Sans Georgian room for ascenders/descenders */
+  --mm-card-title-lh: 1.6;
+  --mm-card-title-lines: 3;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.mm-product-card__body,
+.mm-collection-card .card-information,
+.mm-collection-card .mm-collection-card__content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.mm-product-card__vendor,
+.mm-collection-card__brand {
+  margin: 0 0 4px;
+  color: var(--mm-card-muted);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.mm-product-card__title,
+.mm-collection-card .mm-collection-card__heading {
+  margin: 0 0 8px;
+  padding: 0;
+  /* Reserved title slot so prices/buttons align in a row */
+  min-height: calc(var(--mm-card-title-lh) * 1em * var(--mm-card-title-lines) + 0.3em);
+  max-height: none;
+  overflow: visible;
+  color: var(--mm-card-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: var(--mm-card-title-lh) !important;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+}
+
+/* Clamp on the text-bearing link — more reliable than clamping the h3 wrapper */
+.mm-product-card__title-link,
+.mm-collection-card .mm-collection-card__title,
+.mm-collection-card .card-title.mm-collection-card__title {
+  display: -webkit-box !important;
+  -webkit-box-orient: vertical !important;
+  -webkit-line-clamp: var(--mm-card-title-lines) !important;
+  line-clamp: var(--mm-card-title-lines) !important;
+  overflow: hidden !important;
+  margin: 0;
+  padding: 0.15em 0;
+  box-sizing: content-box;
+  max-width: 100%;
+  color: inherit;
+  font: inherit;
+  line-height: inherit !important;
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.mm-product-card__title-link:hover,
+.mm-product-card__title-link:focus-visible,
+.mm-collection-card .mm-collection-card__title:hover,
+.mm-collection-card .mm-collection-card__title:focus-visible {
+  color: var(--mm-card-green);
+  outline: none;
+}
+
+.mm-product-card__title-link:focus-visible,
+.mm-collection-card .mm-collection-card__title:focus-visible {
+  outline: 2px solid var(--mm-card-green);
+  outline-offset: 2px;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-product-card__title,
+  .mm-collection-card .mm-collection-card__heading {
+    font-size: 16px;
+  }
+}
+
+.mm-product-card__price,
+.mm-collection-card__price,
+.mm-collection-card .card-price {
+  margin: 0;
+  margin-top: auto;
+  padding-top: 4px;
+}
+
+.mm-product-card .mm-card-atc,
+.mm-collection-card .mm-card-atc {
+  margin-top: 10px;
+  padding-top: 0;
+  width: 100%;
+}
+
+.mm-collection-card .mm-collection-card__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 8px;
+  width: 100%;
+}
+
+.mm-collection-card .mm-collection-card__footer .mm-collection-card__price,
+.mm-collection-card .mm-collection-card__footer .card-price {
+  margin-top: 0;
+  padding-top: 0;
+}
+
+/* Hide legacy floating bag icons everywhere MM cards render */
+.mm-products .mm-card-quick-cart,
+.mm-product-card .mm-card-quick-cart,
+.template-collection .productListing .mm-card-quick-cart,
+.template-search .productListing .mm-card-quick-cart,
+.halo-recommendations-block .mm-card-quick-cart,
+.halo-recently-viewed-block .mm-card-quick-cart {
+  display: none !important;
+}
+
+.mm-product-card--sold-out .mm-product-card__image,
+.mm-product-card--sold-out .mm-card-media__image {
+  opacity: 0.55;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-card-wishlist,
+  .mm-card-share,
+  .mm-card-media__nav,
+  .mm-card-atc__btn,
+  .mm-product-card .mm-card-media__image {
+    transition: none !important;
+    animation: none !important;
+  }
+}

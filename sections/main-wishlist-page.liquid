@@ -5,6 +5,7 @@
 
 {{ 'component-toolbar.css' | asset_url | stylesheet_tag }}
 {{ 'component-product-listing.css' | asset_url | stylesheet_tag }}
+{{ 'mm-wishlist.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
     assign padding_top = section.settings.mg_top_desktop | append: 'px'
@@ -23,9 +24,30 @@
     assign page_title_alignment = section.settings.page_title_alignment
     assign container = section.settings.container
     assign default_layout_desktop = section.settings.default_layout_desktop
+    assign kids_collection = collections['ბავშვი']
+    assign mamas_collection = collections['დედა']
+    assign kids_url = ''
+    assign mamas_url = ''
+    if kids_collection != blank and kids_collection.url != blank
+      assign kids_url = kids_collection.url
+    endif
+    if mamas_collection != blank and mamas_collection.url != blank
+      assign mamas_url = mamas_collection.url
+    endif
+    assign empty_kids = 'templates.404.kids' | t
+    assign empty_mamas = 'templates.404.mamas' | t
 -%}
 
-<div data-section-id="{{ section.id }}" data-section-type="wishlist" id="WishlistSection-{{ section.id }}" data-section="{{ section.id }}">
+<div
+    data-section-id="{{ section.id }}"
+    data-section-type="wishlist"
+    id="WishlistSection-{{ section.id }}"
+    data-section="{{ section.id }}"
+    data-wishlist-kids-url="{{ kids_url | escape }}"
+    data-wishlist-mamas-url="{{ mamas_url | escape }}"
+    data-wishlist-kids-label="{{ empty_kids | escape }}"
+    data-wishlist-mamas-label="{{ empty_mamas | escape }}"
+>
     <div class="wishlist-container {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
         {%- if show_breadcrumb -%}
             {% render 'breadcrumb', alignment: breadcrumb_alignment %}
@@ -201,16 +223,30 @@
                 } else {
                     if (this.wishlistContainer) {
                         this.wishlistContainer.classList.add('is-empty');
+                        const root = this.closest('[data-section-type="wishlist"]') || document;
+                        const kidsUrl = root.getAttribute('data-wishlist-kids-url') || '';
+                        const mamasUrl = root.getAttribute('data-wishlist-mamas-url') || '';
+                        const kidsLabel = root.getAttribute('data-wishlist-kids-label') || '';
+                        const mamasLabel = root.getAttribute('data-wishlist-mamas-label') || '';
+                        let linksHtml = '';
+                        if (kidsUrl && kidsLabel) {
+                            linksHtml += `<li><a class="mm-wishlist-empty__link" href="${kidsUrl}">${kidsLabel}</a></li>`;
+                        }
+                        if (mamasUrl && mamasLabel) {
+                            linksHtml += `<li><a class="mm-wishlist-empty__link" href="${mamasUrl}">${mamasLabel}</a></li>`;
+                        }
                         this.wishlistContainer.innerHTML = `
-                            <div class="wishlist-content-empty text-center">
-                                <span class="wishlist-content-text">${window.wishlist.empty}</span>
-                                <div class="wishlist-content-actions">
-                                    <a class="button button-2 button-continue" href="${window.routes.collection_all}">
+                            <div class="mm-wishlist-empty" role="status">
+                                <span class="mm-wishlist-empty__icon" aria-hidden="true">{% render 'icon-heart-2' %}</span>
+                                <p class="mm-wishlist-empty__text">${window.wishlist.empty}</p>
+                                <div class="mm-wishlist-empty__actions">
+                                    <a class="mm-wishlist-empty__btn" href="${window.routes.collection_all || '/'}">
                                         ${window.wishlist.continue_shopping}
                                     </a>
                                 </div>
+                                ${linksHtml ? `<ul class="mm-wishlist-empty__links">${linksHtml}</ul>` : ''}
                             </div>
-                        ` ;
+                        `;
                     }
 
                     if (this.wishlistFooter) this.wishlistFooter.style.display = 'none';
@@ -250,7 +286,8 @@
                     })
 
                     if (index >= 3) {
-                        item.closest('.product').display = 'none';
+                        const productEl = item.closest('.product');
+                        if (productEl) productEl.style.display = 'none';
                     }
                 }
 

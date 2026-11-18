@@ -3,11 +3,9 @@
     assign fontsize_text_mb = block.settings.fontsize_text_mb
     assign color_title = block.settings.color_title
 -%}
-{%- if check_show_share == '3' -%}
-    <div class="halo-share-3">
-        <h1 class="productView-title" style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"><span>{{ product.title | escape }}</span></h1>
-        {% render 'halo-share', product: product, share_layout: check_show_share %}
-    </div>
-{%- else -%}
-    <h1 class="productView-title" style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"><span>{{ product.title | escape }}</span></h1>
-{%- endif -%}
+<div class="mm-pdp-title-row">
+  <h1 class="productView-title" style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"><span>{{ product.title | escape }}</span></h1>
+  <div class="mm-pdp-title-share-wrap">
+    {% render 'mm-pdp-title-share', product: product %}
+  </div>
+</div>
