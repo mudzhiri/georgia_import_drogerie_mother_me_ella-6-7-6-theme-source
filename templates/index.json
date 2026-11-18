@@ -262,6 +262,17 @@
         "image_alt": ""
       }
     },
+    "mm_business_teaser": {
+      "type": "mm-business-teaser",
+      "settings": {
+        "icon": "message",
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "shopify://pages/business"
+      }
+    },
     "mm_brands": {
       "type": "mm-brands",
       "blocks": {
@@ -378,6 +389,7 @@
     "mm_products",
     "mm_needs",
     "mm_about",
+    "mm_business_teaser",
     "mm_brands",
     "mm_faq"
   ]

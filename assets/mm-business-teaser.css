@@ -1,0 +1,194 @@
+/* MOTHER & ME — homepage B2B / partnerships teaser
+   Use px so theme root html ~10px cannot shrink Georgian UI text. */
+.mm-business-teaser {
+  --mm-bt-heading: #214d43;
+  --mm-bt-text: #3d4a44;
+  --mm-bt-sage: #e8f0ea;
+  --mm-bt-sage-deep: #c5d4c8;
+  --mm-bt-white: #ffffff;
+  --mm-bt-motion: 200ms ease;
+  --mm-bt-font: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  background: var(--mm-bt-white);
+}
+
+.mm-business-teaser__inner {
+  width: 100%;
+  max-width: var(--mm-content-max, 1200px);
+  margin: 0 auto;
+  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
+  box-sizing: border-box;
+}
+
+.mm-business-teaser__card {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 0;
+  padding: 22px 20px;
+  border: 1px solid var(--mm-bt-sage-deep);
+  border-radius: var(--mm-radius-card, 16px);
+  background: var(--mm-bt-sage);
+  box-sizing: border-box;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-business-teaser__card {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 28px;
+    padding: 28px 32px;
+  }
+}
+
+.mm-business-teaser__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  min-width: 0;
+  flex: 1 1 auto;
+}
+
+.mm-business-teaser__icon-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mm-business-teaser__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  background: rgba(33, 77, 67, 0.08);
+  color: var(--mm-bt-heading);
+}
+
+.mm-business-teaser__icon .icon,
+.mm-business-teaser__icon svg {
+  display: block;
+  width: 22px;
+  height: 22px;
+  fill: currentColor;
+  color: inherit;
+}
+
+.mm-business-teaser__eyebrow {
+  margin: 0;
+  color: var(--mm-bt-heading);
+  font-family: var(--mm-bt-font);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  line-height: 1.45;
+}
+
+.mm-business-teaser__heading {
+  margin: 0;
+  color: var(--mm-bt-heading);
+  font-family: var(--mm-bt-font);
+  font-size: 24px;
+  font-weight: var(--mm-font-weight-bold, 700);
+  line-height: 1.35;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+  max-height: none;
+  height: auto;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-business-teaser__heading {
+    font-size: 28px;
+  }
+}
+
+.mm-business-teaser__text {
+  margin: 0;
+  max-width: 42rem;
+  color: var(--mm-bt-text);
+  font-family: var(--mm-bt-font);
+  font-size: 16px;
+  line-height: 1.55;
+  letter-spacing: normal;
+  overflow-wrap: anywhere;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-business-teaser__text {
+    font-size: 17px;
+    line-height: 1.6;
+  }
+}
+
+.mm-business-teaser__actions {
+  flex: 0 0 auto;
+  width: 100%;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-business-teaser__actions {
+    width: auto;
+    max-width: 280px;
+  }
+}
+
+.mm-business-teaser__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px 22px;
+  border: 1px solid var(--mm-bt-heading);
+  border-radius: var(--mm-radius-button, 10px);
+  background: var(--mm-bt-heading);
+  color: #faf8f4;
+  font-family: var(--mm-bt-font);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+  white-space: normal;
+  box-sizing: border-box;
+  transition:
+    background-color var(--mm-bt-motion),
+    border-color var(--mm-bt-motion),
+    color var(--mm-bt-motion),
+    transform var(--mm-bt-motion);
+}
+
+.mm-business-teaser__button:hover {
+  background: #173b33;
+  border-color: #173b33;
+  color: #faf8f4;
+}
+
+.mm-business-teaser__button:focus-visible {
+  outline: 2px solid var(--mm-bt-heading);
+  outline-offset: 3px;
+}
+
+.mm-business-teaser__button:active {
+  transform: translateY(1px);
+  background: #123028;
+  border-color: #123028;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-business-teaser__button {
+    transition: none;
+  }
+
+  .mm-business-teaser__button:active {
+    transform: none;
+  }
+}
