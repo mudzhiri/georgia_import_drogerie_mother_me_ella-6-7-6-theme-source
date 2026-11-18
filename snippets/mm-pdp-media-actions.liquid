@@ -53,28 +53,7 @@
     title="{{ share_label | escape }}"
   >
     <span class="mm-pdp-actions__icon" aria-hidden="true">
-      <svg viewBox="0 0 24 24" width="26" height="26" fill="none" focusable="false">
-        <path
-          d="M12 3.5v10"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-        />
-        <path
-          d="M8.5 7 12 3.5 15.5 7"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-        <path
-          d="M5.5 12.5v5A2.5 2.5 0 0 0 8 20h8a2.5 2.5 0 0 0 2.5-2.5v-5"
-          stroke="currentColor"
-          stroke-width="1.75"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-        />
-      </svg>
+      {% render 'icon-share' %}
     </span>
   </button>
 
