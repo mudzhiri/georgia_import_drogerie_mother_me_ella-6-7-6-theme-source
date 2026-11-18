@@ -98,13 +98,12 @@
   </div>
 
   <div class="mm-product-card__body">
-    {%- if product.vendor != blank -%}
-      <p class="mm-product-card__vendor">{{ product.vendor | escape }}</p>
-    {%- endif -%}
-
-    <h3 class="mm-product-card__title">
-      <a href="{{ product.url }}">{{ product.title | escape }}</a>
-    </h3>
+    {% render 'mm-card-title-text',
+      product: product,
+      url: product.url,
+      title_class: 'mm-product-card__title-link',
+      vendor_class: 'mm-product-card__vendor'
+    %}
 
     <div class="mm-product-card__price">
       {%- if compare_at != blank and compare_at > price -%}

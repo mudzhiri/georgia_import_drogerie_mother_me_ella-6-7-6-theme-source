@@ -432,49 +432,130 @@
   display: block;
 }
 
-/* —— Homepage card body alignment —— */
-.mm-products .mm-product-card {
+/*
+ * Shared MM card text + alignment
+ * Cause previously: max-height ≈ line-clamp height + tight 1.4 lh clipped
+ * Georgian (Noto Sans Georgian) ascenders/descenders mid-glyph.
+ */
+.mm-product-card,
+.mm-collection-card {
+  --mm-card-title-lh: 1.5;
+  --mm-card-title-lines: 3;
   display: flex;
   flex-direction: column;
   height: 100%;
 }
 
-.mm-products .mm-product-card__body {
+.mm-product-card__body,
+.mm-collection-card .card-information,
+.mm-collection-card .mm-collection-card__content {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
   min-width: 0;
 }
 
-.mm-products .mm-product-card__title,
+.mm-product-card__vendor,
+.mm-collection-card__brand {
+  margin: 0 0 4px;
+  color: var(--mm-card-muted);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: 0.02em;
+  text-transform: none;
+  height: auto;
+  max-height: none;
+  overflow: visible;
+}
+
+.mm-product-card__title,
 .mm-collection-card .mm-collection-card__heading,
-.mm-collection-card .mm-collection-card__title {
+.mm-collection-card .mm-collection-card__title,
+.mm-collection-card .card-title.mm-collection-card__title {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  -webkit-line-clamp: var(--mm-card-title-lines);
+  line-clamp: var(--mm-card-title-lines);
   overflow: hidden;
-  min-height: calc(1.4em * 2);
-  line-height: 1.4;
+  margin: 0 0 8px;
+  padding: 0.12em 0;
+  box-sizing: content-box;
+  color: var(--mm-card-ink);
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', sans-serif);
+  font-size: 15px;
+  font-weight: 600;
+  line-height: var(--mm-card-title-lh);
+  letter-spacing: normal;
+  text-align: left;
+  text-transform: none;
+  text-decoration: none;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  /* Reserve 3 lines; padding gives glyph room — never a tighter max-height */
+  min-height: calc(var(--mm-card-title-lh) * 1em * var(--mm-card-title-lines) + 0.24em);
+  max-height: none;
 }
 
-.mm-products .mm-product-card__price {
+.mm-product-card__title-link,
+.mm-collection-card .mm-collection-card__title {
+  color: inherit;
+  text-decoration: none;
+}
+
+.mm-product-card__title-link:hover,
+.mm-product-card__title-link:focus-visible,
+.mm-collection-card .mm-collection-card__title:hover,
+.mm-collection-card .mm-collection-card__title:focus-visible {
+  color: var(--mm-card-green);
+  outline: none;
+}
+
+.mm-product-card__title-link:focus-visible,
+.mm-collection-card .mm-collection-card__title:focus-visible {
+  outline: 2px solid var(--mm-card-green);
+  outline-offset: 2px;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-product-card__title,
+  .mm-collection-card .mm-collection-card__heading,
+  .mm-collection-card .mm-collection-card__title,
+  .mm-collection-card .card-title.mm-collection-card__title {
+    font-size: 16px;
+  }
+}
+
+.mm-product-card__price,
+.mm-collection-card__price,
+.mm-collection-card .card-price {
   margin: 0;
+  margin-top: auto;
+  padding-top: 4px;
 }
 
-.mm-products .mm-card-atc {
-  margin-top: auto;
-  padding-top: 12px;
+.mm-product-card .mm-card-atc,
+.mm-collection-card .mm-card-atc {
+  margin-top: 10px;
+  padding-top: 0;
+  width: 100%;
 }
 
 .mm-collection-card .mm-collection-card__footer {
   display: flex;
   flex-direction: column;
-  gap: 0;
+  gap: 10px;
   margin-top: auto;
+  padding-top: 8px;
+  width: 100%;
 }
 
-.mm-collection-card .mm-card-atc {
-  margin-top: 10px;
+.mm-collection-card .mm-collection-card__footer .mm-collection-card__price,
+.mm-collection-card .mm-collection-card__footer .card-price {
+  margin-top: 0;
+  padding-top: 0;
 }
 
 /* Hide legacy floating bag icons everywhere MM cards render */

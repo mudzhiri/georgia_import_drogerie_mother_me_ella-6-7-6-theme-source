@@ -138,15 +138,32 @@
     assign mm_title_full = product_card_product.title | strip
     assign mm_title_display = mm_title_full
     assign mm_vendor_name = product_card_product.vendor | strip
+    assign mm_show_vendor = false
     if mm_is_collection_card and mm_vendor_name != blank and mm_title_full != blank
+      assign mm_show_vendor = true
       assign mm_vendor_len = mm_vendor_name | size
-      if mm_title_full.size > mm_vendor_len
+      assign mm_vendor_down = mm_vendor_name | downcase
+      assign mm_title_down = mm_title_full | downcase
+      if mm_title_down == mm_vendor_down
+        assign mm_show_vendor = false
+      elsif mm_title_full.size > mm_vendor_len
         assign mm_title_prefix = mm_title_full | slice: 0, mm_vendor_len
         assign mm_prefix_down = mm_title_prefix | downcase
-        assign mm_vendor_down = mm_vendor_name | downcase
         if mm_prefix_down == mm_vendor_down
           assign mm_rest_len = mm_title_full.size | minus: mm_vendor_len
-          assign mm_title_display = mm_title_full | slice: mm_vendor_len, mm_rest_len | strip
+          assign mm_rest = mm_title_full | slice: mm_vendor_len, mm_rest_len | strip
+          if mm_rest != blank
+            assign mm_lead = mm_rest | slice: 0, 1
+            if mm_lead == '-' or mm_lead == '–' or mm_lead == '—' or mm_lead == ':' or mm_lead == '|'
+              assign mm_rest = mm_rest | slice: 1, mm_rest.size | strip
+            endif
+          endif
+          if mm_rest != blank
+            assign mm_title_display = mm_rest
+          else
+            assign mm_title_display = mm_title_full
+            assign mm_show_vendor = false
+          endif
         endif
       endif
     endif
@@ -247,15 +264,15 @@
                     {%- endif -%}
                 {%- endif -%}
                 {%- if mm_is_collection_card -%}
-                    {%- if mm_vendor_name != blank -%}
-                        <p class="mm-collection-card__brand">
+                    {%- if mm_show_vendor -%}
+                        <p class="mm-collection-card__brand mm-product-card__vendor">
                             <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
-                            <span class="mm-collection-card__brand-text">{{ mm_vendor_name | escape }}</span>
+                            <span class="mm-collection-card__brand-text mm-card-vendor-text">{{ mm_vendor_name | escape }}</span>
                         </p>
                     {%- endif -%}
-                    <h3 class="card__heading mm-collection-card__heading">
+                    <h3 class="card__heading mm-collection-card__heading mm-product-card__title">
                         <a
-                            class="card-title mm-collection-card__title"
+                            class="card-title mm-collection-card__title mm-product-card__title-link"
                             href="{{ mm_card_product_url }}"
                             data-product-title="{{ mm_title_full | escape }}"
                             data-product-url="{{ mm_card_product_url }}"
