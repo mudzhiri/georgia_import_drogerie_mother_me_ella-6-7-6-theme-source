@@ -108,12 +108,13 @@
   padding: 0;
   border: 1px solid var(--mm-card-sage);
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.96);
+  background: var(--mm-card-cream);
   color: var(--mm-card-green);
   cursor: pointer;
   appearance: none;
   -webkit-appearance: none;
   pointer-events: auto;
+  flex-shrink: 0;
   box-shadow: 0 1px 4px rgba(33, 77, 67, 0.08);
   transition:
     background-color var(--mm-card-duration) var(--mm-card-ease),
@@ -125,7 +126,8 @@
 .mm-card-wishlist:hover,
 .mm-card-share:hover {
   background: #ffffff;
-  border-color: #c9d5cd;
+  border-color: var(--mm-card-green);
+  color: var(--mm-card-green);
 }
 
 .mm-card-wishlist:focus,
@@ -153,17 +155,30 @@
 }
 
 .mm-card-wishlist__icon .icon-wishlist,
-.mm-card-wishlist__icon svg,
-.mm-card-share__icon .icon-share,
-.mm-card-share__icon svg {
+.mm-card-wishlist__icon svg {
   width: 20px;
   height: 20px;
-  fill: none;
+  fill: currentColor;
+  stroke: transparent;
 }
 
-.mm-card-wishlist__icon .icon-wishlist,
-.mm-card-wishlist__icon svg {
-  fill: currentColor;
+/* Beat theme `.icon { stroke: transparent }` — share glyph is stroke-only */
+.mm-card-share__icon .icon-share,
+.mm-card-share__icon svg.icon-share {
+  width: 20px;
+  height: 20px;
+  fill: none !important;
+  stroke: currentColor !important;
+  color: var(--mm-card-green);
+}
+
+.mm-card-share__icon .icon-share circle,
+.mm-card-share__icon .icon-share path,
+.mm-card-share__icon svg.icon-share circle,
+.mm-card-share__icon svg.icon-share path {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75;
 }
 
 .mm-card-wishlist__icon--filled {

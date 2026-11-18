@@ -362,6 +362,29 @@
   display: block;
 }
 
+/* Beat theme `.icon { stroke: transparent }` — share glyph is stroke-only */
+.mm-pdp-actions__share {
+  color: var(--mm-pdp-action-ink);
+  background: var(--mm-pdp-action-cream);
+  border-color: var(--mm-pdp-action-border);
+}
+
+.mm-pdp-actions__share .icon-share,
+.mm-pdp-actions__share svg.icon-share {
+  fill: none !important;
+  stroke: currentColor !important;
+  color: var(--mm-pdp-action-ink);
+}
+
+.mm-pdp-actions__share .icon-share circle,
+.mm-pdp-actions__share .icon-share path,
+.mm-pdp-actions__share svg.icon-share circle,
+.mm-pdp-actions__share svg.icon-share path {
+  fill: none !important;
+  stroke: currentColor !important;
+  stroke-width: 1.75;
+}
+
 .mm-pdp-actions__wishlist .mm-pdp-actions__icon--filled {
   display: none;
 }
