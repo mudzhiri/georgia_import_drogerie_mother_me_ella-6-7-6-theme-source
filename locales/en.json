@@ -442,7 +442,7 @@
         "success": "Product added to your cart."
       },
       "trust": {
-        "free_shipping": "Shipping in Georgia: 8 ₾",
+        "free_shipping": "Delivery within Tbilisi: 6 ₾.",
         "order_pickup": "Order online or pick up",
         "bank_transfer": "Pay by bank transfer"
       }
@@ -495,7 +495,7 @@
         "facebook": "Facebook",
         "address_note": "This address is a pickup point in Tbilisi, not an open retail store for walk-in visits. Pickup is free. Orders are usually ready within 24 hours after payment confirmation.",
         "shipping": "Shipping",
-        "shipping_note": "Shipping in Georgia: 8 ₾; free from 200 ₾. Payment by bank transfer.",
+        "shipping_note": "Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free.",
         "order_hint": "If you are writing about a specific order, please include the order number. Receipts or bank details are not needed in this form.",
         "about_link": "Learn more about us",
         "facebook_link": "Facebook",
@@ -579,7 +579,7 @@
       "cart_quantity_error_alert_2": "ამ პროდუქტის რაოდენობა საკმარისი არ არის.",
       "quick_cart": "სწრაფი კალათა",
       "taxes_and_shipping_policy_at_checkout_html": "გადასახადები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას",
-      "taxes_included_but_shipping_at_checkout": "გადასახადი ჩართულია; მიწოდება დაითვლება გადახდისას",
+      "taxes_included_but_shipping_at_checkout": "Product subtotal excludes delivery. Delivery within Tbilisi: 6 ₾; pickup is free. Final total at checkout.",
       "taxes_included_and_shipping_policy_html": "გადასახადი ჩართულია. <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
       "taxes_and_shipping_at_checkout": "გადასახადები და მიწოდება დაითვლება გადახდისას",
       "taxes_included_shipping_at_checkout_without_policy": "გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
@@ -602,7 +602,8 @@
       "more_than_99": "99+",
       "heading": {
         "quantity": "რაოდენობა"
-      }
+      },
+      "mm_shipping_note": "Product subtotal excludes delivery. Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free — choose at checkout. Final total appears when you complete the order."
     },
     "footer": {
       "payment": "გადახდის მეთოდები"
@@ -1112,7 +1113,7 @@
       "q_order": "როგორ ხდება შეკვეთა?",
       "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ.",
       "q_shipping": "რა ღირს მიწოდება?",
-      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში.",
+      "a_shipping": "Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free. Payment by bank transfer. Orders are processed and shipped after payment confirmation.",
       "q_payment": "როგორ მუშაობს გადახდა?",
       "a_payment": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾).",
       "q_returns": "Can I return a product?",
@@ -1149,7 +1150,7 @@
       "flow_step_3": "Payment is by bank transfer. Include your order number in the transfer reference.",
       "flow_step_4": "Processing and shipping or pickup preparation start after payment confirmation.",
       "ship_heading": "Shipping & pickup",
-      "ship_text": "Shipping in Georgia: 8 ₾; free from 200 ₾. Pickup in Tbilisi is free — the address is on the contact page. Pickup orders are usually ready within 24 hours after payment confirmation.",
+      "ship_text": "Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free — the address is on the contact page and is a pickup point, not an open retail store. Pickup orders are usually ready within 24 hours after payment confirmation.",
       "cta_nav": "Next steps",
       "cta_kids": "For kids",
       "cta_mamas": "For moms",
@@ -1165,5 +1166,9 @@
       "policies_shipping": "Shipping policy",
       "policies_refund": "Refund policy"
     }
+  },
+  "mm_shipping": {
+    "tbilisi_rate": "Delivery within Tbilisi: 6 ₾.",
+    "pickup_free": "Pickup in Tbilisi is free."
   }
 }

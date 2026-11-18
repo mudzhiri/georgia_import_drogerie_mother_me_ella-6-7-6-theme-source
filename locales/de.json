@@ -442,7 +442,7 @@
         "success": "Produkt wurde dem Warenkorb hinzugefügt."
       },
       "trust": {
-        "free_shipping": "Lieferung in Georgien: 8 ₾",
+        "free_shipping": "Lieferung innerhalb von Tiflis: 6 ₾.",
         "order_pickup": "Online bestellen oder abholen",
         "bank_transfer": "Zahlung per Überweisung"
       }
@@ -495,7 +495,7 @@
         "facebook": "Facebook",
         "address_note": "Diese Adresse ist ein Abholpunkt in Tiflis, kein offenes Ladengeschäft. Die Abholung ist kostenlos. Bestellungen sind in der Regel innerhalb von 24 Stunden nach Zahlungsbestätigung bereit.",
         "shipping": "Lieferung",
-        "shipping_note": "Lieferung in Georgien: 8 ₾; kostenlos ab 200 ₾. Zahlung per Überweisung.",
+        "shipping_note": "Lieferung innerhalb von Tiflis: 6 ₾. Abholung in Tiflis ist kostenlos.",
         "order_hint": "Wenn du zu einer bestimmten Bestellung schreibst, gib bitte die Bestellnummer an. Quittungen oder Bankdaten sind im Formular nicht nötig.",
         "about_link": "Mehr über uns",
         "facebook_link": "Facebook",
@@ -579,7 +579,7 @@
       "cart_quantity_error_alert_2": "ამ პროდუქტის რაოდენობა საკმარისი არ არის.",
       "quick_cart": "სწრაფი კალათა",
       "taxes_and_shipping_policy_at_checkout_html": "გადასახადები და <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას",
-      "taxes_included_but_shipping_at_checkout": "გადასახადი ჩართულია; მიწოდება დაითვლება გადახდისას",
+      "taxes_included_but_shipping_at_checkout": "Die Produktsumme enthält keine Lieferung. Lieferung innerhalb von Tiflis: 6 ₾; Abholung ist kostenlos. Endbetrag an der Kasse.",
       "taxes_included_and_shipping_policy_html": "გადასახადი ჩართულია. <a href=\"{{ link }}\">მიწოდება</a> დაითვლება გადახდისას.",
       "taxes_and_shipping_at_checkout": "გადასახადები და მიწოდება დაითვლება გადახდისას",
       "taxes_included_shipping_at_checkout_without_policy": "გადასახადები ჩართულია. ფასდაკლებები და მიწოდება დაითვლება გადახდისას.",
@@ -602,7 +602,8 @@
       "more_than_99": "99+",
       "heading": {
         "quantity": "რაოდენობა"
-      }
+      },
+      "mm_shipping_note": "Die Produktsumme enthält keine Lieferung. Lieferung innerhalb von Tiflis: 6 ₾. Abholung in Tiflis ist kostenlos — Auswahl bei der Bestellung. Der Endbetrag erscheint beim Abschluss."
     },
     "footer": {
       "payment": "გადახდის მეთოდები"
@@ -1112,7 +1113,7 @@
       "q_order": "როგორ ხდება შეკვეთა?",
       "a_order": "აირჩიე პროდუქტები, დაამატე კალათაში და დაასრულე შეკვეთა ონლაინ. ფასები მითითებულია ლარში (₾). შეკვეთა დასტურდება გადახდის შემდეგ.",
       "q_shipping": "რა ღირს მიწოდება?",
-      "a_shipping": "მიწოდება საქართველოში: 8 ₾. თვითგატანა თბილისში უფასოა. შეკვეთები მუშავდება სამუშაო დღეებში.",
+      "a_shipping": "Lieferung innerhalb von Tiflis: 6 ₾. Abholung in Tiflis ist kostenlos. Zahlung per Überweisung. Bestellungen werden nach Zahlungsbestätigung bearbeitet und versendet.",
       "q_payment": "როგორ მუშაობს გადახდა?",
       "a_payment": "შეკვეთა დასტურდება გადახდის შემდეგ. ფასები ნაჩვენებია ლარში (₾).",
       "q_returns": "Kann ich ein Produkt zurückgeben?",
@@ -1149,7 +1150,7 @@
       "flow_step_3": "Zahlung per Überweisung. Bitte die Bestellnummer im Verwendungszweck angeben.",
       "flow_step_4": "Bearbeitung und Versand bzw. Vorbereitung zur Abholung starten nach Zahlungsbestätigung.",
       "ship_heading": "Lieferung & Abholung",
-      "ship_text": "Lieferung in Georgien: 8 ₾; kostenlos ab 200 ₾. Abholung in Tiflis ist kostenlos — Adresse auf der Kontaktseite. Abholbestellungen sind in der Regel innerhalb von 24 Stunden nach Zahlungsbestätigung bereit.",
+      "ship_text": "Lieferung innerhalb von Tiflis: 6 ₾. Abholung in Tiflis ist kostenlos — Adresse auf der Kontaktseite; Abholstelle, kein offener Laden. Abholbestellungen sind in der Regel innerhalb von 24 Stunden nach Zahlungsbestätigung bereit.",
       "cta_nav": "Nächste Schritte",
       "cta_kids": "Für Kinder",
       "cta_mamas": "Für Mütter",
@@ -1165,5 +1166,9 @@
       "policies_shipping": "Lieferbedingungen",
       "policies_refund": "Rückgabebedingungen"
     }
+  },
+  "mm_shipping": {
+    "tbilisi_rate": "Lieferung innerhalb von Tiflis: 6 ₾.",
+    "pickup_free": "Abholung in Tiflis ist kostenlos."
   }
 }

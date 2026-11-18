@@ -1,7 +1,7 @@
 {% comment %}
   PDP trust notes under buy button.
-  Aligned to Admin: Georgia delivery 8 GEL active; no free-from-200 rate.
-  Bank Deposit not configured — do not promise bank-transfer details here.
+  Shipping copy: shared mm_shipping keys (Tbilisi 6 ₾ confirmed).
+  Do not state Georgia-wide delivery prices here.
 {% endcomment %}
 {{ 'mm-product-shipping-note.css' | asset_url | stylesheet_tag }}
 
@@ -15,7 +15,7 @@
         <circle cx="17.25" cy="17.5" r="1.75" stroke="currentColor" stroke-width="1.5"/>
       </svg>
     </span>
-    <span class="mm-pdp-trust__text">{{ 'products.product.trust.free_shipping' | t }}</span>
+    <span class="mm-pdp-trust__text">{{ 'mm_shipping.tbilisi_rate' | t }}</span>
   </li>
   <li class="mm-pdp-trust__item">
     <span class="mm-pdp-trust__icon" aria-hidden="true">
