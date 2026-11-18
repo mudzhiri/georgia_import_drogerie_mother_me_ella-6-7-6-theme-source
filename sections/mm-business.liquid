@@ -222,207 +222,250 @@
           <p class="mm-business__success" role="status" tabindex="-1" data-mm-business-success>
             {{ success_message | escape }}
           </p>
-        {%- endif -%}
-
-        {%- if form.errors -%}
-          <div class="mm-business__errors" role="alert" tabindex="-1">
-            {{ form.errors | default_errors }}
-          </div>
-        {%- endif -%}
-
-        {%- comment -%}
-          Subject line prefix so inbox sorting shows B2B clearly.
-          Shopify includes all contact[...] fields in the notification email.
-        {%- endcomment -%}
-        <input type="hidden" name="contact[subject]" value="{{ 'mm_pages.business.email_subject' | t | escape }}">
-
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ company_id }}">
-            {{ 'mm_pages.business.fields.company' | t }}
-          </label>
-          <input
-            id="{{ company_id }}"
-            class="mm-business__input"
-            type="text"
-            name="contact[company]"
-            autocomplete="organization"
-            required
-            value="{% if form.company %}{{ form.company | escape }}{% endif %}"
-            {% if form.errors contains 'company' %}aria-invalid="true"{% endif %}
-          >
-        </div>
-
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ name_id }}">
-            {{ 'mm_pages.business.fields.contact_name' | t }}
-          </label>
-          <input
-            id="{{ name_id }}"
-            class="mm-business__input"
-            type="text"
-            name="contact[name]"
-            autocomplete="name"
-            required
-            value="{% if form.name %}{{ form.name | escape }}{% endif %}"
-            {% if form.errors contains 'name' %}aria-invalid="true"{% endif %}
-          >
-        </div>
-
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ email_id }}">
-            {{ 'mm_pages.business.fields.email' | t }}
-          </label>
-          <input
-            id="{{ email_id }}"
-            class="mm-business__input"
-            type="email"
-            name="contact[email]"
-            autocomplete="email"
-            required
-            spellcheck="false"
-            value="{% if form.email %}{{ form.email | escape }}{% endif %}"
-            {% if form.errors contains 'email' %}
-              aria-invalid="true"
-              aria-describedby="mm-biz-email-error-{{ section.id }}"
-            {% endif %}
-          >
-          {%- if form.errors contains 'email' -%}
-            <p id="mm-biz-email-error-{{ section.id }}" class="mm-business__error">
-              {{ form.errors.translated_fields.email | capitalize }}
-              {{ form.errors.messages.email }}
-            </p>
+        {%- else -%}
+          {%- if form.errors -%}
+            <div class="mm-business__errors" role="alert" tabindex="-1" data-mm-business-errors>
+              <p class="mm-business__errors-lead">{{ 'mm_pages.business.error_general' | t }}</p>
+              {{ form.errors | default_errors }}
+            </div>
           {%- endif -%}
-        </div>
 
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ country_id }}">
-            {{ 'mm_pages.business.fields.country' | t }}
-          </label>
+          {%- comment -%}
+            Native Shopify contact form → e-mail to shop.email only.
+            No CRM / Admin ticket store. Category values are German for inbox clarity;
+            visible option labels stay Georgian.
+          {%- endcomment -%}
           <input
-            id="{{ country_id }}"
-            class="mm-business__input"
-            type="text"
-            name="contact[country]"
-            autocomplete="country-name"
-            required
-            value="{% if form.country %}{{ form.country | escape }}{% endif %}"
+            type="hidden"
+            name="contact[subject]"
+            value="{{ 'mm_pages.business.email_subject' | t | escape }}"
+            data-mm-business-subject
+            data-mm-subject-base="{{ 'mm_pages.business.email_subject' | t | escape }}"
           >
-        </div>
-
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ type_id }}">
-            {{ 'mm_pages.business.fields.inquiry_type' | t }}
-          </label>
-          <select
-            id="{{ type_id }}"
-            class="mm-business__select"
-            name="contact[inquiry_type]"
-            required
-            data-mm-business-type
-          >
-            <option value="supplier">{{ 'mm_pages.business.types.supplier' | t }}</option>
-            <option value="reseller">{{ 'mm_pages.business.types.reseller' | t }}</option>
-            <option value="distribution">{{ 'mm_pages.business.types.distribution' | t }}</option>
-            <option value="other" selected>{{ 'mm_pages.business.types.other' | t }}</option>
-          </select>
-        </div>
-
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ website_id }}">
-            {{ 'mm_pages.business.fields.website' | t }}
-            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
-          </label>
+          <input type="hidden" name="contact[source]" value="B2B /pages/business">
           <input
-            id="{{ website_id }}"
-            class="mm-business__input"
-            type="url"
-            name="contact[website]"
-            autocomplete="url"
-            inputmode="url"
-            placeholder="https://"
-            value="{% if form.website %}{{ form.website | escape }}{% endif %}"
+            type="hidden"
+            name="contact[B2B_Kategorie]"
+            value="sonstige Kooperation"
+            data-mm-business-category-mirror
           >
-        </div>
 
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ phone_id }}">
-            {{ 'mm_pages.business.fields.phone' | t }}
-            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
-          </label>
-          <input
-            id="{{ phone_id }}"
-            class="mm-business__input"
-            type="tel"
-            name="contact[phone]"
-            autocomplete="tel"
-            value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
-          >
-        </div>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ company_id }}">
+              {{ 'mm_pages.business.fields.company' | t }}
+            </label>
+            <input
+              id="{{ company_id }}"
+              class="mm-business__input"
+              type="text"
+              name="contact[company]"
+              autocomplete="organization"
+              required
+              value="{% if form.company %}{{ form.company | escape }}{% endif %}"
+              {% if form.errors contains 'company' %}aria-invalid="true"{% endif %}
+            >
+          </div>
 
-        <div class="mm-business__field" data-mm-business-show-for="supplier,reseller,distribution">
-          <label class="mm-business__label" for="{{ categories_id }}">
-            {{ 'mm_pages.business.fields.categories' | t }}
-            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
-          </label>
-          <input
-            id="{{ categories_id }}"
-            class="mm-business__input"
-            type="text"
-            name="contact[product_categories]"
-            value="{% if form.product_categories %}{{ form.product_categories | escape }}{% endif %}"
-          >
-        </div>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ name_id }}">
+              {{ 'mm_pages.business.fields.contact_name' | t }}
+            </label>
+            <input
+              id="{{ name_id }}"
+              class="mm-business__input"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              required
+              value="{% if form.name %}{{ form.name | escape }}{% endif %}"
+              {% if form.errors contains 'name' %}aria-invalid="true"{% endif %}
+            >
+          </div>
 
-        <div class="mm-business__field" data-mm-business-show-for="reseller,distribution">
-          <label class="mm-business__label" for="{{ volume_id }}">
-            {{ 'mm_pages.business.fields.volume' | t }}
-            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
-          </label>
-          <input
-            id="{{ volume_id }}"
-            class="mm-business__input"
-            type="text"
-            name="contact[order_volume]"
-            value="{% if form.order_volume %}{{ form.order_volume | escape }}{% endif %}"
-          >
-        </div>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ email_id }}">
+              {{ 'mm_pages.business.fields.email' | t }}
+            </label>
+            <input
+              id="{{ email_id }}"
+              class="mm-business__input"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              required
+              spellcheck="false"
+              value="{% if form.email %}{{ form.email | escape }}{% endif %}"
+              {% if form.errors contains 'email' %}
+                aria-invalid="true"
+                aria-describedby="mm-biz-email-error-{{ section.id }}"
+              {% endif %}
+            >
+            {%- if form.errors contains 'email' -%}
+              <p id="mm-biz-email-error-{{ section.id }}" class="mm-business__error">
+                {{ 'mm_pages.business.error_email' | t }}
+              </p>
+            {%- endif -%}
+          </div>
 
-        <div class="mm-business__field" data-mm-business-show-for="supplier,other">
-          <label class="mm-business__label" for="{{ catalog_id }}">
-            {{ 'mm_pages.business.fields.catalog' | t }}
-            <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
-          </label>
-          <input
-            id="{{ catalog_id }}"
-            class="mm-business__input"
-            type="url"
-            name="contact[catalog_url]"
-            inputmode="url"
-            placeholder="https://"
-            value="{% if form.catalog_url %}{{ form.catalog_url | escape }}{% endif %}"
-          >
-        </div>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ country_id }}">
+              {{ 'mm_pages.business.fields.country' | t }}
+            </label>
+            <input
+              id="{{ country_id }}"
+              class="mm-business__input"
+              type="text"
+              name="contact[country]"
+              autocomplete="country-name"
+              required
+              value="{% if form.country %}{{ form.country | escape }}{% endif %}"
+              {% if form.errors contains 'country' %}aria-invalid="true"{% endif %}
+            >
+          </div>
 
-        <div class="mm-business__field">
-          <label class="mm-business__label" for="{{ message_id }}">
-            {{ 'mm_pages.business.fields.message' | t }}
-          </label>
-          <textarea
-            id="{{ message_id }}"
-            class="mm-business__textarea"
-            name="contact[body]"
-            rows="6"
-            required
-            {% if form.errors contains 'body' %}aria-invalid="true"{% endif %}
-          >{% if form.body %}{{ form.body }}{% endif %}</textarea>
-        </div>
+          {%- liquid
+            assign selected_type_value = form.inquiry_type | default: 'sonstige Kooperation'
+          -%}
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ type_id }}">
+              {{ 'mm_pages.business.fields.inquiry_type' | t }}
+            </label>
+            <select
+              id="{{ type_id }}"
+              class="mm-business__select"
+              name="contact[inquiry_type]"
+              required
+              data-mm-business-type
+            >
+              <option
+                value="Lieferant"
+                data-mm-type="supplier"
+                {% if selected_type_value == 'Lieferant' or selected_type_value == 'supplier' %}selected{% endif %}
+              >
+                {{ 'mm_pages.business.types.supplier' | t }}
+              </option>
+              <option
+                value="Wiederverkauf/Großbestellung"
+                data-mm-type="reseller"
+                {% if selected_type_value == 'Wiederverkauf/Großbestellung' or selected_type_value == 'reseller' %}selected{% endif %}
+              >
+                {{ 'mm_pages.business.types.reseller' | t }}
+              </option>
+              <option
+                value="Vertrieb Deutschland–Georgien"
+                data-mm-type="distribution"
+                {% if selected_type_value == 'Vertrieb Deutschland–Georgien' or selected_type_value == 'distribution' %}selected{% endif %}
+              >
+                {{ 'mm_pages.business.types.distribution' | t }}
+              </option>
+              <option
+                value="sonstige Kooperation"
+                data-mm-type="other"
+                {% if selected_type_value == 'sonstige Kooperation' or selected_type_value == 'other' or selected_type_value == blank %}selected{% endif %}
+              >
+                {{ 'mm_pages.business.types.other' | t }}
+              </option>
+            </select>
+          </div>
 
-        <button type="submit" class="mm-business__submit">
-          {{ 'mm_pages.business.submit' | t }}
-        </button>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ website_id }}">
+              {{ 'mm_pages.business.fields.website' | t }}
+              <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ website_id }}"
+              class="mm-business__input"
+              type="url"
+              name="contact[website]"
+              autocomplete="url"
+              inputmode="url"
+              placeholder="https://"
+              value="{% if form.website %}{{ form.website | escape }}{% endif %}"
+            >
+          </div>
 
-        {%- if disclaimer != blank -%}
-          <p class="mm-business__disclaimer">{{ disclaimer | escape }}</p>
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ phone_id }}">
+              {{ 'mm_pages.business.fields.phone' | t }}
+              <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ phone_id }}"
+              class="mm-business__input"
+              type="tel"
+              name="contact[phone]"
+              autocomplete="tel"
+              value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-business__field" data-mm-business-show-for="supplier,reseller,distribution">
+            <label class="mm-business__label" for="{{ categories_id }}">
+              {{ 'mm_pages.business.fields.categories' | t }}
+              <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ categories_id }}"
+              class="mm-business__input"
+              type="text"
+              name="contact[product_categories]"
+              value="{% if form.product_categories %}{{ form.product_categories | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-business__field" data-mm-business-show-for="reseller,distribution">
+            <label class="mm-business__label" for="{{ volume_id }}">
+              {{ 'mm_pages.business.fields.volume' | t }}
+              <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ volume_id }}"
+              class="mm-business__input"
+              type="text"
+              name="contact[order_volume]"
+              value="{% if form.order_volume %}{{ form.order_volume | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-business__field" data-mm-business-show-for="supplier,other">
+            <label class="mm-business__label" for="{{ catalog_id }}">
+              {{ 'mm_pages.business.fields.catalog' | t }}
+              <span class="mm-business__optional">{{ 'mm_pages.business.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ catalog_id }}"
+              class="mm-business__input"
+              type="url"
+              name="contact[catalog_url]"
+              inputmode="url"
+              placeholder="https://"
+              value="{% if form.catalog_url %}{{ form.catalog_url | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-business__field">
+            <label class="mm-business__label" for="{{ message_id }}">
+              {{ 'mm_pages.business.fields.message' | t }}
+            </label>
+            <textarea
+              id="{{ message_id }}"
+              class="mm-business__textarea"
+              name="contact[body]"
+              rows="6"
+              required
+              {% if form.errors contains 'body' %}aria-invalid="true"{% endif %}
+            >{% if form.body %}{{ form.body }}{% endif %}</textarea>
+          </div>
+
+          <button type="submit" class="mm-business__submit">
+            <span data-mm-business-submit-label>{{ 'mm_pages.business.submit' | t }}</span>
+            <span class="mm-business__submit-loading" hidden>{{ 'mm_pages.business.submitting' | t }}</span>
+          </button>
+
+          {%- if disclaimer != blank -%}
+            <p class="mm-business__disclaimer">{{ disclaimer | escape }}</p>
+          {%- endif -%}
         {%- endif -%}
       {%- endform -%}
     </div>

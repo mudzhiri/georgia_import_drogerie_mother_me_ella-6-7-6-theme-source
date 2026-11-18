@@ -1181,7 +1181,10 @@
       "success": "Danke. Ihre Geschäftsanfrage ist eingegangen. Wir prüfen sie und melden uns bei Bedarf an die angegebene E-Mail-Adresse.",
       "disclaimer": "Das Absenden begründet keine Bestellung, Preisvereinbarung oder bestätigte Kooperation.",
       "submit": "Anfrage senden",
-      "email_subject": "B2B-Anfrage — MOTHER & ME",
+      "submitting": "Wird gesendet…",
+      "error_general": "Die Anfrage konnte nicht gesendet werden. Bitte Pflichtfelder prüfen und erneut versuchen.",
+      "error_email": "Bitte eine gültige geschäftliche E-Mail-Adresse angeben.",
+      "email_subject": "B2B — MOTHER & ME",
       "nav_label": "Für Unternehmen",
       "fields": {
         "company": "Firma",

@@ -9,6 +9,11 @@
   var form = root.querySelector('[data-mm-business-form]');
   var formAnchor = root.querySelector('#mm-business-form');
   var conditionalFields = root.querySelectorAll('[data-mm-business-show-for]');
+  var subjectInput = root.querySelector('[data-mm-business-subject]');
+  var categoryMirror = root.querySelector('[data-mm-business-category-mirror]');
+  var successEl = root.querySelector('[data-mm-business-success]');
+  var errorEl = root.querySelector('[data-mm-business-errors]');
+  var submitting = false;
 
   var validTypes = {
     supplier: true,
@@ -17,12 +22,35 @@
     other: true
   };
 
+  function typeCodeFromSelect() {
+    if (!typeSelect) return 'other';
+    var selected = typeSelect.options[typeSelect.selectedIndex];
+    var code = selected && selected.getAttribute('data-mm-type');
+    return code && validTypes[code] ? code : 'other';
+  }
+
+  function selectByCode(code) {
+    if (!typeSelect || !validTypes[code]) return;
+    var option = typeSelect.querySelector('option[data-mm-type="' + code + '"]');
+    if (option) typeSelect.value = option.value;
+  }
+
+  function syncInboxFields() {
+    var code = typeCodeFromSelect();
+    var selected = typeSelect && typeSelect.options[typeSelect.selectedIndex];
+    var categoryValue = selected ? selected.value : '';
+    if (categoryMirror) categoryMirror.value = categoryValue;
+    if (subjectInput) {
+      var base = subjectInput.getAttribute('data-mm-subject-base') || 'B2B — MOTHER & ME';
+      subjectInput.value = categoryValue ? 'B2B | ' + categoryValue + ' — MOTHER & ME' : base;
+    }
+    return code;
+  }
+
   function setType(type, scrollToForm) {
     if (!validTypes[type]) return;
-    if (typeSelect) {
-      typeSelect.value = type;
-      typeSelect.dispatchEvent(new Event('change', { bubbles: true }));
-    }
+    selectByCode(type);
+    syncInboxFields();
     cards.forEach(function (card) {
       var active = card.getAttribute('data-mm-business-card') === type;
       card.classList.toggle('is-active', active);
@@ -32,7 +60,7 @@
     if (scrollToForm && formAnchor) {
       formAnchor.scrollIntoView({ behavior: prefersReducedMotion() ? 'auto' : 'smooth', block: 'start' });
       window.setTimeout(function () {
-        var first = form && form.querySelector('input, select, textarea');
+        var first = form && form.querySelector('input:not([type="hidden"]), select, textarea');
         if (first) first.focus({ preventScroll: true });
       }, prefersReducedMotion() ? 0 : 220);
     }
@@ -69,7 +97,7 @@
       var hash = (window.location.hash || '').replace(/^#/, '');
       if (hash && validTypes[hash]) return hash;
     } catch (e) {}
-    return typeSelect && typeSelect.value ? typeSelect.value : 'other';
+    return typeCodeFromSelect();
   }
 
   cards.forEach(function (card) {
@@ -86,15 +114,52 @@
 
   if (typeSelect) {
     typeSelect.addEventListener('change', function () {
-      setType(typeSelect.value, false);
+      setType(typeCodeFromSelect(), false);
     });
   }
 
   if (form) {
-    form.addEventListener('submit', function () {
+    form.addEventListener('submit', function (event) {
+      if (submitting) {
+        event.preventDefault();
+        return;
+      }
+      if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+        return;
+      }
+      submitting = true;
+      syncInboxFields();
       var btn = form.querySelector('[type="submit"]');
-      if (btn) btn.setAttribute('aria-busy', 'true');
+      if (btn) {
+        btn.setAttribute('aria-busy', 'true');
+        btn.disabled = true;
+        var idle = btn.querySelector('[data-mm-business-submit-label]');
+        var loading = btn.querySelector('.mm-business__submit-loading');
+        if (idle) idle.hidden = true;
+        if (loading) loading.hidden = false;
+      }
     });
+  }
+
+  window.addEventListener('pageshow', function (event) {
+    if (event.persisted && form) {
+      submitting = false;
+      var btn = form.querySelector('[type="submit"]');
+      if (btn) {
+        btn.disabled = false;
+        btn.removeAttribute('aria-busy');
+        var idle = btn.querySelector('[data-mm-business-submit-label]');
+        var loading = btn.querySelector('.mm-business__submit-loading');
+        if (idle) idle.hidden = false;
+        if (loading) loading.hidden = true;
+      }
+    }
+  });
+
+  if (successEl) {
+    try { successEl.focus(); } catch (e) {}
+  } else if (errorEl) {
+    try { errorEl.focus(); } catch (e) {}
   }
 
   setType(typeFromUrl(), false);

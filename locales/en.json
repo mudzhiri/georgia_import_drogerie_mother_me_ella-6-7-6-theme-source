@@ -1181,7 +1181,10 @@
       "success": "Thank you. Your business inquiry has been received. We will review it and contact you on the email you provided if needed.",
       "disclaimer": "Submitting this form is not an order, a price agreement, or a confirmed partnership.",
       "submit": "Send inquiry",
-      "email_subject": "B2B inquiry — MOTHER & ME",
+      "submitting": "Sending…",
+      "error_general": "The inquiry could not be sent. Please check the required fields and try again.",
+      "error_email": "Please enter a valid business email address.",
+      "email_subject": "B2B — MOTHER & ME",
       "nav_label": "For business",
       "fields": {
         "company": "Company",

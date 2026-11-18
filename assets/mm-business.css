@@ -319,6 +319,16 @@
   line-height: 1.5;
 }
 
+.mm-business__errors-lead {
+  margin: 0 0 8px;
+  font-weight: 600;
+}
+
+.mm-business__errors ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
 .mm-business__submit {
   display: inline-flex;
   align-items: center;
