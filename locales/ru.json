@@ -16,7 +16,7 @@
     "common": {
       "close": "დახურვა",
       "menu": "მენიუ",
-      "categories": "კატეგორიები",
+      "categories": "Категории",
       "log_in": "შესვლა",
       "account": "ანგარიში",
       "search": "ძებნა",
@@ -160,7 +160,8 @@
       "new_label": "ახალი",
       "sale_label": "აქცია",
       "hot_label": "პოპულარული",
-      "all": "ყველა"
+      "all": "ყველა",
+      "home": "Главная"
     },
     "button_load_more": {
       "default": "მეტის ჩვენება",
@@ -175,7 +176,15 @@
     },
     "accessibility": {
       "unit_price_separator": "თითო"
-    }
+    },
+    "toolbar_mobile": {
+      "home": "Главная",
+      "search": "Поиск",
+      "cart": "Корзина",
+      "account": "Аккаунт",
+      "collections": "Категории"
+    },
+    "categories": "Категории"
   },
   "brands_page": {
     "general": {
@@ -405,7 +414,10 @@
       "media_gallery": "პროდუქტის გალერეა",
       "media_load": "სურათის გახსნა",
       "thumbnail_label": "სურათი {{ index }}",
-      "image_counter": "{{ current }} / {{ total }}"
+      "image_counter": "{{ current }} / {{ total }}",
+      "related_products": "Похожие товары",
+      "recently_viewed_products": "Недавно просмотренные",
+      "share_copied": "Ссылка скопирована"
     },
     "modal": {
       "label": "მედია გალერეა"
@@ -450,7 +462,8 @@
       "info": {
         "email": "ელფოსტა",
         "phone": "ტელეფონი",
-        "address": "მისამართი"
+        "address": "მისამართი",
+        "aside": "Контактная информация"
       },
       "form": {
         "name": "სახელი",
@@ -460,7 +473,8 @@
         "message": "შეტყობინება",
         "send": "გაგზავნა",
         "post_success": "გმადლობთ შეტყობინებისთვის.",
-        "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:"
+        "error_heading": "გთხოვთ, შეასწოროთ შემდეგი:",
+        "required": "Обязательно"
       }
     },
     "404": {
@@ -616,7 +630,30 @@
       "qty": "რაოდ.",
       "options": "ვარიანტები",
       "show_variants": "ვარიანტების ჩვენება",
-      "results": "შედეგი"
+      "results": "შედეგი",
+      "show_results": "Показать результаты",
+      "price_invalid": "Минимальная цена не должна быть выше максимальной.",
+      "price_gel_suffix": "₾",
+      "price_from_label": "От (₾)",
+      "price_to_label": "До (₾)",
+      "loading": "Загрузка…",
+      "empty_with_filters": "По этим фильтрам товары не найдены.",
+      "reset_filters": "Сбросить фильтры",
+      "sort_options": {
+        "manual": "Избранное",
+        "best-selling": "Бестселлеры",
+        "title-ascending": "Название: А–Я",
+        "title-descending": "Название: Я–А",
+        "price-ascending": "Цена: по возрастанию",
+        "price-descending": "Цена: по убыванию",
+        "created-ascending": "Сначала старые",
+        "created-descending": "Сначала новые",
+        "relevance": "Релевантность"
+      },
+      "filter_count_badge": "{{ count }}",
+      "availability": "Наличие",
+      "in_stock": "В наличии",
+      "out_of_stock": "Нет в наличии"
     },
     "collection_list_template": {
       "product_count": "{{ count }} პროდუქტი"
@@ -734,7 +771,8 @@
       "sign_in": "შესვლა",
       "submit": "გაგზავნა",
       "register": "რეგისტრაცია",
-      "text": "შეიყვანეთ ელფოსტა და პაროლი ანგარიშზე წვდომისთვის"
+      "text": "შეიყვანეთ ელფოსტა და პაროლი ანგარიშზე წვდომისთვის",
+      "create_prompt": "Ещё нет аккаунта?"
     },
     "order": {
       "title": "შეკვეთა {{ name }}",
