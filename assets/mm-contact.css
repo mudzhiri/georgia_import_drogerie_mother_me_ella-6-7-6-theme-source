@@ -46,11 +46,23 @@
   overflow-wrap: anywhere;
 }
 
+.mm-contact__order-hint {
+  margin: 20px 0 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--mm-contact-border);
+  color: var(--mm-contact-text);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
 .mm-contact__about-link {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
-  margin-top: 20px;
+  margin-top: 16px;
   color: #214d43;
   font-size: 0.9375rem;
   font-weight: 600;

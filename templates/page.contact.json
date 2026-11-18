@@ -13,6 +13,7 @@
       "type": "mm-contact",
       "settings": {
         "heading": "",
+        "intro": "",
         "contact_email": "info@motherandme.ge"
       }
     }

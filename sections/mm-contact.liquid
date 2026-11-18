@@ -46,8 +46,16 @@
     endif
   endif
 
+  assign facebook_url = section.settings.facebook_url | strip
+  if facebook_url == blank
+    assign facebook_url = 'https://www.facebook.com/profile.php?id=61596296087284'
+  endif
+  unless facebook_url contains 'facebook.com'
+    assign facebook_url = ''
+  endunless
+
   assign has_details = false
-  if contact_email != blank or contact_phone != blank or has_address
+  if contact_email != blank or contact_phone != blank or has_address or facebook_url != blank
     assign has_details = true
   endif
 
@@ -101,6 +109,19 @@
                 </a>
               </li>
             {%- endif -%}
+            {%- if facebook_url != blank -%}
+              <li class="mm-contact__item">
+                <span class="mm-contact__label">{{ 'templates.contact.info.facebook' | t }}</span>
+                <a
+                  class="mm-contact__value"
+                  href="{{ facebook_url }}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Facebook
+                </a>
+              </li>
+            {%- endif -%}
             {%- if contact_phone != blank -%}
               <li class="mm-contact__item">
                 <span class="mm-contact__label">{{ 'templates.contact.info.phone' | t }}</span>
@@ -140,6 +161,7 @@
               <span class="mm-contact__value">{{ 'templates.contact.info.shipping_note' | t }}</span>
             </li>
           </ul>
+          <p class="mm-contact__order-hint">{{ 'templates.contact.info.order_hint' | t }}</p>
           {%- if about_url != blank -%}
             <a class="mm-contact__about-link" href="{{ about_url }}">
               {{ 'templates.contact.info.about_link' | t }}
@@ -315,8 +337,14 @@
       "info": "Same public email as footer. Falls back to Shopify shop email when empty. Demo placeholders are hidden."
     },
     {
+      "type": "url",
+      "id": "facebook_url",
+      "label": "Facebook page URL",
+      "info": "Confirmed public page: https://www.facebook.com/profile.php?id=61596296087284 — used as fallback when empty."
+    },
+    {
       "type": "paragraph",
-      "content": "Phone and address come only from Shopify Settings → Store details. Ella demo values are hidden. Address is labeled as pickup location when shown. No map embed. No invented opening hours."
+      "content": "Phone and address come only from Shopify Settings → Store details. Ella demo values are hidden. Address is labeled as pickup location (not a walk-in retail store). No map embed. No invented opening hours or response times."
     }
   ],
   "presets": [
