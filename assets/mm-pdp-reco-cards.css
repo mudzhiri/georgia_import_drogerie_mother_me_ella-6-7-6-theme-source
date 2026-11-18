@@ -16,13 +16,13 @@
 
 .halo-recommendations-block .mm-card-media,
 .halo-recently-viewed-block .mm-card-media {
-  --mm-card-img-pad: 16px;
+  --mm-card-img-pad: 20px;
 }
 
 @media screen and (min-width: 768px) {
   .halo-recommendations-block .mm-card-media,
   .halo-recently-viewed-block .mm-card-media {
-    --mm-card-img-pad: 24px;
+    --mm-card-img-pad: 28px;
   }
 }
 

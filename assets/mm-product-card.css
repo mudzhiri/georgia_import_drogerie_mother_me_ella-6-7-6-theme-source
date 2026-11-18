@@ -14,14 +14,15 @@
 
 /* —— Media shell —— */
 .mm-card-media {
-  --mm-card-img-pad: 16px;
+  /* Extra inset: many dm packshots are edge-flush portraits */
+  --mm-card-img-pad: 20px;
   position: relative;
   isolation: isolate;
 }
 
 @media screen and (min-width: 768px) {
   .mm-card-media {
-    --mm-card-img-pad: 24px;
+    --mm-card-img-pad: 28px;
   }
 }
 

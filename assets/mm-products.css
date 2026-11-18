@@ -95,7 +95,7 @@
 }
 
 .mm-products .mm-product-card__media {
-  --mm-card-img-pad: 16px;
+  --mm-card-img-pad: 20px;
   position: relative;
   display: block;
   flex: 0 0 auto;
@@ -110,7 +110,7 @@
 
 @media screen and (min-width: 768px) {
   .mm-products .mm-product-card__media {
-    --mm-card-img-pad: 24px;
+    --mm-card-img-pad: 28px;
   }
 }
 
