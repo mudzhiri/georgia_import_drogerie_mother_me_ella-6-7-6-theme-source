@@ -19,8 +19,24 @@
     return el.id.replace(/^shopify-section-/, '');
   };
 
-  // No body scroll lock (MM quality: panels must not lock page scroll).
-  const setScrollLock = () => {};
+  // Filter drawer only: prevent background scroll while open (brief). Restore on close.
+  const setScrollLock = (locked) => {
+    const root = document.documentElement;
+    if (locked) {
+      if (root.dataset.mmFiltersScrollLock === '1') return;
+      root.dataset.mmFiltersScrollLock = '1';
+      root.dataset.mmFiltersScrollY = String(window.scrollY || 0);
+      root.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    } else if (root.dataset.mmFiltersScrollLock === '1') {
+      const y = Number(root.dataset.mmFiltersScrollY || 0);
+      delete root.dataset.mmFiltersScrollLock;
+      delete root.dataset.mmFiltersScrollY;
+      root.style.overflow = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, y);
+    }
+  };
 
   const validatePrice = (form) => {
     if (!form) return true;

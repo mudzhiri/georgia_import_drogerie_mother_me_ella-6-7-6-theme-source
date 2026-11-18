@@ -143,21 +143,41 @@
           {%- for filter in filter_list -%}
             {%- liquid
               assign show_filter_group = false
-              if filter.type == 'price_range'
-                if filter.range_max != blank
-                  assign show_filter_group = true
-                endif
-              elsif filter.values.size > 0
+              assign filter_label = filter.label
+              assign filter_param = filter.param_name | downcase
+              if filter_param contains 'availability' or filter.label == 'Availability'
+                assign filter_label = 'sections.collection_template.availability' | t
+              elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor'
+                assign filter_label = 'products.product.vendor' | t
+              elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type'
+              assign filter_label = 'compare.general.product_type' | t
+            endif
+            if filter.type == 'price_range'
+              if filter.range_max != blank
                 assign show_filter_group = true
               endif
+              assign filter_label = 'sections.collection_template.price' | t
+            elsif filter.values.size > 0
+              assign show_filter_group = true
+            endif
             -%}
             {%- if show_filter_group -%}
               <div class="mm-filters__group">
-                <span class="mm-filters__group-label">{{ filter.label | escape }}</span>
+                <span class="mm-filters__group-label">{{ filter_label | escape }}</span>
                 {%- case filter.type -%}
                   {%- when 'list', 'boolean' -%}
                     <ul class="mm-filters__options" role="list">
                       {%- for value in filter.values -%}
+                        {%- liquid
+                          assign value_label = value.label
+                          if filter_param contains 'availability'
+                            if value.value == '1' or value.label contains 'In stock' or value.label == 'In stock'
+                              assign value_label = 'sections.collection_template.in_stock' | t
+                            elsif value.value == '0' or value.label contains 'Out of stock' or value.label == 'Out of stock'
+                              assign value_label = 'sections.collection_template.out_of_stock' | t
+                            endif
+                          endif
+                        -%}
                         <li>
                           <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
                             <input
@@ -168,7 +188,7 @@
                               {% if value.count == 0 and value.active == false %}disabled{% endif %}
                             >
                             <span>
-                              {{ value.label | escape }}
+                              {{ value_label | escape }}
                               {%- if value.count -%}
                                 <span aria-hidden="true">({{ value.count }})</span>
                               {%- endif -%}
@@ -301,21 +321,41 @@
         {%- for filter in filter_list -%}
           {%- liquid
             assign show_filter_group = false
+            assign filter_label = filter.label
+            assign filter_param = filter.param_name | downcase
+            if filter_param contains 'availability' or filter.label == 'Availability'
+              assign filter_label = 'sections.collection_template.availability' | t
+            elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor'
+              assign filter_label = 'products.product.vendor' | t
+            elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type'
+              assign filter_label = 'compare.general.product_type' | t
+            endif
             if filter.type == 'price_range'
               if filter.range_max != blank
                 assign show_filter_group = true
               endif
+              assign filter_label = 'sections.collection_template.price' | t
             elsif filter.values.size > 0
               assign show_filter_group = true
             endif
           -%}
           {%- if show_filter_group -%}
             <div class="mm-filters__group">
-              <span class="mm-filters__group-label">{{ filter.label | escape }}</span>
+              <span class="mm-filters__group-label">{{ filter_label | escape }}</span>
               {%- case filter.type -%}
                 {%- when 'list', 'boolean' -%}
                   <ul class="mm-filters__options" role="list">
                     {%- for value in filter.values -%}
+                      {%- liquid
+                        assign value_label = value.label
+                        if filter_param contains 'availability'
+                          if value.value == '1' or value.label contains 'In stock' or value.label == 'In stock'
+                            assign value_label = 'sections.collection_template.in_stock' | t
+                          elsif value.value == '0' or value.label contains 'Out of stock' or value.label == 'Out of stock'
+                            assign value_label = 'sections.collection_template.out_of_stock' | t
+                          endif
+                        endif
+                      -%}
                       <li>
                         <label class="mm-filters__option{% if value.count == 0 and value.active == false %} is-disabled{% endif %}">
                           <input
@@ -326,7 +366,7 @@
                             {% if value.count == 0 and value.active == false %}disabled{% endif %}
                           >
                           <span>
-                            {{ value.label | escape }}
+                            {{ value_label | escape }}
                             {%- if value.count -%}
                               <span aria-hidden="true">({{ value.count }})</span>
                             {%- endif -%}
