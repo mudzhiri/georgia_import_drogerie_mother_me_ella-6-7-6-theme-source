@@ -183,7 +183,10 @@
                     %}
                     <a class="card-link" href="{{ mm_card_product_url }}" title="{{ product_card_product.title | escape }}"></a>
                     {%- if mm_is_collection_card -%}
-                      {% render 'mm-card-wishlist-btn', product: product_card_product %}
+                      <div class="mm-card-actions">
+                        {% render 'mm-card-wishlist-btn', product: product_card_product %}
+                        {% render 'mm-card-share-btn', product: product_card_product %}
+                      </div>
                       {%- if mm_card_image_count > 1 -%}
                         <button type="button" class="mm-card-media__nav mm-card-media__nav--prev" data-mm-gallery-prev aria-label="{{ mm_prev_label | escape }}"><span aria-hidden="true">‹</span></button>
                         <button type="button" class="mm-card-media__nav mm-card-media__nav--next" data-mm-gallery-next aria-label="{{ mm_next_label | escape }}"><span aria-hidden="true">›</span></button>

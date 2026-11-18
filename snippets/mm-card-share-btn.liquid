@@ -1,0 +1,27 @@
+{%- comment -%}
+  Share control for MM product cards (stacked under wishlist on media).
+  Accepts: product
+{%- endcomment -%}
+{%- liquid
+  assign share_url = shop.url | append: product.url
+  assign share_title = product.title | escape
+  assign share_label = 'products.product.share' | t
+  assign share_copied = 'products.product.share_copied' | t
+  if share_copied == blank or share_copied contains 'Translation missing'
+    assign share_copied = 'ბმული დაკოპირდა'
+  endif
+-%}
+<button
+  type="button"
+  class="mm-card-share"
+  data-mm-share
+  data-mm-share-url="{{ share_url | escape }}"
+  data-mm-share-title="{{ share_title }}"
+  data-mm-share-copied="{{ share_copied | escape }}"
+  title="{{ share_label | escape }}"
+  aria-label="{{ share_label | escape }}"
+>
+  <span class="mm-card-share__icon" aria-hidden="true">
+    {% render 'icon-share' %}
+  </span>
+</button>

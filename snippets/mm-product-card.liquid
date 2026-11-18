@@ -70,7 +70,10 @@
     </a>
 
     {% render 'mm-product-badges', product: product, badge_detail: false %}
-    {% render 'mm-card-wishlist-btn', product: product %}
+    <div class="mm-card-actions">
+      {% render 'mm-card-wishlist-btn', product: product %}
+      {% render 'mm-card-share-btn', product: product %}
+    </div>
 
     {%- if mm_image_count > 1 -%}
       <button

@@ -236,7 +236,7 @@
   function onTouchStart(event) {
     var gallery = event.target.closest('[data-mm-card-gallery]');
     if (!gallery || !event.touches || event.touches.length !== 1) return;
-    if (event.target.closest('.mm-card-wishlist, .mm-card-media__nav, .mm-card-atc')) return;
+    if (event.target.closest('.mm-card-wishlist, .mm-card-share, .mm-card-media__nav, .mm-card-atc')) return;
     swipe.gallery = gallery;
     swipe.x = event.touches[0].clientX;
     swipe.y = event.touches[0].clientY;
@@ -333,6 +333,68 @@
     }, 30);
   }
 
+  function copyShareLink(url) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      return navigator.clipboard.writeText(url);
+    }
+    return new Promise(function (resolve, reject) {
+      try {
+        var input = document.createElement('input');
+        input.value = url;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        input.remove();
+        resolve();
+      } catch (err) {
+        reject(err);
+      }
+    });
+  }
+
+  function markShareCopied(btn) {
+    var copied = btn.getAttribute('data-mm-share-copied') || 'Copied';
+    btn.classList.add('is-copied');
+    btn.setAttribute('aria-label', copied);
+    btn.setAttribute('title', copied);
+    window.setTimeout(function () {
+      btn.classList.remove('is-copied');
+      var label = btn.getAttribute('data-mm-share-label');
+      if (label) {
+        btn.setAttribute('aria-label', label);
+        btn.setAttribute('title', label);
+      }
+    }, 1800);
+  }
+
+  function onShareClick(event) {
+    var btn = event.target.closest('.mm-card-share[data-mm-share]');
+    if (!btn) return;
+    event.preventDefault();
+    event.stopPropagation();
+    if (!btn.getAttribute('data-mm-share-label')) {
+      btn.setAttribute('data-mm-share-label', btn.getAttribute('aria-label') || btn.getAttribute('title') || '');
+    }
+    var url = btn.getAttribute('data-mm-share-url') || window.location.href;
+    var title = btn.getAttribute('data-mm-share-title') || document.title;
+    var sharePromise = navigator.share
+      ? navigator.share({ title: title, url: url })
+      : copyShareLink(url).then(function () {
+          markShareCopied(btn);
+        });
+    Promise.resolve(sharePromise).catch(function (err) {
+      if (err && err.name === 'AbortError') return;
+      copyShareLink(url)
+        .then(function () {
+          markShareCopied(btn);
+        })
+        .catch(function () { /* ignore */ });
+    });
+  }
+
   function refreshAfterDomChange() {
     document.querySelectorAll('[data-mm-card-gallery]').forEach(function (gallery) {
       var images = parseImages(gallery);
@@ -358,6 +420,7 @@
     document.addEventListener('click', onGalleryClick, true);
     document.addEventListener('click', onMediaLinkClick, true);
     document.addEventListener('click', onWishlistClick, true);
+    document.addEventListener('click', onShareClick, true);
     document.addEventListener('touchstart', onTouchStart, { passive: true, capture: true });
     document.addEventListener('touchmove', onTouchMove, { passive: false, capture: true });
     document.addEventListener('touchend', onTouchEnd, { passive: true, capture: true });
