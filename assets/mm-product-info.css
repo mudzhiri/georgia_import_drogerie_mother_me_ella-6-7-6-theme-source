@@ -72,8 +72,8 @@
   background: transparent;
   color: var(--mm-i-ink, #214d43);
   cursor: pointer;
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
   font-size: 0.8125rem;
   font-weight: 500;

@@ -496,7 +496,11 @@
         "shipping": "Shipping",
         "shipping_note": "Shipping in Georgia: 8 ₾; free from 200 ₾. Payment by bank transfer.",
         "order_hint": "If you are writing about a specific order, please include the order number. Receipts or bank details are not needed in this form.",
-        "about_link": "Learn more about us"
+        "about_link": "Learn more about us",
+        "facebook_link": "Facebook",
+        "payment": "Payment",
+        "payment_intro": "Payment methods",
+        "shipping_link": "Shipping information"
       },
       "form": {
         "name": "სახელი",

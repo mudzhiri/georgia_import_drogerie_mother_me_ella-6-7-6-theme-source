@@ -4,23 +4,14 @@
 <ul class="{{ listClass }} text-{{alignment}}" role="list">
     {%- liquid
         if search.terms != blank and template.suffix == 'ajax_mega_menu'
-            assign hide_menu_load = false
             assign menu = linklists[search.terms].links
         elsif template.suffix contains 'landing'
-            assign hide_menu_load = false
             assign menu = linklists[page.handle].links
             if menu == blank
                 assign menu = block.settings.menu.links
             endif
-        else
-            if block.settings.menu != blank
-                assign menu = block.settings.menu.links
-            endif
-            if template contains 'index' or search.terms == '' or search.terms == blank
-                assign hide_menu_load = false
-            else
-                assign hide_menu_load = true
-            endif
+        elsif block.settings.menu != blank
+            assign menu = block.settings.menu.links
         endif
     -%}
     {%- for link in menu -%}
@@ -167,7 +158,6 @@
                 menu_text_left: menu_text_left,
                 menu_text_left_sale: menu_text_left_sale,
                 collection_product: product_collection,
-                product_limit: product_limit,
                 mega_tyle: mega_tyle,
                 alignment: alignment
 

@@ -496,7 +496,11 @@
         "shipping": "Lieferung",
         "shipping_note": "Lieferung in Georgien: 8 ₾; kostenlos ab 200 ₾. Zahlung per Überweisung.",
         "order_hint": "Wenn du zu einer bestimmten Bestellung schreibst, gib bitte die Bestellnummer an. Quittungen oder Bankdaten sind im Formular nicht nötig.",
-        "about_link": "Mehr über uns"
+        "about_link": "Mehr über uns",
+        "facebook_link": "Facebook",
+        "payment": "Zahlung",
+        "payment_intro": "Zahlungsarten",
+        "shipping_link": "Lieferinformationen"
       },
       "form": {
         "name": "სახელი",

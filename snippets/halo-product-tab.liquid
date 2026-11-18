@@ -7,17 +7,17 @@
 		assign border_color = tab_border_color
 	endif
 
-	assign isVerticalSidebar = false
+	assign is_vertical_sidebar = false
 	if tab_layout == 'vertical_sidebar'
-		assign isVerticalSidebar = 'sidebar'
+		assign is_vertical_sidebar = 'sidebar'
 	endif
 
-	assign isVerticalSidebarMobile = false
+	assign is_vertical_sidebar_mobile = false
 	if tab_layout_mobile == 'vertical_sidebar'
-		assign isVerticalSidebarMobile = 'sidebar-mobile'
+		assign is_vertical_sidebar_mobile = 'sidebar-mobile'
 	endif
 -%}
-<product-tab class="productView-tab layout-{{ tab_layout }} halo-product-tab" data-vertical="{{ isVerticalSidebar }}" data-vertical-mobile="{{ isVerticalSidebarMobile }}">
+<product-tab class="productView-tab layout-{{ tab_layout }} halo-product-tab" data-vertical="{{ is_vertical_sidebar }}" data-vertical-mobile="{{ is_vertical_sidebar_mobile }}">
 	{%- if tab_layout == 'horizontal' or tab_layout == 'popup' -%}
 		<ul class="tabs tabs-horizontal list-unstyled disable-srollbar">
 			{%- for block in section.blocks -%}

@@ -111,8 +111,8 @@
   background: var(--mm-card-cream);
   color: var(--mm-card-green);
   cursor: pointer;
-  appearance: none;
   -webkit-appearance: none;
+  appearance: none;
   pointer-events: auto;
   flex-shrink: 0;
   box-shadow: 0 1px 4px rgba(33, 77, 67, 0.08);

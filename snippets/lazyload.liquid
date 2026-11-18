@@ -2,7 +2,8 @@
   Shared responsive image attributes for product cards and theme media.
   Always emits real src + srcset so images work without JavaScript.
   Native loading="lazy|eager" replaces lazysizes data-src / .lazyload opacity hide.
-  Optional: sizes, loading, fetchpriority, width, height, class (motion-reduce).
+  Optional: sizes, loading, fetchpriority, width, height, skip_dimensions, class (motion-reduce).
+  Pass skip_dimensions: true when the parent <img> already sets width/height (theme-check).
 {%- endcomment -%}
 {%- if preview_img != blank -%}
 {%- liquid
@@ -41,8 +42,10 @@
 src="{{ mm_src }}"
 srcset="{%- if mm_img.width >= 165 -%}{{ mm_img | image_url: width: 165 }} 165w{%- endif -%}{%- if mm_img.width >= 360 -%},{{ mm_img | image_url: width: 360 }} 360w{%- endif -%}{%- if mm_img.width >= 533 -%},{{ mm_img | image_url: width: 533 }} 533w{%- endif -%}{%- if mm_img.width >= 720 -%},{{ mm_img | image_url: width: 720 }} 720w{%- endif -%}{%- if mm_img.width >= 900 -%},{{ mm_img | image_url: width: 900 }} 900w{%- endif -%}{%- if mm_img.width >= 1200 -%},{{ mm_img | image_url: width: 1200 }} 1200w{%- endif -%}{%- if mm_img.width != blank and mm_img.width < 165 -%}{{ mm_img | image_url: width: mm_img.width }} {{ mm_img.width }}w{%- endif -%}"
 sizes="{{ mm_sizes }}"
+{%- unless skip_dimensions -%}
 {%- if mm_w != blank %} width="{{ mm_w }}"{% endif -%}
 {%- if mm_h != blank %} height="{{ mm_h }}"{% endif %}
+{%- endunless %}
 alt="{{ mm_img.alt | escape }}"
 loading="{{ mm_loading }}"
 decoding="async"

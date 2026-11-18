@@ -12,9 +12,9 @@
 
     # Only show scarcity when inventory is tracked AND a real positive quantity is known.
     if has_tracked_stock and inventory_qty > 0 and inventory_qty <= productMaxStock
-        assign checkShowHotStock = true
+        assign check_show_hot_stock = true
     else
-        assign checkShowHotStock = false
+        assign check_show_hot_stock = false
     endif
 -%}
 
@@ -23,8 +23,8 @@
     --spacing-bottom: {{ spacing_bottom | append: 'px' }};
     --color-text: {{ color_text }}"
 >
-    <div class="productView-hotStock style-{{ hot_stock_style }}{% unless checkShowHotStock %} is-hide{% endunless %}" data-hot-stock="{{ productMaxStock }}" {{variantCount}} {% if variantCount < 2 and checkShowHotStock %} data-current-inventory="{{ inventory_qty }}"{% endif %}>
-        {%- if checkShowHotStock -%}
+    <div class="productView-hotStock style-{{ hot_stock_style }}{% unless check_show_hot_stock %} is-hide{% endunless %}" data-hot-stock="{{ productMaxStock }}" {{variantCount}} {% if variantCount < 2 and check_show_hot_stock %} data-current-inventory="{{ inventory_qty }}"{% endif %}>
+        {%- if check_show_hot_stock -%}
             {%- if hot_stock_style == '2' -%}
                 <span class="hotStock-text">
                     {{ 'products.product.hot_stock_2' | t : inventory: inventory_qty }}

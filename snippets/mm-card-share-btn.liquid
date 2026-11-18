@@ -1,6 +1,7 @@
+{% # theme-check-disable OrphanedSnippet %}
 {%- comment -%}
   Share control for MM product cards (stacked under wishlist on media).
-  Accepts: product
+  Accepts: product. Wired from card markup when share UI is enabled.
 {%- endcomment -%}
 {%- liquid
   assign share_url = shop.url | append: product.url

@@ -14,7 +14,7 @@
                 -%}
                 <div class="sticky-left">
                     <div class="sticky-image" data-image-sticky-add-to-cart>
-                        <img srcset="{{ image | img_url: '1200x' }}" src="{{ image | img_url: '1200x' }}" alt="{{ image.alt | default: shop.name | escape }}" sizes="1200px" width="{{ image.width }}" height="{{ image.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %}>
+                        <img srcset="{{ image | image_url: width: 1200 }}" src="{{ image | image_url: width: 1200 }}" alt="{{ image.alt | default: shop.name | escape }}" sizes="1200px" width="{{ image.width }}" height="{{ image.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %}>
                     </div>
                     {% if sticky_atc_layout == '1' %}
                         <div class="sticky-info">
@@ -215,15 +215,15 @@
                             {%- case media.media_type -%}
                                 {%- when 'image' -%}
                                     <div class="productView-thumbnail filter-{{ media.alt | handle }}" data-media-id="{{ section.id }}-{{ media.id }}">
-                                        <div class="productView-thumbnail-link animated-loading" data-image="{{ media | img_url: 'original' }}">
-                                            <img src="{{ media | img_url: 'master' }}" alt="{{ media.alt | escape }}" title="{{ media.alt | escape }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
+                                        <div class="productView-thumbnail-link animated-loading" data-image="{{ media | image_url }}">
+                                            <img src="{{ media | image_url: width: 200 }}" alt="{{ media.alt | escape }}" title="{{ media.alt | escape }}" width="{{ media.width }}" height="{{ media.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
                                         </div>
                                     </div>
                                 {%- when 'external_video' -%}
                                     {%- if video_layout == 'thumbnail' -%}
                                         <div class="productView-thumbnail filter-{{ media.alt | handle }}" data-media-id="{{ section.id }}-{{ media.id }}">
                                             <div class="productView-thumbnail-link animated-loading">
-                                                <img src="{{ media | img_url: 'compact' }}" alt="{{ media.alt | escape }}" title="{{ media.alt | escape }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
+                                                <img src="{{ media | image_url: width: 160 }}" alt="{{ media.alt | escape }}" title="{{ media.alt | escape }}" width="{{ media.preview_image.width | default: media.width }}" height="{{ media.preview_image.height | default: media.height }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} />
                                             </div>
                                             <div class="productView-thumbnail-icon">
                                                 {% render 'icon-video' %}

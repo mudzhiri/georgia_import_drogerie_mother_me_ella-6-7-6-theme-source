@@ -4,7 +4,6 @@
   assign is_search = false
   if request.page_type == 'search'
     assign is_search = true
-    assign results = search
     assign results_url = routes.search_url
     assign sort_by = search.sort_by | default: search.default_sort_by
     assign sort_options = search.sort_options
@@ -13,7 +12,6 @@
     assign search_q = search.terms | url_encode
     assign clear_url = routes.search_url | append: '?q=' | append: search_q | append: '&type=product&options%5Bprefix%5D=last'
   else
-    assign results = collection
     assign results_url = collection.url
     assign sort_by = collection.sort_by | default: collection.default_sort_by
     assign sort_options = collection.sort_options
