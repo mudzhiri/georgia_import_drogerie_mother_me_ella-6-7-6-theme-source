@@ -604,7 +604,10 @@
       "heading": {
         "quantity": "რაოდენობა"
       },
-      "mm_shipping_note": "Product subtotal excludes delivery. Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free — choose at checkout. Final total appears when you complete the order."
+      "mm_shipping_note": "Product subtotal excludes delivery. Delivery within Tbilisi: 6 ₾. Pickup in Tbilisi is free — choose at checkout. Final total appears when you complete the order.",
+      "mm_payment_note": "Payment by bank transfer. The order has been received but is not yet paid — processing begins once the receipt of payment is confirmed.",
+      "unit_price": "Unit price",
+      "line_total": "Sum of position"
     },
     "footer": {
       "payment": "გადახდის მეთოდები"
