@@ -173,7 +173,8 @@
       "search": "ძებნა",
       "cart": "კალათა",
       "account": "ანგარიში",
-      "collections": "კატეგორიები"
+      "collections": "კატეგორიები",
+      "wishlist": "სურვილები"
     },
     "popup": {
       "warning_placeholder": "გაფრთხილება"
