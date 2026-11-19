@@ -1,23 +1,28 @@
 {%- comment -%}
-  MOTHER & ME header language switcher.
-  Storefront is Georgian-only for now — switcher stays hidden.
-  When multi-language launches: set mm_enable_language_switcher = true below
-  (and enable languages in Shopify Admin → Settings → Languages).
-  Uses Shopify localization.available_languages only — no hard-coded locale URLs.
-  Accepts: id_suffix {String} unique form/button ids (desktop|mobile)
+  MOTHER & ME language switcher (header / drawer / footer).
+  Storefront languages: Georgian (default) + English + Russian only.
+  Uses Shopify localization.available_languages (Translate & Adapt / Markets).
+  Accepts: id_suffix {String} unique form/button ids (desktop|mobile|drawer|footer)
 {%- endcomment -%}
 
 {%- liquid
-  assign mm_enable_language_switcher = false
+  assign mm_enable_language_switcher = true
   assign id_suffix = id_suffix | default: 'header'
   assign available = localization.available_languages
   assign current = localization.language
   assign form_id = 'mm-lang-form-' | append: id_suffix
   assign trigger_id = 'mm-lang-trigger-' | append: id_suffix
   assign list_id = 'mm-lang-list-' | append: id_suffix
+
+  assign mm_lang_count = 0
+  for language in available
+    if language.iso_code == 'ka' or language.iso_code == 'en' or language.iso_code == 'ru'
+      assign mm_lang_count = mm_lang_count | plus: 1
+    endif
+  endfor
 -%}
 
-{%- if mm_enable_language_switcher and available.size > 1 -%}
+{%- if mm_enable_language_switcher and mm_lang_count > 1 -%}
   {%- liquid
     assign code = current.iso_code | upcase
     case current.iso_code
@@ -27,9 +32,6 @@
       when 'ru'
         assign current_label = 'Русский'
         assign aria_language = 'Язык: Русский'
-      when 'de'
-        assign current_label = 'Deutsch'
-        assign aria_language = 'Sprache: Deutsch'
       when 'en'
         assign current_label = 'English'
         assign aria_language = 'Language: English'
@@ -37,9 +39,16 @@
         assign current_label = current.endonym_name | default: current.name
         assign aria_language = current_label
     endcase
+
+    assign mm_lang_class = 'mm-lang'
+    if id_suffix == 'drawer'
+      assign mm_lang_class = mm_lang_class | append: ' mm-lang--drawer'
+    elsif id_suffix == 'footer'
+      assign mm_lang_class = mm_lang_class | append: ' mm-lang--footer'
+    endif
   -%}
 
-  <div class="mm-lang{% if id_suffix == 'drawer' %} mm-lang--drawer{% endif %}" data-mm-lang>
+  <div class="{{ mm_lang_class }}" data-mm-lang>
     {%- form 'localization', id: form_id, class: 'mm-lang__form' -%}
       <input type="hidden" name="locale_code" value="{{ current.iso_code }}" data-mm-lang-input>
 
@@ -54,7 +63,6 @@
         data-mm-lang-trigger
       >
         <span class="mm-lang__globe" aria-hidden="true">
-          {%- comment -%} Outline globe only — fill forced none (base.css sets svg { fill: currentColor }) {%- endcomment -%}
           <svg
             width="24"
             height="24"
@@ -71,10 +79,13 @@
           </svg>
         </span>
         <span class="mm-lang__code" aria-hidden="true">{{ code }}</span>
+        {%- if id_suffix == 'footer' -%}
+          <span class="mm-lang__label">{{ current_label | escape }}</span>
+        {%- endif -%}
       </button>
 
       <div
-        class="mm-lang__dropdown"
+        class="mm-lang__dropdown{% if id_suffix == 'footer' %} mm-lang__dropdown--up{% endif %}"
         id="{{ list_id }}"
         role="listbox"
         aria-labelledby="{{ trigger_id }}"
@@ -82,37 +93,37 @@
         data-mm-lang-dropdown
       >
         {%- for language in available -%}
-          {%- liquid
-            assign option_label = language.endonym_name | default: language.name
-            case language.iso_code
-              when 'ka'
-                assign option_label = 'ქართული'
-              when 'ru'
-                assign option_label = 'Русский'
-              when 'de'
-                assign option_label = 'Deutsch'
-              when 'en'
-                assign option_label = 'English'
-            endcase
-            assign is_current = false
-            if language.iso_code == current.iso_code
-              assign is_current = true
-            endif
-          -%}
-          <button
-            type="button"
-            class="mm-lang__option{% if is_current %} mm-lang__option--current{% endif %}"
-            role="option"
-            lang="{{ language.iso_code }}"
-            hreflang="{{ language.iso_code }}"
-            data-value="{{ language.iso_code }}"
-            aria-selected="{% if is_current %}true{% else %}false{% endif %}"
-            {% if is_current %}aria-current="true"{% endif %}
-            data-mm-lang-option
-          >
-            <span class="mm-lang__option-name">{{ option_label }}</span>
-            <span class="mm-lang__option-code">{{ language.iso_code | upcase }}</span>
-          </button>
+          {%- if language.iso_code == 'ka' or language.iso_code == 'en' or language.iso_code == 'ru' -%}
+            {%- liquid
+              assign option_label = language.endonym_name | default: language.name
+              case language.iso_code
+                when 'ka'
+                  assign option_label = 'ქართული'
+                when 'ru'
+                  assign option_label = 'Русский'
+                when 'en'
+                  assign option_label = 'English'
+              endcase
+              assign is_current = false
+              if language.iso_code == current.iso_code
+                assign is_current = true
+              endif
+            -%}
+            <button
+              type="button"
+              class="mm-lang__option{% if is_current %} mm-lang__option--current{% endif %}"
+              role="option"
+              lang="{{ language.iso_code }}"
+              hreflang="{{ language.iso_code }}"
+              data-value="{{ language.iso_code }}"
+              aria-selected="{% if is_current %}true{% else %}false{% endif %}"
+              {% if is_current %}aria-current="true"{% endif %}
+              data-mm-lang-option
+            >
+              <span class="mm-lang__option-name">{{ option_label }}</span>
+              <span class="mm-lang__option-code">{{ language.iso_code | upcase }}</span>
+            </button>
+          {%- endif -%}
         {%- endfor -%}
       </div>
     {%- endform -%}

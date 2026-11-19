@@ -567,16 +567,24 @@
         &copy; {{ year_now }} {{ shop.name | escape }}
       </p>
 
-      {%- if has_payments -%}
-        <ul class="mm-footer__payments" role="list">
-          <li class="visually-hidden">{{ 'sections.footer.payment' | t }}</li>
-          {%- for type in payment_types -%}
-            <li class="mm-footer__payment-item">
-              {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
-            </li>
-          {%- endfor -%}
-        </ul>
-      {%- endif -%}
+      <div class="mm-footer__bottom-end">
+        {%- if section.settings.show_language_switcher != false -%}
+          <div class="mm-footer__lang">
+            {% render 'mm-language-switcher', id_suffix: 'footer' %}
+          </div>
+        {%- endif -%}
+
+        {%- if has_payments -%}
+          <ul class="mm-footer__payments" role="list">
+            <li class="visually-hidden">{{ 'sections.footer.payment' | t }}</li>
+            {%- for type in payment_types -%}
+              <li class="mm-footer__payment-item">
+                {{ type | payment_type_svg_tag: class: 'icon icon--full-color' }}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
     </div>
   </div>
 </footer>
@@ -616,7 +624,7 @@
       "type": "textarea",
       "id": "brand_text",
       "label": "Brand text",
-      "info": "Leave blank to use localized theme text (KA / EN / DE / RU)."
+      "info": "Leave blank to use localized theme text (KA / EN / RU)."
     },
     {
       "type": "checkbox",
@@ -695,6 +703,13 @@
     {
       "type": "header",
       "content": "Bottom bar"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_language_switcher",
+      "label": "Show language switcher",
+      "default": true,
+      "info": "Georgian (default), English, and Russian — from Shopify Languages / Translate & Adapt. Other locales are hidden."
     },
     {
       "type": "checkbox",
