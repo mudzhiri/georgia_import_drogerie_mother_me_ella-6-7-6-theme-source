@@ -46,12 +46,11 @@
                         <a {% if action_icon == 'account' %}{% unless is_contained %}href="{{ routes.account_login_url }}"{% endunless %}{% endif %}{% if link == blank %} role="link" aria-disabled="true"{% else %} href="{{ link }}"{% endif %} {% if block.type == 'content' %}data-bar-{{block.type}}{% elsif block.type == 'action' %}{% if action_icon == 'cart' %}{% if settings.show_quick_cart %}data-cart-sidebar{% else %}href="{{ routes.cart_url }}" class="list-item-cart"{% endif %}{% elsif action_icon == 'search' %}data-search-mobile{% elsif action_icon == 'account' %}{% if is_contained %}data-open-auth-sidebar{% endif %}{% endif %}{% endif %}><span class="icon">{{icon}}</span> <span class="text">{{ text | escape }}</span>
                             {%- if action_icon == 'cart' -%}
                                 <div
-                                  class="cart-count-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"
-                                  style="--bg-bubble: {{ section.settings.color_icon | default: '#214d43' }};"
+                                  class="cart-count-bubble mm-toolbar-cart-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"
                                   aria-hidden="true"
                                   {% if cart.item_count == 0 %}hidden{% endif %}
                                 >
-                                    <span data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
+                                    <span class="mm-toolbar-cart-count" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
                                 </div>
                                 <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
                             {%- endif -%}
@@ -76,10 +75,73 @@
         assign bg_color = section.settings.bg_color
         assign bg_color_gradient = section.settings.bg_color_gradient
         assign border_color = section.settings.border_color
+        if color_icon == blank or color_icon == 'rgba(0,0,0,0)'
+          assign color_icon = '#214d43'
+        endif
     -%}
     .halo-sticky-toolbar-mobile {background: {% if bg_color_gradient != blank %}{{bg_color_gradient}}{% else %}{{bg_color}}{% endif %};border: 1px solid {{border_color}}}
-    .halo-sticky-toolbar-mobile span {color: {{color_icon}}}
-    .halo-sticky-toolbar-mobile span.icon svg {fill: {{color_icon}}}
+    .halo-sticky-toolbar-mobile .bottom-bar--list li > a > .text,
+    .halo-sticky-toolbar-mobile .bottom-bar--list li > a > .icon {color: {{ color_icon }}}
+    .halo-sticky-toolbar-mobile span.icon svg {fill: {{ color_icon }}}
+
+    /* Cart badge: forced circle + centered digit (beats base/toolbar span rules) */
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble.cart-count-bubble {
+      position: absolute !important;
+      top: 0 !important;
+      right: 4px !important;
+      left: auto !important;
+      bottom: auto !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      width: 18px !important;
+      height: 18px !important;
+      min-width: 18px !important;
+      min-height: 18px !important;
+      max-width: none !important;
+      max-height: 18px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+      background: {{ color_icon }} !important;
+      color: #ffffff !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      line-height: 18px !important;
+      letter-spacing: 0 !important;
+      text-align: center !important;
+      transform: none !important;
+    }
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble.is-empty,
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble[hidden] {
+      display: none !important;
+    }
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble .mm-toolbar-cart-count,
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble .text,
+    .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble [data-cart-count] {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      border: 0 !important;
+      color: #ffffff !important;
+      background: transparent !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
+      letter-spacing: 0 !important;
+      text-align: center !important;
+      white-space: nowrap !important;
+      max-width: none !important;
+      overflow: visible !important;
+      text-overflow: clip !important;
+    }
 </style>
 <script>
     const buttons = document.querySelectorAll('[data-bar-content]');

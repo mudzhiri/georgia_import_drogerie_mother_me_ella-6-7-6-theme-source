@@ -41,6 +41,14 @@
     font-size: var(--font-size);
 }
 
+.bottom-bar--list .cart-count-bubble,
+.bottom-bar--list .cart-count-bubble span,
+.bottom-bar--list .mm-toolbar-cart-count {
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
 .bottom-bar--list .icon + .text {
     margin-top: 6px;
     line-height: 1;

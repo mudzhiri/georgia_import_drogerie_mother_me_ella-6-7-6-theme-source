@@ -2319,17 +2319,38 @@ summary::-webkit-details-marker {
         display: inherit;
     }
 
-    .bottom-bar--list .cart-count-bubble {
-        min-width: 20px;
-        min-height: 20px;
-        width: 20px;
-        height: 20px;
-        line-height: 0;
-        border-radius: 50%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
+    .bottom-bar--list .cart-count-bubble,
+    .halo-sticky-toolbar-mobile .cart-count-bubble {
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        box-sizing: border-box !important;
+        width: 18px !important;
+        height: 18px !important;
+        min-width: 18px !important;
+        min-height: 18px !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        border-radius: 50% !important;
+        overflow: hidden !important;
+        text-align: center !important;
+    }
+
+    .bottom-bar--list .cart-count-bubble .text,
+    .bottom-bar--list .cart-count-bubble [data-cart-count],
+    .halo-sticky-toolbar-mobile .cart-count-bubble .text,
+    .halo-sticky-toolbar-mobile .cart-count-bubble [data-cart-count] {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        height: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 1 !important;
+        font-size: 10px !important;
+        font-weight: 700 !important;
+        color: #ffffff !important;
     }
 /* END: Component Cart Count Bubble */
 
