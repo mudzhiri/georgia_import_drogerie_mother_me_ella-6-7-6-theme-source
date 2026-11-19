@@ -138,19 +138,7 @@
     const icon = anchor.querySelector('.icon-dropdown');
     if (icon) icon.setAttribute('hidden', '');
 
-    if (item.dataset.mmMobileToggle === '1') return;
-
-    toggle.addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-      const willOpen = !item.classList.contains('is-open');
-      item.classList.remove('is-hidden', 'd-none');
-      item.classList.toggle('is-open', willOpen);
-      row.classList.toggle('is-open', willOpen);
-      syncToggleLabel(toggle, anchor, willOpen);
-    });
-
+    /* Click handled via document capture below — mark as prepared. */
     item.dataset.mmMobileToggle = '1';
   }
 
@@ -160,9 +148,21 @@
     root.querySelectorAll('.menu-lv-1.dropdown, .menu-lv-2.dropdown').forEach(ensureMobileToggle);
   }
 
+  function toggleAccordionItem(item, toggle) {
+    if (!item || !toggle) return;
+    const row = item.querySelector(':scope > .mm-cat-item__row');
+    const anchor = row?.querySelector('a') || item.querySelector(':scope > a');
+    const willOpen = !item.classList.contains('is-open');
+    item.classList.remove('is-hidden', 'd-none');
+    item.classList.toggle('is-open', willOpen);
+    if (row) row.classList.toggle('is-open', willOpen);
+    syncToggleLabel(toggle, anchor, willOpen);
+  }
+
   /*
-   * Block Ella/theme.js from treating the parent category link as "expand only".
-   * Expand happens via .mm-cat-toggle; the link navigates.
+   * Capture-phase: run accordion here (before Ella), and stop theme.js from
+   * treating the toggle / parent link as drill-down.
+   * Main header menu is cloned into #navigation-mobile by Ella (mobile_menu=default).
    */
   document.addEventListener(
     'click',
@@ -173,28 +173,18 @@
         event.preventDefault();
         event.stopPropagation();
         if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+        const item = toggle.closest('.menu-lv-1.dropdown, .menu-lv-2.dropdown');
+        if (item) {
+          if (item.dataset.mmMobileToggle !== '1') ensureMobileToggle(item);
+          toggleAccordionItem(item, toggle);
+        }
         return;
       }
-      const trigger = event.target.closest('#navigation-mobile .menu_mobile_link');
-      if (!trigger) return;
-      if (trigger.classList.contains('list-menu__item--end')) return;
-      const parent = trigger.closest('.menu-lv-1.dropdown, .menu-lv-2.dropdown');
-      if (!parent) return;
-      /* Allow navigation to the parent collection URL. */
-    },
-    true
-  );
-
-  /* Stop theme.js expand-on-link handler for parents that have our toggle. */
-  document.addEventListener(
-    'click',
-    (event) => {
-      if (!MQ.matches) return;
       const trigger = event.target.closest(
-        '#navigation-mobile .menu-lv-1.dropdown[data-mm-mobile-toggle="1"] > .mm-cat-item__row > a.menu_mobile_link'
+        '#navigation-mobile .menu-lv-1.dropdown > .mm-cat-item__row > a.menu_mobile_link, #navigation-mobile .menu-lv-1.dropdown > a.menu_mobile_link'
       );
       if (!trigger) return;
-      /* Do not preventDefault — navigation should proceed. Stop theme expand. */
+      /* Allow navigation; stop Ella expand-on-link. */
       event.stopPropagation();
       if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
     },
@@ -242,6 +232,17 @@
     wasOpen = open;
   });
 
+  function watchDrawerMenu() {
+    const root = drawer();
+    if (!root || root.dataset.mmMenuWatch === '1') return;
+    root.dataset.mmMenuWatch = '1';
+    const obs = new MutationObserver(() => {
+      if (!MQ.matches) return;
+      enhanceMobileToggles();
+    });
+    obs.observe(root, { childList: true, subtree: true });
+  }
+
   function init() {
     const btn = toggleBtn();
     if (btn) syncToggleAria();
@@ -249,6 +250,7 @@
     closeBtns.forEach((el) => {
       if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', 'დახურვა');
     });
+    watchDrawerMenu();
     enhanceMobileToggles();
     wasOpen = isOpen();
     bodyObserver.disconnect();
