@@ -82,7 +82,11 @@
         return;
       }
       input.value = value;
-      form.submit();
+      if (typeof form.requestSubmit === 'function') {
+        form.requestSubmit();
+      } else {
+        form.submit();
+      }
     }
 
     dropdown.addEventListener('keydown', (event) => {
