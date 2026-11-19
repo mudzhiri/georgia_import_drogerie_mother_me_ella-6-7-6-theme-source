@@ -272,7 +272,7 @@
   <div class="mm-footer__inner">
     <div class="mm-footer__grid{% unless has_customers_links %} mm-footer__grid--no-customers{% endunless %}{% unless has_info_links %} mm-footer__grid--no-info{% endunless %}">
       <div class="mm-footer__brand">
-        <a class="mm-footer__logo-link" href="{{ routes.root_url }}">
+        <a class="mm-footer__logo-link" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
           {%- if logo != blank -%}
             {{
               logo
@@ -285,14 +285,25 @@
                 loading: 'lazy'
             }}
           {%- else -%}
-            <img
-              class="mm-footer__logo-img"
-              src="{{ 'mm-logo-footer.svg' | asset_url }}"
-              alt="{{ shop.name | escape }}"
-              width="{{ logo_width }}"
-              height="{{ logo_width | times: 180 | divided_by: 900 }}"
-              loading="lazy"
-            >
+            {%- comment -%}
+              Same brand mark as header. Inline SVG so it always renders on dark footer
+              (external SVG <text> logos often look “missing” as <img>).
+            {%- endcomment -%}
+            <span class="mm-footer__logo-img mm-footer__logo-mark" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 180" focusable="false">
+                <text
+                  x="450"
+                  y="100"
+                  text-anchor="middle"
+                  fill="currentColor"
+                  font-family="Georgia, 'Times New Roman', Times, serif"
+                  font-size="78"
+                  font-weight="600"
+                  letter-spacing="14"
+                >MOTHER &amp; ME</text>
+                <line x1="330" y1="132" x2="570" y2="132" stroke="#F3D5C3" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            </span>
           {%- endif -%}
         </a>
 
