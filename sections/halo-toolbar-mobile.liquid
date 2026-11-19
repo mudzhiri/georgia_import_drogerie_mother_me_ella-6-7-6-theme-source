@@ -1,5 +1,7 @@
 {%- if section.settings.display_section -%}
 {{ 'component-toolbar-mobile.css' | asset_url | stylesheet_tag }}
+{%- capture mm_wishlist_url -%}{% render 'mm-wishlist-url' %}{%- endcapture -%}
+{%- assign mm_wishlist_url = mm_wishlist_url | strip -%}
 <div class="halo-sticky-toolbar-mobile">
     <div class="bottom-bar">
         <ul class="bottom-bar--list">
@@ -26,24 +28,61 @@
                         assign link = blank
                     endif
                     # Prefer locale labels for known English leftovers / blanks (theme settings stay editable).
-                    if text == blank or text == 'Home' or text == 'Search' or text == 'Cart' or text == 'Account' or text == 'Collection'
+                    if text == blank or text == 'Home' or text == 'Search' or text == 'Cart' or text == 'Account' or text == 'Collection' or text == 'Wishlist'
                       if action_icon == 'search'
                         assign text = 'general.toolbar_mobile.search' | t
                       elsif action_icon == 'cart'
                         assign text = 'general.toolbar_mobile.cart' | t
                       elsif action_icon == 'account'
                         assign text = 'general.toolbar_mobile.account' | t
+                      elsif action_icon == 'wishlist'
+                        assign text = 'general.toolbar_mobile.wishlist' | t
                       elsif text == 'Home' or link == '/' or link == routes.root_url
                         assign text = 'general.toolbar_mobile.home' | t
                       elsif text == 'Collection' or text == blank
                         assign text = 'general.toolbar_mobile.collections' | t
                       endif
                     endif
+                    assign show_toolbar_item = true
+                    if action_icon == 'wishlist'
+                      unless settings.show_wishlist and mm_wishlist_url != blank
+                        assign show_toolbar_item = false
+                      endunless
+                    endif
                 -%}
-                {%- if icon != blank or text != blank -%}
-
-                    <li class="list-item{% if action_icon == 'account' %}{% unless shop.customer_accounts_enabled %} customer_accounts_disable{% endunless %}{% endif %}" style="--font-size: {{ font_size }}; --font-weight: {{ font_weight }}; --icon-size: {{ icon_size }}">
-                        <a {% if action_icon == 'account' %}{% unless is_contained %}href="{{ routes.account_login_url }}"{% endunless %}{% endif %}{% if link == blank %} role="link" aria-disabled="true"{% else %} href="{{ link }}"{% endif %} {% if block.type == 'content' %}data-bar-{{block.type}}{% elsif block.type == 'action' %}{% if action_icon == 'cart' %}{% if settings.show_quick_cart %}data-cart-sidebar{% else %}href="{{ routes.cart_url }}" class="list-item-cart"{% endif %}{% elsif action_icon == 'search' %}data-search-mobile{% elsif action_icon == 'account' %}{% if is_contained %}data-open-auth-sidebar{% endif %}{% endif %}{% endif %}><span class="icon">{{icon}}</span> <span class="text">{{ text | escape }}</span>
+                {%- if show_toolbar_item and icon != blank or show_toolbar_item and text != blank -%}
+                    <li class="list-item{% if action_icon == 'account' %}{% unless shop.customer_accounts_enabled %} customer_accounts_disable{% endunless %}{% endif %}{% if action_icon == 'wishlist' or action_icon == 'cart' %} list-item--badge{% endif %}" style="--font-size: {{ font_size }}; --font-weight: {{ font_weight }}; --icon-size: {{ icon_size }}">
+                        <a
+                          {%- if action_icon == 'wishlist' and mm_wishlist_url != blank -%}
+                            href="{{ mm_wishlist_url }}"
+                            class="list-item-wishlist"
+                          {%- elsif action_icon == 'account' -%}
+                            {%- unless is_contained %} href="{{ routes.account_login_url }}"{% endunless -%}
+                            {%- if is_contained %} role="link" aria-disabled="true" data-open-auth-sidebar{% endif -%}
+                          {%- elsif link != blank -%}
+                            href="{{ link }}"
+                          {%- elsif action_icon == 'cart' -%}
+                            {%- if settings.show_quick_cart -%}
+                              role="link" aria-disabled="true" data-cart-sidebar
+                            {%- else -%}
+                              href="{{ routes.cart_url }}" class="list-item-cart"
+                            {%- endif -%}
+                          {%- elsif action_icon == 'search' -%}
+                            role="link" aria-disabled="true" data-search-mobile
+                          {%- elsif block.type == 'content' -%}
+                            role="link" aria-disabled="true" data-bar-content
+                          {%- else -%}
+                            role="link" aria-disabled="true"
+                          {%- endif -%}
+                        >
+                            <span class="icon">
+                              {%- if icon != blank -%}
+                                {{ icon }}
+                              {%- elsif action_icon == 'wishlist' -%}
+                                {% render 'icon-heart' %}
+                              {%- endif -%}
+                            </span>
+                            <span class="text">{{ text | escape }}</span>
                             {%- if action_icon == 'cart' -%}
                                 <div
                                   class="cart-count-bubble mm-toolbar-cart-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"
@@ -54,6 +93,11 @@
                                 </div>
                                 <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
                             {%- endif -%}
+                            {%- if action_icon == 'wishlist' -%}
+                                <div class="wishlist-count-bubble mm-toolbar-wishlist-bubble" aria-hidden="true" hidden>
+                                    <span class="mm-toolbar-wishlist-count" data-wishlist-count></span>
+                                </div>
+                            {%- endif -%}
                         </a>
                         {%- if block.type == 'content' -%}
                             <div class="block-content bottom-bar--content" id="{{ block.id }}">
@@ -62,8 +106,6 @@
                             </div>
                         {% endif %}
                     </li>
-
-
                 {%- endif -%}
             {%- endfor -%}
         </ul>
@@ -141,6 +183,58 @@
       max-width: none !important;
       overflow: visible !important;
       text-overflow: clip !important;
+    }
+
+    .halo-sticky-toolbar-mobile .list-item--badge > a,
+    .halo-sticky-toolbar-mobile a.list-item-wishlist,
+    .halo-sticky-toolbar-mobile a[data-cart-sidebar],
+    .halo-sticky-toolbar-mobile a.list-item-cart {
+      position: relative;
+    }
+
+    .halo-sticky-toolbar-mobile .mm-toolbar-wishlist-bubble.wishlist-count-bubble {
+      position: absolute !important;
+      top: 0 !important;
+      right: 4px !important;
+      left: auto !important;
+      bottom: auto !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      box-sizing: border-box !important;
+      width: 18px !important;
+      height: 18px !important;
+      min-width: 18px !important;
+      min-height: 18px !important;
+      padding: 0 !important;
+      margin: 0 !important;
+      border: 0 !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+      background: {{ color_icon }} !important;
+      color: #ffffff !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      line-height: 18px !important;
+      text-align: center !important;
+      transform: none !important;
+    }
+    .halo-sticky-toolbar-mobile .mm-toolbar-wishlist-bubble[hidden] {
+      display: none !important;
+    }
+    .halo-sticky-toolbar-mobile .mm-toolbar-wishlist-bubble .mm-toolbar-wishlist-count,
+    .halo-sticky-toolbar-mobile .mm-toolbar-wishlist-bubble [data-wishlist-count] {
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      color: #ffffff !important;
+      font-size: 10px !important;
+      font-weight: 700 !important;
+      line-height: 1 !important;
     }
 </style>
 <script>
@@ -336,6 +430,10 @@
                         {
                             "value": "search",
                             "label": "t:sections.sticky_toolbar_mobile.blocks.action.action_to.option3"
+                        },
+                        {
+                            "value": "wishlist",
+                            "label": "Wishlist"
                         }
                     ],
                     "default": "cart"

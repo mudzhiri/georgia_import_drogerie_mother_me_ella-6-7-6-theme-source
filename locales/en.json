@@ -182,7 +182,8 @@
       "search": "Search",
       "cart": "Cart",
       "account": "Account",
-      "collections": "Categories"
+      "collections": "Categories",
+      "wishlist": "Wishlist"
     },
     "popup": {
       "warning_placeholder": "Warning"

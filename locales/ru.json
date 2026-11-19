@@ -182,7 +182,8 @@
       "search": "Поиск",
       "cart": "Корзина",
       "account": "Аккаунт",
-      "collections": "Категории"
+      "collections": "Категории",
+      "wishlist": "Избранное"
     },
     "popup": {
       "warning_placeholder": "Предупреждение"
