@@ -58,12 +58,14 @@
 }
 
 .bottom-bar--list .icon {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: var(--icon-size, 22px);
     height: var(--icon-size, 22px);
     line-height: 0;
+    overflow: visible;
 }
 
 .bottom-bar--list .cart-count-bubble,
@@ -123,8 +125,8 @@
 }
 
 .bottom-bar--list .cart-count-bubble {
-    top: 2px;
-    right: 2px;
+    top: -6px;
+    right: -8px;
     left: auto;
     bottom: auto;
     display: inline-flex;

@@ -82,24 +82,26 @@
                               {%- elsif action_icon == 'wishlist' -%}
                                 {% render 'icon-heart' %}
                               {%- endif -%}
-                            </span>
-                            {%- if text != blank -%}
-                              <span class="text visually-hidden">{{ text | escape }}</span>
-                            {%- endif -%}
-                            {%- if action_icon == 'cart' -%}
+                              {%- if action_icon == 'cart' -%}
                                 <div
                                   class="cart-count-bubble mm-toolbar-cart-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"
                                   aria-hidden="true"
                                   {% if cart.item_count == 0 %}hidden{% endif %}
                                 >
-                                    <span class="mm-toolbar-cart-count" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
+                                  <span class="mm-toolbar-cart-count" data-cart-count>{%- if cart.item_count < 100 -%}{{ cart.item_count }}{%- else -%}{{ 'sections.cart.item_99' | t }}{%- endif -%}</span>
                                 </div>
-                                <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
-                            {%- endif -%}
-                            {%- if action_icon == 'wishlist' -%}
+                              {%- endif -%}
+                              {%- if action_icon == 'wishlist' -%}
                                 <div class="wishlist-count-bubble mm-toolbar-wishlist-bubble" aria-hidden="true" hidden>
-                                    <span class="mm-toolbar-wishlist-count" data-wishlist-count></span>
+                                  <span class="mm-toolbar-wishlist-count" data-wishlist-count></span>
                                 </div>
+                              {%- endif -%}
+                            </span>
+                            {%- if text != blank -%}
+                              <span class="text visually-hidden">{{ text | escape }}</span>
+                            {%- endif -%}
+                            {%- if action_icon == 'cart' -%}
+                              <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
                             {%- endif -%}
                         </a>
                         {%- if block.type == 'content' -%}
@@ -168,11 +170,17 @@
       display: none !important;
     }
 
+    /* Badge anchors to the icon, not the full-width toolbar cell */
+    .halo-sticky-toolbar-mobile .list-item--badge > a > .icon {
+      position: relative;
+      overflow: visible;
+    }
+
     /* Cart badge: forced circle + centered digit (beats base/toolbar span rules) */
     .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble.cart-count-bubble {
       position: absolute !important;
-      top: 0 !important;
-      right: 4px !important;
+      top: -6px !important;
+      right: -8px !important;
       left: auto !important;
       bottom: auto !important;
       display: inline-flex !important;
@@ -236,8 +244,8 @@
 
     .halo-sticky-toolbar-mobile .mm-toolbar-wishlist-bubble.wishlist-count-bubble {
       position: absolute !important;
-      top: 0 !important;
-      right: 4px !important;
+      top: -6px !important;
+      right: -8px !important;
       left: auto !important;
       bottom: auto !important;
       display: inline-flex !important;
