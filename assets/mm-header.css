@@ -427,6 +427,14 @@ html.mm-sticky-header-on {
   transition: background-color 180ms ease;
 }
 
+.mm-search-panel__submit svg {
+  width: 32px !important;
+  height: 32px !important;
+  max-width: 32px;
+  max-height: 32px;
+  flex-shrink: 0;
+}
+
 .mm-search-panel__submit:hover,
 .mm-search-panel__submit:focus-visible {
   background: rgba(33, 77, 67, 0.06);
