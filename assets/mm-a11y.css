@@ -56,8 +56,20 @@ body {
 
 .halo-sticky-toolbar-mobile .bottom-bar {
   min-height: 56px;
-  padding: 4px 8px calc(4px + env(safe-area-inset-bottom, 0px));
+  padding: 0 6px calc(env(safe-area-inset-bottom, 0px));
   box-sizing: border-box;
+}
+
+.halo-sticky-toolbar-mobile .bottom-bar--list {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.halo-sticky-toolbar-mobile .bottom-bar--list > .list-item {
+  flex: 1 1 0;
+  min-width: 0;
 }
 
 .halo-sticky-toolbar-mobile .bottom-bar--list li > a {
@@ -65,9 +77,10 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
   min-width: 44px;
-  min-height: 44px;
-  padding: 6px 4px;
+  min-height: 48px;
+  padding: 8px 2px;
   color: var(--mm-primary, #214d43);
   text-decoration: none;
 }
@@ -78,14 +91,23 @@ body {
   border-radius: 6px;
 }
 
-.halo-sticky-toolbar-mobile .bottom-bar--list li > a > .text {
-  max-width: 4.5rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font-size: 0.6875rem;
-  line-height: 1.2;
-  color: #3d4a43; /* ≥ 4.5:1 on white */
+/* Labels hidden visually; keep for screen readers via aria-label / .visually-hidden */
+.halo-sticky-toolbar-mobile .bottom-bar--list li > a > .text:not(.visually-hidden) {
+  display: none !important;
+}
+
+.halo-sticky-toolbar-mobile .bottom-bar--list .icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--icon-size, 22px);
+  height: var(--icon-size, 22px);
+}
+
+.halo-sticky-toolbar-mobile .bottom-bar--list .icon svg {
+  width: var(--icon-size, 22px) !important;
+  height: var(--icon-size, 22px) !important;
+  transform: none !important;
 }
 
 /* Mobile toolbar cart badge — reinforced; primary rules live in section style */

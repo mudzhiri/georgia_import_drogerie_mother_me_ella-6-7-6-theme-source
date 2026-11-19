@@ -53,6 +53,7 @@
                 {%- if show_toolbar_item and icon != blank or show_toolbar_item and text != blank -%}
                     <li class="list-item{% if action_icon == 'account' %}{% unless shop.customer_accounts_enabled %} customer_accounts_disable{% endunless %}{% endif %}{% if action_icon == 'wishlist' or action_icon == 'cart' %} list-item--badge{% endif %}" style="--font-size: {{ font_size }}; --font-weight: {{ font_weight }}; --icon-size: {{ icon_size }}">
                         <a
+                          {%- if text != blank %} aria-label="{{ text | escape }}"{% endif -%}
                           {%- if action_icon == 'wishlist' and mm_wishlist_url != blank -%}
                             href="{{ mm_wishlist_url }}"
                             class="list-item-wishlist"
@@ -75,14 +76,16 @@
                             role="link" aria-disabled="true"
                           {%- endif -%}
                         >
-                            <span class="icon">
+                            <span class="icon" aria-hidden="true">
                               {%- if icon != blank -%}
                                 {{ icon }}
                               {%- elsif action_icon == 'wishlist' -%}
                                 {% render 'icon-heart' %}
                               {%- endif -%}
                             </span>
-                            <span class="text">{{ text | escape }}</span>
+                            {%- if text != blank -%}
+                              <span class="text visually-hidden">{{ text | escape }}</span>
+                            {%- endif -%}
                             {%- if action_icon == 'cart' -%}
                                 <div
                                   class="cart-count-bubble mm-toolbar-cart-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"
@@ -122,9 +125,48 @@
         endif
     -%}
     .halo-sticky-toolbar-mobile {background: {% if bg_color_gradient != blank %}{{bg_color_gradient}}{% else %}{{bg_color}}{% endif %};border: 1px solid {{border_color}}}
-    .halo-sticky-toolbar-mobile .bottom-bar--list li > a > .text,
+    .halo-sticky-toolbar-mobile .bottom-bar--list {
+      display: flex;
+      align-items: stretch;
+      justify-content: space-between;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .halo-sticky-toolbar-mobile .bottom-bar--list > .list-item {
+      flex: 1 1 0;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .halo-sticky-toolbar-mobile .bottom-bar--list li > a {
+      width: 100%;
+      min-height: 48px;
+      padding: 8px 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
     .halo-sticky-toolbar-mobile .bottom-bar--list li > a > .icon {color: {{ color_icon }}}
-    .halo-sticky-toolbar-mobile span.icon svg {fill: {{ color_icon }}}
+    .halo-sticky-toolbar-mobile .bottom-bar--list .icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: {{ icon_size }};
+      height: {{ icon_size }};
+    }
+    .halo-sticky-toolbar-mobile span.icon svg {
+      fill: {{ color_icon }};
+      width: {{ icon_size }} !important;
+      height: {{ icon_size }} !important;
+      max-width: {{ icon_size }};
+      max-height: {{ icon_size }};
+      transform: none !important;
+    }
+    .halo-sticky-toolbar-mobile .bottom-bar--list li > a > .text:not(.visually-hidden) {
+      display: none !important;
+    }
 
     /* Cart badge: forced circle + centered digit (beats base/toolbar span rules) */
     .halo-sticky-toolbar-mobile .mm-toolbar-cart-bubble.cart-count-bubble {
