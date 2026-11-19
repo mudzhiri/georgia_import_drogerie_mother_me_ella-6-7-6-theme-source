@@ -182,7 +182,8 @@
       "search": "Suche",
       "cart": "Warenkorb",
       "account": "Konto",
-      "collections": "Kategorien"
+      "collections": "Kategorien",
+      "wishlist": "Wunschliste"
     },
     "popup": {
       "warning_placeholder": "Hinweis"

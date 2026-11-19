@@ -322,7 +322,7 @@
       style="--grid-gap: {{ grid_gap }}; --mm-reco-gap: {{ as_grid_gap | append: 'px' }};"
       hidden
     >
-        <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
+        <div class="{% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth' %}container-full{% else %}container{% endif %}">
             {%- if block_title != blank -%}
                 <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
                     <h3 class="title">
@@ -338,7 +338,8 @@
                   id="recently-viewed-products-list-2"
                   aria-busy="false"
                   aria-live="polite"
-                ></div>
+                >
+                </div>
             </div>
         </div>
     </div>
@@ -418,14 +419,22 @@
 
                 var list = document.getElementById('recently-viewed-products-list-2');
                 var showCount = Math.min(limit, queue.length);
+                var loadingLabel = {{ 'accessibility.loading' | t | json }};
                 if (list) {
                     list.setAttribute('aria-busy', 'true');
                     list.setAttribute('data-mm-reco-count', String(showCount));
-                    list.innerHTML = '';
+                    list.textContent = '';
                     for (var i = 0; i < showCount; i++) {
                         var ph = document.createElement('div');
                         ph.className = 'product mm-pdp-reco-grid__item';
-                        ph.innerHTML = '<div class="product-item product-item--loadingNoInfo" aria-hidden="true"><span class="visually-hidden">{{ 'accessibility.loading' | t }}</span></div>';
+                        var item = document.createElement('div');
+                        item.className = 'product-item product-item--loadingNoInfo';
+                        item.setAttribute('aria-hidden', 'true');
+                        var sr = document.createElement('span');
+                        sr.className = 'visually-hidden';
+                        sr.textContent = loadingLabel;
+                        item.appendChild(sr);
+                        ph.appendChild(item);
                         list.appendChild(ph);
                     }
                 }

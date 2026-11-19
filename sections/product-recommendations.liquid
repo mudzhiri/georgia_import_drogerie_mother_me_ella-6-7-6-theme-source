@@ -20,6 +20,7 @@
         assign image_ratio = 'square'
         assign swipe = false
         assign mm_reco_hide = false
+        assign mm_reco_cards_stripped = ''
         if recommendations.performed and recommendations.products_count == 0
           assign mm_reco_hide = true
         endif
@@ -338,39 +339,39 @@
       data-recommendations-block
       style="--grid-gap: {{ grid_gap }}; --mm-reco-gap: {{ as_grid_gap | append: 'px' }};"
     >
-        {% if recommendations.performed and mm_reco_cards_stripped != blank %}
-              <div class="wrapper-container has-product {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
-                  {%- if block_title != blank -%}
-                      <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
-                          <h3 class="title">
-                              <span class="text">{{ block_title | escape }}</span>
-                          </h3>
-                      </div>
-                  {%- endif -%}
-                  <div class="halo-block-content">
-                      {{ mm_reco_cards }}
-                  </div>
-              </div>
-        {% else %}
-            <div class="wrapper-container product-recommendations-loading {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth'%}container-full{% else %}container{% endif %}">
-                {%- if block_title != blank -%}
-                    <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
-                        <h3 class="title">
-                            <span class="text">{{ block_title | escape }}</span>
-                        </h3>
-                    </div>
-                {%- endif -%}
-                <div class="halo-block-content">
-                    <div class="products-grid mm-pdp-reco-grid mm-pdp-reco-grid--skeleton column-{{ limit }}" data-products-to-show="{{ limit }}" data-mm-reco-count="{{ limit }}" aria-hidden="true">
-                        {%- for i in (1..limit) -%}
-                            <div class="product mm-pdp-reco-grid__item">
-                                {% render 'product-card-loading-no-info', portrait_aspect_ratio: '100' %}
-                            </div>
-                        {%- endfor -%}
-                    </div>
-                </div>
+      {% if recommendations.performed and mm_reco_cards_stripped != blank %}
+        <div class="wrapper-container has-product {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth' %}container-full{% else %}container{% endif %}">
+          {%- if block_title != blank -%}
+            <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
+              <h3 class="title">
+                <span class="text">{{ block_title | escape }}</span>
+              </h3>
             </div>
-        {% endif %}
+          {%- endif -%}
+          <div class="halo-block-content">
+            {{ mm_reco_cards }}
+          </div>
+        </div>
+      {% else %}
+        <div class="wrapper-container product-recommendations-loading {% if container == '1170' %}container-1170{% elsif container == '1770' %}container-1770{% elsif container == 'fullwidth' %}container-full{% else %}container{% endif %}">
+          {%- if block_title != blank -%}
+            <div class="halo-block-header text-{{ block_title_align }} block-title--{{ section.settings.style_block_header }}">
+              <h3 class="title">
+                <span class="text">{{ block_title | escape }}</span>
+              </h3>
+            </div>
+          {%- endif -%}
+          <div class="halo-block-content">
+            <div class="products-grid mm-pdp-reco-grid mm-pdp-reco-grid--skeleton column-{{ limit }}" data-products-to-show="{{ limit }}" data-mm-reco-count="{{ limit }}" aria-hidden="true">
+              {%- for i in (1..limit) -%}
+                <div class="product mm-pdp-reco-grid__item">
+                  {% render 'product-card-loading-no-info', portrait_aspect_ratio: '100' %}
+                </div>
+              {%- endfor -%}
+            </div>
+          </div>
+        </div>
+      {% endif %}
     </div>
     {%- endunless -%}
 {%- endif -%}

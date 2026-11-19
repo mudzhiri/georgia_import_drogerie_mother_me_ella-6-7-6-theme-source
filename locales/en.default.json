@@ -173,7 +173,8 @@
       "search": "ძებნა",
       "cart": "კალათა",
       "account": "ანგარიში",
-      "collections": "კატეგორიები"
+      "collections": "კატეგორიები",
+      "wishlist": "სურვილები"
     },
     "popup": {
       "warning_placeholder": "გაფრთხილება"
@@ -1079,6 +1080,12 @@
       "heading": "გერმანიიდან — შენთვის",
       "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
       "link": "ჩვენს შესახებ"
+    },
+    "business_teaser": {
+      "eyebrow": "B2B & partnerships",
+      "heading": "Let’s work together",
+      "text": "Representing a company or brand? Write to us about product supply, wholesale orders, or other cooperation.",
+      "button": "Discuss cooperation"
     },
     "brands": {
       "heading": "ბრენდები ჩვენს ასორტიმენტში",
