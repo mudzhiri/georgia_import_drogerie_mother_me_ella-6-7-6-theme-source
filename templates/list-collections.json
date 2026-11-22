@@ -69,7 +69,7 @@
         "col_lact": {
           "type": "collection",
           "settings": {
-            "collection": "ძუძუთი-კვება-და-ორსულობა",
+            "collection": "ლაქტაცია-და-ორსულობა",
             "label": "ორსულობა და ლაქტაცია"
           }
         },
