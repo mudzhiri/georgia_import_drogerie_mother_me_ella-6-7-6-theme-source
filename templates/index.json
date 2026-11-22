@@ -76,7 +76,7 @@
         "pill_lactation": {
           "type": "pill",
           "settings": {
-            "collection": "ძუძუთი-კვება-და-ორსულობა",
+            "collection": "ლაქტაცია-და-ორსულობა",
             "label": "ორსულობა და ლაქტაცია",
             "link": ""
           }
