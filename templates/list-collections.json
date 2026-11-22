@@ -1,7 +1,10 @@
 /*
  * ------------------------------------------------------------
- * MOTHER & ME — collections index (/collections)
- * Canonical groups: ბავშვი + დედა (no duplicate ბავშვები entry).
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
  * ------------------------------------------------------------
  */
 {
@@ -32,7 +35,7 @@
         "col_abazana": {
           "type": "collection",
           "settings": {
-            "collection": "აბაზანა-და-რეცხვა",
+            "collection": "ბავშვის-ჰიგიენა-0-3-წლამდე",
             "label": "აბაზანა და ჰიგიენა"
           }
         },

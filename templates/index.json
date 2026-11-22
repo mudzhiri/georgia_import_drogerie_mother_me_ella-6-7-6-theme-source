@@ -44,7 +44,7 @@
         "pill_bath": {
           "type": "pill",
           "settings": {
-            "collection": "აბაზანა-და-რეცხვა",
+            "collection": "ბავშვის-ჰიგიენა-0-3-წლამდე",
             "label": "აბაზანა და ჰიგიენა",
             "link": ""
           }
@@ -213,32 +213,32 @@
           "type": "need",
           "settings": {
             "collection": "ბავშვის-კანის-მოვლა",
-            "label": "",
-            "icon": "care"
+            "icon": "care",
+            "label": ""
           }
         },
         "need_bath": {
           "type": "need",
           "settings": {
-            "collection": "აბაზანა-და-რეცხვა",
-            "label": "",
-            "icon": "bath"
+            "collection": "ბავშვის-ჰიგიენა-0-3-წლამდე",
+            "icon": "bath",
+            "label": ""
           }
         },
         "need_face": {
           "type": "need",
           "settings": {
             "collection": "სახის-მოვლა",
-            "label": "",
-            "icon": "face"
+            "icon": "face",
+            "label": ""
           }
         },
         "need_body": {
           "type": "need",
           "settings": {
             "collection": "სხეულის-მოვლა",
-            "label": "",
-            "icon": "body"
+            "icon": "body",
+            "label": ""
           }
         }
       },
