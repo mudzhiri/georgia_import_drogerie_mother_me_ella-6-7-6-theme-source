@@ -235,7 +235,8 @@
                         </div>
                     </div>
                     <button type="button" class="previewCartItem-remove{% if has_qty_rules or has_vol_pricing %} has_vol_pricing{% endif %}" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" title="{{ 'sections.cart.remove_title' | t: title: item.title }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
-                        {% render 'icon-close' %}
+                        <span class="previewCartItem-remove__icon" aria-hidden="true">{% render 'icon-close' %}</span>
+                        <span class="previewCartItem-remove__label">{{ 'sections.cart.mm_remove' | t }}</span>
                     </button>
                     <p class="mm-cart-item-error" role="alert" hidden></p>
                 </li>
@@ -358,6 +359,7 @@
     
     <div class="previewCartInfo">
         <ul class="previewCartTotalsPrice list-unstyled">
+            {%- if cart.total_discount > 0 -%}
             <li class="previewCartTotals subTotal clearfix">
                 <div class="previewCartTotals-label">
                     {{ 'sections.cart.subtotal' | t }}:
@@ -366,7 +368,7 @@
                     {{ cart.original_total_price | money }}
                 </div>  
             </li>       
-            <li class="previewCartTotals cart-total-savings" {% if cart.total_discount == 0 %}style="display: none;"{% endif %} data-saved-discount-display>
+            <li class="previewCartTotals cart-total-savings" data-saved-discount-display>
                 <div class="previewCartTotals-label">
                     <span class="text">{{ 'general.cart.are_saving' | t }}</span>
                 </div>
@@ -383,13 +385,22 @@
                         {%- endif -%}
                     </span>
                 </div>  
-            </li> 
-            <li class="previewCartTotals total clearfix">
+            </li>
+            {%- endif -%}
+            <li class="previewCartTotals total clearfix mm-cart-subtotal-due">
                 <div class="previewCartTotals-label">
-                    {{ 'general.cart.total' | t }}
+                    {{ 'sections.cart.mm_subtotal_ex_shipping' | t }}
                 </div>  
-                <div class="previewCartTotals-value" data-cart-total-value="{{ cart.total_price }}">
+                <div class="previewCartTotals-value" data-cart-total-value="{{ cart.total_price }}"{% unless cart.total_discount > 0 %} data-cart-subtotal{% endunless %}>
                     {{ cart.total_price | money }}
+                </div>
+            </li>
+            <li class="previewCartTotals mm-cart-shipping-info clearfix">
+                <div class="previewCartTotals-label">
+                    {{ 'sections.cart.shipping' | t }}
+                </div>
+                <div class="previewCartTotals-value">
+                  <span class="mm-cart-shipping-info__tbilisi">{{ 'sections.cart.mm_shipping_tbilisi_info' | t }}</span>
                 </div>
             </li>
         </ul>
@@ -409,7 +420,7 @@
                 </div>
             {%- endif -%}
             <div class="previewCartGroup">
-                <button type="button" class="button button-1 button-checkout" id="cart-sidebar-checkout" onclick="window.location='{{ routes.root_url }}checkout'"{% if settings.show_global_checkbox %} disabled="disabled"{% endif %}>
+                <button type="button" class="button button-1 button-checkout" id="cart-sidebar-checkout" data-mm-checkout data-href="{{ routes.root_url }}checkout"{% if settings.show_global_checkbox %} disabled="disabled"{% endif %}>
                     {{ 'sections.cart.checkout' | t }}
                 </button>
                 {% if additional_checkout_buttons and settings.show_additional_checkout_buttons %}

@@ -207,7 +207,10 @@
                                                                         <dd class="price price--end" data-item-final-price-display>{{ current_variant.price | money }}</dd>
                                                                     </dl>
                                                                 {%- else -%}
-                                                                    <span class="price price--end" data-item-final-price-display>{{ item.original_price | money }}</span>
+                                                                    <span class="price price--end" data-item-final-price-display>
+                                                                      <span class="visually-hidden">{{ 'sections.cart.unit_price' | t }}:</span>
+                                                                      {{ item.original_price | money }}
+                                                                    </span>
                                                                 {%- endif -%}
                                                             </div>
                                                         </div>
@@ -301,7 +304,10 @@
                                                                 </div>
                                                             </div>
                                                             <div class="cart-item-block cart-item-remove small-screen-visible">
-                                                                <a class="cart-remove" href="javascript:void(0)" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">{% render 'icon-close' %}</a>
+                                                                <button type="button" class="cart-remove" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                                                                  <span class="cart-remove__icon" aria-hidden="true">{% render 'icon-close' %}</span>
+                                                                  <span class="cart-remove__label">{{ 'sections.cart.mm_remove' | t }}</span>
+                                                                </button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -438,7 +444,10 @@
                                                 <span class="cart-item-value" data-item-price-with-quantity-display>{{ price_to_display | times: item.quantity | money }}</span>
                                             </div>
                                             <div class="cart-item-block cart-item-remove">
-                                                <a class="cart-remove" href="javascript:void(0)" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">{% render 'icon-close' %}</a>
+                                                <button type="button" class="cart-remove" data-cart-remove data-cart-remove-id="{{ item.id }}" data-line="{{ item.key }}" data-index="{{ item.index | plus: 1 }}" aria-label="{{ 'sections.cart.remove_title' | t: title: item.title }}">
+                                                  <span class="cart-remove__icon" aria-hidden="true">{% render 'icon-close' %}</span>
+                                                  <span class="cart-remove__label">{{ 'sections.cart.mm_remove' | t }}</span>
+                                                </button>
                                             </div>
                                         </div>
                                     {%- endfor -%}
@@ -470,29 +479,23 @@
                             <form action="{{ routes.cart_url }}" method="post" novalidate>
                                 <ul class="cart-totals list-unstyled">
                                     <div class="cart--totals-title">{{ 'general.cart.order_summary' | t }}</div>
+                                    {%- if cart.total_discount > 0 -%}
                                     <li class="cart-total cart-total-subtotal">
                                         <div class="cart-total-label"><span class="text">{{ 'general.cart.subtotal' | t }}</span></div>
                                         <div class="cart-total-value"><span class="text">{{ cart.original_total_price | money }}</span></div>
                                     </li>
-                                    {%- if show_shipping_rate_calculator -%}
-                                        <li class="cart-total cart-total-shipping{% if enable_dropdown %} enable_dropdown{% endif %}">
-                                            {%- unless enable_dropdown -%}
-                                                <div class="cart-total-label"><span class="text">{{ 'general.cart.shipping' | t }}</span></div>
-                                                <div class="cart-total-value" style="display: none;"></div>
-                                                {% render 'shipping-rates-calculator' %}
-                                            {%- else -%}
-                                                <accordion-block class="d-block">
-                                                    <div class="accordion-block-header p-relative">
-                                                        <div class="cart-total-label"><span class="text">{{ 'general.cart.shipping' | t }}</span></div>
-                                                        <div class="cart-total-value" style="display: none;"></div>
-                                                    </div>
-                                                    <div class="accordion-block-content" style="display: none;">
-                                                        {% render 'shipping-rates-calculator' %}
-                                                    </div>
-                                                </accordion-block>
-                                            {%- endunless -%}
-                                        </li>
                                     {%- endif -%}
+                                    {%- comment -%}
+                                      MM: do not use the country/ZIP rate calculator here.
+                                      Address is unknown until checkout; show Tbilisi info only.
+                                    {%- endcomment -%}
+                                    <li class="cart-total cart-total-shipping mm-cart-shipping-info">
+                                        <div class="cart-total-label"><span class="text">{{ 'sections.cart.shipping' | t }}</span></div>
+                                        <div class="cart-total-value">
+                                          <span class="mm-cart-shipping-info__tbilisi">{{ 'sections.cart.mm_shipping_tbilisi_info' | t }}</span>
+                                          <span class="mm-cart-shipping-info__hint">{{ 'sections.cart.mm_shipping_unknown' | t }}</span>
+                                        </div>
+                                    </li>
                                     {%- if show_coupon_code -%}
                                         <li class="cart-total cart-total-coupon{% if enable_dropdown %} enable_dropdown{% endif %}">
                                             {%- unless enable_dropdown -%}
@@ -536,8 +539,8 @@
                                             </span>
                                         </div>  
                                     </li>
-                                    <li class="cart-total cart-total-grandtotal">
-                                        <div class="cart-total-label"><span class="text">{{ 'general.cart.total' | t }}</span></div>  
+                                    <li class="cart-total cart-total-grandtotal mm-cart-subtotal-due">
+                                        <div class="cart-total-label"><span class="text">{{ 'sections.cart.mm_subtotal_ex_shipping' | t }}</span></div>  
                                         <div class="cart-total-value" data-cart-total-value="{{ cart.total_price }}"><span class="text">{{ cart.total_price | money }}</span></div>  
                                     </li>
                                     <li class="shipTotal mm-cart-page-notes">
@@ -559,8 +562,8 @@
 
                                 <div class="cart-actions{% if section.settings.enable_sticky_button_checkout_mb %} sticky_button_checkout_mb{% endif %}">
                                     {%- if section.settings.enable_sticky_button_checkout_mb -%}
-                                        <li class="cart-total cart-total-grandtotal">
-                                            <div class="cart-total-label"><span class="text">{{ 'general.cart.total' | t }}</span></div>  
+                                        <li class="cart-total cart-total-grandtotal mm-cart-subtotal-due">
+                                            <div class="cart-total-label"><span class="text">{{ 'sections.cart.mm_subtotal_ex_shipping' | t }}</span></div>  
                                             <div class="cart-total-value" data-cart-total-value="{{ cart.total_price }}"><span class="text">{{ cart.total_price | money }}</span></div>  
                                         </li>
                                     {%- endif -%}
@@ -617,6 +620,7 @@
     @media (max-width: 550px) {#CartSection-{{ section.id }} .cart-container {padding-top: {{ padding_top_mobile }};padding-bottom: {{ padding_bottom_mobile }}}}
 </style>
 <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+<script src="{{ 'mm-cart-page.js' | asset_url }}" defer="defer"></script>
 {% schema %}
 {
     "name": "t:sections.main_cart.name",

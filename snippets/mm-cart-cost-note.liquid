@@ -1,6 +1,7 @@
 {%- comment -%}
   MOTHER & ME — shipping/payment note for cart drawer + cart page.
-  Shipping line uses shared mm_shipping keys (Tbilisi 6 ₾). No invented regional rates.
+  Tbilisi 6 ₾ is informational only until address is known at checkout.
+  Bank transfer: order first, pay with order number; not marked paid in-browser.
 {%- endcomment -%}
 {%- liquid
   assign note_context = context | default: 'drawer'
