@@ -18,8 +18,13 @@
   assign visible_tiles = 0
   for block in section.blocks
     assign tile_collection = block.settings.collection
+    assign tile_link = block.settings.link
+    assign tile_label = block.settings.label
     assign skip = false
-    if tile_collection != blank and tile_collection.products_count == 0
+    if tile_collection != blank and tile_collection.products_count == 0 and tile_link == blank
+      assign skip = true
+    endif
+    if tile_label == blank and tile_link == blank and tile_collection == blank and block.settings.tone != 'kids' and block.settings.tone != 'mamas'
       assign skip = true
     endif
     unless skip
@@ -60,7 +65,7 @@
             assign skip_empty = false
 
             if tile_collection != blank
-              if tile_collection.products_count == 0
+              if tile_collection.products_count == 0 and link == blank
                 assign skip_empty = true
               endif
               if link == blank

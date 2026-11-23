@@ -185,14 +185,14 @@
             "collection": "დეოდორანტები"
           }
         },
-        "tile_lactation": {
+        "tile_skin": {
           "type": "tile",
           "settings": {
             "tone": "cream",
-            "label": "ორსულობა და ლაქტაცია",
+            "label": "კანის მოვლა",
             "description": "",
             "link": "",
-            "collection": "ლაქტაცია-და-ორსულობა"
+            "collection": "ბავშვის-კანის-მოვლა"
           }
         }
       },
@@ -202,7 +202,7 @@
         "tile_feed",
         "tile_face",
         "tile_deo",
-        "tile_lactation"
+        "tile_skin"
       ],
       "settings": {
         "heading": "",
