@@ -2,9 +2,12 @@
 
 {%- liquid
   assign is_search = false
+  assign default_sort_by = ''
+  assign mm_sort_redirect = ''
   if request.page_type == 'search'
     assign is_search = true
     assign results_url = routes.search_url
+    assign default_sort_by = search.default_sort_by
     assign sort_by = search.sort_by | default: search.default_sort_by
     assign sort_options = search.sort_options
     assign filter_list = search.filters
@@ -13,11 +16,44 @@
     assign clear_url = routes.search_url | append: '?q=' | append: search_q | append: '&type=product&options%5Bprefix%5D=last'
   else
     assign results_url = collection.url
+    assign default_sort_by = collection.default_sort_by
     assign sort_by = collection.sort_by | default: collection.default_sort_by
     assign sort_options = collection.sort_options
     assign filter_list = collection.filters
     assign results_count = collection.products_count
     assign clear_url = collection.url
+  endif
+
+  # Prefer explicit URL sort so clear/chip actions never drop the customer choice.
+  if request.params.sort_by != blank
+    assign sort_by = request.params.sort_by
+  endif
+
+  # If no curated default and the URL has no sort_by, redirect once to created-descending.
+  # Do not overwrite sort_by used for the dropdown when an explicit sort is already applied.
+  assign has_sort_param = false
+  if request.query_string contains 'sort_by='
+    assign has_sort_param = true
+  endif
+  if is_search == false and has_sort_param == false
+    if default_sort_by == 'manual' or default_sort_by == 'created-descending' or default_sort_by == 'price-ascending' or default_sort_by == 'price-descending'
+      assign mm_sort_redirect = ''
+    else
+      assign mm_sort_redirect = 'created-descending'
+    endif
+  endif
+
+  # Preserve current sort when clearing filters (never strip sort_by).
+  assign sort_for_clear = sort_by
+  if sort_for_clear == blank and mm_sort_redirect != blank
+    assign sort_for_clear = mm_sort_redirect
+  endif
+  if sort_for_clear != blank
+    if clear_url contains '?'
+      assign clear_url = clear_url | append: '&sort_by=' | append: sort_for_clear
+    else
+      assign clear_url = clear_url | append: '?sort_by=' | append: sort_for_clear
+    endif
   endif
 
   assign total_active = 0
@@ -62,6 +98,20 @@
   endif
 -%}
 
+{%- if mm_sort_redirect != blank -%}
+  <script>
+    (function () {
+      try {
+        var u = new URL(window.location.href);
+        if (!u.searchParams.get('sort_by')) {
+          u.searchParams.set('sort_by', {{ mm_sort_redirect | json }});
+          window.location.replace(u.toString());
+        }
+      } catch (e) {}
+    })();
+  </script>
+{%- endif -%}
+
 {%- if mm_filters_render -%}
 <div
   id="mm-filters-{{ section.id }}"
@@ -71,6 +121,7 @@
   data-mm-results-url="{{ results_url }}"
   data-mm-is-search="{% if is_search %}true{% else %}false{% endif %}"
   data-mm-loading-label="{{ 'sections.collection_template.loading' | t | escape }}"
+  {% if mm_sort_redirect != blank %}data-mm-sort-default="{{ mm_sort_redirect | escape }}"{% endif %}
 >
   <div class="mm-filters__inner">
     <div class="mm-filters__bar">
@@ -78,143 +129,100 @@
         {{ 'sections.collection_template.product_count_simple' | t: count: results_count }}
       </p>
 
-      <div class="mm-filters__bar-end">
-        <div class="mm-filters__mobile-actions">
-          {%- if has_filters -%}
-            <button
-              type="button"
-              class="mm-filters__btn"
-              data-mm-filters-open
-              aria-expanded="false"
-              aria-controls="mm-filters-panel-{{ section.id }}"
-            >
-              {{ 'sections.collection_template.filter_button' | t }}
-              {%- if total_active > 0 -%}
-                <span class="mm-filters__btn-badge" data-mm-filters-badge>{{ total_active }}</span>
-              {%- endif -%}
-            </button>
-          {%- endif -%}
-
-          <form method="get" action="{{ results_url }}" class="mm-filters__sort mm-filters__sort--mobile" data-mm-filters-sort-form>
-            {%- if is_search -%}
-              <input type="hidden" name="q" value="{{ search.terms | escape }}">
-              <input type="hidden" name="type" value="product">
-              <input type="hidden" name="options[prefix]" value="last">
+      <div class="mm-filters__mobile-actions">
+        {%- if has_filters -%}
+          <button
+            type="button"
+            class="mm-filters__btn"
+            data-mm-filters-open
+            aria-expanded="false"
+            aria-controls="mm-filters-panel-{{ section.id }}"
+          >
+            {{ 'sections.collection_template.filter_button' | t }}
+            {%- if total_active > 0 -%}
+              <span class="mm-filters__btn-badge" data-mm-filters-badge>{{ total_active }}</span>
             {%- endif -%}
-            {%- for filter in filter_list -%}
-              {%- for value in filter.active_values -%}
-                <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
-              {%- endfor -%}
-              {%- if filter.type == 'price_range' -%}
-                {%- render 'mm-filters-price-hidden', filter: filter, uses_comma_decimals: uses_comma_decimals, shop_money_format: shop_money_format -%}
-              {%- endif -%}
+          </button>
+        {%- endif -%}
+
+        <form method="get" action="{{ results_url }}" class="mm-filters__sort mm-filters__sort--mobile" data-mm-filters-sort-form>
+          {%- if is_search -%}
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="type" value="product">
+            <input type="hidden" name="options[prefix]" value="last">
+          {%- endif -%}
+          {%- for filter in filter_list -%}
+            {%- for value in filter.active_values -%}
+              <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
             {%- endfor -%}
-            <label class="mm-filters__btn mm-filters__sort-trigger" for="mm-sort-mobile-{{ section.id }}">
-              <span class="mm-filters__sort-trigger-label">{{ 'sections.collection_template.sort_button' | t }}</span>
-              <select
-                id="mm-sort-mobile-{{ section.id }}"
-                class="mm-filters__select mm-filters__select--overlay"
-                name="sort_by"
-                data-mm-filters-sort
-                aria-label="{{ 'sections.collection_template.sort_button' | t | escape }}"
-              >
-                {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by -%}
-              </select>
-            </label>
-          </form>
-        </div>
+            {%- if filter.type == 'price_range' -%}
+              {%- render 'mm-filters-price-hidden', filter: filter, uses_comma_decimals: uses_comma_decimals, shop_money_format: shop_money_format -%}
+            {%- endif -%}
+          {%- endfor -%}
+          <label class="mm-filters__btn mm-filters__sort-trigger" for="mm-sort-mobile-{{ section.id }}">
+            <span class="mm-filters__sort-trigger-label">{{ 'sections.collection_template.sort_button' | t }}</span>
+            <select
+              id="mm-sort-mobile-{{ section.id }}"
+              class="mm-filters__select mm-filters__select--overlay"
+              name="sort_by"
+              data-mm-filters-sort
+              aria-label="{{ 'sections.collection_template.sort_button' | t | escape }}"
+            >
+              {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by, default_sort_by: default_sort_by, is_search: is_search -%}
+            </select>
+          </label>
+        </form>
       </div>
     </div>
 
-    {%- if has_filters or sort_options.size > 0 -%}
-      <form
-        method="get"
-        action="{{ results_url }}"
-        class="mm-filters__desktop"
-        data-mm-filters-desktop-form
-      >
-        {%- if is_search -%}
-          <input type="hidden" name="q" value="{{ search.terms | escape }}">
-          <input type="hidden" name="type" value="product">
-          <input type="hidden" name="options[prefix]" value="last">
-        {%- endif -%}
+    <div class="mm-filters__toolbar">
+      <p class="mm-filters__count mm-filters__count--desktop" role="status" data-mm-filters-count-desktop>
+        {{ 'sections.collection_template.product_count_simple' | t: count: results_count }}
+      </p>
 
-        <div class="mm-filters__groups">
+      {%- if has_filters -%}
+        <form
+          method="get"
+          action="{{ results_url }}"
+          class="mm-filters__desktop"
+          data-mm-filters-desktop-form
+        >
+          {%- if is_search -%}
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="type" value="product">
+            <input type="hidden" name="options[prefix]" value="last">
+          {%- endif -%}
+          <input type="hidden" name="sort_by" value="{{ sort_by | escape }}" data-mm-desktop-sort>
+
+          <div class="mm-filters__groups mm-filters__groups--toolbar">
+            {% render 'mm-filters-groups',
+              filter_list: filter_list,
+              section: section,
+              id_prefix: 'mm-filter-price',
+              uses_comma_decimals: uses_comma_decimals,
+              shop_money_format: shop_money_format,
+              results_count: results_count
+            %}
+          </div>
+        </form>
+      {%- endif -%}
+
+      {%- if sort_options.size > 0 -%}
+        <form method="get" action="{{ results_url }}" class="mm-filters__sort mm-filters__sort--desktop" data-mm-filters-sort-form>
+          {%- if is_search -%}
+            <input type="hidden" name="q" value="{{ search.terms | escape }}">
+            <input type="hidden" name="type" value="product">
+            <input type="hidden" name="options[prefix]" value="last">
+          {%- endif -%}
           {%- for filter in filter_list -%}
-            {%- liquid
-              assign show_filter_group = false
-              assign filter_label = filter.label
-              assign filter_param = filter.param_name | downcase
-              if filter_param contains 'availability' or filter.label == 'Availability'
-                assign filter_label = 'sections.collection_template.availability' | t
-              elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor'
-                assign filter_label = 'products.product.vendor' | t
-              elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type'
-              assign filter_label = 'compare.general.product_type' | t
-            endif
-            if filter.type == 'price_range'
-              if filter.range_max != blank
-                assign show_filter_group = true
-              endif
-              assign filter_label = 'sections.collection_template.price' | t
-            elsif filter.values.size > 0
-              assign show_filter_group = true
-            endif
-            -%}
-            {%- if show_filter_group -%}
-              <div class="mm-filters__group">
-                <span class="mm-filters__group-label">{{ filter_label | escape }}</span>
-                {%- case filter.type -%}
-                  {%- when 'list', 'boolean' -%}
-                    <ul class="mm-filters__options" role="list">
-                      {%- for value in filter.values -%}
-                        {%- if value.count == 0 and value.active == false -%}
-                          {%- continue -%}
-                        {%- endif -%}
-                        {%- liquid
-                          assign value_label = value.label
-                          if filter_param contains 'availability'
-                            if value.value == '1' or value.label contains 'In stock' or value.label == 'In stock'
-                              assign value_label = 'sections.collection_template.in_stock' | t
-                            elsif value.value == '0' or value.label contains 'Out of stock' or value.label == 'Out of stock'
-                              assign value_label = 'sections.collection_template.out_of_stock' | t
-                            endif
-                          endif
-                        -%}
-                        <li>
-                          <label class="mm-filters__option">
-                            <input
-                              type="checkbox"
-                              name="{{ value.param_name }}"
-                              value="{{ value.value }}"
-                              {% if value.active %}checked{% endif %}
-                            >
-                            <span>
-                              {{ value_label | escape }}
-                              {%- if value.count -%}
-                                <span aria-hidden="true">({{ value.count }})</span>
-                              {%- endif -%}
-                            </span>
-                          </label>
-                        </li>
-                      {%- endfor -%}
-                    </ul>
-                  {%- when 'price_range' -%}
-                    {%- render 'mm-filters-price-fields',
-                      filter: filter,
-                      section: section,
-                      id_prefix: 'mm-filter-price',
-                      uses_comma_decimals: uses_comma_decimals,
-                      shop_money_format: shop_money_format
-                    -%}
-                {%- endcase -%}
-              </div>
+            {%- for value in filter.active_values -%}
+              <input type="hidden" name="{{ value.param_name }}" value="{{ value.value }}">
+            {%- endfor -%}
+            {%- if filter.type == 'price_range' -%}
+              {%- render 'mm-filters-price-hidden', filter: filter, uses_comma_decimals: uses_comma_decimals, shop_money_format: shop_money_format -%}
             {%- endif -%}
           {%- endfor -%}
-        </div>
-
-        <div class="mm-filters__sort mm-filters__sort--desktop">
-          <label class="mm-filters__group-label" for="mm-sort-desktop-{{ section.id }}">
+          <label class="mm-filters__sort-label" for="mm-sort-desktop-{{ section.id }}">
             {{ 'sections.collection_template.sort_by_label' | t }}
           </label>
           <select
@@ -224,42 +232,84 @@
             data-mm-filters-sort
             aria-label="{{ 'sections.collection_template.sort_by_label' | t | escape }}"
           >
-            {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by -%}
+            {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by, default_sort_by: default_sort_by, is_search: is_search -%}
           </select>
-        </div>
-      </form>
-    {%- endif -%}
+        </form>
+      {%- endif -%}
+    </div>
 
     {%- if total_active > 0 -%}
       <ul class="mm-filters__chips" role="list" data-mm-filters-chips>
         {%- for filter in filter_list -%}
+          {%- liquid
+            assign chip_param = filter.param_name | downcase
+          -%}
           {%- for value in filter.active_values -%}
+            {%- liquid
+              assign chip_label = value.label
+              if chip_param contains 'availability'
+                if value.value == '1' or value.label contains 'In stock' or value.label == 'In stock'
+                  assign chip_label = 'sections.collection_template.in_stock' | t
+                elsif value.value == '0' or value.label contains 'Out of stock' or value.label == 'Out of stock'
+                  assign chip_label = 'sections.collection_template.out_of_stock' | t
+                endif
+              endif
+              assign chip_href = value.url_to_remove
+              if sort_for_clear != blank
+                unless chip_href contains 'sort_by='
+                  if chip_href contains '?'
+                    assign chip_href = chip_href | append: '&sort_by=' | append: sort_for_clear
+                  else
+                    assign chip_href = chip_href | append: '?sort_by=' | append: sort_for_clear
+                  endif
+                endunless
+              endif
+            -%}
             <li>
-              <a class="mm-filters__chip" href="{{ value.url_to_remove }}">
-                <span>{{ value.label | escape }}</span>
+              <a
+                class="mm-filters__chip"
+                href="{{ chip_href }}"
+                aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ chip_label | escape }}"
+              >
+                <span>{{ chip_label | escape }}</span>
                 <span class="mm-filters__chip-x" aria-hidden="true">×</span>
-                <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
               </a>
             </li>
           {%- endfor -%}
           {%- if filter.type == 'price_range' -%}
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              {%- liquid
+                assign chip_href = filter.url_to_remove
+                if sort_for_clear != blank
+                  unless chip_href contains 'sort_by='
+                    if chip_href contains '?'
+                      assign chip_href = chip_href | append: '&sort_by=' | append: sort_for_clear
+                    else
+                      assign chip_href = chip_href | append: '?sort_by=' | append: sort_for_clear
+                    endif
+                  endunless
+                endif
+              -%}
               <li>
-                <a class="mm-filters__chip" href="{{ filter.url_to_remove }}">
-                  <span>
-                    {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
-                    –
-                    {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
-                  </span>
+                {%- capture price_chip_label -%}
+                  {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
+                  –
+                  {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                {%- endcapture -%}
+                <a
+                  class="mm-filters__chip"
+                  href="{{ chip_href }}"
+                  aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ price_chip_label | strip | escape }}"
+                >
+                  <span>{{ price_chip_label | strip }}</span>
                   <span class="mm-filters__chip-x" aria-hidden="true">×</span>
-                  <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
                 </a>
               </li>
             {%- endif -%}
           {%- endif -%}
         {%- endfor -%}
         <li>
-          <a class="mm-filters__reset" href="{{ clear_url }}">
+          <a class="mm-filters__reset" href="{{ clear_url }}" data-mm-filters-reset>
             {{ 'sections.collection_template.clear_all' | t }}
           </a>
         </li>
@@ -321,77 +371,16 @@
         {%- endif -%}
         <input type="hidden" name="sort_by" value="{{ sort_by | escape }}" data-mm-panel-sort>
 
-        {%- for filter in filter_list -%}
-          {%- liquid
-            assign show_filter_group = false
-            assign filter_label = filter.label
-            assign filter_param = filter.param_name | downcase
-            if filter_param contains 'availability' or filter.label == 'Availability'
-              assign filter_label = 'sections.collection_template.availability' | t
-            elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor'
-              assign filter_label = 'products.product.vendor' | t
-            elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type'
-              assign filter_label = 'compare.general.product_type' | t
-            endif
-            if filter.type == 'price_range'
-              if filter.range_max != blank
-                assign show_filter_group = true
-              endif
-              assign filter_label = 'sections.collection_template.price' | t
-            elsif filter.values.size > 0
-              assign show_filter_group = true
-            endif
-          -%}
-          {%- if show_filter_group -%}
-            <div class="mm-filters__group">
-              <span class="mm-filters__group-label">{{ filter_label | escape }}</span>
-              {%- case filter.type -%}
-                {%- when 'list', 'boolean' -%}
-                  <ul class="mm-filters__options" role="list">
-                    {%- for value in filter.values -%}
-                      {%- if value.count == 0 and value.active == false -%}
-                        {%- continue -%}
-                      {%- endif -%}
-                      {%- liquid
-                        assign value_label = value.label
-                        if filter_param contains 'availability'
-                          if value.value == '1' or value.label contains 'In stock' or value.label == 'In stock'
-                            assign value_label = 'sections.collection_template.in_stock' | t
-                          elsif value.value == '0' or value.label contains 'Out of stock' or value.label == 'Out of stock'
-                            assign value_label = 'sections.collection_template.out_of_stock' | t
-                          endif
-                        endif
-                      -%}
-                      <li>
-                        <label class="mm-filters__option">
-                          <input
-                            type="checkbox"
-                            name="{{ value.param_name }}"
-                            value="{{ value.value }}"
-                            {% if value.active %}checked{% endif %}
-                          >
-                          <span>
-                            {{ value_label | escape }}
-                            {%- if value.count -%}
-                              <span aria-hidden="true">({{ value.count }})</span>
-                            {%- endif -%}
-                          </span>
-                        </label>
-                      </li>
-                    {%- endfor -%}
-                  </ul>
-                {%- when 'price_range' -%}
-                  {%- render 'mm-filters-price-fields',
-                    filter: filter,
-                    section: section,
-                    id_prefix: 'mm-filter-price-panel',
-                    uses_comma_decimals: uses_comma_decimals,
-                    shop_money_format: shop_money_format
-                  -%}
-              {%- endcase -%}
-            </div>
-          {%- endif -%}
-        {%- endfor -%}
+        <div class="mm-filters__groups mm-filters__groups--panel">
+          {% render 'mm-filters-groups',
+            filter_list: filter_list,
+            section: section,
+            id_prefix: 'mm-filter-price-panel',
+            uses_comma_decimals: uses_comma_decimals,
+            shop_money_format: shop_money_format,
+            results_count: results_count
+          %}
+        </div>
       </form>
 
       <div class="mm-filters__panel-footer">
@@ -406,7 +395,7 @@
           form="mm-filters-panel-form-{{ section.id }}"
           data-mm-filters-apply
         >
-          {{ 'sections.collection_template.show_results' | t }}
+          {{ 'sections.collection_template.filter_apply' | t }}
         </button>
       </div>
     </aside>
@@ -414,6 +403,12 @@
 
   <div class="mm-filters__loading" data-mm-filters-loading hidden aria-live="polite">
     {{ 'sections.collection_template.loading' | t }}
+  </div>
+  <div class="mm-filters__error" data-mm-filters-error hidden role="alert">
+    <p class="mm-filters__error-text">{{ 'sections.collection_template.load_error' | t }}</p>
+    <button type="button" class="mm-filters__btn" data-mm-filters-retry>
+      {{ 'sections.collection_template.load_retry' | t }}
+    </button>
   </div>
 </div>
 

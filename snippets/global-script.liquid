@@ -316,7 +316,8 @@
         loading: {{ 'sections.collection_template.loading_more' | t | json }},
         error: {{ 'sections.collection_template.load_error' | t | json }},
         retry: {{ 'sections.collection_template.load_retry' | t | json }},
-        success: {{ 'sections.collection_template.load_success' | t | json }}
+        success: {{ 'sections.collection_template.load_success' | t | json }},
+        showing_of_total: {{ 'sections.collection_template.showing_of_total' | t: shown: '__SHOWN__', total: '__TOTAL__' | json }}
     };
 
     window.mm_category_nav = {
