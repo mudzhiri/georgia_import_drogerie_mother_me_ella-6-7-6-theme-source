@@ -1305,6 +1305,26 @@ html.mm-search-open {
     width: 18px !important;
     height: 18px !important;
     fill: #214d43 !important;
+    transform: rotate(0deg);
+    transform-origin: center;
+    transition: transform 200ms ease;
+    will-change: transform;
+  }
+
+  #navigation-mobile .halo-sidebar-close:hover svg,
+  #navigation-mobile .halo-sidebar-close:focus-visible svg {
+    transform: rotate(180deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #navigation-mobile .halo-sidebar-close svg {
+      transition: none;
+    }
+
+    #navigation-mobile .halo-sidebar-close:hover svg,
+    #navigation-mobile .halo-sidebar-close:focus-visible svg {
+      transform: none;
+    }
   }
 
   /* Accordion: keep submenus in-flow (override Ella full-screen drill-down) */
