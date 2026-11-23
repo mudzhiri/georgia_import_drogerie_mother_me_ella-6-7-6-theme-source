@@ -1,13 +1,13 @@
 /**
  * MOTHER & ME — composed header lockup:
- * mother wordmark image + quiet companion "and me"
+ * solid "mother" wordmark + expressive italic "& me"
  */
 
 .mm-logo-mark {
   --mm-logo-mark-width: 180px;
   display: inline-flex;
-  align-items: center;
-  gap: 0.35em;
+  align-items: flex-end;
+  gap: 0.18em;
   max-width: 100%;
   width: auto;
   height: auto;
@@ -21,43 +21,56 @@
   display: block;
   width: auto;
   height: clamp(22px, calc(var(--mm-logo-mark-width) * 0.2), 40px);
-  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.72));
+  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.68));
   object-fit: contain;
   object-position: left center;
   flex: 0 1 auto;
 }
 
-/* Companion mark — roman, same ink as mother, not a second brand accent */
+/*
+  "& me" — editorial italic companion.
+  Scale close to the mother x-height so it reads as brand, not a caption.
+*/
 .mm-logo-mark__me {
   display: inline-flex;
   align-items: baseline;
   flex: 0 0 auto;
-  gap: 0.18em;
+  gap: 0.08em;
   font-family: var(--mm-display, "Cormorant Garamond", Georgia, "Times New Roman", serif);
-  font-size: clamp(0.78rem, calc(var(--mm-logo-mark-width) * 0.095), 1.15rem);
+  font-size: clamp(1.35rem, calc(var(--mm-logo-mark-width) * 0.195), 2.35rem);
   font-weight: 500;
-  font-style: normal;
-  letter-spacing: 0.06em;
-  line-height: 1;
-  color: #1a1a1a;
+  font-style: italic;
+  letter-spacing: -0.01em;
+  line-height: 0.85;
+  color: #214d43;
   white-space: nowrap;
   text-transform: lowercase;
-  transform: translateY(0.02em);
+  transform: translateY(0.12em);
 }
 
 .mm-logo-mark__amp {
   display: inline-block;
   font-weight: 400;
-  font-style: normal;
-  font-size: 0.92em;
+  font-style: italic;
+  font-size: 1.12em;
   letter-spacing: 0;
-  opacity: 0.72;
+  line-height: 1;
+  color: #214d43;
+  transform: translateY(0.02em) rotate(-4deg);
+  transform-origin: center bottom;
 }
 
 .mm-logo-mark__word {
   display: inline-block;
-  font-weight: 500;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-logo-mark__amp {
+    transform: translateY(0.02em);
+  }
 }
 
 /* Keep existing mm-logo size hooks working for the lockup */
@@ -82,17 +95,16 @@
 
 @media screen and (max-width: 749px) {
   .mm-logo-mark {
-    --mm-logo-mark-width: 140px;
-    gap: 0.28em;
+    --mm-logo-mark-width: 150px;
+    gap: 0.14em;
   }
 
   .mm-logo-mark__mother {
-    height: clamp(20px, 5.2vw, 28px);
+    height: clamp(20px, 5.2vw, 30px);
   }
 
   .mm-logo-mark__me {
-    font-size: clamp(0.72rem, 3.4vw, 0.95rem);
-    letter-spacing: 0.05em;
+    font-size: clamp(1.2rem, 5.2vw, 1.75rem);
   }
 }
 
