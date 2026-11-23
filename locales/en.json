@@ -421,6 +421,7 @@
       "thumbnail_label": "სურათი {{ index }}",
       "image_counter": "{{ current }} / {{ total }}",
       "related_products": "Related products",
+      "complementary_products": "Goes well with",
       "recently_viewed_products": "Recently viewed",
       "share_copied": "Link copied",
       "info_accordion": {
