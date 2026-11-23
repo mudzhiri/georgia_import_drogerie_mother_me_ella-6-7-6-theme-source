@@ -30,8 +30,8 @@
         "b0ea69b7-8a54-4a3c-9abd-0fcceeabaaa0": {
           "type": "title",
           "settings": {
-            "fontsize_text": 32,
-            "fontsize_text_mb": 24,
+            "fontsize_text": 34,
+            "fontsize_text_mb": 26,
             "color_title": "#214D43",
             "spacing_top": 0,
             "spacing_bottom": 12
