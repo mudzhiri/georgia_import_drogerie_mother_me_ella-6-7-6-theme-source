@@ -24,16 +24,17 @@
     assign clear_url = collection.url
   endif
 
-  # If the collection has no curated manual order, prefer created-descending as default
-  # (do not silently rename alphabetical / best-selling into "Unsere Auswahl").
-  if is_search == false and request.params.sort_by == blank
-    if default_sort_by == 'manual'
-      assign mm_sort_redirect = ''
-    elsif default_sort_by == 'created-descending' or default_sort_by == 'price-ascending' or default_sort_by == 'price-descending'
+  # If no curated default and the URL has no sort_by, redirect once to created-descending.
+  # Do not overwrite sort_by used for the dropdown when an explicit sort is already applied.
+  assign has_sort_param = false
+  if request.query_string contains 'sort_by='
+    assign has_sort_param = true
+  endif
+  if is_search == false and has_sort_param == false
+    if default_sort_by == 'manual' or default_sort_by == 'created-descending' or default_sort_by == 'price-ascending' or default_sort_by == 'price-descending'
       assign mm_sort_redirect = ''
     else
       assign mm_sort_redirect = 'created-descending'
-      assign sort_by = 'created-descending'
     endif
   endif
 
