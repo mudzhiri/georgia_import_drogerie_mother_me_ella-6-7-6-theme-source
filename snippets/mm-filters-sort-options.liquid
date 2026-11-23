@@ -2,73 +2,71 @@
   Compact Georgian sort set for collections/search.
   Accepts: sort_options, sort_by, default_sort_by (optional), is_search (optional)
 
-  Rules:
-  - Customer UI: manual (only if curated), created-descending, price-asc/desc
-  - Search may also show relevance
-  - best-selling / title-* never offered in the UI (URL deep-links still work via Shopify)
-  - "manual" / ჩვენი არჩევანი only when collection default is manual (curated)
-    or when the current URL already uses sort_by=manual
+  Customer UI order:
+  1. manual — only if curated (collection default = manual) or URL already uses it
+  2. created-descending
+  3. price-ascending
+  4. price-descending
+  (+ relevance on search)
+
+  best-selling / title-* are never listed (deep links still work via Shopify).
 {%- endcomment -%}
 {%- liquid
-  assign allowed_core = 'created-descending,price-ascending,price-descending' | split: ','
   assign show_manual = false
   assign show_relevance = false
+  assign shopify_has_manual = false
+  assign shopify_has_created_desc = false
+  assign shopify_has_price_asc = false
+  assign shopify_has_price_desc = false
+  assign shopify_has_relevance = false
 
   if is_search
     assign show_relevance = true
   endif
 
-  if default_sort_by == 'manual'
-    assign show_manual = true
-  endif
-  if sort_by == 'manual'
-    assign show_manual = true
-  endif
-
-  # Detect whether Shopify exposed a manual option at all
-  assign shopify_has_manual = false
   for option in sort_options
-    if option.value == 'manual'
-      assign shopify_has_manual = true
-    endif
+    case option.value
+      when 'manual'
+        assign shopify_has_manual = true
+      when 'created-descending'
+        assign shopify_has_created_desc = true
+      when 'price-ascending'
+        assign shopify_has_price_asc = true
+      when 'price-descending'
+        assign shopify_has_price_desc = true
+      when 'relevance'
+        assign shopify_has_relevance = true
+    endcase
   endfor
-  if show_manual and shopify_has_manual == false
-    assign show_manual = false
+
+  if default_sort_by == 'manual' or sort_by == 'manual'
+    if shopify_has_manual
+      assign show_manual = true
+    endif
   endif
 -%}
 {%- if show_manual -%}
-  {%- for option in sort_options -%}
-    {%- if option.value == 'manual' -%}
-      <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>
-        {{ 'sections.collection_template.sort_options.manual' | t | escape }}
-      </option>
-    {%- endif -%}
-  {%- endfor -%}
+  <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>
+    {{ 'sections.collection_template.sort_options.manual' | t | escape }}
+  </option>
 {%- endif -%}
-{%- for option in sort_options -%}
-  {%- if allowed_core contains option.value -%}
-    {%- liquid
-      assign sort_label = option.name
-      case option.value
-        when 'created-descending'
-          assign sort_label = 'sections.collection_template.sort_options.created-descending' | t
-        when 'price-ascending'
-          assign sort_label = 'sections.collection_template.sort_options.price-ascending' | t
-        when 'price-descending'
-          assign sort_label = 'sections.collection_template.sort_options.price-descending' | t
-      endcase
-    -%}
-    <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
-      {{ sort_label | escape }}
-    </option>
-  {%- endif -%}
-{%- endfor -%}
-{%- if show_relevance -%}
-  {%- for option in sort_options -%}
-    {%- if option.value == 'relevance' -%}
-      <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>
-        {{ 'sections.collection_template.sort_options.relevance' | t | escape }}
-      </option>
-    {%- endif -%}
-  {%- endfor -%}
+{%- if shopify_has_created_desc -%}
+  <option value="created-descending" {% if sort_by == 'created-descending' %}selected{% endif %}>
+    {{ 'sections.collection_template.sort_options.created-descending' | t | escape }}
+  </option>
+{%- endif -%}
+{%- if shopify_has_price_asc -%}
+  <option value="price-ascending" {% if sort_by == 'price-ascending' %}selected{% endif %}>
+    {{ 'sections.collection_template.sort_options.price-ascending' | t | escape }}
+  </option>
+{%- endif -%}
+{%- if shopify_has_price_desc -%}
+  <option value="price-descending" {% if sort_by == 'price-descending' %}selected{% endif %}>
+    {{ 'sections.collection_template.sort_options.price-descending' | t | escape }}
+  </option>
+{%- endif -%}
+{%- if show_relevance and shopify_has_relevance -%}
+  <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>
+    {{ 'sections.collection_template.sort_options.relevance' | t | escape }}
+  </option>
 {%- endif -%}
