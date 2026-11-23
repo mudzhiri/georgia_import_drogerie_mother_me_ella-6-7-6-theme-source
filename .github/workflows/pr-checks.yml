@@ -1,0 +1,94 @@
+# PR quality gates for durable branches (dev / test / prod).
+# No Shopify Admin credentials — Theme Check + static validation only.
+# Existing Shopify GitHub theme sync remains the deploy path; this workflow does not publish.
+
+name: PR checks
+
+on:
+  pull_request:
+    branches:
+      - dev
+      - test
+      - prod
+
+permissions:
+  contents: read
+  pull-requests: read
+  checks: write
+
+concurrency:
+  group: pr-checks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  theme-check:
+    name: Theme Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Theme Check
+        uses: shopify/theme-check-action@v2
+        with:
+          theme_root: '.'
+          # Pin CLI theme package for reproducible CI (align with local Shopify CLI 3.x).
+          version: '3.92.1'
+          # Fail the job on Theme Check errors; warnings stay visible in annotations.
+          flags: '--fail-level error'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          base: ${{ github.base_ref }}
+
+  validate-json:
+    name: Validate theme JSON
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate locales, templates, config JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 <<'PY'
+          import json
+          import pathlib
+          import re
+          import sys
+
+          root = pathlib.Path(".")
+          comment = re.compile(r"/\*.*?\*/", re.S)
+          paths = []
+          for pattern in (
+              "locales/*.json",
+              "templates/**/*.json",
+              "config/*.json",
+              "sections/*.json",
+          ):
+              paths.extend(sorted(root.glob(pattern)))
+
+          # Skip archived / vendor locale trees if present
+          skip_parts = {"_unused_vendor", ".preview"}
+          failed = 0
+          checked = 0
+          for path in paths:
+              if any(part in skip_parts for part in path.parts):
+                  continue
+              raw = path.read_text(encoding="utf-8")
+              cleaned = comment.sub("", raw, count=1).lstrip()
+              try:
+                  json.loads(cleaned)
+              except json.JSONDecodeError as exc:
+                  failed += 1
+                  print(f"ERROR {path}: {exc}")
+              else:
+                  checked += 1
+
+          print(f"Checked {checked} JSON files; {failed} failed")
+          if failed:
+              sys.exit(1)
+          PY
