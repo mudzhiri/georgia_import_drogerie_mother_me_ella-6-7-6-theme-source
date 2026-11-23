@@ -418,20 +418,24 @@
       fetchUrl.searchParams.set('sections', sectionIds.join(','));
 
       try {
+        // Do not send Accept: application/json — this store returns 404 for that header
+        // on the Section Rendering API; default Accept yields valid JSON.
         const res = await fetch(fetchUrl.toString(), {
           signal: this.abort.signal,
-          headers: { Accept: 'application/json' },
         });
         if (!res.ok) throw new Error(String(res.status));
         const data = await res.json();
         if (currentRequest !== this.requestId) return;
 
+        const filtersHtml = data[filtersSectionId];
+        const resultsHtml = resultsSectionId ? data[resultsSectionId] : null;
+        if (!filtersHtml && !resultsHtml) {
+          throw new Error('empty-sections');
+        }
+
         if (push) {
           window.history.pushState({}, '', url.toString());
         }
-
-        const filtersHtml = data[filtersSectionId];
-        const resultsHtml = resultsSectionId ? data[resultsSectionId] : null;
 
         if (filtersHtml) {
           const filtersHost = document.getElementById(`shopify-section-${filtersSectionId}`);
@@ -460,13 +464,9 @@
         );
       } catch (err) {
         if (err && err.name === 'AbortError') return;
-        const errorEl = this.root.querySelector('[data-mm-filters-error]');
-        if (errorEl) {
-          errorEl.hidden = false;
-          this.setLoading(false);
-          return;
-        }
+        // Section Rendering unavailable/failed → native full navigation keeps filters usable.
         window.location.assign(url.toString());
+        return;
       } finally {
         if (currentRequest === this.requestId) {
           this.setLoading(false);
