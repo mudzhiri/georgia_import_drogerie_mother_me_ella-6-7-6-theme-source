@@ -1,5 +1,5 @@
 /**
- * MOTHER & ME — cart drawer a11y, update locking, per-item errors.
+ * MOTHER & ME — cart drawer a11y, race-safe qty updates, checkout gate.
  * Uses existing Shopify cart change/remove APIs; does not replace checkout.
  */
 (function () {
@@ -13,9 +13,13 @@
 
   let lastActiveElement = null;
   let scrollY = 0;
-  let updating = false;
-  let lastItemRow = null;
   let previouslyPatched = false;
+  let requestSeq = 0;
+  let lastAppliedSeq = 0;
+  /** @type {Map<string, number>} */
+  const pendingByLine = new Map();
+  let inFlight = 0;
+  let lastItemRow = null;
 
   function drawer() {
     return document.getElementById(DRAWER_ID);
@@ -25,14 +29,40 @@
     return document.body.classList.contains(OPEN_CLASS);
   }
 
-  function setUpdating(on, row) {
-    updating = !!on;
+  function announce(message) {
+    const live =
+      document.getElementById('cart-live-region-text') ||
+      document.getElementById('mm-cart-drawer-live');
+    if (!live || !message) return;
+    live.textContent = '';
+    window.requestAnimationFrame(() => {
+      live.textContent = message;
+    });
+  }
+
+  function syncUpdatingUi() {
     const el = drawer();
-    if (!el) return;
-    el.classList.toggle(UPDATING_CLASS, updating);
-    el.setAttribute('aria-busy', updating ? 'true' : 'false');
-    if (row) lastItemRow = row;
-    if (!updating) lastItemRow = null;
+    const busy = inFlight > 0 || pendingByLine.size > 0;
+    if (el) {
+      el.classList.toggle(UPDATING_CLASS, busy);
+      el.setAttribute('aria-busy', busy ? 'true' : 'false');
+    }
+    document.querySelectorAll('[data-mm-checkout], #cart-sidebar-checkout').forEach((btn) => {
+      if (!(btn instanceof HTMLElement)) return;
+      if (busy) {
+        btn.setAttribute('aria-disabled', 'true');
+        btn.classList.add('is-mm-waiting');
+      } else {
+        btn.removeAttribute('aria-disabled');
+        btn.classList.remove('is-mm-waiting');
+      }
+    });
+    if (busy) {
+      announce(
+        (window.cartStrings && window.cartStrings.mm_updating) ||
+          'კალათა ახლდება…'
+      );
+    }
   }
 
   function clearItemErrors() {
@@ -64,7 +94,10 @@
 
   function getFocusable(container) {
     return Array.from(container.querySelectorAll(FOCUSABLE)).filter(
-      (node) => !node.hasAttribute('disabled') && node.getAttribute('aria-hidden') !== 'true' && node.offsetParent !== null
+      (node) =>
+        !node.hasAttribute('disabled') &&
+        node.getAttribute('aria-hidden') !== 'true' &&
+        node.offsetParent !== null
     );
   }
 
@@ -99,6 +132,14 @@
     if (closeBtn && !closeBtn.getAttribute('aria-label')) {
       closeBtn.setAttribute('aria-label', 'დახურვა');
     }
+    if (!document.getElementById('mm-cart-drawer-live')) {
+      const live = document.createElement('p');
+      live.id = 'mm-cart-drawer-live';
+      live.className = 'visually-hidden';
+      live.setAttribute('aria-live', 'polite');
+      live.setAttribute('role', 'status');
+      el.prepend(live);
+    }
     lockScroll();
     window.requestAnimationFrame(() => {
       (closeBtn || getFocusable(el)[0] || el).focus();
@@ -109,7 +150,6 @@
     const el = drawer();
     if (el) el.setAttribute('aria-hidden', 'true');
     unlockScroll();
-    setUpdating(false);
     clearItemErrors();
     document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'cart' } }));
     if (lastActiveElement && typeof lastActiveElement.focus === 'function') {
@@ -152,82 +192,112 @@
     return from && from.closest ? from.closest('.previewCartItem') : null;
   }
 
+  function lineKey(index) {
+    return String(index);
+  }
+
+  function flushPending(callback) {
+    if (!pendingByLine.size) {
+      syncUpdatingUi();
+      return;
+    }
+    // Process one pending line at a time (latest qty wins per line).
+    const entry = pendingByLine.entries().next().value;
+    if (!entry) return;
+    const [key, quantity] = entry;
+    pendingByLine.delete(key);
+    mmFetchUpdate(Number(key), quantity, callback, lastItemRow);
+  }
+
+  function mmFetchUpdate(line, quantity, callback, itemRow) {
+    const routes = window.routes || {};
+    const changeUrl = routes.cart_change_url || '/cart/change.js';
+    const seq = ++requestSeq;
+    const body = JSON.stringify({
+      line: line,
+      quantity: quantity,
+      sections_url: window.location.pathname,
+    });
+    const config =
+      typeof window.fetchConfig === 'function'
+        ? window.fetchConfig()
+        : {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          };
+
+    inFlight += 1;
+    syncUpdatingUi();
+    if (itemRow) lastItemRow = itemRow;
+    clearItemErrors();
+
+    fetch(changeUrl, Object.assign({}, config, { body: body }))
+      .then((response) => response.text())
+      .then((state) => {
+        const parsedState = JSON.parse(state);
+        inFlight = Math.max(0, inFlight - 1);
+
+        if (parsedState.errors) {
+          const message =
+            typeof parsedState.errors === 'string'
+              ? parsedState.errors
+              : (window.cartStrings && window.cartStrings.error) || String(parsedState.errors);
+          showItemError(message, itemRow);
+          syncUpdatingUi();
+          flushPending(callback);
+          return;
+        }
+
+        // Stale responses must not overwrite newer applied state in the UI.
+        if (seq < lastAppliedSeq) {
+          syncUpdatingUi();
+          flushPending(callback);
+          return;
+        }
+        lastAppliedSeq = seq;
+
+        if (typeof callback === 'function') {
+          callback(parsedState);
+        } else if (typeof Shopify.onCartUpdate === 'function') {
+          Shopify.onCartUpdate(parsedState);
+        }
+
+        syncUpdatingUi();
+        flushPending(callback);
+      })
+      .catch((e) => {
+        console.error(e);
+        inFlight = Math.max(0, inFlight - 1);
+        showItemError(
+          (window.cartStrings && window.cartStrings.error) ||
+            'კალათის განახლებისას მოხდა შეცდომა. სცადეთ თავიდან.'
+        );
+        syncUpdatingUi();
+        flushPending(callback);
+      });
+  }
+
+  function queueOrSend(line, quantity, callback, itemRow) {
+    const key = lineKey(line);
+    if (inFlight > 0) {
+      pendingByLine.set(key, quantity);
+      syncUpdatingUi();
+      return;
+    }
+    mmFetchUpdate(line, quantity, callback, itemRow);
+  }
+
   function patchCartMutations() {
     if (previouslyPatched || !window.Shopify) return;
     previouslyPatched = true;
 
-    const routes = window.routes || {};
-    const changeUrl = routes.cart_change_url || '/cart/change.js';
     const origChange = Shopify.changeItem;
     const origRemove = Shopify.removeItem;
-
-    function mmFetchUpdate(line, quantity, callback, itemRow) {
-      if (isOpen() && updating) return;
-
-      if (isOpen()) {
-        clearItemErrors();
-        setUpdating(true, itemRow);
-      }
-
-      const body = JSON.stringify({
-        line: line,
-        quantity: quantity,
-        sections_url: window.location.pathname,
-      });
-
-      const config =
-        typeof window.fetchConfig === 'function'
-          ? window.fetchConfig()
-          : {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-            };
-
-      fetch(changeUrl, Object.assign({}, config, { body: body }))
-        .then((response) => response.text())
-        .then((state) => {
-          const parsedState = JSON.parse(state);
-          if (parsedState.errors) {
-            const message =
-              typeof parsedState.errors === 'string'
-                ? parsedState.errors
-                : window.cartStrings && window.cartStrings.error
-                  ? window.cartStrings.error
-                  : String(parsedState.errors);
-            if (isOpen()) {
-              showItemError(message, itemRow);
-            } else if (typeof window.showWarning === 'function') {
-              window.showWarning('Error : ' + message);
-            }
-            setUpdating(false);
-            return;
-          }
-          if (typeof callback === 'function') {
-            callback(parsedState);
-          } else if (typeof Shopify.onCartUpdate === 'function') {
-            Shopify.onCartUpdate(parsedState);
-          }
-          // Header count + drawer HTML refresh happen in theme updateSidebarCart complete.
-          // Clear lock after a short delay; updateSidebarCart also toggles loading.
-          window.setTimeout(() => setUpdating(false), 50);
-        })
-        .catch((e) => {
-          console.error(e);
-          if (isOpen()) {
-            showItemError(
-              (window.cartStrings && window.cartStrings.error) ||
-                'There was an error while updating your cart. Please try again.'
-            );
-          }
-          setUpdating(false);
-        });
-    }
 
     Shopify.changeItem = function (variant_id, quantity, index, callback) {
       if (!isOpen()) {
         return origChange.call(this, variant_id, quantity, index, callback);
       }
-      if (updating) return;
       const qty = Number(quantity);
       if (!Number.isFinite(qty) || qty < 0 || !Number.isInteger(qty)) {
         showItemError(
@@ -237,16 +307,60 @@
         );
         return;
       }
-      mmFetchUpdate(index, qty, callback, lastItemRow);
+      queueOrSend(index, qty, callback, lastItemRow);
     };
 
     Shopify.removeItem = function (variant_id, index, callback) {
       if (!isOpen()) {
         return origRemove.call(this, variant_id, index, callback);
       }
-      if (updating) return;
-      mmFetchUpdate(index, 0, callback, lastItemRow);
+      queueOrSend(index, 0, callback, lastItemRow);
     };
+  }
+
+  function waitForIdle() {
+    return new Promise((resolve) => {
+      const tick = () => {
+        if (inFlight === 0 && pendingByLine.size === 0) {
+          resolve();
+          return;
+        }
+        window.setTimeout(tick, 50);
+      };
+      tick();
+    });
+  }
+
+  function bindCheckoutGate() {
+    document.addEventListener(
+      'click',
+      (event) => {
+        const btn = event.target.closest('#cart-sidebar-checkout, [data-mm-checkout]');
+        if (!btn) return;
+        if (!isOpen() && !btn.closest('#halo-cart-sidebar')) return;
+
+        event.preventDefault();
+        event.stopPropagation();
+
+        if (btn.hasAttribute('disabled')) return;
+
+        const href = btn.getAttribute('data-href') || '/checkout';
+        const go = () => {
+          window.location = href;
+        };
+
+        if (inFlight > 0 || pendingByLine.size > 0) {
+          announce(
+            (window.cartStrings && window.cartStrings.mm_checkout_wait) ||
+              'გთხოვთ, დაელოდოთ კალათის განახლებას'
+          );
+          waitForIdle().then(go);
+          return;
+        }
+        go();
+      },
+      true
+    );
   }
 
   function bindItemActionTracking() {
@@ -261,11 +375,6 @@
           event.target.closest('.btn-quantity') ||
           event.target.closest('[data-cart-quantity]')
         ) {
-          if (updating) {
-            event.preventDefault();
-            event.stopPropagation();
-            return;
-          }
           lastItemRow = row;
         }
       },
@@ -277,13 +386,7 @@
       (event) => {
         if (!isOpen()) return;
         if (!event.target.matches('[data-cart-quantity]')) return;
-        const row = findItemRow(event.target);
-        if (updating) {
-          event.preventDefault();
-          event.stopPropagation();
-          return;
-        }
-        lastItemRow = row;
+        lastItemRow = findItemRow(event.target);
       },
       true
     );
@@ -316,15 +419,23 @@
   function init() {
     patchCartMutations();
     bindItemActionTracking();
+    bindCheckoutGate();
     observeBodyClass();
     document.addEventListener('keydown', handleKeydown);
     syncPreviewPad();
     window.setTimeout(syncPreviewPad, 800);
 
     document.addEventListener('cart-update', () => {
-      setUpdating(false);
+      inFlight = 0;
+      pendingByLine.clear();
+      syncUpdatingUi();
       clearItemErrors();
     });
+
+    window.mmCartBusy = {
+      isBusy: () => inFlight > 0 || pendingByLine.size > 0,
+      waitForIdle,
+    };
   }
 
   if (document.readyState === 'loading') {
