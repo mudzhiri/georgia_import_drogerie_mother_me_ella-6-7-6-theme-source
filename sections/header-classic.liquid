@@ -8,7 +8,7 @@
                         {%- when 'logo' -%}
                             <div class="header__logo" style="--logo-width: {% if block.settings.logo == blank %}auto; --logo-svg-width: {% endif %}{{ block.settings.logo_width }}px; --font-size: {{ block.settings.logo_font_size }}px; --font-weight: {{ block.settings.logo_font_weight }}; --color: {{ block.settings.logo_color }}">
                                 <div class="header__heading">
-                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset">
+                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
                                         {%- liquid
                                           assign mm_logo_alt = block.settings.logo_text | default: shop.name
                                           assign mm_logo_width = block.settings.logo_width | default: 210
