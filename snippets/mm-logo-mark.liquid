@@ -1,0 +1,36 @@
+{%- comment -%}
+  MOTHER & ME header lockup:
+  - "mother" from brand wordmark asset (mm-logo-mother.png)
+  - display italic "& me" (Cormorant ampersand as the flourish)
+  Params: width (px), alt, class, loading
+{%- endcomment -%}
+{%- liquid
+  assign mark_width = width | default: 210
+  assign mark_alt = alt | default: shop.name
+  assign mark_class = class | default: ''
+  assign mark_loading = loading | default: 'eager'
+  assign mother_h = mark_width | times: 144 | divided_by: 600
+  if mother_h < 1
+    assign mother_h = 28
+  endif
+-%}
+<span
+  class="mm-logo-mark mm-logo {{ mark_class | escape }}"
+  style="--mm-logo-mark-width: {{ mark_width }}px;"
+  aria-hidden="true"
+>
+  <img
+    src="{{ 'mm-logo-mother.png' | asset_url }}"
+    alt=""
+    class="mm-logo-mark__mother"
+    width="{{ mark_width }}"
+    height="{{ mother_h }}"
+    loading="{{ mark_loading }}"
+    decoding="async"
+  >
+  <span class="mm-logo-mark__me">
+    <span class="mm-logo-mark__amp" aria-hidden="true">&amp;</span>
+    <span class="mm-logo-mark__word">me</span>
+  </span>
+</span>
+<span class="visually-hidden">{{ mark_alt | escape }}</span>

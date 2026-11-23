@@ -25,69 +25,38 @@
     return spacer;
   }
 
-  function cloneSearchBar(extraClass) {
-    const source = document.querySelector('#mm-header-search-source .mm-header-search-bar');
-    if (!source) return null;
-    const bar = source.cloneNode(true);
-    bar.removeAttribute('id');
-    if (extraClass) bar.classList.add(extraClass);
-    return bar;
-  }
-
-  function ensureDesktopSearch(row) {
-    if (!row) return;
-    let slot = row.querySelector(':scope > .mm-header-search-slot');
-    if (!slot) {
-      slot = document.createElement('div');
-      slot.className = 'mm-header-search-slot';
-      const icons = row.querySelector(':scope > .header-icons');
-      if (icons) row.insertBefore(slot, icons);
-      else row.appendChild(slot);
-    }
-    if (!slot.querySelector('.mm-header-search-bar')) {
-      const bar = cloneSearchBar('mm-header-search-bar--desktop');
-      if (bar) slot.appendChild(bar);
-    }
-  }
-
-  function ensureMobileSearchRow(section) {
-    if (!section) return;
-    const mobile = section.querySelector('.header-mobile');
-    const container = mobile?.querySelector(':scope > .container') || section.querySelector('.header-mobile > .container');
-    const wrapper = section.querySelector('.header-mobile__wrapper, .header-mobile--wrapper');
-    if (!container || !wrapper) return;
-
-    let searchRow = container.querySelector(':scope > .mm-header-search-row');
-    if (!searchRow) {
-      searchRow = document.createElement('div');
-      searchRow.className = 'mm-header-search-row';
-      if (wrapper.nextSibling) container.insertBefore(searchRow, wrapper.nextSibling);
-      else container.appendChild(searchRow);
-    }
-    if (!searchRow.querySelector('.mm-header-search-bar')) {
-      const bar = cloneSearchBar('mm-header-search-bar--mobile');
-      if (bar) searchRow.appendChild(bar);
-    }
+  function removeFatSearchChrome(root) {
+    if (!root) return;
+    root.querySelectorAll('.mm-header-search-slot, .mm-header-search-row').forEach((el) => el.remove());
   }
 
   function ensureDesktopMainRow(container) {
     if (!container) return null;
     let row = container.querySelector(':scope > .mm-header-main-row');
-    if (row) {
-      ensureDesktopSearch(row);
-      return row;
+    const logo = container.querySelector(':scope > .header-logo') || row?.querySelector(':scope > .header-logo');
+    const icons = container.querySelector(':scope > .header-icons') || row?.querySelector(':scope > .header-icons');
+    const menu = container.querySelector(':scope > .main-menu') || row?.querySelector(':scope > .main-menu');
+    if (!logo && !icons && !menu) return row || null;
+
+    if (!row) {
+      row = document.createElement('div');
+      row.className = 'mm-header-main-row';
+      container.insertBefore(row, container.firstChild);
     }
 
-    const logo = container.querySelector(':scope > .header-logo');
-    const icons = container.querySelector(':scope > .header-icons');
-    if (!logo && !icons) return null;
+    // motherher-style single row: nav | logo | icons
+    if (menu && menu.parentElement !== row) row.appendChild(menu);
+    if (logo && logo.parentElement !== row) row.appendChild(logo);
+    if (icons && icons.parentElement !== row) row.appendChild(icons);
+    if (menu) row.insertBefore(menu, row.firstChild);
+    if (logo && icons) {
+      row.insertBefore(logo, icons);
+    } else if (logo) {
+      row.appendChild(logo);
+    }
 
-    row = document.createElement('div');
-    row.className = 'mm-header-main-row';
-    if (logo) row.appendChild(logo);
-    if (icons) row.appendChild(icons);
-    container.insertBefore(row, container.firstChild);
-    ensureDesktopSearch(row);
+    removeFatSearchChrome(row);
+    removeFatSearchChrome(container);
     return row;
   }
 
@@ -215,7 +184,7 @@
     const host = document.querySelector('sticky-header-mobile[data-sticky-type]');
     const section = document.querySelector('.section-header-mobile');
     if (!section) return;
-    ensureMobileSearchRow(section);
+    removeFatSearchChrome(section);
     const row = section.querySelector('.header-mobile__wrapper, .header-mobile--wrapper');
     if (!stickyEnabled(host) || !row) {
       section.classList.remove('mm-sticky-enabled', 'mm-header-is-pinned');

@@ -1,0 +1,112 @@
+/**
+ * MOTHER & ME — composed header lockup:
+ * solid "mother" wordmark + classic Cormorant italic "& me"
+ *
+ * The ampersand is the flourish: upright italic, optically large,
+ * no tilt/gimmicks — Cormorant Garamond’s & is the beauty.
+ * Sizes in px (Ella html{font-size:62.5%} → rem ≈ 10px).
+ */
+
+.mm-logo-mark {
+  --mm-logo-mark-width: 180px;
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 0.12em;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  color: #1a1a1a;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.mm-logo-mark__mother {
+  display: block;
+  width: auto;
+  height: clamp(22px, calc(var(--mm-logo-mark-width) * 0.2), 40px);
+  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.62));
+  object-fit: contain;
+  object-position: left center;
+  flex: 0 1 auto;
+}
+
+.mm-logo-mark__me {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 0 auto;
+  gap: 0.1em;
+  font-family: var(--mm-display, "Cormorant Garamond", Georgia, "Times New Roman", serif);
+  font-size: clamp(24px, calc(var(--mm-logo-mark-width) * 0.2), 36px);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0;
+  line-height: 0.85;
+  color: #214d43;
+  white-space: nowrap;
+  text-transform: lowercase;
+  transform: translateY(0.1em);
+}
+
+/* Jewel of the lockup — natural italic &, slightly larger than "me" */
+.mm-logo-mark__amp {
+  display: inline-block;
+  font-weight: 400;
+  font-style: italic;
+  font-size: 1.28em;
+  line-height: 1;
+  letter-spacing: 0;
+  color: #214d43;
+  transform: translateY(0.06em);
+}
+
+.mm-logo-mark__word {
+  display: inline-block;
+  font-weight: 600;
+  font-style: italic;
+  letter-spacing: 0.01em;
+}
+
+/* Keep existing mm-logo size hooks working for the lockup */
+.header-navigation .header-logo .header__heading-logo.mm-logo-mark,
+.header-navigation .header-logo .mm-logo-mark,
+.header__heading-link .mm-logo-mark,
+.header-mobile .mm-logo-mark,
+.header-mobile .header__heading-logo.mm-logo-mark {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: inline-flex !important;
+  margin-inline: 0 !important;
+}
+
+.header-logo:has(.mm-logo-mark) .header__heading-text,
+.header-mobile:has(.mm-logo-mark) .header__heading-text,
+.header-logo:has(.mm-logo-mark) .h2,
+.header__heading-link:has(.mm-logo-mark) .h2 {
+  display: none !important;
+}
+
+@media screen and (max-width: 749px) {
+  .mm-logo-mark {
+    --mm-logo-mark-width: 160px;
+    gap: 0.1em;
+  }
+
+  .mm-logo-mark__mother {
+    height: clamp(22px, 5.8vw, 32px);
+  }
+
+  .mm-logo-mark__me {
+    font-size: clamp(22px, 6.5vw, 30px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-logo-mark,
+  .mm-logo-mark__mother,
+  .mm-logo-mark__me,
+  .mm-logo-mark__amp {
+    transition: none;
+  }
+}

@@ -224,36 +224,17 @@
             {%- when 'logo' -%}
                 <div class="header-logo header-item header-item--side d-flex flex-align-center fs-0 fg-0 pt-2{% if block.settings.logo_position == 'main_menu'%} show-main-menu{% elsif block.settings.logo_position == 'sticky_menu'%} hide-main-menu{% else %}{% endif %}" style="--logo_font_size: {{block.settings.logo_font_size | append: 'px'}};--logo_font_weight: {{block.settings.logo_font_weight}};--logo_text_transform: {{block.settings.logo_text_transform}};--logo_text_color: {{block.settings.logo_color}};--logo_width: {{block.settings.logo_width | append: 'px'}};--logo_width_sticky: {{block.settings.logo_width_fixed | append: '%'}}">
                     <div class="header__heading">
-                        <a href="{{ routes.root_url }}" class="header__heading-link focus-inset d-flex flex-align-center">
-                            {%- liquid 
-                                assign logo_transparent = block.settings.logo_transparent
-                                assign check_transparent = false
-                                if request.page_type == 'index' and section.settings.enable_transparent and logo_transparent != blank
-                                    assign check_transparent = true
-                                endif
+                        <a href="{{ routes.root_url }}" class="header__heading-link focus-inset d-flex flex-align-center" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
+                            {%- liquid
+                              assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                              assign mm_logo_width = block.settings.logo_width | default: 180
                             -%}
-                            {%- if block.settings.logo != blank or check_transparent -%}
-                                {%- assign logo = block.settings.logo -%}
-                                {%- assign logo_width = block.settings.logo_width -%}
-                                {%- assign logo_width_img = logo_width | append: 'x' -%}
-                                {%- assign logo_width_retina = logo_width | times: 2 | append: 'x'  -%}
-                                {%- assign logo_height = logo_width | divided_by: logo.aspect_ratio | round -%}
-                                {%- if logo != blank -%}
-                                    <img srcset="{{ logo | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x" src="{{ logo | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo__main w-100 h-auto ver-alg-mid d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                {%- endif -%}
-                                {%- if check_transparent -%}
-                                    <img srcset="{{ logo_transparent | img_url: logo_width_img }}, {{ logo_transparent | img_url: logo_width_retina }} 2x" src="{{ logo_transparent | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                {%- endif -%}
-                            {%- else -%}
-                                <img
-                                  src="{{ 'mm-logo.svg' | asset_url }}"
-                                  alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                  class="header__heading-logo mm-logo motion-reduce"
-                                  width="{{ block.settings.logo_width | default: 180 }}"
-                                  height="{{ block.settings.logo_width | default: 180 | times: 180 | divided_by: 900 }}"
-                                  loading="eager"
-                                >
-                            {%- endif -%}
+                            {% render 'mm-logo-mark',
+                              width: mm_logo_width,
+                              alt: mm_logo_alt,
+                              class: 'header__heading-logo logo__main motion-reduce',
+                              loading: 'eager'
+                            %}
                         </a>
                     </div>
                 </div>
@@ -384,14 +365,7 @@
                                     {%- if block.settings.icons_layout == 'text' -%}
                                         <span class="text__icon modal__toggle-open icon icon-search">{{ 'general.search.title' | t }}</span>
                                     {%- else -%}
-                                        {%- case block.settings.search_icon -%}
-                                            {%-  when '1' -%}
-                                                {% render 'icon-search', class: 'modal__toggle-open icon icon-search', width: width_icons_pls_2, stroke: stroke, icon_custom: icon_search_custom %}
-                                            {%-  when '2' -%}
-                                                {% render 'icon-search-06', class: 'stroke-icon modal__toggle-open icon icon-search', width: width_icons_pls_2, stroke: stroke, icon_custom: icon_search_custom %}
-                                            {%-  when '3' -%}
-                                                {% render 'icon-search-05', class: 'modal__toggle-open icon icon-search', width: width_icons, stroke: stroke, icon_custom: icon_search_custom %}
-                                        {%- endcase -%}
+                                        {% render 'mm-icon-search', class: 'modal__toggle-open icon icon-search' %}
                                     {%- endif -%}
                                 </summary>
                                 <div class="search-modal modal__content{% if settings.show_quick_search %} quickSearch{% endif %}" role="dialog" aria-modal="true" aria-label="{{ 'general.search.search' | t }}">
@@ -456,16 +430,7 @@
                                             {{ customer | avatar }}
                                         </account-icon>
                                     {%- else -%}
-                                        {%- case block.settings.customer_icon -%}
-                                            {%-  when '2' -%}
-                                                {% render 'icon-account-2', class: 'icon m-lr-auto', width: width_icons, height: height_icons, stroke: stroke %}
-                                            {%-  when '3' -%}
-                                                {% render 'icon-account-3', class: 'icon m-lr-auto', width: width_icons, height: height_icons, stroke: stroke %}
-                                            {%-  when '4' -%}
-                                                {% render 'icon-account', class: 'icon m-lr-auto', width: width_icons_pls_5, stroke: stroke %}
-                                            {%-  when '5' -%}
-                                                {% render 'icon-account-6', class: 'icon m-lr-auto', width: width_icons, height: height_icons, stroke: stroke %}
-                                        {%- endcase -%}
+                                        {% render 'mm-icon-account', class: 'icon m-lr-auto' %}
                                     {%- endif -%}
                                     <span class="visually-hidden">{{ 'accessibility.account' | t }}</span>
                                 {%- endif -%}
@@ -500,30 +465,7 @@
                         {%- if block.settings.icons_layout == 'text' -%}
                             <div class="text__icon icon">{{ 'general.cart.my_cart' | t }} (<span class="text" aria-hidden="true" data-cart-count>{{ cart.item_count }}</span>) </div>
                         {%- else -%}
-                            {%- case block.settings.cart_icon -%}
-                                {%-  when '1' -%}
-                                    {% render 'icon-cart', class: 'm-lr-auto', width: width_icons_pls_2, stroke: stroke %}
-                                {%-  when '2' -%}
-                                    {% render 'icon-cart-05', class: 'm-lr-auto', width: width_icons, stroke: stroke %}
-                                {%-  when '3' -%}
-                                    {% render 'icon-cart-02', class: 'm-lr-auto', width: width_icons, stroke: stroke %}
-                                {%-  when '4' -%}
-                                    {% render 'icon-cart-06', class: 'stroke-icon', width: width_icons, stroke: stroke %}
-                                {%-  when '5' -%}
-                                    {% render 'icon-cart-04', class: 'stroke-icon', width: width_icons, stroke: stroke %}
-                                {%-  when '6' -%}
-                                    {% render 'icon-cart-03', class: 'stroke-icon', width: width_icons, stroke: stroke %}
-                                {%-  when '8' -%}
-                                    {% render 'icon-cart-09', class: 'stroke-icon', width: width_icons, stroke: stroke %}
-                                {%-  when '9' -%}
-                                    {% render 'icon-cart-11', class: 'stroke-icon', width: width_icons, stroke: stroke %}
-                                {%-  when '7' -%}
-                                    {% render 'icon-cart-07', class: 'm-lr-auto', width: width_icons_pls_2, stroke: stroke %}
-                                {%-  when '10' -%}
-                                    {% render 'icon-cart-12', class: 'm-lr-auto', width: width_icons %}
-                                {%-  when '11' -%}
-                                    {% render 'icon-cart-14', class: 'm-lr-auto', width: width_icons %}
-                            {%- endcase -%}
+                            {% render 'mm-icon-cart', class: 'm-lr-auto' %}
                             <span class="visually-hidden">{{ 'accessibility.cart' | t }}</span>
                             {% if block.settings.show_cart_number %}
                             <div class="cart-count-bubble{% if block.settings.cart_icon == '7' %} cart-count-bubble-07{% endif %}{% if cart.item_count == 0 %} is-empty{% endif %}"{% if cart.item_count == 0 %} hidden{% endif %}>

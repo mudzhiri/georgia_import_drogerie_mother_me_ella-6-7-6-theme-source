@@ -27,11 +27,7 @@
                                 <details>
                                     <summary class="header__icon header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}" data-search-mobile>
                                         <span>
-                                            {% if block.settings.icon == '1' %}
-                                            {% render 'icon-search', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
-                                            {% else %}
-                                            {% render 'icon-search-01', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
-                                            {% endif %}
+                                            {% render 'mm-icon-search', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
                                             {% render 'icon-close', class: 'modal__toggle-close icon icon-close w-24 h-24' %}
                                         </span>
                                     </summary>
@@ -66,66 +62,32 @@
                                                 endif
                                             -%}
             
-                                            <a href="{{ url }}" class="{{ class }} header__heading-logo 1" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
-                                                {%- if block.settings.logo != blank -%}
-                                                    {%- assign logo = block.settings.logo -%}
-                                                    {%- assign logo_mb = block.settings.logo_mobile -%}
-                                                    {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                                    {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                                    {%- assign logo_height = block.settings.logo_width | divided_by: logo.aspect_ratio | round -%}
-                                                    <img {% if logo_mb != blank %}class="logo-m-none"{% endif %} srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x"
-                                                        src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo.alt | default: shop.name | escape }}" class="header__heading-logo">
-                                                    {% if logo_mb != blank %}
-                                                    <img class="logo-d-none" srcset="{{ logo_mb | image_url: width: logo_width }}, {{ logo_mb | image_url: width: logo_width_retina }} 2x"
-                                                            src="{{ logo_mb | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo_mb.alt | default: shop.name | escape }}" class="header__heading-logo">
-                                                    {% endif %}
-                                                {%- else -%}
-                                                    <img
-                                                      src="{{ 'mm-logo.svg' | asset_url }}"
-                                                      alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                                      class="header__heading-logo mm-logo motion-reduce"
-                                                      width="{{ block.settings.logo_width_mobile | default: 130 }}"
-                                                      height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
-                                                      loading="eager"
-                                                    >
-                                                {%- endif -%}
+                                            <a href="{{ url }}" class="{{ class }} header__heading-logo 1" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
+                                                {%- liquid
+                                                  assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                                                  assign mm_logo_width = block.settings.logo_width_mobile | default: 130
+                                                -%}
+                                                {% render 'mm-logo-mark',
+                                                  width: mm_logo_width,
+                                                  alt: mm_logo_alt,
+                                                  class: 'header__heading-logo motion-reduce',
+                                                  loading: 'eager'
+                                                %}
                                             </a>
                                         {%- endfor -%}
                                     </div>
                                 {% else %}
-                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset 2" data-logo-width="{{ block.settings.logo_width_mobile }}" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
-                                        {%- liquid 
-                                            assign logo_transparent = block.settings.logo_transparent
-                                            assign check_transparent = false
-                                            if request.page_type == 'index' and section.settings.enable_transparent and logo_transparent != blank
-                                                assign check_transparent = true
-                                            endif
+                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset 2" data-logo-width="{{ block.settings.logo_width_mobile }}" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
+                                        {%- liquid
+                                          assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                                          assign mm_logo_width = block.settings.logo_width_mobile | default: 130
                                         -%}
-                                        {%- if block.settings.logo_mobile != blank -%}
-                                            {%- assign logo = block.settings.logo_mobile -%}
-                                            {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                            {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo logo__main" alt="{{ logo.alt | default: shop.name | escape }}">
-                                            {%- if check_transparent -%}
-                                                <img srcset="{{ logo_transparent | image_url: width: logo_width }}, {{ logo_transparent | image_url: width: logo_width_retina }} 2x" src="{{ logo_transparent | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                            {%- endif -%}
-                                        {%- elsif block.settings.logo != blank -%}
-                                            {%- assign logo = block.settings.logo -%}
-                                            {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                            {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo" alt="{{ logo.alt | default: shop.name | escape }}">
-                                        {%- else -%}
-                                            <img
-                                              src="{{ 'mm-logo.svg' | asset_url }}"
-                                              alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                              class="header__heading-logo mm-logo motion-reduce"
-                                              width="{{ block.settings.logo_width_mobile | default: 130 }}"
-                                              height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
-                                                      loading="eager"
-                                            >
-                                        {%- endif -%}
+                                        {% render 'mm-logo-mark',
+                                          width: mm_logo_width,
+                                          alt: mm_logo_alt,
+                                          class: 'header__heading-logo logo__main motion-reduce',
+                                          loading: 'eager'
+                                        %}
                                     </a>
                                 {% endif %}
                             </div>
@@ -163,28 +125,7 @@
                         {%-  when 'cart' -%}
                             <div class="header-mobile--icon" style="--i-color: {{ block.settings.color }}; --color-bubble: {{ block.settings.color_bubble }}; --bg-bubble: {{ block.settings.bg_bubble }}">
                                 <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble" aria-label="{{ 'accessibility.cart' | t }}" {% if settings.show_quick_cart %}data-cart-sidebar{% endif %}>
-                                    {%- case block.settings.icon -%}
-                                        {%-  when '1' -%}
-                                            {% render 'icon-cart-05' %}
-                                        {%-  when '2' -%}
-                                            {% render 'icon-cart-02' %}
-                                        {%-  when '3' -%}
-                                            {% render 'icon-cart-06' %}
-                                        {%-  when '8' -%}
-                                            {% render 'icon-cart-12' %}
-                                        {%-  when '4' -%}
-                                            {% render 'icon-cart-04' %}
-                                        {%-  when '5' -%}
-                                            {% render 'icon-cart-03' %}
-                                        {%-  when '7' -%}
-                                            {% render 'icon-cart-09' %}
-                                        {%-  when '6' -%}
-                                            {% render 'icon-cart-07', class: 'shopping-basket' %}
-                                        {%-  when '9' -%}
-                                            {% render 'icon-cart-13' %}
-                                        {%-  when '10' -%}
-                                            {% render 'icon-cart-14' %}
-                                    {%- endcase -%}
+                                    {% render 'mm-icon-cart' %}
                                     <span class="visually-hidden">{{ 'accessibility.cart' | t }}</span>
                                     {% if block.settings.show_cart_count_bubble %}
                                     <div class="cart-count-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"{% if cart.item_count == 0 %} hidden{% endif %}>
