@@ -1,3 +1,13 @@
+{%- liquid
+  assign so_handle_ok = false
+  if template.name == 'page' and template.suffix == 'special-order'
+    assign so_handle_ok = true
+  endif
+  if page.handle == 'special-order' or page.handle == 'პროდუქტის-მოთხოვნა'
+    assign so_handle_ok = true
+  endif
+-%}
+{%- if so_handle_ok -%}
 {{ 'mm-special-order-form.css' | asset_url | stylesheet_tag }}
 
 {%- liquid
@@ -280,6 +290,7 @@
 </section>
 
 <script src="{{ 'mm-special-order-form.js' | asset_url }}" defer></script>
+{%- endif -%}
 
 {% schema %}
 {

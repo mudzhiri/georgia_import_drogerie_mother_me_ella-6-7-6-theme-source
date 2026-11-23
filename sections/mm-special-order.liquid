@@ -54,10 +54,13 @@
   assign button_link = section.settings.button_link
   if button_link == blank
     assign request_page = pages['special-order']
+    if request_page == empty or request_page.url == blank
+      assign request_page = pages['პროდუქტის-მოთხოვნა']
+    endif
     if request_page != empty and request_page.url != blank
       assign button_link = request_page.url
     else
-      assign button_link = '/pages/special-order'
+      assign button_link = '/pages/პროდუქტის-მოთხოვნა'
     endif
   endif
 
