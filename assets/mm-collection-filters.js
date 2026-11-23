@@ -105,8 +105,47 @@
     return snapshot;
   };
 
+  const clearValidation = (scope) => {
+    if (!scope) return;
+    scope.querySelectorAll('[data-mm-price-error]').forEach((err) => {
+      err.hidden = true;
+    });
+    scope.querySelectorAll('[data-mm-price-range]').forEach((wrap) => {
+      wrap.classList.remove('is-invalid');
+    });
+    scope.querySelectorAll('[data-mm-filter-search]').forEach((input) => {
+      input.value = '';
+      const group = input.closest('[data-mm-filter-group]');
+      if (!group) return;
+      group.querySelectorAll('[data-mm-filter-option]').forEach((row) => {
+        row.hidden = false;
+      });
+    });
+  };
+
+  /** Restore committed (server-rendered) values — reliable discard without depending on toggle timing. */
+  const restoreDefaults = (scope) => {
+    if (!scope) return;
+    scope.querySelectorAll('input, select, textarea').forEach((el) => {
+      if (el.matches('[data-mm-filter-search]')) {
+        el.value = '';
+        return;
+      }
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        el.checked = el.defaultChecked;
+      } else {
+        el.value = el.defaultValue;
+      }
+    });
+    clearValidation(scope);
+  };
+
   const restoreFields = (scope, snapshot) => {
-    if (!scope || !snapshot) return;
+    if (!scope) return;
+    if (!snapshot) {
+      restoreDefaults(scope);
+      return;
+    }
     scope.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((el) => {
       if (el.matches('[data-mm-filter-search]')) return;
       el.checked = false;
@@ -122,12 +161,7 @@
         if (el && el.type !== 'checkbox' && el.type !== 'radio') el.value = item.value;
       }
     });
-    scope.querySelectorAll('[data-mm-price-error]').forEach((err) => {
-      err.hidden = true;
-    });
-    scope.querySelectorAll('[data-mm-price-range]').forEach((wrap) => {
-      wrap.classList.remove('is-invalid');
-    });
+    clearValidation(scope);
   };
 
   const updateGroupActiveBadge = (group) => {
@@ -208,11 +242,8 @@
       if (!this.root) return;
       this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group[open]').forEach((group) => {
         if (discard && !this.applyingDesktop) {
-          const snap = this.groupSnapshots.get(group);
-          if (snap) {
-            restoreFields(group, snap);
-            updateGroupActiveBadge(group);
-          }
+          restoreDefaults(group);
+          updateGroupActiveBadge(group);
         }
         group.open = false;
       });
@@ -239,9 +270,8 @@
             this.groupSnapshots.set(group, snapshotFields(group));
             this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group[open]').forEach((other) => {
               if (other === group) return;
-              const snap = this.groupSnapshots.get(other);
-              if (snap && !this.applyingDesktop) {
-                restoreFields(other, snap);
+              if (!this.applyingDesktop) {
+                restoreDefaults(other);
                 updateGroupActiveBadge(other);
               }
               other.open = false;
@@ -249,11 +279,8 @@
             return;
           }
           if (this.applyingDesktop) return;
-          const snap = this.groupSnapshots.get(group);
-          if (snap) {
-            restoreFields(group, snap);
-            updateGroupActiveBadge(group);
-          }
+          restoreDefaults(group);
+          updateGroupActiveBadge(group);
         });
       });
 
@@ -450,8 +477,12 @@
     }
 
     restorePanel() {
-      if (!this.panelForm || !this.panelSnapshot) return;
-      restoreFields(this.panelForm, this.panelSnapshot);
+      if (!this.panelForm) return;
+      if (this.panelSnapshot) {
+        restoreFields(this.panelForm, this.panelSnapshot);
+      } else {
+        restoreDefaults(this.panelForm);
+      }
       this.panelForm.querySelectorAll('[data-mm-filter-group]').forEach((group) => {
         updateGroupActiveBadge(group);
       });
