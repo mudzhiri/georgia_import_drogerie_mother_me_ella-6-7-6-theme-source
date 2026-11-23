@@ -513,15 +513,20 @@
       }
 
       if (open) {
-        this.lastFocus = document.activeElement;
+        this.lastFocus = this.openBtn || document.activeElement;
         const closeBtn = this.root.querySelector('.mm-filters__panel-close');
         if (closeBtn) closeBtn.focus();
         this.trapFocus();
       } else {
         this.releaseFocusTrap();
         document.dispatchEvent(new CustomEvent('mm:overlay-close', { detail: { which: 'filters' } }));
-        if (this.lastFocus && typeof this.lastFocus.focus === 'function') {
-          this.lastFocus.focus();
+        const returnTo = this.lastFocus || this.openBtn;
+        if (returnTo && typeof returnTo.focus === 'function') {
+          window.setTimeout(() => {
+            try {
+              returnTo.focus();
+            } catch (e) {}
+          }, 0);
         }
       }
     }
