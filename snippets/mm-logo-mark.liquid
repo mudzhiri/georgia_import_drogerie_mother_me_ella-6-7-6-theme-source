@@ -1,7 +1,7 @@
 {%- comment -%}
   MOTHER & ME header lockup:
   - "mother" from brand wordmark asset (mm-logo-mother.png)
-  - "and me" as large italic display companion (no ampersand)
+  - display italic "& me" (Cormorant ampersand as the flourish)
   Params: width (px), alt, class, loading
 {%- endcomment -%}
 {%- liquid
@@ -29,7 +29,7 @@
     decoding="async"
   >
   <span class="mm-logo-mark__me">
-    <span class="mm-logo-mark__and">and</span>
+    <span class="mm-logo-mark__amp" aria-hidden="true">&amp;</span>
     <span class="mm-logo-mark__word">me</span>
   </span>
 </span>
