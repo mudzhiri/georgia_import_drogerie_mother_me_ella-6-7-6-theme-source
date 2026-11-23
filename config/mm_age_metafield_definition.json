@@ -1,0 +1,72 @@
+{
+  "description": "MOTHER & ME — age recommendation metafield (Admin import / manual create). Do not invent values; only confirmed manufacturer ages.",
+  "metafield_definition": {
+    "name": "ასაკობრივი რეკომენდაცია",
+    "namespace": "custom",
+    "key": "age_recommendation",
+    "type": "single_line_text_field",
+    "owner_type": "PRODUCT",
+    "description": "Confirmed minimum age or age band from manufacturer (e.g. დაბადებიდან, 8 თვიდან, 1 წლიდან, 3 წლიდან, 0–6 თვე). Leave blank for mother-care products or when unknown. Do not map 8 months to 6 months.",
+    "validations": [
+      {
+        "name": "choices",
+        "value": [
+          "დაბადებიდან",
+          "0–6 თვე",
+          "8 თვიდან",
+          "1 წლიდან",
+          "3 წლიდან"
+        ]
+      }
+    ]
+  },
+  "search_and_discovery": {
+    "add_filter_source": "Product metafield: custom.age_recommendation",
+    "storefront_label_ka": "ასაკი",
+    "note": "Enable only after products are curated. Theme will show the group when S&D exposes it."
+  },
+  "curation_candidates_from_titles_2026-11-23": [
+    {
+      "handle": "babylove-babysnack-knusperherzen-apfel-mango-ab-dem-8-monat-30-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "babylove-babysnack-knusperherzen-himbeere-banane-ab-dem-8-monat-30-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "babylove-babysnack-reiswaffeln-apfel-karotte-ab-dem-8-monat-35-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "babylove-babysnack-reiswaffeln-apfel-zimt-ab-dem-8-monat-35-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "babylove-kindersnack-maisstangen-ab-1-jahr-30-g",
+      "suggested": "1 წლიდან"
+    },
+    {
+      "handle": "dmbio-babysnack-reiswaffeln-apfel-ab-dem-8-monat-35-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "dmbio-babysnack-reiswaffeln-himbeere-ab-dem-8-monat-35-g",
+      "suggested": "8 თვიდან"
+    },
+    {
+      "handle": "dmbio-kindersnack-dinkel-pizza-kr-cker-ab-3-jahren-80-g",
+      "suggested": "3 წლიდან"
+    },
+    {
+      "handle": "babylove-schnuller-air-silikon-symmetrisch-mint-beige-blau-petrol-gr-1",
+      "suggested": "0–6 თვე",
+      "note": "Confirm size/range on packaging before saving"
+    }
+  ],
+  "do_not_auto_assign": [
+    "Mother-care / pregnancy products (ძუძუთი კვება და ორსულობა)",
+    "Adult face/body/deo without manufacturer child age",
+    "Ambiguous title matches (e.g. წყვილი)"
+  ]
+}
