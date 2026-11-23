@@ -8,8 +8,19 @@
   --mm-card-sage: #dee5df;
   --mm-card-ink: #242d29;
   --mm-card-muted: #59665f;
+  --mm-card-accent: #214d43;
+  --mm-card-price-size: var(--mm-font-size-body, 16px);
   --mm-card-ease: ease-out;
   --mm-card-duration: 200ms;
+}
+
+/*
+ * Escape Ella slider / productListing grids that set font-size: 0 on the
+ * parent (e.g. .products-carousel:not(.slick-initialized), .productListing).
+ * Homepage .mm-products already set price size; recommendations did not.
+ */
+.mm-product-card {
+  font-size: var(--mm-font-size-body, 16px);
 }
 
 /* —— Media shell —— */
@@ -542,6 +553,39 @@
   margin: 0;
   margin-top: auto;
   padding-top: 4px;
+  color: var(--mm-card-accent, var(--mm-card-green));
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: var(--mm-card-price-size);
+  font-weight: var(--mm-font-weight-semibold, 600);
+  line-height: 1.35;
+  letter-spacing: normal;
+  white-space: normal;
+}
+
+.mm-product-card__price-regular,
+.mm-product-card__price-sale {
+  display: inline;
+  color: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+}
+
+.mm-product-card__price-compare {
+  margin-left: 6px;
+  color: var(--mm-card-muted);
+  font-size: var(--mm-font-size-small, 14px);
+  font-weight: var(--mm-font-weight-medium, 500);
+  line-height: 1.35;
+  text-decoration: line-through;
+}
+
+@media screen and (min-width: 768px) {
+  .mm-product-card__price,
+  .mm-collection-card__price,
+  .mm-collection-card .card-price {
+    font-size: 17px;
+  }
 }
 
 .mm-product-card .mm-card-atc,
