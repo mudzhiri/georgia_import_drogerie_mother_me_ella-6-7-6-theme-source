@@ -120,12 +120,6 @@
   color: #ffffff;
 }
 
-.mm-filters__btn--primary:hover,
-.mm-filters__btn--apply:hover {
-  background: #173b33;
-  border-color: #173b33;
-}
-
 .mm-filters__group-actions {
   display: flex;
   justify-content: flex-end;
@@ -154,6 +148,23 @@
 
 .mm-filters__btn:hover {
   background: #f4f7f5;
+}
+
+/* Must follow generic :hover — otherwise primary gets cream bg + white text (invisible). */
+.mm-filters__btn--primary:hover,
+.mm-filters__btn--apply:hover,
+.mm-filters__btn--primary:focus-visible,
+.mm-filters__btn--apply:focus-visible {
+  background: #173b33;
+  border-color: #173b33;
+  color: #ffffff;
+}
+
+.mm-filters__btn--primary:active,
+.mm-filters__btn--apply:active {
+  background: #12302a;
+  border-color: #12302a;
+  color: #ffffff;
 }
 
 .mm-filters__btn:focus-visible {
@@ -856,6 +867,27 @@
 
 .mm-filters__panel-footer .mm-filters__btn {
   flex: 1 1 0;
+  min-width: 0;
+  max-height: none;
+  min-height: 48px;
+  padding: 12px 14px;
+  font-size: 15px;
+  line-height: 1.35;
+  color: var(--mm-f-ink);
+}
+
+.mm-filters__panel-footer .mm-filters__btn--primary {
+  color: #ffffff;
+  background: var(--mm-f-ink);
+  border-color: var(--mm-f-ink);
+}
+
+.mm-filters__panel-footer .mm-filters__btn--primary:hover,
+.mm-filters__panel-footer .mm-filters__btn--primary:focus-visible,
+.mm-filters__panel-footer .mm-filters__btn--primary:active {
+  color: #ffffff;
+  background: #173b33;
+  border-color: #173b33;
 }
 
 @media screen and (min-width: 900px) {
