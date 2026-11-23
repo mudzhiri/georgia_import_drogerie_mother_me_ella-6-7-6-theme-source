@@ -28,6 +28,15 @@
             "fallback_asset": "mm-cat-kids.jpg"
           }
         },
+        "col_age03": {
+          "type": "collection",
+          "settings": {
+            "collection": "ბავშვი-0-3-წლამდე",
+            "role": "standard",
+            "label": "0–3 წლამდე",
+            "fallback_asset": "mm-cat-baby03.jpg"
+          }
+        },
         "col_kanis": {
           "type": "collection",
           "settings": {
@@ -125,6 +134,7 @@
       "block_order": [
         "group_bavshvi",
         "col_bavshvi",
+        "col_age03",
         "col_kanis",
         "col_abazana",
         "col_kveba",
