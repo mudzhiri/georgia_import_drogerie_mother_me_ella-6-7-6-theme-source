@@ -371,6 +371,11 @@
   padding: 0 !important;
 }
 
+/* Override Ella .small-screen-visible { display:none } so remove stays usable */
+.template-cart .cart-item-block.cart-item-remove.small-screen-visible {
+  display: block !important;
+}
+
 .template-cart .cart-remove {
   display: inline-flex;
   align-items: center;
