@@ -16,9 +16,8 @@
 -%}
 <span
   class="mm-logo-mark mm-logo {{ mark_class | escape }}"
-  role="img"
-  aria-label="{{ mark_alt | escape }}"
   style="--mm-logo-mark-width: {{ mark_width }}px;"
+  aria-hidden="true"
 >
   <img
     src="{{ 'mm-logo-mother.png' | asset_url }}"
@@ -29,7 +28,8 @@
     loading="{{ mark_loading }}"
     decoding="async"
   >
-  <span class="mm-logo-mark__me" aria-hidden="true">
+  <span class="mm-logo-mark__me">
     <span class="mm-logo-mark__amp">&amp;</span><span class="mm-logo-mark__word">me</span>
   </span>
 </span>
+<span class="visually-hidden">{{ mark_alt | escape }}</span>

@@ -66,7 +66,7 @@
                                                 endif
                                             -%}
             
-                                            <a href="{{ url }}" class="{{ class }} header__heading-logo 1" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
+                                            <a href="{{ url }}" class="{{ class }} header__heading-logo 1" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
                                                 {%- liquid
                                                   assign mm_logo_alt = block.settings.logo_text | default: shop.name
                                                   assign mm_logo_width = block.settings.logo_width_mobile | default: 130
@@ -81,7 +81,7 @@
                                         {%- endfor -%}
                                     </div>
                                 {% else %}
-                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset 2" data-logo-width="{{ block.settings.logo_width_mobile }}" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
+                                    <a href="{{ routes.root_url }}" class="header__heading-link focus-inset 2" data-logo-width="{{ block.settings.logo_width_mobile }}" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};" aria-label="{{ block.settings.logo_text | default: shop.name | escape }}">
                                         {%- liquid
                                           assign mm_logo_alt = block.settings.logo_text | default: shop.name
                                           assign mm_logo_width = block.settings.logo_width_mobile | default: 130
