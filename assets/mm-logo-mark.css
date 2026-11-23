@@ -1,0 +1,100 @@
+/**
+ * MOTHER & ME — composed header lockup:
+ * mother wordmark image + italic "& me"
+ */
+
+.mm-logo-mark {
+  --mm-logo-mark-width: 180px;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.22em;
+  max-width: 100%;
+  width: auto;
+  height: auto;
+  line-height: 1;
+  color: #1a1a1a;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.mm-logo-mark__mother {
+  display: block;
+  width: auto;
+  height: clamp(22px, calc(var(--mm-logo-mark-width) * 0.2), 40px);
+  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.72));
+  object-fit: contain;
+  object-position: left center;
+  flex: 0 1 auto;
+}
+
+.mm-logo-mark__me {
+  display: inline-flex;
+  align-items: baseline;
+  flex: 0 0 auto;
+  font-family: var(--mm-display, "Cormorant Garamond", Georgia, "Times New Roman", serif);
+  font-size: clamp(1.05rem, calc(var(--mm-logo-mark-width) * 0.145), 1.85rem);
+  font-weight: 500;
+  font-style: italic;
+  letter-spacing: 0.01em;
+  line-height: 1;
+  color: #214d43;
+  white-space: nowrap;
+  transform: translateY(0.06em);
+}
+
+.mm-logo-mark__amp {
+  display: inline-block;
+  margin-right: 0.1em;
+  font-weight: 400;
+  font-style: italic;
+  color: #214d43;
+  opacity: 0.92;
+}
+
+.mm-logo-mark__word {
+  display: inline-block;
+  font-weight: 500;
+  text-transform: lowercase;
+}
+
+/* Keep existing mm-logo size hooks working for the lockup */
+.header-navigation .header-logo .header__heading-logo.mm-logo-mark,
+.header-navigation .header-logo .mm-logo-mark,
+.header__heading-link .mm-logo-mark,
+.header-mobile .mm-logo-mark,
+.header-mobile .header__heading-logo.mm-logo-mark {
+  width: auto !important;
+  max-width: 100% !important;
+  height: auto !important;
+  display: inline-flex !important;
+  margin-inline: 0 !important;
+}
+
+.header-logo:has(.mm-logo-mark) .header__heading-text,
+.header-mobile:has(.mm-logo-mark) .header__heading-text,
+.header-logo:has(.mm-logo-mark) .h2,
+.header__heading-link:has(.mm-logo-mark) .h2 {
+  display: none !important;
+}
+
+@media screen and (max-width: 749px) {
+  .mm-logo-mark {
+    --mm-logo-mark-width: 140px;
+  }
+
+  .mm-logo-mark__mother {
+    height: clamp(20px, 5.2vw, 28px);
+  }
+
+  .mm-logo-mark__me {
+    font-size: clamp(1rem, 4.2vw, 1.35rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-logo-mark,
+  .mm-logo-mark__mother,
+  .mm-logo-mark__me {
+    transition: none;
+  }
+}

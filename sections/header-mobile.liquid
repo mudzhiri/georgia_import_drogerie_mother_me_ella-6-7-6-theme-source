@@ -67,65 +67,31 @@
                                             -%}
             
                                             <a href="{{ url }}" class="{{ class }} header__heading-logo 1" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
-                                                {%- if block.settings.logo != blank -%}
-                                                    {%- assign logo = block.settings.logo -%}
-                                                    {%- assign logo_mb = block.settings.logo_mobile -%}
-                                                    {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                                    {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                                    {%- assign logo_height = block.settings.logo_width | divided_by: logo.aspect_ratio | round -%}
-                                                    <img {% if logo_mb != blank %}class="logo-m-none"{% endif %} srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x"
-                                                        src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo.alt | default: shop.name | escape }}" class="header__heading-logo">
-                                                    {% if logo_mb != blank %}
-                                                    <img class="logo-d-none" srcset="{{ logo_mb | image_url: width: logo_width }}, {{ logo_mb | image_url: width: logo_width_retina }} 2x"
-                                                            src="{{ logo_mb | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" alt="{{ logo_mb.alt | default: shop.name | escape }}" class="header__heading-logo">
-                                                    {% endif %}
-                                                {%- else -%}
-                                                    <img
-                                                      src="{{ 'mm-logo.svg' | asset_url }}"
-                                                      alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                                      class="header__heading-logo mm-logo motion-reduce"
-                                                      width="{{ block.settings.logo_width_mobile | default: 130 }}"
-                                                      height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
-                                                      loading="eager"
-                                                    >
-                                                {%- endif -%}
+                                                {%- liquid
+                                                  assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                                                  assign mm_logo_width = block.settings.logo_width_mobile | default: 130
+                                                -%}
+                                                {% render 'mm-logo-mark',
+                                                  width: mm_logo_width,
+                                                  alt: mm_logo_alt,
+                                                  class: 'header__heading-logo motion-reduce',
+                                                  loading: 'eager'
+                                                %}
                                             </a>
                                         {%- endfor -%}
                                     </div>
                                 {% else %}
                                     <a href="{{ routes.root_url }}" class="header__heading-link focus-inset 2" data-logo-width="{{ block.settings.logo_width_mobile }}" style="--width-logo-mb: {{ block.settings.logo_width_mobile | append: 'px'}};">
-                                        {%- liquid 
-                                            assign logo_transparent = block.settings.logo_transparent
-                                            assign check_transparent = false
-                                            if request.page_type == 'index' and section.settings.enable_transparent and logo_transparent != blank
-                                                assign check_transparent = true
-                                            endif
+                                        {%- liquid
+                                          assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                                          assign mm_logo_width = block.settings.logo_width_mobile | default: 130
                                         -%}
-                                        {%- if block.settings.logo_mobile != blank -%}
-                                            {%- assign logo = block.settings.logo_mobile -%}
-                                            {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                            {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo logo__main" alt="{{ logo.alt | default: shop.name | escape }}">
-                                            {%- if check_transparent -%}
-                                                <img srcset="{{ logo_transparent | image_url: width: logo_width }}, {{ logo_transparent | image_url: width: logo_width_retina }} 2x" src="{{ logo_transparent | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                            {%- endif -%}
-                                        {%- elsif block.settings.logo != blank -%}
-                                            {%- assign logo = block.settings.logo -%}
-                                            {%- assign logo_width = block.settings.logo_width_mobile -%}
-                                            {%- assign logo_width_retina = logo_width | times: 2 -%}
-                                            {%- assign logo_height = block.settings.logo_width_mobile | divided_by: logo.aspect_ratio | round -%}
-                                            <img srcset="{{ logo | image_url: width: logo_width }}, {{ logo | image_url: width: logo_width_retina }} 2x" src="{{ logo | image_url: width: logo_width }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} width="{{ logo_width }}" height="{{ logo_height }}" class="header__heading-logo" alt="{{ logo.alt | default: shop.name | escape }}">
-                                        {%- else -%}
-                                            <img
-                                              src="{{ 'mm-logo.svg' | asset_url }}"
-                                              alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                              class="header__heading-logo mm-logo motion-reduce"
-                                              width="{{ block.settings.logo_width_mobile | default: 130 }}"
-                                              height="{{ block.settings.logo_width_mobile | default: 130 | times: 180 | divided_by: 900 }}"
-                                                      loading="eager"
-                                            >
-                                        {%- endif -%}
+                                        {% render 'mm-logo-mark',
+                                          width: mm_logo_width,
+                                          alt: mm_logo_alt,
+                                          class: 'header__heading-logo logo__main motion-reduce',
+                                          loading: 'eager'
+                                        %}
                                     </a>
                                 {% endif %}
                             </div>

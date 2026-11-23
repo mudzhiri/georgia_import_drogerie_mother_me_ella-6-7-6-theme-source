@@ -232,28 +232,16 @@
                                     assign check_transparent = true
                                 endif
                             -%}
-                            {%- if block.settings.logo != blank or check_transparent -%}
-                                {%- assign logo = block.settings.logo -%}
-                                {%- assign logo_width = block.settings.logo_width -%}
-                                {%- assign logo_width_img = logo_width | append: 'x' -%}
-                                {%- assign logo_width_retina = logo_width | times: 2 | append: 'x'  -%}
-                                {%- assign logo_height = logo_width | divided_by: logo.aspect_ratio | round -%}
-                                {%- if logo != blank -%}
-                                    <img srcset="{{ logo | img_url: logo_width_img }}, {{ logo | img_url: logo_width_retina }} 2x" src="{{ logo | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo__main w-100 h-auto ver-alg-mid d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                {%- endif -%}
-                                {%- if check_transparent -%}
-                                    <img srcset="{{ logo_transparent | img_url: logo_width_img }}, {{ logo_transparent | img_url: logo_width_retina }} 2x" src="{{ logo_transparent | img_url: logo_width_img }}"{% if settings.enable_lazyload %} loading="lazy"{% endif %} class="header__heading-logo logo--transparent d-inline-block" alt="{{ logo.alt | default: shop.name | escape }}" width="{{ logo_width }}" height="{{ logo_height }}">
-                                {%- endif -%}
-                            {%- else -%}
-                                <img
-                                  src="{{ 'mm-logo.svg' | asset_url }}"
-                                  alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                  class="header__heading-logo mm-logo motion-reduce"
-                                  width="{{ block.settings.logo_width | default: 180 }}"
-                                  height="{{ block.settings.logo_width | default: 180 | times: 180 | divided_by: 900 }}"
-                                  loading="eager"
-                                >
-                            {%- endif -%}
+                            {%- liquid
+                              assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                              assign mm_logo_width = block.settings.logo_width | default: 180
+                            -%}
+                            {% render 'mm-logo-mark',
+                              width: mm_logo_width,
+                              alt: mm_logo_alt,
+                              class: 'header__heading-logo logo__main motion-reduce',
+                              loading: 'eager'
+                            %}
                         </a>
                     </div>
                 </div>
