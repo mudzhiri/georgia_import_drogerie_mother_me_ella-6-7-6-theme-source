@@ -2,9 +2,12 @@
 
 {%- liquid
   assign is_search = false
+  assign default_sort_by = ''
+  assign mm_sort_redirect = ''
   if request.page_type == 'search'
     assign is_search = true
     assign results_url = routes.search_url
+    assign default_sort_by = search.default_sort_by
     assign sort_by = search.sort_by | default: search.default_sort_by
     assign sort_options = search.sort_options
     assign filter_list = search.filters
@@ -13,11 +16,25 @@
     assign clear_url = routes.search_url | append: '?q=' | append: search_q | append: '&type=product&options%5Bprefix%5D=last'
   else
     assign results_url = collection.url
+    assign default_sort_by = collection.default_sort_by
     assign sort_by = collection.sort_by | default: collection.default_sort_by
     assign sort_options = collection.sort_options
     assign filter_list = collection.filters
     assign results_count = collection.products_count
     assign clear_url = collection.url
+  endif
+
+  # If the collection has no curated manual order, prefer created-descending as default
+  # (do not silently rename alphabetical / best-selling into "Unsere Auswahl").
+  if is_search == false and request.params.sort_by == blank
+    if default_sort_by == 'manual'
+      assign mm_sort_redirect = ''
+    elsif default_sort_by == 'created-descending' or default_sort_by == 'price-ascending' or default_sort_by == 'price-descending'
+      assign mm_sort_redirect = ''
+    else
+      assign mm_sort_redirect = 'created-descending'
+      assign sort_by = 'created-descending'
+    endif
   endif
 
   # Preserve current sort when clearing filters
@@ -71,6 +88,20 @@
   endif
 -%}
 
+{%- if mm_sort_redirect != blank -%}
+  <script>
+    (function () {
+      try {
+        var u = new URL(window.location.href);
+        if (!u.searchParams.get('sort_by')) {
+          u.searchParams.set('sort_by', {{ mm_sort_redirect | json }});
+          window.location.replace(u.toString());
+        }
+      } catch (e) {}
+    })();
+  </script>
+{%- endif -%}
+
 {%- if mm_filters_render -%}
 <div
   id="mm-filters-{{ section.id }}"
@@ -80,6 +111,7 @@
   data-mm-results-url="{{ results_url }}"
   data-mm-is-search="{% if is_search %}true{% else %}false{% endif %}"
   data-mm-loading-label="{{ 'sections.collection_template.loading' | t | escape }}"
+  {% if mm_sort_redirect != blank %}data-mm-sort-default="{{ mm_sort_redirect | escape }}"{% endif %}
 >
   <div class="mm-filters__inner">
     <div class="mm-filters__bar">
@@ -126,7 +158,7 @@
               data-mm-filters-sort
               aria-label="{{ 'sections.collection_template.sort_button' | t | escape }}"
             >
-              {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by -%}
+              {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by, default_sort_by: default_sort_by, is_search: is_search -%}
             </select>
           </label>
         </form>
@@ -190,7 +222,7 @@
             data-mm-filters-sort
             aria-label="{{ 'sections.collection_template.sort_by_label' | t | escape }}"
           >
-            {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by -%}
+            {%- render 'mm-filters-sort-options', sort_options: sort_options, sort_by: sort_by, default_sort_by: default_sort_by, is_search: is_search -%}
           </select>
         </form>
       {%- endif -%}

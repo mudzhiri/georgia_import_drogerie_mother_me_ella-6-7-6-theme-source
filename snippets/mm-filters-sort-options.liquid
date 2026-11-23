@@ -1,34 +1,61 @@
 {%- comment -%}
   Compact Georgian sort set for collections/search.
-  Accepts: sort_options, sort_by
+  Accepts: sort_options, sort_by, default_sort_by (optional), is_search (optional)
+
+  Rules:
+  - Customer UI: manual (only if curated), created-descending, price-asc/desc
+  - Search may also show relevance
+  - best-selling / title-* never offered in the UI (URL deep-links still work via Shopify)
+  - "manual" / ჩვენი არჩევანი only when collection default is manual (curated)
+    or when the current URL already uses sort_by=manual
 {%- endcomment -%}
 {%- liquid
-  assign allowed = 'manual,created-descending,price-ascending,price-descending,relevance' | split: ','
-  assign has_manual = false
+  assign allowed_core = 'created-descending,price-ascending,price-descending' | split: ','
+  assign show_manual = false
+  assign show_relevance = false
+
+  if is_search
+    assign show_relevance = true
+  endif
+
+  if default_sort_by == 'manual'
+    assign show_manual = true
+  endif
+  if sort_by == 'manual'
+    assign show_manual = true
+  endif
+
+  # Detect whether Shopify exposed a manual option at all
+  assign shopify_has_manual = false
   for option in sort_options
     if option.value == 'manual'
-      assign has_manual = true
+      assign shopify_has_manual = true
     endif
   endfor
+  if show_manual and shopify_has_manual == false
+    assign show_manual = false
+  endif
 -%}
+{%- if show_manual -%}
+  {%- for option in sort_options -%}
+    {%- if option.value == 'manual' -%}
+      <option value="manual" {% if sort_by == 'manual' %}selected{% endif %}>
+        {{ 'sections.collection_template.sort_options.manual' | t | escape }}
+      </option>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 {%- for option in sort_options -%}
-  {%- if allowed contains option.value -%}
+  {%- if allowed_core contains option.value -%}
     {%- liquid
-      if option.value == 'manual' and has_manual == false
-        continue
-      endif
       assign sort_label = option.name
       case option.value
-        when 'manual'
-          assign sort_label = 'sections.collection_template.sort_options.manual' | t
         when 'created-descending'
           assign sort_label = 'sections.collection_template.sort_options.created-descending' | t
         when 'price-ascending'
           assign sort_label = 'sections.collection_template.sort_options.price-ascending' | t
         when 'price-descending'
           assign sort_label = 'sections.collection_template.sort_options.price-descending' | t
-        when 'relevance'
-          assign sort_label = 'sections.collection_template.sort_options.relevance' | t
       endcase
     -%}
     <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected{% endif %}>
@@ -36,3 +63,12 @@
     </option>
   {%- endif -%}
 {%- endfor -%}
+{%- if show_relevance -%}
+  {%- for option in sort_options -%}
+    {%- if option.value == 'relevance' -%}
+      <option value="relevance" {% if sort_by == 'relevance' %}selected{% endif %}>
+        {{ 'sections.collection_template.sort_options.relevance' | t | escape }}
+      </option>
+    {%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
