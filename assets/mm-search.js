@@ -210,6 +210,12 @@
       }
     }
 
+    setTriggersExpanded(expanded) {
+      document.querySelectorAll('[data-mm-search-open]').forEach((el) => {
+        el.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      });
+    }
+
     openPanel(trigger) {
       if (!this.panel || this.open) {
         this.input?.focus();
@@ -221,6 +227,7 @@
       this.open = true;
       this.panel.hidden = false;
       this.panel.setAttribute('aria-hidden', 'false');
+      this.setTriggersExpanded(true);
       document.documentElement.classList.add('mm-search-open');
       document.body.classList.add('mm-search-open');
 
@@ -248,6 +255,7 @@
       this.open = false;
       this.panel.classList.remove('is-open');
       this.panel.setAttribute('aria-hidden', 'true');
+      this.setTriggersExpanded(false);
       document.documentElement.classList.remove('mm-search-open');
       document.body.classList.remove('mm-search-open');
       this.unbindViewport();

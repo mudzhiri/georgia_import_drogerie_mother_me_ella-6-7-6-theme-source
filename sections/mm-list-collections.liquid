@@ -39,14 +39,36 @@
               if mm_title == blank
                 assign mm_title = mm_col.title
               endif
-              assign mm_img = mm_col.image
+              assign mm_img = block.settings.image
+              if mm_img == blank
+                assign mm_img = mm_col.image
+              endif
+              assign mm_fallback = block.settings.fallback_asset | strip
+              if mm_fallback == blank
+                case mm_col.handle
+                  when 'ბავშვი'
+                    assign mm_fallback = 'mm-cat-kids.jpg'
+                  when 'ბავშვი-0-3-წლამდე'
+                    assign mm_fallback = 'mm-cat-baby03.jpg'
+                  when 'ბავშვის-ჰიგიენა-0-3-წლამდე'
+                    assign mm_fallback = 'mm-cat-bath.jpg'
+                  when 'ბავშვის-ჰიგიენა-3-წლიდან'
+                    assign mm_fallback = 'mm-cat-bath.jpg'
+                  when 'საბავშვო-კოსმეტიკა-3'
+                    assign mm_fallback = 'mm-cat-kids.jpg'
+                endcase
+              endif
+              assign mm_use_asset = false
+              if mm_img == blank and mm_fallback != blank
+                assign mm_use_asset = true
+              endif
             -%}
             <a
               class="mm-list-collections__card"
               href="{{ mm_col.url }}"
               {{ block.shopify_attributes }}
             >
-              <span class="mm-list-collections__media" aria-hidden="true">
+              <span class="mm-list-collections__media">
                 {%- if mm_img != blank -%}
                   {{
                     mm_img
@@ -56,10 +78,22 @@
                       widths: '200, 300, 400, 600, 800',
                       sizes: '(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw',
                       class: 'mm-list-collections__image',
-                      alt: ''
+                      alt: mm_title
                   }}
+                {%- elsif mm_use_asset -%}
+                  <img
+                    class="mm-list-collections__image"
+                    src="{{ mm_fallback | asset_img_url: '600x' }}"
+                    srcset="{{ mm_fallback | asset_img_url: '300x' }} 300w, {{ mm_fallback | asset_img_url: '400x' }} 400w, {{ mm_fallback | asset_img_url: '600x' }} 600w, {{ mm_fallback | asset_img_url: '800x' }} 800w"
+                    sizes="(min-width: 1100px) 25vw, (min-width: 750px) 33vw, 50vw"
+                    width="600"
+                    height="600"
+                    loading="lazy"
+                    decoding="async"
+                    alt="{{ mm_title | escape }}"
+                  >
                 {%- else -%}
-                  <span class="mm-list-collections__placeholder">
+                  <span class="mm-list-collections__placeholder" aria-hidden="true">
                     <svg class="mm-list-collections__placeholder-icon" viewBox="0 0 48 48" width="40" height="40" focusable="false" aria-hidden="true">
                       <rect x="6" y="10" width="36" height="28" rx="4" fill="none" stroke="currentColor" stroke-width="2"/>
                       <circle cx="18" cy="20" r="3" fill="currentColor"/>
@@ -124,6 +158,18 @@
           "id": "label",
           "label": "Title override",
           "info": "Optional. Defaults to the collection title."
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Lifestyle image override",
+          "info": "Optional. Overrides the Shopify collection image. Swap without code."
+        },
+        {
+          "type": "text",
+          "id": "fallback_asset",
+          "label": "Theme asset fallback filename",
+          "info": "Optional. Example: mm-cat-bath.jpg"
         }
       ]
     }

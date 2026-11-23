@@ -6,11 +6,11 @@
         assign container = section.settings.product_recently_viewed_container
         assign limit = section.settings.product_recently_viewed_limit | at_most: 4
         assign layout = 'grid'
-        assign block_title = 'products.product.recently_viewed_products' | t
-        if block_title == blank or block_title == 'products.product.recently_viewed_products'
-          assign block_title = section.settings.product_recently_viewed_title
-        endif
+        assign block_title = section.settings.product_recently_viewed_title | strip
         if block_title == blank
+          assign block_title = 'products.product.recently_viewed_products' | t
+        endif
+        if block_title == blank or block_title == 'products.product.recently_viewed_products'
           assign block_title = 'ბოლოს ნანახი პროდუქტები'
         endif
         assign block_title_align = section.settings.product_recently_viewed_title_align

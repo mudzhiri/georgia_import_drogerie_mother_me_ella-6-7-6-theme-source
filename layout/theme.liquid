@@ -54,8 +54,9 @@
         <script src="{{ 'mm-mobile-menu.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-sticky-header.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-search.js' | asset_url }}" defer></script>
-        {%- comment -%} Language switcher: KA/EN/RU. Snippet gates UI; JS must always load when markup is present. {%- endcomment -%}
-        <script src="{{ 'mm-language-switcher.js' | asset_url }}" defer></script>
+        {%- if settings.mm_enable_language_switcher -%}
+          <script src="{{ 'mm-language-switcher.js' | asset_url }}" defer></script>
+        {%- endif -%}
         {%- if request.page_type == 'index' -%}
           <script src="{{ 'mm-home-motion.js' | asset_url }}" defer></script>
         {%- endif -%}
@@ -137,6 +138,9 @@
             {% render 'preload-screen' %}
             {% sections 'header-group' %}
             {% render 'mm-search-panel' %}
+            <div id="mm-header-search-source" hidden>
+              {% render 'mm-header-search-bar' %}
+            </div>
             {% render 'wrapper-header' %}
 
             {%- if settings.layout_body == 'boxed' -%}

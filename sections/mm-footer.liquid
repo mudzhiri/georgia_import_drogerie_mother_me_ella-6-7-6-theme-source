@@ -261,6 +261,7 @@
   endif
 
   assign year_now = 'now' | date: '%Y'
+  assign mm_shop_name = shop.name | strip | replace: '&amp;', '&' | replace: '&#38;', '&'
 -%}
 
 <footer
@@ -272,7 +273,7 @@
   <div class="mm-footer__inner">
     <div class="mm-footer__grid{% unless has_customers_links %} mm-footer__grid--no-customers{% endunless %}{% unless has_info_links %} mm-footer__grid--no-info{% endunless %}">
       <div class="mm-footer__brand">
-        <a class="mm-footer__logo-link" href="{{ routes.root_url }}" aria-label="{{ shop.name | escape }}">
+        <a class="mm-footer__logo-link" href="{{ routes.root_url }}" aria-label="{{ mm_shop_name | escape }}">
           {%- if logo != blank -%}
             {{
               logo
@@ -281,7 +282,7 @@
                 class: 'mm-footer__logo-img',
                 widths: '120, 180, 240, 360',
                 sizes: '(max-width: 767px) 160px, 180px',
-                alt: shop.name,
+                alt: mm_shop_name,
                 loading: 'lazy'
             }}
           {%- else -%}
@@ -564,11 +565,11 @@
 
     <div class="mm-footer__bottom">
       <p class="mm-footer__copyright">
-        &copy; {{ year_now }} {{ shop.name | escape }}
+        &copy; {{ year_now }} {{ mm_shop_name | escape }}
       </p>
 
       <div class="mm-footer__bottom-end">
-        {%- if section.settings.show_language_switcher != false -%}
+        {%- if section.settings.show_language_switcher and settings.mm_enable_language_switcher -%}
           <div class="mm-footer__lang">
             {% render 'mm-language-switcher', id_suffix: 'footer' %}
           </div>
@@ -708,8 +709,8 @@
       "type": "checkbox",
       "id": "show_language_switcher",
       "label": "Show language switcher",
-      "default": true,
-      "info": "Georgian (default), English, and Russian — from Shopify Languages / Translate & Adapt. Other locales are hidden."
+      "default": false,
+      "info": "Requires Theme settings → MOTHER & ME: show language switcher. Storefront is Georgian-only while that is off."
     },
     {
       "type": "checkbox",

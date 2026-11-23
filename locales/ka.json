@@ -644,6 +644,10 @@
       "filter_button": "ფილტრი",
       "filter_brand": "ბრენდი",
       "filter_category": "კატეგორია",
+      "filter_product_type": "პროდუქტის სახეობა",
+      "filter_age": "ასაკი",
+      "filter_all_products": "ყველა პროდუქტი",
+      "filter_category_hint": "აირჩიე კატეგორია — გაიხსნება შესაბამისი კოლექცია.",
       "filter_apply": "გამოყენება",
       "filters_selected": "არჩეულია {{ count }}",
       "product_count_simple": {

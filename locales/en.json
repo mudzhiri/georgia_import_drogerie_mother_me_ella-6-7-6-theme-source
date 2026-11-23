@@ -1106,6 +1106,18 @@
       "text": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
       "link": "ჩვენს შესახებ"
     },
+    "special_order": {
+      "eyebrow": "Order from Germany",
+      "heading": "Can’t find the product you want?",
+      "text": "Send us a product link or name. We’ll check availability and get back to you with the price and estimated delivery time.",
+      "button": "Request a product",
+      "note": "The request is non-binding. Price and estimated delivery time are shared individually. An order is placed only after you accept the offer.",
+      "step_1": "Send us a link",
+      "step_2": "Receive an offer",
+      "step_3": "Confirm the order",
+      "process_label": "How the request works",
+      "image_alt": "Illustration: order from Germany to Georgia"
+    },
     "business_teaser": {
       "eyebrow": "B2B & partnerships",
       "heading": "Let’s work together",
@@ -1232,6 +1244,34 @@
           "title": "Other cooperation inquiry",
           "text": "Media, logistics, joint projects, or another proposal — briefly describe the idea."
         }
+      }
+    },
+    "special_order": {
+      "eyebrow": "Order from Germany",
+      "heading": "Request a product",
+      "intro": "Send us a product link or name. We’ll check availability and get back to you with the price and estimated delivery time.",
+      "form_note": "This is an individual request — not a regular stock checkout. No account or payment is required at this stage.",
+      "success": "Thank you! Your request was received. We’ll check availability and reply by email soon.",
+      "disclaimer": "The request is non-binding. Price and estimated delivery time are shared individually. An order is placed only after you accept the offer.",
+      "submit": "Send request",
+      "submitting": "Sending…",
+      "error_general": "We couldn’t send the request. Please check the required fields and try again.",
+      "error_email": "Please enter a valid email address.",
+      "error_product_required": "Please provide a product link or product name.",
+      "email_subject": "Product request — MOTHER & ME",
+      "fields": {
+        "name": "Name",
+        "email": "Email",
+        "product_either": "Product link or name",
+        "product_either_hint": "One of the two fields is enough — link or name.",
+        "product_link": "Product link",
+        "product_name": "Product name",
+        "or": "or",
+        "quantity": "Desired quantity",
+        "phone": "Phone",
+        "message": "Additional message",
+        "optional": "(optional)",
+        "required": "(required)"
       }
     }
   },

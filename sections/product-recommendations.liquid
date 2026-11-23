@@ -7,11 +7,11 @@
         assign limit = section.settings.product_block_limit | at_most: 4
         assign fetch_limit = 10
         assign layout = 'grid'
-        assign block_title = 'products.product.related_products' | t
-        if block_title == blank or block_title == 'products.product.related_products'
-          assign block_title = section.settings.product_block_title
-        endif
+        assign block_title = section.settings.product_block_title | strip
         if block_title == blank
+          assign block_title = 'products.product.related_products' | t
+        endif
+        if block_title == blank or block_title == 'products.product.related_products'
           assign block_title = 'მსგავსი პროდუქტები'
         endif
         assign block_title_align = section.settings.product_block_title_align

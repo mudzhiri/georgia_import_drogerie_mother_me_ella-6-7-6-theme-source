@@ -1,0 +1,160 @@
+{%- comment -%}
+  Real collection / category switcher (full navigation, not client-side card hiding).
+  Prefers section link list; otherwise curated handles that currently have products.
+  Preserves active Shopify filters + sort via query string when possible.
+{%- endcomment -%}
+{%- liquid
+  assign mm_cat_menu = category_menu
+  assign mm_preserve = ''
+
+  if sort_for_clear != blank
+    assign mm_preserve = 'sort_by=' | append: sort_for_clear
+  endif
+
+  for filter in filter_list
+    for value in filter.active_values
+      if mm_preserve != blank
+        assign mm_preserve = mm_preserve | append: '&'
+      endif
+      assign mm_preserve = mm_preserve | append: value.param_name | append: '=' | append: value.value
+    endfor
+    if filter.type == 'price_range'
+      assign mm_price_gte = request.params[filter.min_value.param_name]
+      assign mm_price_lte = request.params[filter.max_value.param_name]
+      if mm_price_gte != blank
+        if mm_preserve != blank
+          assign mm_preserve = mm_preserve | append: '&'
+        endif
+        assign mm_preserve = mm_preserve | append: filter.min_value.param_name | append: '=' | append: mm_price_gte
+      endif
+      if mm_price_lte != blank
+        if mm_preserve != blank
+          assign mm_preserve = mm_preserve | append: '&'
+        endif
+        assign mm_preserve = mm_preserve | append: filter.max_value.param_name | append: '=' | append: mm_price_lte
+      endif
+    endif
+  endfor
+
+  assign mm_cat_items = 0
+  assign mm_has_menu = false
+  if mm_cat_menu != blank and mm_cat_menu.links.size > 0
+    assign mm_has_menu = true
+  endif
+-%}
+
+{%- capture mm_cat_links -%}
+  {%- if mm_has_menu -%}
+    {%- for link in mm_cat_menu.links -%}
+      {%- if link.url == blank or link.url == '#' -%}{%- continue -%}{%- endif -%}
+      {%- liquid
+        assign mm_link_count = blank
+        assign mm_link_active = false
+        if link.type == 'collection_link' and link.object != blank
+          assign mm_link_count = link.object.all_products_count | default: link.object.products_count
+          if link.object.handle == collection.handle
+            assign mm_link_active = true
+          endif
+          if mm_link_count == 0 and mm_link_active == false
+            continue
+          endif
+        elsif link.active or link.current
+          assign mm_link_active = true
+        endif
+        assign mm_href = link.url
+        if mm_preserve != blank
+          if mm_href contains '?'
+            assign mm_href = mm_href | append: '&' | append: mm_preserve
+          else
+            assign mm_href = mm_href | append: '?' | append: mm_preserve
+          endif
+        endif
+        assign mm_cat_items = mm_cat_items | plus: 1
+      -%}
+      <li>
+        <a
+          class="mm-filters__category-link{% if mm_link_active %} is-active{% endif %}"
+          href="{{ mm_href }}"
+          {% if mm_link_active %}aria-current="page"{% endif %}
+        >
+          <span class="mm-filters__category-name">{{ link.title | escape }}</span>
+          {%- if mm_link_count != blank -%}
+            <span class="mm-filters__option-count" aria-hidden="true">{{ mm_link_count }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- else -%}
+    {%- liquid
+      assign mm_fallback_handles = 'all,ბავშვის-კვება-0-3-წლამდე,დეოდორანტები,სახის-მოვლა,ბავშვი-0-3-წლამდე' | split: ','
+    -%}
+    {%- for handle in mm_fallback_handles -%}
+      {%- liquid
+        if handle == 'all'
+          assign mm_col = collections.all
+          assign mm_title = 'sections.collection_template.filter_all_products' | t
+          assign mm_href = routes.all_products_collection.url
+          assign mm_count = mm_col.all_products_count | default: mm_col.products_count
+          assign mm_active = false
+          if collection.handle == 'all' or request.path == routes.all_products_collection.url
+            assign mm_active = true
+          endif
+        else
+          assign mm_col = collections[handle]
+          if mm_col == blank or mm_col.handle == blank
+            continue
+          endif
+          assign mm_count = mm_col.all_products_count | default: mm_col.products_count
+          if mm_count == 0 and collection.handle != mm_col.handle
+            continue
+          endif
+          assign mm_title = mm_col.title
+          assign mm_href = mm_col.url
+          assign mm_active = false
+          if collection.handle == mm_col.handle
+            assign mm_active = true
+          endif
+        endif
+        if mm_preserve != blank
+          if mm_href contains '?'
+            assign mm_href = mm_href | append: '&' | append: mm_preserve
+          else
+            assign mm_href = mm_href | append: '?' | append: mm_preserve
+          endif
+        endif
+        assign mm_cat_items = mm_cat_items | plus: 1
+      -%}
+      <li>
+        <a
+          class="mm-filters__category-link{% if mm_active %} is-active{% endif %}"
+          href="{{ mm_href }}"
+          {% if mm_active %}aria-current="page"{% endif %}
+        >
+          <span class="mm-filters__category-name">{{ mm_title | escape }}</span>
+          {%- if mm_count != blank -%}
+            <span class="mm-filters__option-count" aria-hidden="true">{{ mm_count }}</span>
+          {%- endif -%}
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if mm_cat_items > 0 and is_search == false -%}
+  <details
+    class="mm-filters__group mm-filters__group--category"
+    data-mm-filter-group
+    data-mm-category-nav
+  >
+    <summary class="mm-filters__group-summary">
+      <span class="mm-filters__group-label">{{ 'sections.collection_template.filter_category' | t }}</span>
+      <span class="mm-filters__group-chevron" aria-hidden="true"></span>
+    </summary>
+    <div class="mm-filters__group-body">
+      <p class="mm-filters__category-hint">{{ 'sections.collection_template.filter_category_hint' | t }}</p>
+      <ul class="mm-filters__options mm-filters__options--category" role="list">
+        {{ mm_cat_links }}
+      </ul>
+    </div>
+  </details>
+{%- endif -%}

@@ -30,12 +30,12 @@
 {%- if has_collection and product_count > 0 -%}
   <section
     id="mm-products-{{ section.id }}"
-    class="mm-products mm-reveal"
+    class="mm-products"
     aria-labelledby="mm-products-heading-{{ section.id }}"
   >
     <div class="mm-products__inner">
       {%- if heading != blank -%}
-        <h2 id="mm-products-heading-{{ section.id }}" class="mm-products__heading" data-mm-reveal-item>
+        <h2 id="mm-products-heading-{{ section.id }}" class="mm-products__heading">
           {{ heading | escape }}
         </h2>
       {%- endif -%}
@@ -48,7 +48,7 @@
               assign mm_card_eager = true
             endif
           -%}
-          <li class="mm-products__item" data-mm-reveal-item>
+          <li class="mm-products__item">
             {% render 'mm-product-card',
               product: product,
               section_id: section.id,
@@ -59,7 +59,7 @@
       </ul>
 
       {%- if view_all_label != blank -%}
-        <div class="mm-products__footer" data-mm-reveal-item>
+        <div class="mm-products__footer">
           <a class="mm-products__view-all" href="{{ collection.url }}">
             {{ view_all_label | escape }}
             <span class="mm-products__view-all-arrow" aria-hidden="true">

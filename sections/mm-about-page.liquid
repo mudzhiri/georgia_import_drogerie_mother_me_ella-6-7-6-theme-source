@@ -26,6 +26,15 @@
   endif
   assign contact_url = contact_page.url | default: '/pages/contact'
 
+  assign special_page = pages['special-order']
+  if special_page == empty
+    assign special_page = pages['პროდუქტის-მოთხოვნა']
+  endif
+  assign special_url = ''
+  if special_page != empty and special_page.url != blank
+    assign special_url = special_page.url
+  endif
+
   assign shipping_policy = shop.shipping_policy
   assign refund_policy = shop.refund_policy
   assign has_shipping_policy = false
@@ -74,6 +83,10 @@
           <figcaption class="mm-about-page__caption">{{ section.settings.image_caption | escape }}</figcaption>
         {%- endif -%}
       </figure>
+    {%- else -%}
+      <div class="mm-about-page__figure mm-about-page__figure--placeholder" aria-hidden="true">
+        <span class="mm-about-page__placeholder-mark">MOTHER &amp; ME</span>
+      </div>
     {%- endif -%}
 
     <div class="mm-about-page__sections">
@@ -84,11 +97,25 @@
         <p class="mm-about-page__text">{{ 'mm_pages.about.who_text' | t }}</p>
       </section>
 
-      <section class="mm-about-page__block" aria-labelledby="mm-about-why-{{ section.id }}">
-        <h2 id="mm-about-why-{{ section.id }}" class="mm-about-page__subheading">
-          {{ 'mm_pages.about.why_heading' | t }}
+      <section class="mm-about-page__block" aria-labelledby="mm-about-offer-{{ section.id }}">
+        <h2 id="mm-about-offer-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.offer_heading' | t }}
         </h2>
-        <p class="mm-about-page__text">{{ 'mm_pages.about.why_text' | t }}</p>
+        <p class="mm-about-page__text">{{ 'mm_pages.about.offer_text' | t }}</p>
+        <ul class="mm-about-page__list" role="list">
+          <li class="mm-about-page__list-item">
+            <strong>{{ 'mm_pages.about.stock_label' | t }}</strong>
+            {{ 'mm_pages.about.stock_text' | t }}
+          </li>
+          <li class="mm-about-page__list-item">
+            <strong>{{ 'mm_pages.about.special_label' | t }}</strong>
+            {{ 'mm_pages.about.special_text' | t }}
+            {%- if special_url != blank -%}
+              <a class="mm-about-page__inline-link" href="{{ special_url }}">{{ 'mm_pages.about.special_link' | t }}</a>
+            {%- endif -%}
+          </li>
+        </ul>
+        <p class="mm-about-page__note">{{ 'mm_pages.about.brands_note' | t }}</p>
       </section>
 
       <section class="mm-about-page__block" aria-labelledby="mm-about-select-{{ section.id }}">
@@ -96,7 +123,7 @@
           {{ 'mm_pages.about.select_heading' | t }}
         </h2>
         <p class="mm-about-page__text">{{ 'mm_pages.about.select_text' | t }}</p>
-        <p class="mm-about-page__note">{{ 'mm_pages.about.brands_note' | t }}</p>
+        <p class="mm-about-page__note">{{ 'mm_pages.about.origin_note' | t }}</p>
       </section>
 
       <section class="mm-about-page__block" aria-labelledby="mm-about-flow-{{ section.id }}">
@@ -116,36 +143,7 @@
             <span class="mm-about-page__step-num" aria-hidden="true">3</span>
             <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_3' | t }}</span>
           </li>
-          <li>
-            <span class="mm-about-page__step-num" aria-hidden="true">4</span>
-            <span class="mm-about-page__step-text">{{ 'mm_pages.about.flow_step_4' | t }}</span>
-          </li>
         </ol>
-      </section>
-
-      <section class="mm-about-page__block" aria-labelledby="mm-about-pay-{{ section.id }}">
-        <h2 id="mm-about-pay-{{ section.id }}" class="mm-about-page__subheading">
-          {{ 'mm_pages.about.pay_heading' | t }}
-        </h2>
-        <ol class="mm-about-page__steps mm-about-page__steps--pay">
-          <li>
-            <span class="mm-about-page__step-num" aria-hidden="true">1</span>
-            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_1' | t }}</span>
-          </li>
-          <li>
-            <span class="mm-about-page__step-num" aria-hidden="true">2</span>
-            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_2' | t }}</span>
-          </li>
-          <li>
-            <span class="mm-about-page__step-num" aria-hidden="true">3</span>
-            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_3' | t }}</span>
-          </li>
-          <li>
-            <span class="mm-about-page__step-num" aria-hidden="true">4</span>
-            <span class="mm-about-page__step-text">{{ 'mm_pages.about.pay_step_4' | t }}</span>
-          </li>
-        </ol>
-        <p class="mm-about-page__note">{{ 'mm_pages.about.pay_note' | t }}</p>
       </section>
 
       <section class="mm-about-page__block" aria-labelledby="mm-about-ship-{{ section.id }}">
@@ -170,6 +168,18 @@
             {%- endif -%}
           </p>
         {%- endif -%}
+      </section>
+
+      <section class="mm-about-page__block" aria-labelledby="mm-about-questions-{{ section.id }}">
+        <h2 id="mm-about-questions-{{ section.id }}" class="mm-about-page__subheading">
+          {{ 'mm_pages.about.questions_heading' | t }}
+        </h2>
+        <p class="mm-about-page__text">{{ 'mm_pages.about.questions_text' | t }}</p>
+        <p class="mm-about-page__policies">
+          <a class="mm-about-page__policy-link" href="{{ contact_url }}">
+            {{ 'mm_pages.about.cta_contact' | t }}
+          </a>
+        </p>
       </section>
     </div>
 
@@ -212,7 +222,7 @@
       "type": "image_picker",
       "id": "image",
       "label": "Authentic photo (optional)",
-      "info": "Only real photos of products, packing, or the business. No stock people as team."
+      "info": "Only real photos of products, packing, or people who consented. No stock people as team. Without a photo a quiet brand plane is shown."
     },
     {
       "type": "text",

@@ -129,7 +129,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_categories": {
       "type": "mm-categories",
@@ -141,7 +142,8 @@
             "label": "",
             "description": "",
             "link": "shopify://collections/ბავშვი",
-            "collection": "ბავშვი"
+            "collection": "ბავშვი",
+            "fallback_asset": "mm-cat-kids.jpg"
           }
         },
         "tile_mamas": {
@@ -153,14 +155,49 @@
             "link": "shopify://collections/დედა",
             "collection": "დედა"
           }
+        },
+        "tile_feed": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "კვება",
+            "description": "",
+            "link": "",
+            "collection": "ბავშვის-კვება-0-3-წლამდე"
+          }
+        },
+        "tile_face": {
+          "type": "tile",
+          "settings": {
+            "tone": "cream",
+            "label": "სახის მოვლა",
+            "description": "",
+            "link": "",
+            "collection": "სახის-მოვლა"
+          }
+        },
+        "tile_deo": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "დეოდორანტები",
+            "description": "",
+            "link": "",
+            "collection": "დეოდორანტები"
+          }
         }
       },
       "block_order": [
         "tile_kids",
-        "tile_mamas"
+        "tile_mamas",
+        "tile_feed",
+        "tile_face",
+        "tile_deo"
       ],
       "settings": {
-        "heading": ""
+        "heading": "",
+        "view_all_label": "",
+        "view_all_link": "shopify://collections"
       }
     },
     "mm_info_strip": {
@@ -195,7 +232,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_products": {
       "type": "mm-products",
@@ -204,6 +242,22 @@
         "collection": "all",
         "products_to_show": 8,
         "view_all_label": ""
+      }
+    },
+    "mm_special_order": {
+      "type": "mm-special-order",
+      "settings": {
+        "show_section": true,
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "shopify://pages/პროდუქტის-მოთხოვნა",
+        "note": "",
+        "step_1": "",
+        "step_2": "",
+        "step_3": "",
+        "image_alt": ""
       }
     },
     "mm_needs": {
@@ -250,7 +304,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_about": {
       "type": "mm-about",
@@ -383,14 +438,15 @@
   },
   "order": [
     "mm_hero",
-    "mm_category_pills",
     "mm_categories",
-    "mm_info_strip",
     "mm_products",
-    "mm_needs",
+    "mm_special_order",
     "mm_about",
-    "mm_business_teaser",
     "mm_brands",
-    "mm_faq"
+    "mm_business_teaser",
+    "mm_faq",
+    "mm_category_pills",
+    "mm_info_strip",
+    "mm_needs"
   ]
 }

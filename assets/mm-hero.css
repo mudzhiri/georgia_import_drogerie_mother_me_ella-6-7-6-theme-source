@@ -20,7 +20,7 @@
   --mm-hero-heading-size: clamp(1.875rem, 1.55rem + 1.4vw, 2.25rem); /* 30–36px */
   --mm-hero-text-size: clamp(1rem, 0.96rem + 0.2vw, 1.125rem); /* 16–18px */
   --mm-hero-radius: 20px;
-  --mm-hero-pad-y: clamp(2.5rem, 2rem + 2vw, 4rem);
+  --mm-hero-pad-y: clamp(1.5rem, 1.2rem + 1.2vw, 2.5rem);
   --mm-hero-gutter: var(--mm-page-gutter, 16px);
   --mm-hero-focal: center;
   --mm-hero-motion: 200ms ease;
@@ -33,7 +33,7 @@
   .mm-hero {
     /* 48–56px */
     --mm-hero-heading-size: clamp(3rem, 2.6rem + 0.7vw, 3.5rem);
-    --mm-hero-pad-y: clamp(3rem, 2.5rem + 1.5vw, 4.5rem);
+    --mm-hero-pad-y: clamp(2rem, 1.6rem + 1vw, 3.25rem);
   }
 }
 
@@ -67,7 +67,7 @@
 .mm-hero__inner--with-image {
   text-align: left;
   justify-items: stretch;
-  gap: var(--mm-space-6, 32px);
+  gap: var(--mm-space-5, 24px);
 }
 
 @media screen and (min-width: 900px) {

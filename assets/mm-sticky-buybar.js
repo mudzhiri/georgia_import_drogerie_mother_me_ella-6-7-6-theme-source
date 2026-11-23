@@ -146,8 +146,12 @@
     function shouldShow() {
       if (!MQ.matches) return false;
       if (overlayOpen()) return false;
-      if (!getMainBtn()) return false;
-      return !mainVisible;
+      const btn = getMainBtn();
+      if (!btn) return false;
+      /* Only after the main ATC has scrolled above the viewport — not while it is still below the fold. */
+      const rect = btn.getBoundingClientRect();
+      mainVisible = rect.bottom > 0;
+      return rect.bottom <= 0;
     }
 
     function applyVisibility() {
@@ -309,9 +313,26 @@
       applyVisibility();
     }
 
+    let scrollTick = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!MQ.matches) return;
+        if (scrollTick) return;
+        scrollTick = true;
+        window.requestAnimationFrame(() => {
+          scrollTick = false;
+          lastShow = null;
+          applyVisibility();
+        });
+      },
+      { passive: true }
+    );
+
     window.addEventListener(
       'resize',
       () => {
+        onMqChange();
         if (bar.classList.contains('is-visible')) updateBottomOffset();
       },
       { passive: true }

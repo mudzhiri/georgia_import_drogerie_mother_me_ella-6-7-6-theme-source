@@ -179,5 +179,26 @@
     isInventoryRelated: isInventoryRelated,
     isTechnical: isTechnical
   };
+
+  /* Block double-submit while ATC is in flight (capture before theme handler). */
+  document.addEventListener(
+    'click',
+    function (event) {
+      var btn = event.target && event.target.closest && event.target.closest('[data-btn-addtocart]');
+      if (!btn) return;
+      if (btn.disabled || btn.classList.contains('is-soldout') || btn.classList.contains('is-notify-me')) {
+        return;
+      }
+      if (btn.classList.contains('is-loading') || btn.getAttribute('aria-busy') === 'true') {
+        event.preventDefault();
+        event.stopPropagation();
+        if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+        return;
+      }
+      btn.classList.add('is-loading');
+      btn.setAttribute('aria-busy', 'true');
+    },
+    true
+  );
 })();
 

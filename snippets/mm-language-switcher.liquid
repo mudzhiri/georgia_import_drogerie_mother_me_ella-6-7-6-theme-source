@@ -1,12 +1,15 @@
 {%- comment -%}
   MOTHER & ME language switcher (header / drawer / footer).
-  Storefront languages: Georgian (default) + English + Russian only.
-  Uses Shopify localization.available_languages (Translate & Adapt / Markets).
+  Temporarily disabled: storefront is Georgian-only. EN/RU locale files stay in the theme.
+  Re-enable via theme setting mm_enable_language_switcher when multi-language is offered again.
   Accepts: id_suffix {String} unique form/button ids (desktop|mobile|drawer|footer)
 {%- endcomment -%}
 
 {%- liquid
-  assign mm_enable_language_switcher = true
+  assign mm_enable_language_switcher = false
+  if settings.mm_enable_language_switcher
+    assign mm_enable_language_switcher = true
+  endif
   assign id_suffix = id_suffix | default: 'header'
   assign available = localization.available_languages
   assign current = localization.language

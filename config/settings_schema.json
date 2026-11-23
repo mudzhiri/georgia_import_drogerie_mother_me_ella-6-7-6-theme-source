@@ -4303,6 +4303,13 @@
         "default": true
       },
       {
+        "type": "checkbox",
+        "id": "mm_enable_language_switcher",
+        "label": "MOTHER & ME: show language switcher",
+        "default": false,
+        "info": "Off = Georgian-only UI (no KA/EN/RU picker). Does not change Shopify Languages, Markets, or browser auto-redirect — those are Admin settings."
+      },
+      {
         "type": "paragraph",
         "content": "t:settings_schema.typography.settings.font_type.info_language"
       },

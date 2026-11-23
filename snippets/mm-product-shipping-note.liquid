@@ -1,9 +1,23 @@
 {% comment %}
   PDP trust notes under buy button.
-  Shipping copy: shared mm_shipping keys (Tbilisi 6 ₾ confirmed).
-  Do not state Georgia-wide delivery prices here.
+  Shipping: Tbilisi 6 ₾ only (not Georgia-wide). Payment: bank transfer.
+  Links go to existing Shopify policies / contact — no invented rates or methods.
 {% endcomment %}
 {{ 'mm-product-shipping-note.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign shipping_policy = shop.shipping_policy
+  assign contact_page = pages['contact']
+  if contact_page == empty
+    assign contact_page = pages['contact-us']
+  endif
+  if contact_page == empty
+    assign contact_page = pages['kontakt']
+  endif
+  if contact_page == empty
+    assign contact_page = pages['კონტაქტი']
+  endif
+-%}
 
 <ul class="mm-pdp-trust" data-mm-pdp-trust role="list">
   <li class="mm-pdp-trust__item">
@@ -15,16 +29,12 @@
         <circle cx="17.25" cy="17.5" r="1.75" stroke="currentColor" stroke-width="1.5"/>
       </svg>
     </span>
-    <span class="mm-pdp-trust__text">{{ 'mm_shipping.tbilisi_rate' | t }}</span>
-  </li>
-  <li class="mm-pdp-trust__item">
-    <span class="mm-pdp-trust__icon" aria-hidden="true">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" focusable="false">
-        <path d="M4 9.5 12 4l8 5.5V20a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V9.5Z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>
-        <path d="M9.5 21v-7h5v7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
+    <span class="mm-pdp-trust__text">
+      {{ 'mm_shipping.tbilisi_rate' | t }}
+      {%- if shipping_policy != blank and shipping_policy.url != blank -%}
+        <a class="mm-pdp-trust__link" href="{{ shipping_policy.url }}">{{ 'products.product.info_accordion.shipping_link' | t }}</a>
+      {%- endif -%}
     </span>
-    <span class="mm-pdp-trust__text">{{ 'products.product.trust.order_pickup' | t }}</span>
   </li>
   <li class="mm-pdp-trust__item">
     <span class="mm-pdp-trust__icon" aria-hidden="true">
@@ -34,6 +44,11 @@
         <path d="M7 15h4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </span>
-    <span class="mm-pdp-trust__text">{{ 'products.product.trust.bank_transfer' | t }}</span>
+    <span class="mm-pdp-trust__text">
+      {{ 'products.product.trust.bank_transfer' | t }}
+      {%- if contact_page != empty and contact_page.url != blank -%}
+        <a class="mm-pdp-trust__link" href="{{ contact_page.url }}">{{ 'products.product.trust.payment_more' | t }}</a>
+      {%- endif -%}
+    </span>
   </li>
 </ul>

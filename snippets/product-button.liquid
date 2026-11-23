@@ -39,8 +39,8 @@
             <div class="productView-group">
                 {%- if check_show_qty == 'show_qty_2' -%}
                     {%- if show_subtotal_text and subtotal_style == '1' -%}
-                        <div class="productView-subtotal">
-                            <span class="text">{{ 'sections.cart.subtotal' | t | append: ': ' }}</span>
+                        <div class="productView-subtotal" data-mm-product-total>
+                            <span class="text">{{ 'products.product.product_total' | t | append: ': ' }}</span>
                             <span class="money-subtotal">{{ subtotal }}</span>
                         </div>
                     {%- endif -%}

@@ -40,17 +40,40 @@
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
-  font-size: 0.875rem;
+  font-size: 14px; /* px: rem under Ella 62.5% root was ~8.75px */
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.5;
   letter-spacing: normal;
   text-transform: none;
   color: #214d43;
   overflow-wrap: anywhere;
 }
 
+.mm-pdp-trust__link {
+  display: inline;
+  margin-left: 0.35em;
+  color: #214d43;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mm-pdp-trust__link:hover {
+  color: #173b33;
+}
+
+.mm-pdp-trust__link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 :lang(ka) .mm-pdp-trust__text {
   line-height: 1.5;
+}
+
+.mm-pdp-trust {
+  margin-top: 12px;
 }
 
 /* Legacy single-note class kept for safety if cached markup remains */

@@ -25,10 +25,58 @@
     return spacer;
   }
 
+  function cloneSearchBar(extraClass) {
+    const source = document.querySelector('#mm-header-search-source .mm-header-search-bar');
+    if (!source) return null;
+    const bar = source.cloneNode(true);
+    bar.removeAttribute('id');
+    if (extraClass) bar.classList.add(extraClass);
+    return bar;
+  }
+
+  function ensureDesktopSearch(row) {
+    if (!row) return;
+    let slot = row.querySelector(':scope > .mm-header-search-slot');
+    if (!slot) {
+      slot = document.createElement('div');
+      slot.className = 'mm-header-search-slot';
+      const icons = row.querySelector(':scope > .header-icons');
+      if (icons) row.insertBefore(slot, icons);
+      else row.appendChild(slot);
+    }
+    if (!slot.querySelector('.mm-header-search-bar')) {
+      const bar = cloneSearchBar('mm-header-search-bar--desktop');
+      if (bar) slot.appendChild(bar);
+    }
+  }
+
+  function ensureMobileSearchRow(section) {
+    if (!section) return;
+    const mobile = section.querySelector('.header-mobile');
+    const container = mobile?.querySelector(':scope > .container') || section.querySelector('.header-mobile > .container');
+    const wrapper = section.querySelector('.header-mobile__wrapper, .header-mobile--wrapper');
+    if (!container || !wrapper) return;
+
+    let searchRow = container.querySelector(':scope > .mm-header-search-row');
+    if (!searchRow) {
+      searchRow = document.createElement('div');
+      searchRow.className = 'mm-header-search-row';
+      if (wrapper.nextSibling) container.insertBefore(searchRow, wrapper.nextSibling);
+      else container.appendChild(searchRow);
+    }
+    if (!searchRow.querySelector('.mm-header-search-bar')) {
+      const bar = cloneSearchBar('mm-header-search-bar--mobile');
+      if (bar) searchRow.appendChild(bar);
+    }
+  }
+
   function ensureDesktopMainRow(container) {
     if (!container) return null;
     let row = container.querySelector(':scope > .mm-header-main-row');
-    if (row) return row;
+    if (row) {
+      ensureDesktopSearch(row);
+      return row;
+    }
 
     const logo = container.querySelector(':scope > .header-logo');
     const icons = container.querySelector(':scope > .header-icons');
@@ -39,6 +87,7 @@
     if (logo) row.appendChild(logo);
     if (icons) row.appendChild(icons);
     container.insertBefore(row, container.firstChild);
+    ensureDesktopSearch(row);
     return row;
   }
 
@@ -149,13 +198,13 @@
     desktopCtrl = null;
     const host = document.querySelector('sticky-header[data-sticky-type]');
     const section = document.querySelector('.section-header-navigation');
-    if (!stickyEnabled(host) || !section) {
-      section?.classList.remove('mm-sticky-enabled', 'mm-header-is-pinned');
-      return;
-    }
+    if (!section) return;
     const container = section.querySelector('.header-nav-hamburger--style1 > .container, .header-nav-hamburger > .container');
     const row = ensureDesktopMainRow(container);
-    if (!row) return;
+    if (!stickyEnabled(host) || !row) {
+      section.classList.remove('mm-sticky-enabled', 'mm-header-is-pinned');
+      return;
+    }
     desktopCtrl = new MmPinController({ section, row, enabled: true });
     desktopCtrl.start();
   }
@@ -165,12 +214,13 @@
     mobileCtrl = null;
     const host = document.querySelector('sticky-header-mobile[data-sticky-type]');
     const section = document.querySelector('.section-header-mobile');
-    if (!stickyEnabled(host) || !section) {
-      section?.classList.remove('mm-sticky-enabled', 'mm-header-is-pinned');
+    if (!section) return;
+    ensureMobileSearchRow(section);
+    const row = section.querySelector('.header-mobile__wrapper, .header-mobile--wrapper');
+    if (!stickyEnabled(host) || !row) {
+      section.classList.remove('mm-sticky-enabled', 'mm-header-is-pinned');
       return;
     }
-    const row = section.querySelector('.header-mobile__wrapper, .header-mobile--wrapper');
-    if (!row) return;
     mobileCtrl = new MmPinController({ section, row, enabled: true });
     mobileCtrl.start();
   }

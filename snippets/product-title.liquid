@@ -1,10 +1,17 @@
-{%- liquid 
-    assign fontsize_text = block.settings.fontsize_text
-    assign fontsize_text_mb = block.settings.fontsize_text_mb
-    assign color_title = block.settings.color_title
+{%- liquid
+  assign fontsize_text = block.settings.fontsize_text
+  assign fontsize_text_mb = block.settings.fontsize_text_mb
+  assign color_title = block.settings.color_title
 -%}
-<div class="mm-pdp-title-row">
-  <h1 class="productView-title" style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"><span>{{ product.title | escape }}</span></h1>
+{%- comment -%}
+  PDP title stack: brand sits above (vendor block). Full-width H1, then share on its own row.
+  Share must not share a flex row with the title — that crushed Georgian titles.
+{%- endcomment -%}
+<div class="mm-pdp-title-stack">
+  <h1
+    class="productView-title"
+    style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"
+  >{{ product.title | escape }}</h1>
   <div class="mm-pdp-title-share-wrap">
     {% render 'mm-pdp-title-share', product: product %}
   </div>

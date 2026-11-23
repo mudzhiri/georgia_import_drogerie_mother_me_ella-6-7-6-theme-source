@@ -46,6 +46,39 @@
   if heading_tag != 'h1' and heading_tag != 'h2'
     assign heading_tag = 'h2'
   endif
+
+  assign trust_assortment = 'mm_home.about.trust_assortment' | t
+  assign trust_shipping = 'mm_home.about.trust_shipping' | t
+  assign trust_contact = 'mm_home.about.trust_contact' | t
+
+  assign shipping_policy = shop.shipping_policy
+  assign shipping_url = ''
+  if shipping_policy != blank and shipping_policy.url != blank
+    assign shipping_url = shipping_policy.url
+  endif
+
+  assign contact_page = pages['contact']
+  if contact_page == empty
+    assign contact_page = pages['contact-us']
+  endif
+  if contact_page == empty
+    assign contact_page = pages['kontakt']
+  endif
+  assign contact_url = ''
+  if contact_page != empty and contact_page.url != blank
+    assign contact_url = contact_page.url
+  endif
+
+  assign about_url = button_link
+  if about_url == blank
+    assign about_page = pages['about']
+    if about_page == empty
+      assign about_page = pages['about-us']
+    endif
+    if about_page != empty and about_page.url != blank
+      assign about_url = about_page.url
+    endif
+  endif
 -%}
 
 {%- if has_content -%}
@@ -55,7 +88,8 @@
     {% if heading != blank %}aria-labelledby="mm-about-heading-{{ section.id }}"{% endif %}
   >
     <div class="mm-about__inner">
-      <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--text-only{% endif %}" data-mm-reveal-item>
+      <div class="mm-about__layout{% if has_image %} mm-about__layout--with-image{% else %} mm-about__layout--with-placeholder{% endif %}" data-mm-reveal-item>
+        {%- comment -%} Desktop: media left, copy right. Mobile: copy first, then media. {%- endcomment -%}
         <div class="mm-about__copy">
           {%- if heading != blank -%}
             <{{ heading_tag }} id="mm-about-heading-{{ section.id }}" class="mm-about__heading">
@@ -63,8 +97,39 @@
             </{{ heading_tag }}>
           {%- endif -%}
           {%- if text != blank -%}
-            <p class="mm-about__text">{{ text | escape }}</p>
+            <div class="mm-about__text">{{ text | escape | newline_to_br }}</div>
           {%- endif -%}
+
+          <ul class="mm-about__trust" role="list">
+            {%- unless trust_assortment == blank or trust_assortment contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">
+                {%- if about_url != blank -%}
+                  <a class="mm-about__trust-chip" href="{{ about_url }}">{{ trust_assortment | escape }}</a>
+                {%- else -%}
+                  <span class="mm-about__trust-chip">{{ trust_assortment | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endunless -%}
+            {%- unless trust_shipping == blank or trust_shipping contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">
+                {%- if shipping_url != blank -%}
+                  <a class="mm-about__trust-chip" href="{{ shipping_url }}">{{ trust_shipping | escape }}</a>
+                {%- else -%}
+                  <span class="mm-about__trust-chip">{{ trust_shipping | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endunless -%}
+            {%- unless trust_contact == blank or trust_contact contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">
+                {%- if contact_url != blank -%}
+                  <a class="mm-about__trust-chip" href="{{ contact_url }}">{{ trust_contact | escape }}</a>
+                {%- else -%}
+                  <span class="mm-about__trust-chip">{{ trust_contact | escape }}</span>
+                {%- endif -%}
+              </li>
+            {%- endunless -%}
+          </ul>
+
           {%- if has_button -%}
             <a class="mm-about__link" href="{{ button_link }}">
               {{ button_label | escape }}
@@ -91,6 +156,11 @@
                 class: 'mm-about__image'
             }}
           </figure>
+        {%- else -%}
+          {%- comment -%} Quiet brand plane — not presented as a real team/warehouse photo. {%- endcomment -%}
+          <div class="mm-about__media mm-about__media--placeholder" aria-hidden="true">
+            <span class="mm-about__placeholder-mark">MOTHER &amp; ME</span>
+          </div>
         {%- endif -%}
       </div>
     </div>
@@ -117,38 +187,40 @@
       "type": "text",
       "id": "heading",
       "label": "Heading",
-      "default": "გერმანიიდან — შენთვის"
+      "default": "გერმანიიდან — შენი ოჯახისთვის",
+      "info": "Leave blank to use the Georgian locale string."
     },
     {
       "type": "textarea",
       "id": "text",
       "label": "Text",
-      "default": "MOTHER & ME აერთიანებს გერმანიიდან ჩამოტანილ მოვლისა და ჰიგიენის პროდუქტებს ბავშვებისთვის და დედებისთვის.",
-      "info": "Editable in the theme editor. Translate via Shopify Languages / Translate & Adapt."
+      "default": "MOTHER & ME-ში ბავშვებისა და დედებისთვის მოვლისა და ჰიგიენის პროდუქტებს ვარჩევთ. პროდუქცია გერმანიიდან ჩამოგვაქვს და საქართველოში ვთავაზობთ მომხმარებლებს.\n\nჩვენთვის მნიშვნელოვანია გასაგები ინფორმაცია, ყურადღებიანი მომსახურება და მარტივი შეკვეთა.",
+      "info": "Use a blank line between paragraphs. Only confirmed facts — import from Germany ≠ made in Germany."
     },
     {
       "type": "text",
       "id": "button_label",
       "label": "Link label",
       "default": "ჩვენს შესახებ",
-      "info": "Shown only when a link target is set. Translate per language (e.g. Über uns)."
+      "info": "Shown only when a link target is set."
     },
     {
       "type": "url",
       "id": "button_link",
       "label": "About page link",
-      "info": "Optional. Select the existing About us page. The button stays hidden until a valid URL is set."
+      "info": "Select the existing About us page. The button stays hidden until a valid URL is set."
     },
     {
       "type": "image_picker",
       "id": "image",
-      "label": "Photo",
-      "info": "Optional real photo. Set focal point in the media editor. Without an image no empty media column is reserved."
+      "label": "Authentic photo",
+      "info": "Real photo only (selection, packing, shipping prep, or people who consented). No stock photos as team/warehouse. Without a photo a quiet brand plane is shown — replace this in the theme editor."
     },
     {
       "type": "text",
       "id": "image_alt",
-      "label": "Image alt text"
+      "label": "Image alt text",
+      "info": "Describe what the photo actually shows."
     }
   ],
   "presets": [
