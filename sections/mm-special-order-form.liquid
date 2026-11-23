@@ -1,0 +1,337 @@
+{{ 'mm-special-order-form.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign t = 'mm_pages.special_order'
+
+  if section.settings.eyebrow != blank
+    assign eyebrow = section.settings.eyebrow
+  else
+    assign eyebrow = t | append: '.eyebrow' | t
+  endif
+
+  if section.settings.heading != blank
+    assign heading = section.settings.heading
+  else
+    assign heading = t | append: '.heading' | t
+  endif
+
+  if section.settings.intro != blank
+    assign intro = section.settings.intro
+  else
+    assign intro = t | append: '.intro' | t
+  endif
+
+  if section.settings.form_note != blank
+    assign form_note = section.settings.form_note
+  else
+    assign form_note = t | append: '.form_note' | t
+  endif
+
+  if section.settings.success_message != blank
+    assign success_message = section.settings.success_message
+  else
+    assign success_message = t | append: '.success' | t
+  endif
+
+  if section.settings.disclaimer != blank
+    assign disclaimer = section.settings.disclaimer
+  else
+    assign disclaimer = t | append: '.disclaimer' | t
+  endif
+
+  if eyebrow contains '&amp;' or eyebrow contains '&#38;'
+    assign eyebrow = eyebrow | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if heading contains '&amp;' or heading contains '&#38;'
+    assign heading = heading | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if intro contains '&amp;' or intro contains '&#38;'
+    assign intro = intro | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+
+  assign form_id = 'mm-special-order-form-' | append: section.id
+  assign name_id = 'mm-so-name-' | append: section.id
+  assign email_id = 'mm-so-email-' | append: section.id
+  assign link_id = 'mm-so-link-' | append: section.id
+  assign product_id = 'mm-so-product-' | append: section.id
+  assign qty_id = 'mm-so-qty-' | append: section.id
+  assign phone_id = 'mm-so-phone-' | append: section.id
+  assign message_id = 'mm-so-message-' | append: section.id
+  assign product_group_error_id = 'mm-so-product-group-error-' | append: section.id
+-%}
+
+<section
+  id="mm-special-order-form-{{ section.id }}"
+  class="mm-so-form"
+  {% if heading != blank %}aria-labelledby="mm-so-form-heading-{{ section.id }}"{% endif %}
+>
+  <div class="mm-so-form__inner">
+    <header class="mm-so-form__header">
+      {%- if eyebrow != blank -%}
+        <p class="mm-so-form__eyebrow">{{ eyebrow | escape }}</p>
+      {%- endif -%}
+      {%- if heading != blank -%}
+        <h1 id="mm-so-form-heading-{{ section.id }}" class="mm-so-form__heading">
+          {{ heading | escape }}
+        </h1>
+      {%- endif -%}
+      {%- if intro != blank -%}
+        <p class="mm-so-form__intro">{{ intro | escape }}</p>
+      {%- endif -%}
+      {%- if form_note != blank -%}
+        <p class="mm-so-form__note">{{ form_note | escape }}</p>
+      {%- endif -%}
+    </header>
+
+    <div class="mm-so-form__card">
+      {%- form 'contact', id: form_id, class: 'mm-so-form__form', data-mm-so-form: '' -%}
+        {%- if form.posted_successfully? -%}
+          <div class="mm-so-form__alert mm-so-form__alert--success" role="status" tabindex="-1" data-mm-so-success>
+            <p>{{ success_message | escape }}</p>
+          </div>
+        {%- else -%}
+          {%- if form.errors -%}
+            <div class="mm-so-form__alert mm-so-form__alert--error" role="alert" tabindex="-1" data-mm-so-errors>
+              <p class="mm-so-form__alert-heading">{{ 'mm_pages.special_order.error_general' | t }}</p>
+              <ul class="mm-so-form__error-list">
+                {%- for field in form.errors -%}
+                  <li>
+                    {%- if field == 'form' -%}
+                      {{ form.errors.messages[field] }}
+                    {%- else -%}
+                      {{ form.errors.translated_fields[field] | default: field | capitalize }}
+                      {{ form.errors.messages[field] }}
+                    {%- endif -%}
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+
+          <div
+            class="mm-so-form__alert mm-so-form__alert--error"
+            role="alert"
+            hidden
+            data-mm-so-client-error
+            id="{{ product_group_error_id }}"
+          >
+            <p>{{ 'mm_pages.special_order.error_product_required' | t }}</p>
+          </div>
+
+          <input
+            type="hidden"
+            name="contact[subject]"
+            value="{{ 'mm_pages.special_order.email_subject' | t | escape }}"
+          >
+          <input type="hidden" name="contact[source]" value="Special order /pages/special-order">
+          <input type="hidden" name="contact[body]" value="" data-mm-so-body>
+
+          <div class="mm-so-form__field{% if form.errors contains 'name' %} mm-so-form__field--error{% endif %}">
+            <label class="mm-so-form__label" for="{{ name_id }}">
+              {{ 'mm_pages.special_order.fields.name' | t }}
+              <span class="mm-so-form__required" aria-hidden="true">*</span>
+              <span class="visually-hidden">{{ 'mm_pages.special_order.fields.required' | t }}</span>
+            </label>
+            <input
+              id="{{ name_id }}"
+              class="mm-so-form__input"
+              type="text"
+              name="contact[name]"
+              autocomplete="name"
+              autocapitalize="words"
+              required
+              aria-required="true"
+              value="{% if form.name %}{{ form.name | escape }}{% elsif customer %}{{ customer.name | escape }}{% endif %}"
+              {% if form.errors contains 'name' %}aria-invalid="true"{% endif %}
+            >
+          </div>
+
+          <div class="mm-so-form__field{% if form.errors contains 'email' %} mm-so-form__field--error{% endif %}">
+            <label class="mm-so-form__label" for="{{ email_id }}">
+              {{ 'mm_pages.special_order.fields.email' | t }}
+              <span class="mm-so-form__required" aria-hidden="true">*</span>
+              <span class="visually-hidden">{{ 'mm_pages.special_order.fields.required' | t }}</span>
+            </label>
+            <input
+              id="{{ email_id }}"
+              class="mm-so-form__input"
+              type="email"
+              name="contact[email]"
+              autocomplete="email"
+              autocapitalize="off"
+              autocorrect="off"
+              spellcheck="false"
+              required
+              aria-required="true"
+              value="{% if form.email %}{{ form.email | escape }}{% elsif customer %}{{ customer.email | escape }}{% endif %}"
+              {% if form.errors contains 'email' %}aria-invalid="true"{% endif %}
+            >
+            {%- if form.errors contains 'email' -%}
+              <p class="mm-so-form__field-error">{{ 'mm_pages.special_order.error_email' | t }}</p>
+            {%- endif -%}
+          </div>
+
+          <fieldset class="mm-so-form__fieldset" data-mm-so-product-group>
+            <legend class="mm-so-form__legend">
+              {{ 'mm_pages.special_order.fields.product_either' | t }}
+              <span class="mm-so-form__required" aria-hidden="true">*</span>
+              <span class="visually-hidden">{{ 'mm_pages.special_order.fields.required' | t }}</span>
+            </legend>
+            <p class="mm-so-form__hint">{{ 'mm_pages.special_order.fields.product_either_hint' | t }}</p>
+
+            <div class="mm-so-form__field">
+              <label class="mm-so-form__label" for="{{ link_id }}">
+                {{ 'mm_pages.special_order.fields.product_link' | t }}
+              </label>
+              <input
+                id="{{ link_id }}"
+                class="mm-so-form__input"
+                type="url"
+                name="contact[product_link]"
+                inputmode="url"
+                placeholder="https://"
+                autocomplete="url"
+                data-mm-so-product-link
+                value="{% if form.product_link %}{{ form.product_link | escape }}{% endif %}"
+                aria-describedby="{{ product_group_error_id }}"
+              >
+            </div>
+
+            <div class="mm-so-form__or" aria-hidden="true">
+              {{ 'mm_pages.special_order.fields.or' | t }}
+            </div>
+
+            <div class="mm-so-form__field">
+              <label class="mm-so-form__label" for="{{ product_id }}">
+                {{ 'mm_pages.special_order.fields.product_name' | t }}
+              </label>
+              <input
+                id="{{ product_id }}"
+                class="mm-so-form__input"
+                type="text"
+                name="contact[product_name]"
+                data-mm-so-product-name
+                value="{% if form.product_name %}{{ form.product_name | escape }}{% endif %}"
+                aria-describedby="{{ product_group_error_id }}"
+              >
+            </div>
+          </fieldset>
+
+          <div class="mm-so-form__field">
+            <label class="mm-so-form__label" for="{{ qty_id }}">
+              {{ 'mm_pages.special_order.fields.quantity' | t }}
+              <span class="mm-so-form__optional">{{ 'mm_pages.special_order.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ qty_id }}"
+              class="mm-so-form__input"
+              type="text"
+              name="contact[quantity]"
+              inputmode="numeric"
+              data-mm-so-quantity
+              value="{% if form.quantity %}{{ form.quantity | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-so-form__field">
+            <label class="mm-so-form__label" for="{{ phone_id }}">
+              {{ 'mm_pages.special_order.fields.phone' | t }}
+              <span class="mm-so-form__optional">{{ 'mm_pages.special_order.fields.optional' | t }}</span>
+            </label>
+            <input
+              id="{{ phone_id }}"
+              class="mm-so-form__input"
+              type="tel"
+              name="contact[phone]"
+              autocomplete="tel"
+              data-mm-so-phone
+              value="{% if form.phone %}{{ form.phone | escape }}{% endif %}"
+            >
+          </div>
+
+          <div class="mm-so-form__field">
+            <label class="mm-so-form__label" for="{{ message_id }}">
+              {{ 'mm_pages.special_order.fields.message' | t }}
+              <span class="mm-so-form__optional">{{ 'mm_pages.special_order.fields.optional' | t }}</span>
+            </label>
+            <textarea
+              id="{{ message_id }}"
+              class="mm-so-form__textarea"
+              name="contact[additional_message]"
+              rows="5"
+              data-mm-so-message
+            >{% if form.additional_message %}{{ form.additional_message }}{% endif %}</textarea>
+          </div>
+
+          <button type="submit" class="mm-so-form__submit" data-mm-so-submit>
+            <span data-mm-so-submit-label>{{ 'mm_pages.special_order.submit' | t }}</span>
+            <span class="mm-so-form__submit-loading" hidden data-mm-so-submit-loading>
+              {{ 'mm_pages.special_order.submitting' | t }}
+            </span>
+          </button>
+
+          {%- if disclaimer != blank -%}
+            <p class="mm-so-form__disclaimer">{{ disclaimer | escape }}</p>
+          {%- endif -%}
+        {%- endif -%}
+      {%- endform -%}
+    </div>
+  </div>
+</section>
+
+<script src="{{ 'mm-special-order-form.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "MM Special order form",
+  "tag": "section",
+  "class": "section-mm-special-order-form",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Product request form via Shopify contact form (email to shop). No account or payment required. Product link OR product name must be provided."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "შეკვეთით გერმანიიდან"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "პროდუქტის მოთხოვნა"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Intro",
+      "default": "გამოგვიგზავნე პროდუქტის ბმული ან დასახელება. ჩვენ შევამოწმებთ ხელმისაწვდომობას და შეგატყობინებთ ფასსა და მიწოდების სავარაუდო ვადას."
+    },
+    {
+      "type": "textarea",
+      "id": "form_note",
+      "label": "Form note",
+      "default": "ეს არის ინდივიდუალური მოთხოვნა — არა ჩვეულებრივი შეკვეთა მარაგიდან. ანგარიში და გადახდა ამ ეტაპზე არ გჭირდებათ."
+    },
+    {
+      "type": "textarea",
+      "id": "success_message",
+      "label": "Success message",
+      "default": "გმადლობთ! მოთხოვნა მიღებულია. ჩვენ შევამოწმებთ ხელმისაწვდომობას და მალე შეგატყობინებთ ელფოსტით."
+    },
+    {
+      "type": "textarea",
+      "id": "disclaimer",
+      "label": "Disclaimer",
+      "default": "მოთხოვნა უვალდებულოა. ფასი და სავარაუდო მიწოდების ვადა ინდივიდუალურად გეცნობებათ. შეკვეთა სრულდება მხოლოდ შეთავაზების მიღების შემდეგ."
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Special order form"
+    }
+  ]
+}
+{% endschema %}

@@ -206,6 +206,22 @@
         "view_all_label": ""
       }
     },
+    "mm_special_order": {
+      "type": "mm-special-order",
+      "settings": {
+        "show_section": true,
+        "eyebrow": "",
+        "heading": "",
+        "text": "",
+        "button_label": "",
+        "button_link": "shopify://pages/special-order",
+        "note": "",
+        "step_1": "",
+        "step_2": "",
+        "step_3": "",
+        "image_alt": ""
+      }
+    },
     "mm_needs": {
       "type": "mm-needs",
       "blocks": {
@@ -387,6 +403,7 @@
     "mm_categories",
     "mm_info_strip",
     "mm_products",
+    "mm_special_order",
     "mm_needs",
     "mm_about",
     "mm_business_teaser",

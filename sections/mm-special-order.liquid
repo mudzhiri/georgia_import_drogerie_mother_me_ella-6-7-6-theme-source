@@ -1,0 +1,266 @@
+{{ 'mm-special-order.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign eyebrow = section.settings.eyebrow
+  if eyebrow == blank
+    assign eyebrow = 'mm_home.special_order.eyebrow' | t
+  endif
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = 'mm_home.special_order.heading' | t
+  endif
+  assign text = section.settings.text
+  if text == blank
+    assign text = 'mm_home.special_order.text' | t
+  endif
+  assign button_label = section.settings.button_label
+  if button_label == blank
+    assign button_label = 'mm_home.special_order.button' | t
+  endif
+  assign note = section.settings.note
+  if note == blank
+    assign note = 'mm_home.special_order.note' | t
+  endif
+  assign step_1 = section.settings.step_1
+  if step_1 == blank
+    assign step_1 = 'mm_home.special_order.step_1' | t
+  endif
+  assign step_2 = section.settings.step_2
+  if step_2 == blank
+    assign step_2 = 'mm_home.special_order.step_2' | t
+  endif
+  assign step_3 = section.settings.step_3
+  if step_3 == blank
+    assign step_3 = 'mm_home.special_order.step_3' | t
+  endif
+  assign image_alt = section.settings.image_alt
+  if image_alt == blank
+    assign image_alt = 'mm_home.special_order.image_alt' | t
+  endif
+
+  if eyebrow contains '&amp;' or eyebrow contains '&#38;'
+    assign eyebrow = eyebrow | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if heading contains '&amp;' or heading contains '&#38;'
+    assign heading = heading | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if text contains '&amp;' or text contains '&#38;'
+    assign text = text | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+  if note contains '&amp;' or note contains '&#38;'
+    assign note = note | replace: '&amp;', '&' | replace: '&#38;', '&'
+  endif
+
+  assign button_link = section.settings.button_link
+  if button_link == blank
+    assign request_page = pages['special-order']
+    if request_page != empty and request_page.url != blank
+      assign button_link = request_page.url
+    else
+      assign button_link = '/pages/special-order'
+    endif
+  endif
+
+  assign show_section = section.settings.show_section
+  if show_section == nil
+    assign show_section = true
+  endif
+
+  assign has_image = false
+  if section.settings.image != blank
+    assign has_image = true
+  endif
+-%}
+
+{%- if show_section -%}
+  <section
+    id="mm-special-order-{{ section.id }}"
+    class="mm-special-order mm-reveal"
+    {% if heading != blank %}aria-labelledby="mm-special-order-heading-{{ section.id }}"{% endif %}
+  >
+    <div class="mm-special-order__inner">
+      <div class="mm-special-order__panel">
+        <div class="mm-special-order__grid">
+          <div class="mm-special-order__copy" data-mm-reveal-item>
+            {%- if eyebrow != blank -%}
+              <p class="mm-special-order__eyebrow">{{ eyebrow | escape }}</p>
+            {%- endif -%}
+
+            {%- if heading != blank -%}
+              <h2 id="mm-special-order-heading-{{ section.id }}" class="mm-special-order__heading">
+                {{ heading | escape }}
+              </h2>
+            {%- endif -%}
+
+            {%- if text != blank -%}
+              <p class="mm-special-order__text">{{ text | escape }}</p>
+            {%- endif -%}
+
+            {%- if button_link != blank and button_label != blank -%}
+              <div class="mm-special-order__actions">
+                <a class="mm-special-order__button" href="{{ button_link }}">
+                  {{ button_label | escape }}
+                </a>
+              </div>
+            {%- endif -%}
+
+            {%- if note != blank -%}
+              <p class="mm-special-order__note">{{ note | escape }}</p>
+            {%- endif -%}
+          </div>
+
+          <div class="mm-special-order__visual" data-mm-reveal-item>
+            <div class="mm-special-order__media{% unless has_image %} mm-special-order__media--illustration{% endunless %}">
+              {%- if has_image -%}
+                {{
+                  section.settings.image
+                  | image_url: width: 1200
+                  | image_tag:
+                    class: 'mm-special-order__image',
+                    loading: 'lazy',
+                    widths: '400, 600, 800, 1000, 1200',
+                    sizes: '(min-width: 900px) 480px, 100vw',
+                    alt: image_alt
+                }}
+              {%- else -%}
+                <div class="mm-special-order__illustration" role="img" aria-label="{{ image_alt | escape }}">
+                  <svg class="mm-special-order__svg" viewBox="0 0 480 360" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                    <rect width="480" height="360" rx="24" fill="#f7f3ec"/>
+                    <rect x="36" y="48" width="408" height="264" rx="20" fill="#e8f0ea"/>
+                    <ellipse cx="240" cy="268" rx="148" ry="28" fill="#d8e4dc"/>
+                    <rect x="148" y="132" width="184" height="112" rx="14" fill="#214d43"/>
+                    <rect x="164" y="148" width="152" height="16" rx="8" fill="#f3d5c3"/>
+                    <rect x="176" y="176" width="128" height="10" rx="5" fill="#c5d4c8" opacity="0.85"/>
+                    <rect x="176" y="196" width="96" height="10" rx="5" fill="#c5d4c8" opacity="0.65"/>
+                    <path d="M148 188h184v12H148z" fill="#173b33" opacity="0.35"/>
+                    <circle cx="120" cy="118" r="34" fill="#faf8f4" stroke="#c5d4c8" stroke-width="3"/>
+                    <path d="M108 118h24M120 106v24" stroke="#214d43" stroke-width="3" stroke-linecap="round"/>
+                    <rect x="322" y="108" width="54" height="70" rx="10" fill="#faf8f4" stroke="#c5d4c8" stroke-width="3"/>
+                    <path d="M336 128h26M336 144h18" stroke="#214d43" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M92 230c28-34 68-52 108-52s80 18 108 52" fill="none" stroke="#f3d5c3" stroke-width="6" stroke-linecap="round"/>
+                    <circle cx="92" cy="230" r="8" fill="#214d43"/>
+                    <circle cx="308" cy="230" r="8" fill="#214d43"/>
+                    <text x="100" y="92" fill="#214d43" font-family="system-ui,sans-serif" font-size="13" font-weight="600">DE</text>
+                    <text x="286" y="92" fill="#214d43" font-family="system-ui,sans-serif" font-size="13" font-weight="600">GE</text>
+                  </svg>
+                </div>
+              {%- endif -%}
+            </div>
+
+            <ol class="mm-special-order__steps" aria-label="{{ 'mm_home.special_order.process_label' | t | escape }}">
+              {%- if step_1 != blank -%}
+                <li class="mm-special-order__step" data-mm-reveal-item>
+                  <span class="mm-special-order__step-num" aria-hidden="true">1</span>
+                  <span class="mm-special-order__step-text">{{ step_1 | escape }}</span>
+                </li>
+              {%- endif -%}
+              {%- if step_2 != blank -%}
+                <li class="mm-special-order__step" data-mm-reveal-item>
+                  <span class="mm-special-order__step-num" aria-hidden="true">2</span>
+                  <span class="mm-special-order__step-text">{{ step_2 | escape }}</span>
+                </li>
+              {%- endif -%}
+              {%- if step_3 != blank -%}
+                <li class="mm-special-order__step" data-mm-reveal-item>
+                  <span class="mm-special-order__step-num" aria-hidden="true">3</span>
+                  <span class="mm-special-order__step-text">{{ step_3 | escape }}</span>
+                </li>
+              {%- endif -%}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "MM Special order",
+  "tag": "section",
+  "class": "section-mm-special-order",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Homepage teaser for Germany special-order requests. Links to the product-request page. No fixed prices or delivery guarantees."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_section",
+      "label": "Show section",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "შეკვეთით გერმანიიდან"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "ვერ იპოვე სასურველი პროდუქტი?"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Description",
+      "default": "გამოგვიგზავნე პროდუქტის ბმული ან დასახელება. ჩვენ შევამოწმებთ ხელმისაწვდომობას და შეგატყობინებთ ფასსა და მიწოდების სავარაუდო ვადას."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "პროდუქტის მოთხოვნა"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link",
+      "info": "Defaults to /pages/special-order when empty."
+    },
+    {
+      "type": "textarea",
+      "id": "note",
+      "label": "Disclaimer note",
+      "default": "მოთხოვნა უვალდებულოა. ფასი და სავარაუდო მიწოდების ვადა ინდივიდუალურად გეცნობებათ. შეკვეთა სრულდება მხოლოდ შეთავაზების მიღების შემდეგ."
+    },
+    {
+      "type": "text",
+      "id": "step_1",
+      "label": "Step 1",
+      "default": "გამოგვიგზავნე ბმული"
+    },
+    {
+      "type": "text",
+      "id": "step_2",
+      "label": "Step 2",
+      "default": "მიიღე შეთავაზება"
+    },
+    {
+      "type": "text",
+      "id": "step_3",
+      "label": "Step 3",
+      "default": "დაადასტურე შეკვეთა"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (optional)",
+      "info": "Leave empty to use the built-in illustration. Do not upload brand logos or fake store photos."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": "ილუსტრაცია: შეკვეთა გერმანიიდან საქართველოში"
+    }
+  ],
+  "presets": [
+    {
+      "name": "MM Special order"
+    }
+  ]
+}
+{% endschema %}
