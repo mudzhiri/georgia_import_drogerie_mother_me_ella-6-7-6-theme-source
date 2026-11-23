@@ -9,30 +9,16 @@
                             <div class="header__logo" style="--logo-width: {% if block.settings.logo == blank %}auto; --logo-svg-width: {% endif %}{{ block.settings.logo_width }}px; --font-size: {{ block.settings.logo_font_size }}px; --font-weight: {{ block.settings.logo_font_weight }}; --color: {{ block.settings.logo_color }}">
                                 <div class="header__heading">
                                     <a href="{{ routes.root_url }}" class="header__heading-link focus-inset">
-                                        {%- if block.settings.logo != blank -%}
-                                            {%- liquid 
-                                                assign logo = block.settings.logo
-                                                assign logo_width = block.settings.logo_width
-                                                assign logo_height = logo_width | divided_by: logo.aspect_ratio | round
-                                                assign logo_alt = logo.alt | default: shop.name | escape
-                                            -%}
-                                            {{ logo | image_url: width: 300 | image_tag:
-                                                class: 'header__heading-logo motion-reduce',
-                                                widths: '50, 100, 150, 200, 250, 300, 400, 500',
-                                                height: logo_height,
-                                                width: logo_width,
-                                                alt: logo_alt
-                                            }}
-                                        {%- else -%}
-                                            <img
-                                              src="{{ 'mm-logo.svg' | asset_url }}"
-                                              alt="{% if block.settings.logo_text != blank %}{{ block.settings.logo_text | escape }}{% else %}{{ shop.name | escape }}{% endif %}"
-                                              class="header__heading-logo mm-logo motion-reduce"
-                                              width="{{ block.settings.logo_width | default: 210 }}"
-                                              height="46"
-                                              loading="eager"
-                                            >
-                                        {%- endif -%}
+                                        {%- liquid
+                                          assign mm_logo_alt = block.settings.logo_text | default: shop.name
+                                          assign mm_logo_width = block.settings.logo_width | default: 210
+                                        -%}
+                                        {% render 'mm-logo-mark',
+                                          width: mm_logo_width,
+                                          alt: mm_logo_alt,
+                                          class: 'header__heading-logo motion-reduce',
+                                          loading: 'eager'
+                                        %}
                                     </a>
                                 </div>
                             </div>
