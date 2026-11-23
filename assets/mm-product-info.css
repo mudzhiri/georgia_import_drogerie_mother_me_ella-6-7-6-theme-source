@@ -332,7 +332,8 @@
     padding-top: 0;
   }
 
-  .halo-productView-right .productView-title {
-    font-size: 24px !important;
+  .halo-productView-right .productView-title,
+  .mm-pdp-title-stack .productView-title {
+    font-size: 26px !important;
   }
 }
