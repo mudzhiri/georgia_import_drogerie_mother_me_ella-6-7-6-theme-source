@@ -138,6 +138,9 @@
             {% render 'preload-screen' %}
             {% sections 'header-group' %}
             {% render 'mm-search-panel' %}
+            <div id="mm-header-search-source" hidden>
+              {% render 'mm-header-search-bar' %}
+            </div>
             {% render 'wrapper-header' %}
 
             {%- if settings.layout_body == 'boxed' -%}

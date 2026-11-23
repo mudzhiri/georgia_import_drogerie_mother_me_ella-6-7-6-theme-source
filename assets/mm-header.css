@@ -125,14 +125,22 @@ html.mm-sticky-header-on {
   min-height: 0 !important;
 }
 
-.mm-header-search-row,
+/* Visible search row (mobile) + desktop slot — see .mm-header-search-bar */
+.mm-header-search-row {
+  display: block;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 0 12px;
+  margin: 0;
+  border: 0;
+}
+
 .header-mobile .mm-header-search-row {
-  display: none !important;
-  height: 0 !important;
+  display: block !important;
+  height: auto !important;
+  overflow: visible !important;
+  padding: 0 0 12px !important;
   margin: 0 !important;
-  padding: 0 !important;
-  border: 0 !important;
-  overflow: hidden !important;
 }
 
 /* Logo — editor width via --logo_width / --width-logo-mb; keep SVG colors */
@@ -168,11 +176,113 @@ html.mm-sticky-header-on {
 .header-classic .text,
 .header-classic .free-shipping-text,
 .header-classic .free-shipping-text p {
-  font-family: var(--mm-body) !important;
-  font-size: 0.8125rem !important;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif) !important;
+  font-size: 14px !important; /* px: Ella html{font-size:62.5%} makes rem ~10px-based */
+  line-height: 1.45 !important;
   color: var(--mm-muted) !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
   font-weight: 500 !important;
+}
+
+/* Visible search field (opens #mm-search-panel; no second search stack) */
+.mm-header-search-slot {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 560px;
+  margin-inline: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.mm-header-search-bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 14px;
+  margin: 0;
+  border: 1px solid var(--mm-line, #dee5df);
+  border-radius: 10px;
+  background: var(--mm-soft, #faf8f4);
+  color: #214d43;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  cursor: pointer;
+  box-sizing: border-box;
+  transition:
+    background-color var(--mm-header-motion, 200ms ease),
+    border-color var(--mm-header-motion, 200ms ease),
+    box-shadow var(--mm-header-motion, 200ms ease);
+}
+
+.mm-header-search-bar__icon {
+  display: inline-flex;
+  flex: 0 0 auto;
+  color: #214d43;
+}
+
+.mm-header-search-bar__icon svg {
+  display: block;
+  width: 20px;
+  height: 20px;
+}
+
+.mm-header-search-bar__text {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #214d43;
+  opacity: 0.78;
+}
+
+.mm-header-search-bar:hover {
+  background: #ffffff;
+  border-color: #c5d2cb;
+}
+
+.mm-header-search-bar:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+  background: #ffffff;
+}
+
+.mm-header-search-bar:active {
+  background: #eaf1ec;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mm-header-search-bar {
+    transition: none;
+  }
+}
+
+/* Hide icon-only search when visible bar is present */
+.header-nav-hamburger:has(.mm-header-search-bar) .header__search,
+.header-mobile:has(.mm-header-search-row .mm-header-search-bar) .header-mobile__item--search .header__search {
+  display: none !important;
+}
+
+@media screen and (min-width: 1025px) {
+  .mm-header-search-row {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .mm-header-search-slot {
+    display: none !important;
+  }
+
+  .mm-header-search-bar--mobile {
+    min-height: 48px;
+    font-size: 16px; /* ≥16px avoids iOS zoom on related panel input */
+  }
 }
 
 /* Header search — icon trigger (panel is #mm-search-panel) */
@@ -249,16 +359,17 @@ html.mm-sticky-header-on {
     min-width: 0 !important;
   }
 
-  .header-nav-hamburger .header-icons {
-    flex: 1 1 auto !important;
+  .header-nav-hamburger .header-icons,
+  .header-nav-hamburger .mm-header-main-row > .header-icons {
+    flex: 0 0 auto !important;
     min-width: 0;
     max-width: none !important;
     width: auto !important;
     justify-content: flex-end !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
-    gap: 12px !important;
-    column-gap: 12px !important;
+    gap: 10px !important;
+    column-gap: 10px !important;
     row-gap: 0 !important;
   }
 
@@ -744,7 +855,7 @@ html.mm-search-open {
 .header-mobile .header__icon--cart .cart-count-bubble .text,
 .cart-icon-bubble .cart-count-bubble .text {
   color: #ffffff !important;
-  font-size: 10px !important;
+  font-size: 12px !important;
   font-weight: 600 !important;
   line-height: 1 !important;
 }
@@ -857,10 +968,11 @@ html.mm-search-open {
   /* One type system for all top-level cats (flat + dropdown row links) */
   .header-nav-hamburger--style1 .main-menu {
     --mm-nav-font: var(--mm-font-sans, "Noto Sans Georgian", "Noto Sans", system-ui, sans-serif);
-    --mm-nav-size: 0.9375rem; /* 15px */
+    /* Explicit px: Ella html{font-size:62.5%} → 1rem≈10px; rem here was ~9.4px */
+    --mm-nav-size: 15px;
     --mm-nav-weight: 600;
-    --mm-nav-line: 1.45;
-    --mm-nav-tracking: 0.01em;
+    --mm-nav-line: 1.5;
+    --mm-nav-tracking: 0;
   }
 
   .header-nav-hamburger--style1 .main-menu .menu-lv-1 > a.menu-lv-1__action,
@@ -1594,7 +1706,16 @@ html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-sectio
 
   .header-nav-hamburger--style1 > .container > .mm-header-main-row > .header-icons {
     order: 0;
-    margin-left: auto;
+    margin-left: 0;
+    flex: 0 0 auto !important;
+  }
+
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .mm-header-search-slot {
+    order: 0;
+    flex: 1 1 auto;
+    min-width: 180px;
+    max-width: 520px;
+    margin-inline: 20px;
   }
 
   .header-nav-hamburger--style1 > .container > .main-menu {
@@ -1924,9 +2045,9 @@ html.mm-sticky-header-on .mm-lang__dropdown {
 
 .mm-header__business-link-text {
   font-family: var(--mm-nav-font, var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif));
-  font-size: var(--mm-nav-size, 0.8125rem);
+  font-size: 14px;
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.4;
   letter-spacing: normal;
   white-space: nowrap;
 }

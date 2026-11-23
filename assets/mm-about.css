@@ -56,24 +56,25 @@
   margin: 0 0 14px;
   color: var(--mm-about-heading);
   font-family: var(--mm-font-sans);
-  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  /* px (not rem): Ella html 62.5% made rem headings ~14–18px */
+  font-size: clamp(22px, 2.4vw, 28px);
   font-weight: var(--mm-font-weight-bold, 700);
-  line-height: 1.3;
+  line-height: 1.35;
   letter-spacing: normal;
   overflow-wrap: anywhere;
 }
 
 :lang(ka) .mm-about__heading {
-  line-height: 1.38;
+  line-height: 1.4;
 }
 
 .mm-about__text {
   margin: 0;
   color: var(--mm-about-text);
   font-family: var(--mm-font-sans);
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: var(--mm-font-weight-regular, 400);
-  line-height: 1.6;
+  line-height: 1.65;
   letter-spacing: normal;
   overflow-wrap: anywhere;
 }
@@ -99,15 +100,15 @@
 .mm-about__trust-chip {
   display: inline-flex;
   align-items: center;
-  min-height: 36px;
+  min-height: 40px;
   padding: 8px 14px;
   border-radius: 8px;
   background: var(--mm-about-sage);
   color: #214d43;
   font-family: var(--mm-font-sans);
-  font-size: 0.8125rem;
+  font-size: 14px; /* was 0.8125rem ≈ 8.1px under Ella 62.5% root */
   font-weight: 500;
-  line-height: 1.35;
+  line-height: 1.4;
   text-decoration: none;
   transition: background-color 180ms ease, color 180ms ease;
 }
@@ -195,7 +196,7 @@ a.mm-about__trust-chip:focus-visible {
 
 .mm-about__placeholder-mark {
   font-family: var(--mm-font-serif, Georgia, 'Times New Roman', serif);
-  font-size: clamp(1.125rem, 2.5vw, 1.5rem);
+  font-size: clamp(18px, 2.5vw, 24px);
   font-weight: 400;
   letter-spacing: 0.04em;
   color: #214d43;

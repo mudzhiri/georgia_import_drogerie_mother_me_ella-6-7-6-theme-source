@@ -40,9 +40,9 @@
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
-  font-size: 0.875rem;
+  font-size: 14px; /* px: rem under Ella 62.5% root was ~8.75px */
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.5;
   letter-spacing: normal;
   text-transform: none;
   color: #214d43;
