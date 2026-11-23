@@ -1,11 +1,18 @@
 {%- comment -%}
-  Subtle share control beside the PDP title.
+  Subtle PDP share action on its own row under the title (not beside it).
   Accepts: product
 {%- endcomment -%}
 {%- liquid
   assign share_url = shop.url | append: product.url
   assign share_title = product.title | escape
-  assign share_label = 'products.product.share' | t
+  assign share_aria = 'products.product.share' | t
+  assign share_label = 'general.share.share' | t
+  if share_label == blank or share_label contains 'Translation missing' or share_label == 'general.share.share'
+    assign share_label = 'გაზიარება'
+  endif
+  if share_aria == blank or share_aria contains 'Translation missing'
+    assign share_aria = share_label
+  endif
   assign share_copied = 'products.product.share_copied' | t
   if share_copied == blank or share_copied contains 'Translation missing'
     assign share_copied = 'ბმული დაკოპირდა'
@@ -18,12 +25,12 @@
   data-mm-share-url="{{ share_url | escape }}"
   data-mm-share-title="{{ share_title }}"
   data-mm-share-copied="{{ share_copied | escape }}"
-  aria-label="{{ share_label | escape }}"
-  title="{{ share_label | escape }}"
+  aria-label="{{ share_aria | escape }}"
+  title="{{ share_aria | escape }}"
 >
   <span class="mm-pdp-title-share__icon" aria-hidden="true">
     {% render 'icon-share' %}
   </span>
-  <span class="mm-pdp-title-share__label">{{ share_label }}</span>
+  <span class="mm-pdp-title-share__label">{{ share_label | escape }}</span>
 </button>
 <p class="mm-pdp-title-share__toast" data-mm-share-toast hidden role="status" aria-live="polite"></p>
