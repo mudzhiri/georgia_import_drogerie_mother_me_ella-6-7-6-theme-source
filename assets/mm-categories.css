@@ -21,7 +21,7 @@
   width: 100%;
   max-width: var(--mm-content-max, 1200px);
   margin: 0 auto;
-  padding: var(--mm-section-y, 20px) var(--mm-page-gutter, 16px);
+  padding: 12px var(--mm-page-gutter, 16px) 8px;
   box-sizing: border-box;
 }
 
@@ -31,7 +31,7 @@
   align-items: baseline;
   justify-content: space-between;
   gap: 8px 16px;
-  margin: 0 0 16px;
+  margin: 0 0 12px;
 }
 
 .mm-categories__heading {

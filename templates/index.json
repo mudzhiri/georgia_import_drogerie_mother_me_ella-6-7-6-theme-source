@@ -184,16 +184,6 @@
             "link": "",
             "collection": "დეოდორანტები"
           }
-        },
-        "tile_skin": {
-          "type": "tile",
-          "settings": {
-            "tone": "cream",
-            "label": "კანის მოვლა",
-            "description": "",
-            "link": "",
-            "collection": "ბავშვის-კანის-მოვლა"
-          }
         }
       },
       "block_order": [
@@ -201,8 +191,7 @@
         "tile_mamas",
         "tile_feed",
         "tile_face",
-        "tile_deo",
-        "tile_skin"
+        "tile_deo"
       ],
       "settings": {
         "heading": "",

@@ -106,17 +106,11 @@
             endif
           -%}
           {%- unless skip_empty -%}
-            {%- if label != blank -%}
+            {%- if label != blank and link != blank -%}
               <a
                 class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}{% if description == blank %} mm-categories__tile--compact{% endif %}"
                 data-mm-reveal-item
-                {% if link == blank %}
-                  role="link"
-                  aria-disabled="true"
-                  tabindex="0"
-                {% else %}
-                  href="{{ link }}"
-                {% endif %}
+                href="{{ link }}"
                 {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
                 {{ block.shopify_attributes }}
               >
