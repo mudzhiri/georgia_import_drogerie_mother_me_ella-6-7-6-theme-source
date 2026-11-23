@@ -54,10 +54,8 @@
         <script src="{{ 'mm-mobile-menu.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-sticky-header.js' | asset_url }}" defer></script>
         <script src="{{ 'mm-search.js' | asset_url }}" defer></script>
-        {%- comment -%} Language switcher JS only when multi-language is enabled. Storefront is KA-only. {%- endcomment -%}
-        {%- if settings.enable_multilang_shopify -%}
-          <script src="{{ 'mm-language-switcher.js' | asset_url }}" defer></script>
-        {%- endif -%}
+        {%- comment -%} Language switcher: KA/EN/RU. Snippet gates UI; JS must always load when markup is present. {%- endcomment -%}
+        <script src="{{ 'mm-language-switcher.js' | asset_url }}" defer></script>
         {%- if request.page_type == 'index' -%}
           <script src="{{ 'mm-home-motion.js' | asset_url }}" defer></script>
         {%- endif -%}

@@ -2944,7 +2944,7 @@
         "type": "checkbox",
         "id": "show_global_checkbox",
         "label": "t:settings_schema.general.settings.global_checkbox.label__1",
-        "default": false
+        "default": true
       },
       {
         "type": "text",
@@ -3131,17 +3131,6 @@
         "type": "text",
         "id": "customization_option_2",
         "label": "t:settings_schema.general.settings.customization-option.label__8"
-      },
-      {
-        "type": "header",
-        "content": "MOTHER & ME navigation"
-      },
-      {
-        "type": "checkbox",
-        "id": "mm_use_canonical_nav",
-        "label": "Use theme-local category navigation",
-        "default": true,
-        "info": "Renders the MM category tree (ბავშვი / დედა) instead of the shared Shopify menu main-header. Safe for the unpublished work theme."
       },
       {
         "type": "header",
@@ -4671,104 +4660,103 @@
         "type": "checkbox",
         "id": "show_search_trending",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__1",
-        "default": false,
-        "info": "Disabled for MOTHER & ME. Empty search uses the MM search panel without demo suggestions."
+        "default": true
       },
       {
         "type": "text",
         "id": "search_trending_title",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__2",
-        "default": ""
+        "default": "Trending"
       },
       {
         "type": "text",
         "id": "seach_trending_item_1",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__3",
-        "default": ""
+        "default": "best shopify theme"
       },
       {
         "type": "text",
         "id": "seach_trending_item_2",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__4",
-        "default": ""
+        "default": "fashion shopify theme"
       },
       {
         "type": "text",
         "id": "seach_trending_item_3",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__5",
-        "default": ""
+        "default": "shopify sections"
       },
       {
         "type": "text",
         "id": "seach_trending_item_4",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__6",
-        "default": ""
+        "default": "shopify sections"
       },
       {
         "type": "text",
         "id": "seach_trending_item_5",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__7",
-        "default": ""
+        "default": "shopify sections"
       },
       {
         "type": "text",
         "id": "seach_trending_item_6",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__8",
-        "default": ""
+        "default": "clothing shopify themes"
       },
       {
         "type": "text",
         "id": "seach_trending_item_7",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__9",
-        "default": ""
+        "default": "best shopify theme"
       },
       {
         "type": "text",
         "id": "seach_trending_item_8",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__10",
-        "default": ""
+        "default": "fashion shopify theme"
       },
       {
         "type": "text",
         "id": "seach_trending_item_9",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__11",
-        "default": ""
+        "default": "shopify sections"
       },
       {
         "type": "text",
         "id": "seach_trending_item_10",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__12",
-        "default": ""
+        "default": "clothing"
       },
       {
         "type": "text",
         "id": "seach_trending_item_11",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__13",
-        "default": ""
+        "default": "tshirt"
       },
       {
         "type": "text",
         "id": "seach_trending_item_12",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__14",
-        "default": ""
+        "default": "collection"
       },
       {
         "type": "text",
         "id": "seach_trending_item_13",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__15",
-        "default": ""
+        "default": "fashion"
       },
       {
         "type": "text",
         "id": "seach_trending_item_14",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__16",
-        "default": ""
+        "default": "t-shirt"
       },
       {
         "type": "text",
         "id": "seach_trending_item_15",
         "label": "t:settings_schema.quick_search.settings.search_trending.label__17",
-        "default": ""
+        "default": "jeans"
       },
       {
         "type": "header",
@@ -4778,14 +4766,13 @@
         "type": "checkbox",
         "id": "show_search_product",
         "label": "t:settings_schema.quick_search.settings.search_product.label__1",
-        "default": false,
-        "info": "Disabled for MOTHER & ME. Avoids Popular Products placeholders in empty search."
+        "default": true
       },
       {
         "type": "text",
         "id": "search_product_title",
         "label": "t:settings_schema.quick_search.settings.search_product.label__2",
-        "default": ""
+        "default": "Popular Products"
       },
       {
         "type": "collection",
@@ -6640,7 +6627,7 @@
         "type": "checkbox",
         "id": "show_calculator_free_shipping_message",
         "label": "t:settings_schema.calculator_free_shipping_message.settings.general.label__1",
-        "default": false
+        "default": true
       },
       {
         "type": "select",

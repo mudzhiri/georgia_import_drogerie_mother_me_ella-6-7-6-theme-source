@@ -1124,15 +1124,23 @@ html.mm-search-open {
     align-items: center;
     justify-content: center;
     flex: 0 0 auto;
-    min-width: 48px;
-    min-height: 48px;
-    margin: 0;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    margin: 0 8px 0 0;
     padding: 0;
     border: 0;
     border-radius: 10px;
     background: transparent;
     color: #214d43;
     cursor: pointer;
+    transition: background-color 180ms ease, color 180ms ease;
+  }
+
+  #navigation-mobile .mm-cat-toggle:hover,
+  #navigation-mobile .mm-cat-toggle:focus-visible {
+    background: rgba(33, 77, 67, 0.06);
   }
 
   #navigation-mobile .mm-cat-toggle:focus-visible {
@@ -1140,8 +1148,49 @@ html.mm-search-open {
     outline-offset: 2px;
   }
 
-  #navigation-mobile .menu-lv-1.is-open > .mm-cat-item__row .mm-cat-toggle__icon {
-    transform: rotate(180deg);
+  #navigation-mobile .mm-cat-toggle__icons {
+    position: relative;
+    display: block;
+    width: 18px;
+    height: 18px;
+  }
+
+  #navigation-mobile .mm-cat-toggle__icon {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 18px !important;
+    height: 18px !important;
+    max-width: 18px;
+    max-height: 18px;
+    transition: opacity 160ms ease;
+  }
+
+  #navigation-mobile .mm-cat-toggle__icon--plus {
+    opacity: 1;
+  }
+
+  #navigation-mobile .mm-cat-toggle__icon--minus {
+    opacity: 0;
+  }
+
+  #navigation-mobile .menu-lv-1.is-open > .mm-cat-item__row .mm-cat-toggle__icon--plus,
+  #navigation-mobile .menu-lv-2.is-open > .mm-cat-item__row .mm-cat-toggle__icon--plus,
+  #navigation-mobile .mm-cat-item__row.is-open .mm-cat-toggle__icon--plus {
+    opacity: 0;
+  }
+
+  #navigation-mobile .menu-lv-1.is-open > .mm-cat-item__row .mm-cat-toggle__icon--minus,
+  #navigation-mobile .menu-lv-2.is-open > .mm-cat-item__row .mm-cat-toggle__icon--minus,
+  #navigation-mobile .mm-cat-item__row.is-open .mm-cat-toggle__icon--minus {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #navigation-mobile .mm-cat-toggle,
+    #navigation-mobile .mm-cat-toggle__icon {
+      transition: none;
+    }
   }
 }
 
@@ -1325,21 +1374,12 @@ html.mm-search-open {
     font-weight: inherit !important;
   }
 
-  #navigation-mobile .site-nav-mobile.nav .menu-lv-1 > a .icon-dropdown {
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    width: 44px !important;
-    height: 44px !important;
-    top: 50% !important;
-    right: 4px !important;
-    transform: translateY(-50%) !important;
-    pointer-events: none !important;
-    color: #214d43 !important;
-  }
-
-  #navigation-mobile .site-nav-mobile.nav .menu-lv-1.is-open > a .icon-dropdown {
-    transform: translateY(-50%) rotate(90deg) !important;
+  /* Ella caret replaced by .mm-cat-toggle (+ / −) */
+  #navigation-mobile .site-nav-mobile.nav .menu-lv-1 > a .icon-dropdown,
+  #navigation-mobile .site-nav-mobile.nav .menu-lv-2 > a .icon-dropdown,
+  #navigation-mobile .mm-cat-item__row > a .icon-dropdown,
+  #navigation-mobile .icon-dropdown[hidden] {
+    display: none !important;
   }
 
   #navigation-mobile .site-nav-mobile.nav .menu-lv-1 > a:hover,

@@ -23,11 +23,17 @@
   function resetAccordions() {
     const root = drawer();
     if (!root) return;
-    root.querySelectorAll('.menu-lv-1.is-open, .menu-lv-1.is-hidden, .menu-lv-1.d-none').forEach((item) => {
-      item.classList.remove('is-open', 'is-hidden', 'd-none');
-      const trigger = item.querySelector(':scope > a.menu_mobile_link, :scope > .mm-cat-item__row .mm-cat-toggle');
-      if (trigger) trigger.setAttribute('aria-expanded', 'false');
-    });
+    root
+      .querySelectorAll(
+        '.menu-lv-1.is-open, .menu-lv-2.is-open, .menu-lv-1.is-hidden, .menu-lv-1.d-none, .mm-cat-item__row.is-open'
+      )
+      .forEach((item) => {
+        item.classList.remove('is-open', 'is-hidden', 'd-none');
+        const trigger = item.querySelector(
+          ':scope > a.menu_mobile_link, :scope > .mm-cat-item__row .mm-cat-toggle, :scope > .mm-cat-toggle'
+        );
+        if (trigger) trigger.setAttribute('aria-expanded', 'false');
+      });
   }
 
   function syncToggleAria() {
@@ -77,10 +83,33 @@
     document.body.classList.remove('menu_open');
   }
 
+  const TOGGLE_ICONS_HTML =
+    '<span class="mm-cat-toggle__icons" aria-hidden="true">' +
+    '<svg class="mm-cat-toggle__icon mm-cat-toggle__icon--plus" width="18" height="18" viewBox="0 0 24 24" focusable="false">' +
+    '<path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
+    '</svg>' +
+    '<svg class="mm-cat-toggle__icon mm-cat-toggle__icon--minus" width="18" height="18" viewBox="0 0 24 24" focusable="false">' +
+    '<path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>' +
+    '</svg>' +
+    '</span>';
+
+  function syncToggleLabel(toggle, anchor, open) {
+    const title = (anchor?.textContent || '').trim();
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute(
+      'aria-label',
+      open ? `${title} — ქვემენიუს დახურვა` : `${title} — ქვემენიუს გახსნა`
+    );
+  }
+
   function ensureMobileToggle(item) {
-    if (!item || item.dataset.mmMobileToggle === '1') return;
-    const submenu = item.querySelector(':scope > .header__submenu, :scope > .list-menu--disclosure-1');
-    let anchor = item.querySelector(':scope > a.menu_mobile_link, :scope > a.menu-lv-1__action');
+    if (!item) return;
+    const submenu = item.querySelector(
+      ':scope > .header__submenu, :scope > .list-menu--disclosure-1, :scope > .list-menu--disclosure-2, :scope > .menu-lv__dropdownmenu'
+    );
+    let anchor = item.querySelector(
+      ':scope > a.menu_mobile_link, :scope > a.menu-lv-1__action, :scope > a.menu-lv-2__action, :scope > .mm-cat-item__row > a'
+    );
     if (!submenu || !anchor) return;
 
     let row = item.querySelector(':scope > .mm-cat-item__row');
@@ -96,46 +125,44 @@
       toggle = document.createElement('button');
       toggle.type = 'button';
       toggle.className = 'mm-cat-toggle';
-      toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-haspopup', 'true');
-      const title = (anchor.textContent || '').trim();
-      toggle.setAttribute('aria-label', `${title} — ქვემენიუს გახსნა`);
-      toggle.innerHTML =
-        '<svg class="mm-cat-toggle__icon" width="12" height="8" viewBox="0 0 12 8" aria-hidden="true" focusable="false"><path d="M1 1.5L6 6.5L11 1.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      syncToggleLabel(toggle, anchor, item.classList.contains('is-open'));
+      toggle.innerHTML = TOGGLE_ICONS_HTML;
       row.appendChild(toggle);
+    } else if (!toggle.querySelector('.mm-cat-toggle__icon--plus')) {
+      toggle.innerHTML = TOGGLE_ICONS_HTML;
+      syncToggleLabel(toggle, anchor, item.classList.contains('is-open'));
     }
 
     /* Hide Ella caret inside the link — toggle button owns expand. */
     const icon = anchor.querySelector('.icon-dropdown');
     if (icon) icon.setAttribute('hidden', '');
 
-    toggle.addEventListener('click', (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
-      const willOpen = !item.classList.contains('is-open');
-      item.classList.remove('is-hidden', 'd-none');
-      item.classList.toggle('is-open', willOpen);
-      toggle.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-      const title = (anchor.textContent || '').trim();
-      toggle.setAttribute(
-        'aria-label',
-        willOpen ? `${title} — ქვემენიუს დახურვა` : `${title} — ქვემენიუს გახსნა`
-      );
-    });
-
+    /* Click handled via document capture below — mark as prepared. */
     item.dataset.mmMobileToggle = '1';
   }
 
   function enhanceMobileToggles() {
     const root = drawer();
-    if (!root) return;
-    root.querySelectorAll('.menu-lv-1.dropdown').forEach(ensureMobileToggle);
+    if (!root || !MQ.matches) return;
+    root.querySelectorAll('.menu-lv-1.dropdown, .menu-lv-2.dropdown').forEach(ensureMobileToggle);
+  }
+
+  function toggleAccordionItem(item, toggle) {
+    if (!item || !toggle) return;
+    const row = item.querySelector(':scope > .mm-cat-item__row');
+    const anchor = row?.querySelector('a') || item.querySelector(':scope > a');
+    const willOpen = !item.classList.contains('is-open');
+    item.classList.remove('is-hidden', 'd-none');
+    item.classList.toggle('is-open', willOpen);
+    if (row) row.classList.toggle('is-open', willOpen);
+    syncToggleLabel(toggle, anchor, willOpen);
   }
 
   /*
-   * Block Ella/theme.js from treating the parent category link as "expand only".
-   * Expand happens via .mm-cat-toggle; the link navigates.
+   * Capture-phase: run accordion here (before Ella), and stop theme.js from
+   * treating the toggle / parent link as drill-down.
+   * Main header menu is cloned into #navigation-mobile by Ella (mobile_menu=default).
    */
   document.addEventListener(
     'click',
@@ -146,28 +173,18 @@
         event.preventDefault();
         event.stopPropagation();
         if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
+        const item = toggle.closest('.menu-lv-1.dropdown, .menu-lv-2.dropdown');
+        if (item) {
+          if (item.dataset.mmMobileToggle !== '1') ensureMobileToggle(item);
+          toggleAccordionItem(item, toggle);
+        }
         return;
       }
-      const trigger = event.target.closest('#navigation-mobile .menu_mobile_link');
-      if (!trigger) return;
-      if (trigger.classList.contains('list-menu__item--end')) return;
-      const parent = trigger.closest('.menu-lv-1.dropdown, .menu-lv-2.dropdown');
-      if (!parent) return;
-      /* Allow navigation to the parent collection URL. */
-    },
-    true
-  );
-
-  /* Stop theme.js expand-on-link handler for parents that have our toggle. */
-  document.addEventListener(
-    'click',
-    (event) => {
-      if (!MQ.matches) return;
       const trigger = event.target.closest(
-        '#navigation-mobile .menu-lv-1.dropdown[data-mm-mobile-toggle="1"] > .mm-cat-item__row > a.menu_mobile_link'
+        '#navigation-mobile .menu-lv-1.dropdown > .mm-cat-item__row > a.menu_mobile_link, #navigation-mobile .menu-lv-1.dropdown > a.menu_mobile_link'
       );
       if (!trigger) return;
-      /* Do not preventDefault — navigation should proceed. Stop theme expand. */
+      /* Allow navigation; stop Ella expand-on-link. */
       event.stopPropagation();
       if (typeof event.stopImmediatePropagation === 'function') event.stopImmediatePropagation();
     },
@@ -215,6 +232,17 @@
     wasOpen = open;
   });
 
+  function watchDrawerMenu() {
+    const root = drawer();
+    if (!root || root.dataset.mmMenuWatch === '1') return;
+    root.dataset.mmMenuWatch = '1';
+    const obs = new MutationObserver(() => {
+      if (!MQ.matches) return;
+      enhanceMobileToggles();
+    });
+    obs.observe(root, { childList: true, subtree: true });
+  }
+
   function init() {
     const btn = toggleBtn();
     if (btn) syncToggleAria();
@@ -222,11 +250,17 @@
     closeBtns.forEach((el) => {
       if (!el.getAttribute('aria-label')) el.setAttribute('aria-label', 'დახურვა');
     });
+    watchDrawerMenu();
+    enhanceMobileToggles();
     wasOpen = isOpen();
     bodyObserver.disconnect();
     bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
     if (wasOpen) onOpened();
   }
+
+  MQ.addEventListener?.('change', () => {
+    if (MQ.matches) enhanceMobileToggles();
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
