@@ -148,11 +148,10 @@
       if (overlayOpen()) return false;
       const btn = getMainBtn();
       if (!btn) return false;
-      /* Recompute when observer missed a layout change (e.g. desktop→mobile). */
+      /* Only after the main ATC has scrolled above the viewport — not while it is still below the fold. */
       const rect = btn.getBoundingClientRect();
-      const inView = rect.top < window.innerHeight && rect.bottom > 0;
-      mainVisible = inView;
-      return !mainVisible;
+      mainVisible = rect.bottom > 0;
+      return rect.bottom <= 0;
     }
 
     function applyVisibility() {
