@@ -360,12 +360,12 @@ html[lang='ka'] .mm-hero__text {
   .mm-hero__btn,
   .mm-hero__btn-arrow,
   .mm-hero__image {
-    transition: none;
+    transition: none !important;
   }
 
   .mm-hero__btn:hover .mm-hero__btn-arrow,
   .mm-hero__btn:focus-visible .mm-hero__btn-arrow,
   .mm-hero__media:hover .mm-hero__image {
-    transform: none;
+    transform: none !important;
   }
 }
