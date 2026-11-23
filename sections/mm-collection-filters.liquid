@@ -24,6 +24,11 @@
     assign clear_url = collection.url
   endif
 
+  # Prefer explicit URL sort so clear/chip actions never drop the customer choice.
+  if request.params.sort_by != blank
+    assign sort_by = request.params.sort_by
+  endif
+
   # If no curated default and the URL has no sort_by, redirect once to created-descending.
   # Do not overwrite sort_by used for the dropdown when an explicit sort is already applied.
   assign has_sort_param = false
@@ -38,12 +43,16 @@
     endif
   endif
 
-  # Preserve current sort when clearing filters
-  if sort_by != blank
+  # Preserve current sort when clearing filters (never strip sort_by).
+  assign sort_for_clear = sort_by
+  if sort_for_clear == blank and mm_sort_redirect != blank
+    assign sort_for_clear = mm_sort_redirect
+  endif
+  if sort_for_clear != blank
     if clear_url contains '?'
-      assign clear_url = clear_url | append: '&sort_by=' | append: sort_by
+      assign clear_url = clear_url | append: '&sort_by=' | append: sort_for_clear
     else
-      assign clear_url = clear_url | append: '?sort_by=' | append: sort_by
+      assign clear_url = clear_url | append: '?sort_by=' | append: sort_for_clear
     endif
   endif
 
@@ -245,11 +254,21 @@
                   assign chip_label = 'sections.collection_template.out_of_stock' | t
                 endif
               endif
+              assign chip_href = value.url_to_remove
+              if sort_for_clear != blank
+                unless chip_href contains 'sort_by='
+                  if chip_href contains '?'
+                    assign chip_href = chip_href | append: '&sort_by=' | append: sort_for_clear
+                  else
+                    assign chip_href = chip_href | append: '?sort_by=' | append: sort_for_clear
+                  endif
+                endunless
+              endif
             -%}
             <li>
               <a
                 class="mm-filters__chip"
-                href="{{ value.url_to_remove }}"
+                href="{{ chip_href }}"
                 aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ chip_label | escape }}"
               >
                 <span>{{ chip_label | escape }}</span>
@@ -259,6 +278,18 @@
           {%- endfor -%}
           {%- if filter.type == 'price_range' -%}
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+              {%- liquid
+                assign chip_href = filter.url_to_remove
+                if sort_for_clear != blank
+                  unless chip_href contains 'sort_by='
+                    if chip_href contains '?'
+                      assign chip_href = chip_href | append: '&sort_by=' | append: sort_for_clear
+                    else
+                      assign chip_href = chip_href | append: '?sort_by=' | append: sort_for_clear
+                    endif
+                  endunless
+                endif
+              -%}
               <li>
                 {%- capture price_chip_label -%}
                   {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
@@ -267,7 +298,7 @@
                 {%- endcapture -%}
                 <a
                   class="mm-filters__chip"
-                  href="{{ filter.url_to_remove }}"
+                  href="{{ chip_href }}"
                   aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ price_chip_label | strip | escape }}"
                 >
                   <span>{{ price_chip_label | strip }}</span>
@@ -278,7 +309,7 @@
           {%- endif -%}
         {%- endfor -%}
         <li>
-          <a class="mm-filters__reset" href="{{ clear_url }}">
+          <a class="mm-filters__reset" href="{{ clear_url }}" data-mm-filters-reset>
             {{ 'sections.collection_template.clear_all' | t }}
           </a>
         </li>

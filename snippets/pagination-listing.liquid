@@ -18,18 +18,49 @@
 {%- endif -%}
 
 {%- if paginate.parts.size > 0 -%}
+    {%- liquid
+      assign mm_shown_count = paginate.current_offset | plus: paginate.page_size
+      if mm_shown_count > paginate.items or paginate.next == nil
+        assign mm_shown_count = paginate.items
+      endif
+      # Infinite/load-more accumulates from page 1 — never show a trailing-page slice as the start.
+      if show_infinite_scrolling == 'show_more' or show_infinite_scrolling == 'infinite'
+        if paginate.current_page == 1
+          assign mm_visible_for_label = mm_shown_count
+        else
+          # Server render of page 2+ alone is rare for infinite UI; still cap at total.
+          assign mm_visible_for_label = mm_shown_count
+        endif
+      else
+        assign mm_visible_for_label = mm_shown_count
+      endif
+    -%}
     <div class="{{ class | default: 'pagination-wrapper' }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
         <nav class="pagination style--{{ settings.pagination_style }} text-{{ settings.pagination_align }}{% if show_infinite_scrolling == 'infinite' %} pagination-infinite style-{{ settings.infinite_scroll_style }}{% endif %}" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
-            <div class="pagination-page-item pagination-page-total" data-mm-total-items="{{ paginate.items }}">
-                <span>{{ 'sections.collection_template.start_count' | t }}</span>
-                <span data-total-start>{{ paginate.current_offset | plus: 1 }}</span>
-                <span>-</span>
-                {%- if paginate.next -%}
-                    <span data-total-end>{{ paginate.current_offset | plus: paginate.page_size }}</span>
+            <div
+              class="pagination-page-item pagination-page-total"
+              data-mm-total-items="{{ paginate.items }}"
+              data-mm-count-template="{{ 'sections.collection_template.showing_of_total' | t: shown: '__SHOWN__', total: '__TOTAL__' | escape }}"
+            >
+                {%- if show_infinite_scrolling == 'show_more' or show_infinite_scrolling == 'infinite' -%}
+                  <span data-mm-count-label>
+                    {{ 'sections.collection_template.showing_of_total' | t: shown: mm_visible_for_label, total: paginate.items }}
+                  </span>
+                  <span class="visually-hidden">
+                    <span data-total-start>1</span>
+                    <span data-total-end>{{ mm_visible_for_label }}</span>
+                  </span>
                 {%- else -%}
-                    <span data-total-end>{{ paginate.items }}</span>
+                  <span>{{ 'sections.collection_template.start_count' | t }}</span>
+                  <span data-total-start>{{ paginate.current_offset | plus: 1 }}</span>
+                  <span>-</span>
+                  {%- if paginate.next -%}
+                      <span data-total-end>{{ paginate.current_offset | plus: paginate.page_size }}</span>
+                  {%- else -%}
+                      <span data-total-end>{{ paginate.items }}</span>
+                  {%- endif -%}
+                  <span>{{ 'sections.collection_template.end_count' | t : count : paginate.items }}</span>
                 {%- endif -%}
-                <span>{{ 'sections.collection_template.end_count' | t : count : paginate.items }}</span>
                 {%- if paginate.next -%}
                     {% liquid
                         assign pg_current = paginate.current_offset | plus: paginate.page_size

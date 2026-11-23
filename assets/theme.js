@@ -6668,24 +6668,52 @@
 
                 currentPagination.replaceWith(newPagination);
 
-                // Keep range as 1..visibleCount of total after append (not last-page slice).
+                // Count all visible cards after append (not the last page slice like 25–28).
                 var visibleCount = currentProductListing.children('.product').length;
+                if (!visibleCount) {
+                    visibleCount = currentProductListing.find('.product').length;
+                }
                 var $pageTotal = $('#CollectionProductGrid').find('.pagination-page-total');
                 var totalItems = parseInt($pageTotal.attr('data-mm-total-items') || '0', 10);
-                var $start = $pageTotal.find('[data-total-start]');
-                var $end = $pageTotal.find('[data-total-end]');
-                var $progress = $pageTotal.find('.pagination-total-item');
-                if ($start.length) $start.text('1');
-                if ($end.length) $end.text(String(visibleCount));
-                if ($progress.length && totalItems > 0) {
-                    $progress.css('width', Math.min(100, Math.round((visibleCount * 100) / totalItems)) + '%');
+                if (!totalItems && window.mm_load_more && window.mm_load_more.total) {
+                    totalItems = parseInt(window.mm_load_more.total, 10) || 0;
                 }
-
+                var shownForLabel = visibleCount;
                 var nextLink = $('#CollectionProductGrid').find('[data-infinite-scrolling]');
                 if (!nextLink.length) {
                     $('#CollectionProductGrid').find('.pagination-page-infinite, .mm-load-more-wrap').remove();
-                    if ($end.length) $end.text(String(Math.max(visibleCount, totalItems || visibleCount)));
-                    if ($progress.length) $progress.css('width', '100%');
+                    shownForLabel = Math.max(visibleCount, totalItems || visibleCount);
+                }
+
+                var $start = $pageTotal.find('[data-total-start]');
+                var $end = $pageTotal.find('[data-total-end]');
+                var $progress = $pageTotal.find('.pagination-total-item');
+                var $countLabel = $pageTotal.find('[data-mm-count-label]');
+                if ($start.length) $start.text('1');
+                if ($end.length) $end.text(String(shownForLabel));
+                if ($countLabel.length) {
+                    var tpl = $pageTotal.attr('data-mm-count-template') || '';
+                    if (tpl && tpl.indexOf('__SHOWN__') !== -1) {
+                        $countLabel.text(
+                            tpl
+                                .replace('__SHOWN__', String(shownForLabel))
+                                .replace('__TOTAL__', String(totalItems || shownForLabel))
+                        );
+                    } else if (window.mm_load_more && window.mm_load_more.showing_of_total) {
+                        $countLabel.text(
+                            window.mm_load_more.showing_of_total
+                                .replace('{{ shown }}', String(shownForLabel))
+                                .replace('{{ total }}', String(totalItems || shownForLabel))
+                        );
+                    } else {
+                        $countLabel.text(String(shownForLabel) + ' / ' + String(totalItems || shownForLabel));
+                    }
+                }
+                if ($progress.length && totalItems > 0) {
+                    $progress.css('width', Math.min(100, Math.round((shownForLabel * 100) / totalItems)) + '%');
+                }
+                if (!nextLink.length && $progress.length) {
+                    $progress.css('width', '100%');
                 }
 
                 if(window.compare && window.compare.show){

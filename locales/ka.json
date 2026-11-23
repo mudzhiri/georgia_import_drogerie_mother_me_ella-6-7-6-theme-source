@@ -637,6 +637,7 @@
       "filter_search_brand": "ბრენდის ძებნა",
       "empty": "პროდუქტები ვერ მოიძებნა",
       "end_count": " სულ {{ count }}-დან",
+      "showing_of_total": "ნაჩვენებია {{ shown }} / {{ total }} პროდუქტი",
       "from": "დან",
       "filter_and_sort": "ფილტრი და დალაგება",
       "filter_by_label": "ფილტრი",
