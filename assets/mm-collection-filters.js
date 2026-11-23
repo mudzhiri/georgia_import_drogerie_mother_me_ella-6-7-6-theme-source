@@ -19,20 +19,19 @@
     return el.id.replace(/^shopify-section-/, '');
   };
 
-  // Filter drawer only: prevent background scroll while open (brief). Restore on close.
   const setScrollLock = (locked) => {
-    const root = document.documentElement;
+    const docEl = document.documentElement;
     if (locked) {
-      if (root.dataset.mmFiltersScrollLock === '1') return;
-      root.dataset.mmFiltersScrollLock = '1';
-      root.dataset.mmFiltersScrollY = String(window.scrollY || 0);
-      root.style.overflow = 'hidden';
+      if (docEl.dataset.mmFiltersScrollLock === '1') return;
+      docEl.dataset.mmFiltersScrollLock = '1';
+      docEl.dataset.mmFiltersScrollY = String(window.scrollY || 0);
+      docEl.style.overflow = 'hidden';
       document.body.style.overflow = 'hidden';
-    } else if (root.dataset.mmFiltersScrollLock === '1') {
-      const y = Number(root.dataset.mmFiltersScrollY || 0);
-      delete root.dataset.mmFiltersScrollLock;
-      delete root.dataset.mmFiltersScrollY;
-      root.style.overflow = '';
+    } else if (docEl.dataset.mmFiltersScrollLock === '1') {
+      const y = Number(docEl.dataset.mmFiltersScrollY || 0);
+      delete docEl.dataset.mmFiltersScrollLock;
+      delete docEl.dataset.mmFiltersScrollY;
+      docEl.style.overflow = '';
       document.body.style.overflow = '';
       window.scrollTo(0, y);
     }
@@ -91,41 +90,80 @@
   };
 
   class MmFilters {
-    constructor(root) {
-      this.root = root;
-      this.openBtn = root.querySelector('[data-mm-filters-open]');
-      this.closeBtns = root.querySelectorAll('[data-mm-filters-close]');
-      this.overlay = root.querySelector('[data-mm-filters-overlay]');
-      this.panel = root.querySelector('[data-mm-filters-panel]');
-      this.desktopForm = root.querySelector('[data-mm-filters-desktop-form]');
-      this.panelForm = root.querySelector('[data-mm-filters-panel-form]');
-      this.sortForms = root.querySelectorAll('[data-mm-filters-sort-form]');
-      this.loadingEl = root.querySelector('[data-mm-filters-loading]');
-      this.filtersSectionId = root.getAttribute('data-mm-section-id');
+    constructor(rootEl) {
+      this.root = rootEl;
+      this.openBtn = rootEl.querySelector('[data-mm-filters-open]');
+      this.closeBtns = rootEl.querySelectorAll('[data-mm-filters-close]');
+      this.overlay = rootEl.querySelector('[data-mm-filters-overlay]');
+      this.panel = rootEl.querySelector('[data-mm-filters-panel]');
+      this.desktopForm = rootEl.querySelector('[data-mm-filters-desktop-form]');
+      this.panelForm = rootEl.querySelector('[data-mm-filters-panel-form]');
+      this.sortForms = rootEl.querySelectorAll('[data-mm-filters-sort-form]');
+      this.loadingEl = rootEl.querySelector('[data-mm-filters-loading]');
+      this.filtersSectionId = rootEl.getAttribute('data-mm-section-id');
       this.requestId = 0;
       this.abort = null;
       this.lastFocus = null;
       this.focusTrapHandler = null;
       this.panelSnapshot = null;
       this.boundKeydown = this.onDocumentKeydown.bind(this);
+      this.boundCloseRequest = this.onCloseRequest.bind(this);
+      this.boundDocClick = this.onDocumentClick.bind(this);
+      this.boundChipClick = this.onChipClick.bind(this);
       this.bind();
     }
 
     destroy() {
       document.removeEventListener('keydown', this.boundKeydown);
+      document.removeEventListener('mm:filters-close-request', this.boundCloseRequest);
+      document.removeEventListener('click', this.boundDocClick);
+      if (this.root) this.root.removeEventListener('click', this.boundChipClick);
       if (this.onPopState) window.removeEventListener('popstate', this.onPopState);
       this.releaseFocusTrap();
       setScrollLock(false);
       if (this.abort) this.abort.abort();
     }
 
+    onCloseRequest() {
+      if (this.root.classList.contains('is-panel-open')) {
+        this.setOpen(false, { discard: true });
+      }
+    }
+
+    onDocumentClick(event) {
+      if (!this.root) return;
+      const openGroups = this.root.querySelectorAll('.mm-filters__group[open]');
+      openGroups.forEach((openGroup) => {
+        if (openGroup.contains(event.target)) return;
+        openGroup.open = false;
+      });
+    }
+
+    bindExclusiveGroups() {
+      if (!this.root) return;
+      this.root.querySelectorAll('.mm-filters__group').forEach((group) => {
+        group.addEventListener('toggle', () => {
+          if (!group.open) return;
+          this.root.querySelectorAll('.mm-filters__group[open]').forEach((other) => {
+            if (other !== group) other.open = false;
+          });
+        });
+      });
+    }
+
+    onChipClick(event) {
+      const link = event.target.closest('a.mm-filters__chip, a.mm-filters__reset, [data-mm-filters-reset]');
+      if (!link || !this.root.contains(link)) return;
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      event.preventDefault();
+      this.navigate(new URL(href, window.location.origin), { source: 'chip' });
+    }
+
     bind() {
       document.addEventListener('keydown', this.boundKeydown);
-      document.addEventListener('mm:filters-close-request', () => {
-        if (this.root.classList.contains('is-panel-open')) {
-          this.setOpen(false, { discard: true });
-        }
-      });
+      document.addEventListener('mm:filters-close-request', this.boundCloseRequest);
+      document.addEventListener('click', this.boundDocClick);
 
       if (this.openBtn) {
         this.openBtn.addEventListener('click', () => this.setOpen(true));
@@ -138,11 +176,12 @@
       }
 
       this.bindFilterSearch(this.root);
+      this.bindExclusiveGroups();
 
-      const retryBtn = root.querySelector('[data-mm-filters-retry]');
+      const retryBtn = this.root.querySelector('[data-mm-filters-retry]');
       if (retryBtn) {
         retryBtn.addEventListener('click', () => {
-          const err = root.querySelector('[data-mm-filters-error]');
+          const err = this.root.querySelector('[data-mm-filters-error]');
           if (err) err.hidden = true;
           this.navigate(new URL(window.location.href), { push: false, source: 'retry' });
         });
@@ -150,7 +189,9 @@
 
       if (this.desktopForm) {
         const syncDesktopSort = () => {
-          const liveSort = this.root.querySelector('.mm-filters__toolbar select[data-mm-filters-sort], .mm-filters__sort--desktop select[data-mm-filters-sort]');
+          const liveSort = this.root.querySelector(
+            '.mm-filters__toolbar select[data-mm-filters-sort], .mm-filters__sort--desktop select[data-mm-filters-sort]'
+          );
           const hiddenSort = this.desktopForm.querySelector('[data-mm-desktop-sort]');
           if (liveSort && hiddenSort) hiddenSort.value = liveSort.value;
         };
@@ -199,7 +240,6 @@
             restoreDisabledPriceInputs(this.panelForm);
             return;
           }
-          // Sync current desktop/mobile sort into panel before apply
           const liveSort = this.root.querySelector('select[data-mm-filters-sort]');
           const panelSort = this.panelForm.querySelector('[data-mm-panel-sort]');
           if (liveSort && panelSort) panelSort.value = liveSort.value;
@@ -220,14 +260,7 @@
         });
       });
 
-      this.root.addEventListener('click', (event) => {
-        const link = event.target.closest('a.mm-filters__chip, a.mm-filters__reset, [data-mm-filters-reset]');
-        if (!link || !this.root.contains(link)) return;
-        const href = link.getAttribute('href');
-        if (!href || href.startsWith('#')) return;
-        event.preventDefault();
-        this.navigate(new URL(href, window.location.origin), { source: 'chip' });
-      });
+      this.root.addEventListener('click', this.boundChipClick);
 
       this.onPopState = () => {
         this.navigate(new URL(window.location.href), { push: false, source: 'popstate' });
@@ -362,8 +395,7 @@
     async navigate(url, { push = true, source = '' } = {}) {
       if (!(url instanceof URL)) url = new URL(String(url), window.location.origin);
 
-      // Filter changes always reset pagination; sort may keep page but Shopify often resets anyway.
-      if (source === 'desktop' || source === 'panel') {
+      if (source === 'desktop' || source === 'panel' || source === 'chip' || source === 'sort') {
         url.searchParams.delete('page');
       }
 
@@ -412,10 +444,10 @@
           if (host) host.outerHTML = resultsHtml;
         }
 
-        // Re-bind on the replaced filters root
         const nextRoot = document.querySelector('[data-mm-filters]');
         if (window.__mmFiltersInstance) {
           window.__mmFiltersInstance.destroy();
+          window.__mmFiltersInstance = null;
         }
         if (nextRoot) {
           window.__mmFiltersInstance = new MmFilters(nextRoot);
@@ -458,12 +490,13 @@
   }
 
   const boot = () => {
-    const root = document.querySelector('[data-mm-filters]');
-    if (!root) return;
+    const rootEl = document.querySelector('[data-mm-filters]');
+    if (!rootEl) return;
     if (window.__mmFiltersInstance) {
       window.__mmFiltersInstance.destroy();
+      window.__mmFiltersInstance = null;
     }
-    window.__mmFiltersInstance = new MmFilters(root);
+    window.__mmFiltersInstance = new MmFilters(rootEl);
   };
 
   if (document.readyState === 'loading') {

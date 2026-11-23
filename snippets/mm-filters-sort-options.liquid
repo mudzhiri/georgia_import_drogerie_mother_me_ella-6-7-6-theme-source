@@ -1,34 +1,32 @@
 {%- comment -%}
-  Supported sort options with Georgian locale labels.
+  Compact Georgian sort set for collections/search.
   Accepts: sort_options, sort_by
 {%- endcomment -%}
-{%- comment -%}
-  Georgian sort set. best-selling = Shopify sales order. created-ascending omitted.
-{%- endcomment -%}
 {%- liquid
-  assign allowed = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-descending,relevance' | split: ','
+  assign allowed = 'manual,created-descending,price-ascending,price-descending,relevance' | split: ','
+  assign has_manual = false
+  for option in sort_options
+    if option.value == 'manual'
+      assign has_manual = true
+    endif
+  endfor
 -%}
 {%- for option in sort_options -%}
   {%- if allowed contains option.value -%}
     {%- liquid
+      if option.value == 'manual' and has_manual == false
+        continue
+      endif
       assign sort_label = option.name
       case option.value
         when 'manual'
           assign sort_label = 'sections.collection_template.sort_options.manual' | t
-        when 'best-selling'
-          assign sort_label = 'sections.collection_template.sort_options.best-selling' | t
-        when 'title-ascending'
-          assign sort_label = 'sections.collection_template.sort_options.title-ascending' | t
-        when 'title-descending'
-          assign sort_label = 'sections.collection_template.sort_options.title-descending' | t
+        when 'created-descending'
+          assign sort_label = 'sections.collection_template.sort_options.created-descending' | t
         when 'price-ascending'
           assign sort_label = 'sections.collection_template.sort_options.price-ascending' | t
         when 'price-descending'
           assign sort_label = 'sections.collection_template.sort_options.price-descending' | t
-        when 'created-ascending'
-          assign sort_label = 'sections.collection_template.sort_options.created-ascending' | t
-        when 'created-descending'
-          assign sort_label = 'sections.collection_template.sort_options.created-descending' | t
         when 'relevance'
           assign sort_label = 'sections.collection_template.sort_options.relevance' | t
       endcase

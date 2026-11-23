@@ -127,25 +127,64 @@
 
 .mm-filters__toolbar {
   display: none;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+  width: 100%;
 }
 
 .mm-filters__desktop {
   display: none;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.mm-filters__groups--toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 8px;
   width: 100%;
 }
 
-.mm-filters__sidebar-head {
-  margin: 0 0 10px;
+.mm-filters__groups--toolbar .mm-filters__group {
+  flex: 0 1 auto;
+  min-width: 0;
+  max-width: 100%;
+  background: #fff;
+  border-color: var(--mm-f-border);
 }
 
-.mm-filters__sidebar-title {
-  margin: 0;
-  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
-  font-size: 15px;
-  font-weight: var(--mm-font-weight-bold, 700);
-  line-height: 1.3;
-  color: var(--mm-f-ink);
-  letter-spacing: normal;
+.mm-filters__groups--toolbar .mm-filters__group-summary {
+  min-height: 40px;
+  padding: 6px 12px;
+  white-space: nowrap;
+}
+
+.mm-filters__groups--toolbar .mm-filters__group-body {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 20;
+  min-width: min(280px, 86vw);
+  max-width: min(320px, 92vw);
+  padding: 10px;
+  border: 1px solid var(--mm-f-border);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(33, 77, 67, 0.12);
+}
+
+.mm-filters__groups--toolbar .mm-filters__group--vendor .mm-filters__group-body {
+  min-width: min(300px, 90vw);
+}
+
+.mm-filters__sort--desktop {
+  display: none;
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-items: center;
+  gap: 8px;
 }
 
 .mm-filters__groups {
@@ -796,90 +835,17 @@ body.template-search #MainContent {
   background-color: #faf8f4;
 }
 
-/* Desktop: left filter rail + product grid (sibling sections in #MainContent) */
-@media screen and (min-width: 1100px) {
-  body.template-collection #MainContent,
-  body.template-search #MainContent {
-    display: grid;
-    grid-template-columns: minmax(220px, 248px) minmax(0, 1fr);
-    column-gap: 28px;
-    align-items: start;
-    max-width: var(--mm-content-max, 1280px);
-    margin-inline: auto;
-    padding-inline: var(--mm-page-gutter, 16px);
-    box-sizing: border-box;
-  }
-
-  body.template-collection #MainContent > .shopify-section,
-  body.template-search #MainContent > .shopify-section {
-    grid-column: 1 / -1;
-    min-width: 0;
-  }
-
-  body.template-collection #MainContent > .section-mm-collection-filters,
-  body.template-search #MainContent > .section-mm-collection-filters {
-    grid-column: 1;
-    grid-row: 2;
-    position: sticky;
-    top: calc(var(--mm-header-offset, 72px) + 12px);
-    z-index: 4;
-    align-self: start;
-  }
-
-  body.template-collection #MainContent > .shopify-section:has(#CollectionProductGrid),
-  body.template-search #MainContent > .shopify-section:has(#ProductGridContainer),
-  body.template-search #MainContent > .shopify-section:has(#product-grid),
-  body.template-search #MainContent > .shopify-section:has([data-product-grid]) {
-    grid-column: 2;
-    grid-row: 2;
-    min-width: 0;
-  }
-
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters {
-    position: static;
-    border-bottom: 0;
-    background: transparent;
-  }
-
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__inner,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__inner {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    max-width: none;
-    margin: 0;
-    padding: 0;
-  }
-
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__bar,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__bar {
+/* Desktop/tablet: compact toolbar above the product grid (no sidebar) */
+@media screen and (min-width: 900px) {
+  .mm-filters__mobile-actions {
     display: none;
   }
 
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__desktop,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__desktop {
-    display: block;
+  .mm-filters__bar .mm-filters__count {
+    display: none;
   }
 
-  body.template-collection #MainContent > .shopify-section:has(#CollectionProductGrid) .container,
-  body.template-collection #MainContent > .shopify-section:has(#CollectionProductGrid) .container-full,
-  body.template-search #MainContent > .shopify-section:has(#ProductGridContainer) .container {
-    max-width: none;
-    width: 100%;
-    padding-left: 0;
-    padding-right: 0;
-  }
-
-  /* Count + sort sit above the product grid column */
-  body.template-collection #MainContent > .shopify-section:has(#CollectionProductGrid)::before {
-    content: none;
-  }
-}
-
-/* Mid desktop: keep compact horizontal toolbar until sidebar breakpoint */
-@media screen and (min-width: 900px) and (max-width: 1099.98px) {
-  .mm-filters__mobile-actions {
+  .mm-filters__bar {
     display: none;
   }
 
@@ -887,75 +853,70 @@ body.template-search #MainContent {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px 16px;
+    gap: 10px 14px;
+    padding: 4px 0 2px;
   }
 
   .mm-filters__count--desktop {
+    flex: 0 0 auto;
     margin: 0;
-  }
-
-  .mm-filters__sort--desktop {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    min-width: min(100%, 240px);
+    min-width: 4.5rem;
+    font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--mm-f-muted);
+    white-space: nowrap;
   }
 
   .mm-filters__desktop {
     display: block;
+    flex: 1 1 auto;
+    min-width: 0;
   }
 
-  .mm-filters__groups {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 10px;
-  }
-
-  .mm-filters__bar .mm-filters__count {
-    display: none;
-  }
-}
-
-@media screen and (min-width: 1100px) {
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__toolbar,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__toolbar {
+  .mm-filters__sort--desktop {
     display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 10px;
-    margin: 0 0 4px;
-    padding: 0 0 12px;
+    flex-direction: row;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 8px;
+    margin-left: auto;
+    width: auto;
+    min-width: 0;
+  }
+
+  .mm-filters__sort--desktop .mm-filters__sort-label {
+    display: inline;
+    margin: 0;
+    color: var(--mm-f-ink);
+    white-space: nowrap;
+  }
+
+  .mm-filters__sort--desktop .mm-filters__select {
+    width: auto;
+    min-width: 180px;
+    max-width: 260px;
+    min-height: 40px;
+  }
+
+  .mm-filters__chips,
+  .mm-filters__empty {
+    margin-top: 10px;
+  }
+
+  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters,
+  body.template-search #MainContent > .section-mm-collection-filters .mm-filters {
+    position: sticky;
+    top: var(--mm-header-offset, 72px);
+    z-index: 5;
+    background: #faf8f4;
     border-bottom: 1px solid #eef2ef;
   }
 
   body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__inner,
   body.template-search #MainContent > .section-mm-collection-filters .mm-filters__inner {
-    position: relative;
-    padding-top: 0;
-  }
-
-  .mm-filters__sort--desktop {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  .mm-filters__count--desktop {
-    margin: 0;
-    font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--mm-f-muted);
-  }
-
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__chips,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__chips,
-  body.template-collection #MainContent > .section-mm-collection-filters .mm-filters__empty,
-  body.template-search #MainContent > .section-mm-collection-filters .mm-filters__empty {
-    /* Chips/empty sit with the rail; products update beside it */
-    margin-top: 8px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 

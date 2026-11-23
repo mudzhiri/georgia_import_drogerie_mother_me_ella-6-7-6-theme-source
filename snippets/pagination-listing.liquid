@@ -20,7 +20,7 @@
 {%- if paginate.parts.size > 0 -%}
     <div class="{{ class | default: 'pagination-wrapper' }}{% if settings.banner_animation == 'effect_fade_up' %} scroll-trigger animate--slide-in{% endif %}">
         <nav class="pagination style--{{ settings.pagination_style }} text-{{ settings.pagination_align }}{% if show_infinite_scrolling == 'infinite' %} pagination-infinite style-{{ settings.infinite_scroll_style }}{% endif %}" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
-            <div class="pagination-page-item pagination-page-total">
+            <div class="pagination-page-item pagination-page-total" data-mm-total-items="{{ paginate.items }}">
                 <span>{{ 'sections.collection_template.start_count' | t }}</span>
                 <span data-total-start>{{ paginate.current_offset | plus: 1 }}</span>
                 <span>-</span>

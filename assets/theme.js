@@ -6668,9 +6668,24 @@
 
                 currentPagination.replaceWith(newPagination);
 
+                // Keep range as 1..visibleCount of total after append (not last-page slice).
+                var visibleCount = currentProductListing.children('.product').length;
+                var $pageTotal = $('#CollectionProductGrid').find('.pagination-page-total');
+                var totalItems = parseInt($pageTotal.attr('data-mm-total-items') || '0', 10);
+                var $start = $pageTotal.find('[data-total-start]');
+                var $end = $pageTotal.find('[data-total-end]');
+                var $progress = $pageTotal.find('.pagination-total-item');
+                if ($start.length) $start.text('1');
+                if ($end.length) $end.text(String(visibleCount));
+                if ($progress.length && totalItems > 0) {
+                    $progress.css('width', Math.min(100, Math.round((visibleCount * 100) / totalItems)) + '%');
+                }
+
                 var nextLink = $('#CollectionProductGrid').find('[data-infinite-scrolling]');
                 if (!nextLink.length) {
                     $('#CollectionProductGrid').find('.pagination-page-infinite, .mm-load-more-wrap').remove();
+                    if ($end.length) $end.text(String(Math.max(visibleCount, totalItems || visibleCount)));
+                    if ($progress.length) $progress.css('width', '100%');
                 }
 
                 if(window.compare && window.compare.show){

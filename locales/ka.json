@@ -693,14 +693,14 @@
       "empty_with_filters": "ამ ფილტრებით პროდუქტი ვერ მოიძებნა.",
       "reset_filters": "ფილტრების გასუფთავება",
       "sort_options": {
-        "manual": "რჩეული",
+        "manual": "ჩვენი არჩევანი",
         "best-selling": "ბესტსელერი",
         "title-ascending": "სახელი: ა–ჰ",
         "title-descending": "სახელი: ჰ–ა",
         "price-ascending": "ფასი: დაბლიდან მაღლა",
         "price-descending": "ფასი: მაღლიდან დაბლა",
         "created-ascending": "ძველი ახალამდე",
-        "created-descending": "უახლესი",
+        "created-descending": "ახლად დამატებული",
         "relevance": "რელევანტურობა"
       }
     },
