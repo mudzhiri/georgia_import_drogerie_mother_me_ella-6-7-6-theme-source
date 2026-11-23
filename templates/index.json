@@ -129,7 +129,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_categories": {
       "type": "mm-categories",
@@ -153,14 +154,60 @@
             "link": "shopify://collections/დედა",
             "collection": "დედა"
           }
+        },
+        "tile_feed": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "კვება",
+            "description": "",
+            "link": "",
+            "collection": "ბავშვის-კვება-0-3-წლამდე"
+          }
+        },
+        "tile_face": {
+          "type": "tile",
+          "settings": {
+            "tone": "cream",
+            "label": "სახის მოვლა",
+            "description": "",
+            "link": "",
+            "collection": "სახის-მოვლა"
+          }
+        },
+        "tile_deo": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "დეოდორანტები",
+            "description": "",
+            "link": "",
+            "collection": "დეოდორანტები"
+          }
+        },
+        "tile_lactation": {
+          "type": "tile",
+          "settings": {
+            "tone": "cream",
+            "label": "ორსულობა და ლაქტაცია",
+            "description": "",
+            "link": "",
+            "collection": "ლაქტაცია-და-ორსულობა"
+          }
         }
       },
       "block_order": [
         "tile_kids",
-        "tile_mamas"
+        "tile_mamas",
+        "tile_feed",
+        "tile_face",
+        "tile_deo",
+        "tile_lactation"
       ],
       "settings": {
-        "heading": ""
+        "heading": "",
+        "view_all_label": "",
+        "view_all_link": "shopify://collections"
       }
     },
     "mm_info_strip": {
@@ -195,7 +242,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_products": {
       "type": "mm-products",
@@ -266,7 +314,8 @@
       ],
       "settings": {
         "heading": ""
-      }
+      },
+      "disabled": true
     },
     "mm_about": {
       "type": "mm-about",
@@ -399,15 +448,15 @@
   },
   "order": [
     "mm_hero",
-    "mm_category_pills",
     "mm_categories",
-    "mm_info_strip",
     "mm_products",
     "mm_special_order",
-    "mm_needs",
     "mm_about",
-    "mm_business_teaser",
     "mm_brands",
-    "mm_faq"
+    "mm_business_teaser",
+    "mm_faq",
+    "mm_category_pills",
+    "mm_info_strip",
+    "mm_needs"
   ]
 }

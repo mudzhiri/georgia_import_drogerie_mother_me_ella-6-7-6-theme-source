@@ -86,6 +86,27 @@
   max-height: none;
 }
 
+.mm-about__trust {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.mm-about__trust-item {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #eaf1ec;
+  color: #214d43;
+  font-family: var(--mm-font-sans);
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.35;
+}
+
 .mm-about__link {
   display: inline-flex;
   align-items: center;

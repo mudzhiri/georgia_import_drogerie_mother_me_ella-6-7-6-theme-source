@@ -5,133 +5,175 @@
   if section_heading == blank
     assign section_heading = 'mm_home.categories.heading' | t
   endif
+
+  assign view_all_label = section.settings.view_all_label
+  if view_all_label == blank
+    assign view_all_label = 'mm_home.categories.view_all' | t
+  endif
+  assign view_all_link = section.settings.view_all_link
+  if view_all_link == blank
+    assign view_all_link = routes.collections_url
+  endif
+
+  assign visible_tiles = 0
+  for block in section.blocks
+    assign tile_collection = block.settings.collection
+    assign skip = false
+    if tile_collection != blank and tile_collection.products_count == 0
+      assign skip = true
+    endif
+    unless skip
+      assign visible_tiles = visible_tiles | plus: 1
+    endunless
+  endfor
 -%}
-<section
-  id="mm-categories-{{ section.id }}"
-  class="mm-categories mm-reveal"
-  aria-label="{{ section_heading | escape }}"
->
-  <div class="mm-categories__inner">
-    {%- if section_heading != blank -%}
-      <h2 class="visually-hidden">{{ section_heading | escape }}</h2>
-    {%- endif -%}
 
-    <div class="mm-categories__grid">
-      {%- for block in section.blocks -%}
-        {%- liquid
-          assign tone = block.settings.tone | default: 'kids'
-          if tone != 'kids' and tone != 'mamas'
-            assign tone = 'kids'
-          endif
-
-          if tone == 'mamas'
-            assign label = 'mm_home.categories.mamas_label' | t
-            assign description = 'mm_home.categories.mamas_desc' | t
-          else
-            assign label = 'mm_home.categories.kids_label' | t
-            assign description = 'mm_home.categories.kids_desc' | t
-          endif
-
-          if block.settings.label != blank
-            assign label = block.settings.label
-          endif
-          if block.settings.description != blank
-            assign description = block.settings.description
-          endif
-
-          assign link = block.settings.link
-          assign image = block.settings.image
-          assign tile_collection = block.settings.collection
-          if tile_collection != blank
-            if link == blank
-              assign link = tile_collection.url
-            endif
-            if image == blank and tile_collection.featured_image != blank
-              assign image = tile_collection.featured_image
-            elsif image == blank and tile_collection.image != blank
-              assign image = tile_collection.image
-            endif
-            if image == blank
-              for product in tile_collection.products limit: 1
-                if product.featured_media != blank
-                  assign image = product.featured_media.preview_image
-                elsif product.featured_image != blank
-                  assign image = product.featured_image
-                endif
-              endfor
-            endif
-          endif
-
-          assign has_image = false
-          if image != blank
-            assign has_image = true
-          endif
-          assign focal_point = 'center'
-          if has_image and image.presentation.focal_point != blank
-            assign focal_point = image.presentation.focal_point
-          endif
-        -%}
-        {%- if label != blank -%}
-          <a
-            class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}"
-            data-mm-reveal-item
-            {% if link == blank %}
-              role="link"
-              aria-disabled="true"
-              tabindex="0"
-            {% else %}
-              href="{{ link }}"
-            {% endif %}
-            {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
-            {{ block.shopify_attributes }}
-          >
-            <div class="mm-categories__body">
-              <p class="mm-categories__label">{{ label | escape }}</p>
-              {%- if description != blank -%}
-                <p class="mm-categories__desc">{{ description | escape }}</p>
-              {%- endif -%}
-              <span class="mm-categories__arrow" aria-hidden="true">
-                {%- comment -%} Lucide-style arrow-right: clear CTA chevron+shaft for category tiles {%- endcomment -%}
-                <svg class="mm-categories__arrow-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" focusable="false" aria-hidden="true">
-                  <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                  <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </div>
-
-            {%- if has_image -%}
-              <div class="mm-categories__media" aria-hidden="true">
-                {{
-                  image
-                  | image_url: width: 800
-                  | image_tag:
-                    loading: 'eager',
-                    widths: '160, 240, 320, 480, 640, 800',
-                    sizes: '(min-width: 768px) min(220px, 22vw), min(180px, 40vw)',
-                    alt: '',
-                    class: 'mm-categories__image'
-                }}
-              </div>
-            {%- endif -%}
-          </a>
+{%- if visible_tiles > 0 -%}
+  <section
+    id="mm-categories-{{ section.id }}"
+    class="mm-categories mm-categories--grid-{{ visible_tiles }} mm-reveal"
+    aria-label="{{ section_heading | escape }}"
+  >
+    <div class="mm-categories__inner">
+      <div class="mm-categories__header">
+        {%- if section_heading != blank -%}
+          <h2 class="mm-categories__heading">{{ section_heading | escape }}</h2>
         {%- endif -%}
-      {%- endfor -%}
+        {%- if view_all_label != blank and view_all_link != blank -%}
+          <a class="mm-categories__view-all" href="{{ view_all_link }}">{{ view_all_label | escape }}</a>
+        {%- endif -%}
+      </div>
+
+      <div class="mm-categories__grid">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign tone = block.settings.tone | default: 'sage'
+            if tone != 'kids' and tone != 'mamas' and tone != 'sage' and tone != 'cream'
+              assign tone = 'sage'
+            endif
+
+            assign label = block.settings.label
+            assign description = block.settings.description
+            assign link = block.settings.link
+            assign image = block.settings.image
+            assign tile_collection = block.settings.collection
+            assign skip_empty = false
+
+            if tile_collection != blank
+              if tile_collection.products_count == 0
+                assign skip_empty = true
+              endif
+              if link == blank
+                assign link = tile_collection.url
+              endif
+              if image == blank and tile_collection.featured_image != blank
+                assign image = tile_collection.featured_image
+              elsif image == blank and tile_collection.image != blank
+                assign image = tile_collection.image
+              endif
+            endif
+
+            if label == blank
+              if tone == 'mamas'
+                assign label = 'mm_home.categories.mamas_label' | t
+              elsif tone == 'kids'
+                assign label = 'mm_home.categories.kids_label' | t
+              elsif tile_collection != blank
+                assign label = tile_collection.title
+              endif
+            endif
+
+            if description == blank
+              if tone == 'mamas'
+                assign description = 'mm_home.categories.mamas_desc' | t
+              elsif tone == 'kids'
+                assign description = 'mm_home.categories.kids_desc' | t
+              endif
+            endif
+
+            assign has_image = false
+            if image != blank
+              assign has_image = true
+            endif
+            assign focal_point = 'center'
+            if has_image and image.presentation.focal_point != blank
+              assign focal_point = image.presentation.focal_point
+            endif
+          -%}
+          {%- unless skip_empty -%}
+            {%- if label != blank -%}
+              <a
+                class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}{% if description == blank %} mm-categories__tile--compact{% endif %}"
+                data-mm-reveal-item
+                {% if link == blank %}
+                  role="link"
+                  aria-disabled="true"
+                  tabindex="0"
+                {% else %}
+                  href="{{ link }}"
+                {% endif %}
+                {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
+                {{ block.shopify_attributes }}
+              >
+                <div class="mm-categories__body">
+                  <p class="mm-categories__label">{{ label | escape }}</p>
+                  {%- if description != blank -%}
+                    <p class="mm-categories__desc">{{ description | escape }}</p>
+                  {%- endif -%}
+                  <span class="mm-categories__arrow" aria-hidden="true">
+                    <svg class="mm-categories__arrow-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" focusable="false" aria-hidden="true">
+                      <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                      <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                  </span>
+                </div>
+
+                {%- if has_image -%}
+                  <div class="mm-categories__media" aria-hidden="true">
+                    {{
+                      image
+                      | image_url: width: 800
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '160, 240, 320, 480, 640, 800',
+                        sizes: '(min-width: 900px) 180px, (min-width: 768px) 28vw, 42vw',
+                        alt: '',
+                        class: 'mm-categories__image'
+                    }}
+                  </div>
+                {%- endif -%}
+              </a>
+            {%- endif -%}
+          {%- endunless -%}
+        {%- endfor -%}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{%- endif -%}
 
 {% schema %}
 {
   "name": "MM Categories",
   "tag": "section",
   "class": "section-mm-categories",
-  "max_blocks": 2,
+  "max_blocks": 6,
   "settings": [
     {
       "type": "text",
       "id": "heading",
       "label": "Section heading override (optional)",
-      "info": "Leave blank to use locale file (KA/EN/DE/RU via theme locales / Translate & Adapt)."
+      "info": "Leave blank to use locale file."
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all categories label (optional)"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all categories link",
+      "info": "Defaults to /collections when empty."
     }
   ],
   "blocks": [
@@ -142,24 +184,26 @@
         {
           "type": "select",
           "id": "tone",
-          "label": "Tile (drives locale text + color)",
-          "default": "kids",
+          "label": "Tile color",
+          "default": "sage",
           "options": [
-            { "value": "kids", "label": "Kids / sage" },
-            { "value": "mamas", "label": "Mamas / apricot" }
+            { "value": "kids", "label": "Kids / sage (audience)" },
+            { "value": "mamas", "label": "Mamas / apricot (audience)" },
+            { "value": "sage", "label": "Sage" },
+            { "value": "cream", "label": "Cream" }
           ]
         },
         {
           "type": "text",
           "id": "label",
           "label": "Title override (optional)",
-          "info": "Leave blank for translated locale text."
+          "info": "Leave blank for collection title or audience locale text."
         },
         {
           "type": "textarea",
           "id": "description",
-          "label": "Description override (optional)",
-          "info": "Leave blank for translated locale text."
+          "label": "Description (optional)",
+          "info": "Leave blank for compact tiles. Kids/Mamas fill locale desc when label is also blank."
         },
         {
           "type": "url",
@@ -170,13 +214,12 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Optional. Image fallback + link when URL is empty."
+          "info": "Empty collections are hidden. Image uses collection image only (no product cutouts)."
         },
         {
           "type": "image_picker",
           "id": "image",
-          "label": "Image",
-          "info": "Optional. Falls back to collection / first product image."
+          "label": "Lifestyle image (optional)"
         }
       ]
     }

@@ -65,6 +65,22 @@
           {%- if text != blank -%}
             <p class="mm-about__text">{{ text | escape }}</p>
           {%- endif -%}
+          {%- liquid
+            assign trust_shipping = 'mm_home.about.trust_shipping' | t
+            assign trust_payment = 'mm_home.about.trust_payment' | t
+            assign trust_special = 'mm_home.about.trust_special' | t
+          -%}
+          <ul class="mm-about__trust" role="list">
+            {%- unless trust_shipping == blank or trust_shipping contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">{{ trust_shipping | escape }}</li>
+            {%- endunless -%}
+            {%- unless trust_payment == blank or trust_payment contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">{{ trust_payment | escape }}</li>
+            {%- endunless -%}
+            {%- unless trust_special == blank or trust_special contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">{{ trust_special | escape }}</li>
+            {%- endunless -%}
+          </ul>
           {%- if has_button -%}
             <a class="mm-about__link" href="{{ button_link }}">
               {{ button_label | escape }}
