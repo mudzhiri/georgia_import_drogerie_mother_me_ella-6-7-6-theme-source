@@ -83,10 +83,14 @@
     assign has_image = true
   endif
 
-  assign focal_point = 'center'
+  assign focal_point = '42% 28%'
   if has_picker_image and image.presentation.focal_point != blank
     assign focal_point = image.presentation.focal_point
   endif
+
+  assign trust_import = 'mm_home.hero.trust_import' | t
+  assign trust_shipping = 'mm_home.hero.trust_shipping' | t
+  assign trust_payment = 'mm_home.hero.trust_payment' | t
 -%}
 
 <section
@@ -148,6 +152,18 @@
           {%- endif -%}
         </div>
       {%- endif -%}
+
+      <ul class="mm-hero__trust" role="list">
+        {%- unless trust_import == blank or trust_import contains 'Translation missing' -%}
+          <li class="mm-hero__trust-item">{{ trust_import | escape }}</li>
+        {%- endunless -%}
+        {%- unless trust_shipping == blank or trust_shipping contains 'Translation missing' -%}
+          <li class="mm-hero__trust-item">{{ trust_shipping | escape }}</li>
+        {%- endunless -%}
+        {%- unless trust_payment == blank or trust_payment contains 'Translation missing' -%}
+          <li class="mm-hero__trust-item">{{ trust_payment | escape }}</li>
+        {%- endunless -%}
+      </ul>
     </div>
 
     {%- if has_image -%}
