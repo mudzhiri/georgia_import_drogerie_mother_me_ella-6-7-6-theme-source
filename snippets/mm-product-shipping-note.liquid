@@ -45,10 +45,16 @@
       </svg>
     </span>
     <span class="mm-pdp-trust__text">
-      {{ 'products.product.trust.bank_transfer' | t }}
+      <span class="mm-pdp-trust__lead">{{ 'products.product.trust.bank_transfer' | t }}</span>
+      <span class="mm-pdp-trust__detail">{{ 'products.product.trust.bank_transfer_how' | t }}</span>
       {%- if contact_page != empty and contact_page.url != blank -%}
         <a class="mm-pdp-trust__link" href="{{ contact_page.url }}">{{ 'products.product.trust.payment_more' | t }}</a>
       {%- endif -%}
     </span>
   </li>
 </ul>
+
+{%- comment -%} Share as secondary action after trust notes {%- endcomment -%}
+<div class="mm-pdp-share-after">
+  {% render 'mm-pdp-title-share', product: product %}
+</div>

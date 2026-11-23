@@ -1,27 +1,47 @@
 {% # theme-check-disable OrphanedSnippet %}
 {%- comment -%}
-  MOTHER & ME — Related products grid (PDP).
-  Rendered from sections/product-recommendations.liquid (inside capture).
-  Soft ranking: same product.type first, then audience-safe via known collection handles.
-  Accepts: products, limit, section_id, current_product
+  MOTHER & ME — Related / complementary product cards on PDP.
+  Soft ranking (never brand-only fill):
+  1) same product.type
+  2) shared product-area collection
+  3) audience-safe fill from Shopify related pool
+  Accepts: products, limit, section_id, current_product, block_title_align, style_block_header
 {%- endcomment -%}
 {%- liquid
   assign mm_limit = limit | default: 4 | at_most: 4
   assign mm_current = current_product
   assign mm_src_type = mm_current.type | strip
+
   assign mm_src_baby = false
   assign mm_src_mother = false
+  assign mm_src_handles = ','
 
   if mm_current != blank
     for c in mm_current.collections
       assign h = c.handle
-      if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+      assign mm_src_handles = mm_src_handles | append: h | append: ','
+      if h == 'ბავშვი' or h == 'ბავშვი-0-3-წლამდე' or h == 'ბავშვი-3-წლიდან' or h == 'ბავშვის-კანის-მოვლა' or h == 'ბავშვის-ჰიგიენა-0-3-წლამდე' or h == 'ბავშვის-ჰიგიენა-3-წლიდან' or h == 'ბავშვის-კვება-0-3-წლამდე' or h == 'საბავშვო-ინვენტარი-0-3-წლამდე' or h == 'საბავშვო-კოსმეტიკა-3'
         assign mm_src_baby = true
       endif
-      if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+      if h == 'დედა' or h == 'ლაქტაცია-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'დეოდორანტები' or h == 'დეკორატიული-კოსმეტიკა'
         assign mm_src_mother = true
       endif
     endfor
+    for tag in mm_current.tags
+      assign tag_s = tag | strip
+      if tag_s == 'ბავშვის კანის მოვლა' or tag_s == 'ბავშვის კვება' or tag_s == 'აბაზანა და ჰიგიენა' or tag_s == 'სათამაშოები და აქსესუარები'
+        assign mm_src_baby = true
+      endif
+      if tag_s == 'ძუძუთი კვება და ორსულობა' or tag_s == 'სახის მოვლა' or tag_s == 'სხეულის მოვლა' or tag_s == 'დეოდორანტები' or tag_s == 'დეკორატიული კოსმეტიკა'
+        assign mm_src_mother = true
+      endif
+    endfor
+    if mm_src_type == 'ძუძუთი კვება და ორსულობა' or mm_src_type == 'სახის მოვლა' or mm_src_type == 'სხეულის მოვლა' or mm_src_type == 'დეოდორანტები' or mm_src_type == 'დეკორატიული კოსმეტიკა'
+      assign mm_src_mother = true
+    endif
+    if mm_src_type == 'ბავშვის კანის მოვლა' or mm_src_type == 'ბავშვის კვება' or mm_src_type == 'აბაზანა და ჰიგიენა' or mm_src_type == 'სათამაშოები და აქსესუარები'
+      assign mm_src_baby = true
+    endif
   endif
 
   assign mm_src_strict = false
@@ -33,20 +53,13 @@
 
   assign mm_picked_ids = ','
   assign mm_picked_count = 0
-  assign mm_type_match_count = 0
+  assign mm_similar_count = 0
 -%}
 
-{%- comment -%} Count same-type candidates in the Shopify pool {%- endcomment -%}
-{%- if mm_src_type != blank -%}
-  {%- for reco in products -%}
-    {%- if reco.id != mm_current.id and reco.type == mm_src_type -%}
-      {%- assign mm_type_match_count = mm_type_match_count | plus: 1 -%}
-    {%- endif -%}
-  {%- endfor -%}
-{%- endif -%}
+{%- comment -%} Helpers as repeated liquid: audience skip {%- endcomment -%}
 
-{%- comment -%} Pass 1: available + same product type (when Shopify returns any) {%- endcomment -%}
-{%- if mm_src_type != blank and mm_type_match_count > 0 -%}
+{%- comment -%} Pass 1: same product.type or matching area tag (true alternatives) {%- endcomment -%}
+{%- if mm_src_type != blank -%}
   {%- for reco in products -%}
     {%- liquid
       if mm_picked_count >= mm_limit
@@ -55,10 +68,17 @@
       if reco.id == mm_current.id
         continue
       endif
-      unless reco.available
-        continue
-      endunless
-      if reco.type != mm_src_type
+      assign reco_type = reco.type | strip
+      if reco_type == blank
+        for tag in reco.tags
+          assign tag_s = tag | strip
+          if tag_s == mm_src_type
+            assign reco_type = tag_s
+            break
+          endif
+        endfor
+      endif
+      if reco_type == blank or reco_type != mm_src_type
         continue
       endif
       assign id_token = ',' | append: reco.id | append: ','
@@ -70,10 +90,19 @@
       assign reco_mother = false
       for c in reco.collections
         assign h = c.handle
-        if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+        if h == 'ბავშვი' or h == 'ბავშვი-0-3-წლამდე' or h == 'ბავშვი-3-წლიდან' or h == 'ბავშვის-კანის-მოვლა' or h == 'ბავშვის-ჰიგიენა-0-3-წლამდე' or h == 'ბავშვის-ჰიგიენა-3-წლიდან' or h == 'ბავშვის-კვება-0-3-წლამდე' or h == 'საბავშვო-ინვენტარი-0-3-წლამდე' or h == 'საბავშვო-კოსმეტიკა-3'
           assign reco_baby = true
         endif
-        if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+        if h == 'დედა' or h == 'ლაქტაცია-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'დეოდორანტები' or h == 'დეკორატიული-კოსმეტიკა'
+          assign reco_mother = true
+        endif
+      endfor
+      for tag in reco.tags
+        assign tag_s = tag | strip
+        if tag_s == 'ბავშვის კანის მოვლა' or tag_s == 'ბავშვის კვება' or tag_s == 'აბაზანა და ჰიგიენა' or tag_s == 'სათამაშოები და აქსესუარები'
+          assign reco_baby = true
+        endif
+        if tag_s == 'ძუძუთი კვება და ორსულობა' or tag_s == 'სახის მოვლა' or tag_s == 'სხეულის მოვლა' or tag_s == 'დეოდორანტები' or tag_s == 'დეკორატიული კოსმეტიკა'
           assign reco_mother = true
         endif
       endfor
@@ -93,11 +122,82 @@
 
       assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
       assign mm_picked_count = mm_picked_count | plus: 1
+      assign mm_similar_count = mm_similar_count | plus: 1
     -%}
   {%- endfor -%}
 {%- endif -%}
 
-{%- comment -%} Pass 2: audience-safe available fill only when no same-type pool {%- endcomment -%}
+{%- comment -%} Pass 2: shared collection or shared area tag (still “similar”) {%- endcomment -%}
+{%- if mm_picked_count < mm_limit -%}
+  {%- for reco in products -%}
+    {%- liquid
+      if mm_picked_count >= mm_limit
+        break
+      endif
+      if reco.id == mm_current.id
+        continue
+      endif
+      assign id_token = ',' | append: reco.id | append: ','
+      if mm_picked_ids contains id_token
+        continue
+      endif
+
+      assign shared = false
+      assign reco_baby = false
+      assign reco_mother = false
+      for c in reco.collections
+        assign h = c.handle
+        assign token = ',' | append: h | append: ','
+        if mm_src_handles contains token
+          if h != 'all' and h != 'frontpage'
+            assign shared = true
+          endif
+        endif
+        if h == 'ბავშვი' or h == 'ბავშვი-0-3-წლამდე' or h == 'ბავშვი-3-წლიდან' or h == 'ბავშვის-კანის-მოვლა' or h == 'ბავშვის-ჰიგიენა-0-3-წლამდე' or h == 'ბავშვის-ჰიგიენა-3-წლიდან' or h == 'ბავშვის-კვება-0-3-წლამდე' or h == 'საბავშვო-ინვენტარი-0-3-წლამდე' or h == 'საბავშვო-კოსმეტიკა-3'
+          assign reco_baby = true
+        endif
+        if h == 'დედა' or h == 'ლაქტაცია-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'დეოდორანტები' or h == 'დეკორატიული-კოსმეტიკა'
+          assign reco_mother = true
+        endif
+      endfor
+      for tag in reco.tags
+        assign tag_s = tag | strip
+        if mm_src_type != blank and tag_s == mm_src_type
+          assign shared = true
+        endif
+        if tag_s == 'ბავშვის კანის მოვლა' or tag_s == 'ბავშვის კვება' or tag_s == 'აბაზანა და ჰიგიენა' or tag_s == 'სათამაშოები და აქსესუარები'
+          assign reco_baby = true
+        endif
+        if tag_s == 'ძუძუთი კვება და ორსულობა' or tag_s == 'სახის მოვლა' or tag_s == 'სხეულის მოვლა' or tag_s == 'დეოდორანტები' or tag_s == 'დეკორატიული კოსმეტიკა'
+          assign reco_mother = true
+        endif
+      endfor
+      unless shared
+        continue
+      endunless
+
+      assign mm_skip = false
+      if mm_src_strict == 'baby'
+        if reco_mother and reco_baby == false
+          assign mm_skip = true
+        endif
+      elsif mm_src_strict == 'mother'
+        if reco_baby and reco_mother == false
+          assign mm_skip = true
+        endif
+      endif
+      if mm_skip
+        continue
+      endif
+
+      assign mm_picked_ids = mm_picked_ids | append: reco.id | append: ','
+      assign mm_picked_count = mm_picked_count | plus: 1
+      assign mm_similar_count = mm_similar_count | plus: 1
+    -%}
+  {%- endfor -%}
+{%- endif -%}
+
+{%- comment -%} Pass 3: audience-safe complementary fill — only if nothing similar yet {%- endcomment -%}
 {%- if mm_picked_count == 0 -%}
   {%- for reco in products -%}
     {%- liquid
@@ -107,9 +207,6 @@
       if reco.id == mm_current.id
         continue
       endif
-      unless reco.available
-        continue
-      endunless
       assign id_token = ',' | append: reco.id | append: ','
       if mm_picked_ids contains id_token
         continue
@@ -119,10 +216,19 @@
       assign reco_mother = false
       for c in reco.collections
         assign h = c.handle
-        if h == 'ბავშვი' or h == 'ბავშვის-კანის-მოვლა' or h == 'აბაზანა-და-რეცხვა' or h == 'ბავშვის-კვება'
+        if h == 'ბავშვი' or h == 'ბავშვი-0-3-წლამდე' or h == 'ბავშვი-3-წლიდან' or h == 'ბავშვის-კანის-მოვლა' or h == 'ბავშვის-ჰიგიენა-0-3-წლამდე' or h == 'ბავშვის-ჰიგიენა-3-წლიდან' or h == 'ბავშვის-კვება-0-3-წლამდე' or h == 'საბავშვო-ინვენტარი-0-3-წლამდე' or h == 'საბავშვო-კოსმეტიკა-3'
           assign reco_baby = true
         endif
-        if h == 'დედა' or h == 'ძუძუთი-კვება-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'მაკიაჟი'
+        if h == 'დედა' or h == 'ლაქტაცია-და-ორსულობა' or h == 'სახის-მოვლა' or h == 'სხეულის-მოვლა' or h == 'დეოდორანტები' or h == 'დეკორატიული-კოსმეტიკა'
+          assign reco_mother = true
+        endif
+      endfor
+      for tag in reco.tags
+        assign tag_s = tag | strip
+        if tag_s == 'ბავშვის კანის მოვლა' or tag_s == 'ბავშვის კვება' or tag_s == 'აბაზანა და ჰიგიენა' or tag_s == 'სათამაშოები და აქსესუარები'
+          assign reco_baby = true
+        endif
+        if tag_s == 'ძუძუთი კვება და ორსულობა' or tag_s == 'სახის მოვლა' or tag_s == 'სხეულის მოვლა' or tag_s == 'დეოდორანტები' or tag_s == 'დეკორატიული კოსმეტიკა'
           assign reco_mother = true
         endif
       endfor
@@ -131,10 +237,16 @@
         if reco_mother and reco_baby == false
           assign mm_skip = true
         endif
+        unless reco_baby
+          assign mm_skip = true
+        endunless
       elsif mm_src_strict == 'mother'
         if reco_baby and reco_mother == false
           assign mm_skip = true
         endif
+        unless reco_mother
+          assign mm_skip = true
+        endunless
       endif
       if mm_skip
         continue
@@ -146,25 +258,77 @@
   {%- endfor -%}
 {%- endif -%}
 
+{%- liquid
+  assign mm_reco_kind = 'similar'
+  if mm_similar_count == 0 and mm_picked_count > 0
+    assign mm_reco_kind = 'complementary'
+  endif
+
+  assign mm_heading = block_title
+  if mm_heading == blank
+    if mm_reco_kind == 'complementary'
+      assign mm_heading = 'products.product.complementary_products' | t
+    else
+      assign mm_heading = 'products.product.related_products' | t
+    endif
+  endif
+  if mm_heading == blank or mm_heading contains 'Translation missing'
+    if mm_reco_kind == 'complementary'
+      assign mm_heading = 'კარგად ერწყმის'
+    else
+      assign mm_heading = 'მსგავსი პროდუქტები'
+    endif
+  endif
+  # When merchant left the default similar title but picks are complementary, switch.
+  if block_title == blank or block_title == 'მსგავსი პროდუქტები' or block_title == 'products.product.related_products'
+    if mm_reco_kind == 'complementary'
+      assign mm_heading = 'products.product.complementary_products' | t
+      if mm_heading == blank or mm_heading contains 'Translation missing'
+        assign mm_heading = 'კარგად ერწყმის'
+      endif
+    endif
+  endif
+-%}
+
 {%- if mm_picked_count > 0 -%}
+  {%- if mm_heading != blank -%}
+    <div class="halo-block-header text-{{ block_title_align | default: 'center' }} block-title--{{ style_block_header | default: 'style1' }}">
+      <h3 class="title">
+        <span class="text">{{ mm_heading | escape }}</span>
+      </h3>
+    </div>
+  {%- endif -%}
   <div
     class="products-grid mm-pdp-reco-grid column-{{ mm_picked_count | at_most: 4 }}"
     data-products-to-show="{{ mm_picked_count }}"
     data-mm-reco-count="{{ mm_picked_count }}"
+    data-mm-reco-kind="{{ mm_reco_kind }}"
   >
-    {%- for reco in products -%}
-      {%- liquid
-        assign id_token = ',' | append: reco.id | append: ','
-        unless mm_picked_ids contains id_token
-          continue
-        endunless
-      -%}
-      <div class="product mm-pdp-reco-grid__item">
-        {% render 'mm-product-card',
-          product: reco,
-          section_id: section_id
-        %}
-      </div>
+    {%- comment -%} Available first, then sold-out (availability still shown on the card) {%- endcomment -%}
+    {%- for avail_pass in (1..2) -%}
+      {%- for reco in products -%}
+        {%- liquid
+          assign id_token = ',' | append: reco.id | append: ','
+          unless mm_picked_ids contains id_token
+            continue
+          endunless
+          if avail_pass == 1
+            unless reco.available
+              continue
+            endunless
+          else
+            if reco.available
+              continue
+            endif
+          endif
+        -%}
+        <div class="product mm-pdp-reco-grid__item">
+          {% render 'mm-product-card',
+            product: reco,
+            section_id: section_id
+          %}
+        </div>
+      {%- endfor -%}
     {%- endfor -%}
   </div>
 {%- endif -%}

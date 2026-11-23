@@ -28,8 +28,16 @@
         {%- assign mm_col = block.settings.collection -%}
         {%- if mm_col != blank -%}
           {%- liquid
+            assign mm_role = block.settings.role | default: 'standard'
+            if mm_role != 'featured' and mm_role != 'standard'
+              assign mm_role = 'standard'
+            endif
+            assign mm_count = mm_col.all_products_count
+            if mm_count == blank
+              assign mm_count = mm_col.products_count
+            endif
             assign mm_skip = false
-            if mm_hide_empty and mm_col.all_products_count == 0
+            if mm_hide_empty and mm_count == 0 and mm_role != 'featured'
               assign mm_skip = true
             endif
           -%}
@@ -39,6 +47,7 @@
               if mm_title == blank
                 assign mm_title = mm_col.title
               endif
+              assign mm_desc = block.settings.description | strip
               assign mm_img = block.settings.image
               if mm_img == blank
                 assign mm_img = mm_col.image
@@ -48,6 +57,8 @@
                 case mm_col.handle
                   when 'ბავშვი'
                     assign mm_fallback = 'mm-cat-kids.jpg'
+                  when 'დედა'
+                    assign mm_fallback = 'mm-cat-mamas.jpg'
                   when 'ბავშვი-0-3-წლამდე'
                     assign mm_fallback = 'mm-cat-baby03.jpg'
                   when 'ბავშვის-ჰიგიენა-0-3-წლამდე'
@@ -56,15 +67,29 @@
                     assign mm_fallback = 'mm-cat-bath.jpg'
                   when 'საბავშვო-კოსმეტიკა-3'
                     assign mm_fallback = 'mm-cat-kids.jpg'
+                  when 'ბავშვის-კვება-0-3-წლამდე'
+                    assign mm_fallback = 'mm-cat-feed.jpg'
+                  when 'სახის-მოვლა'
+                    assign mm_fallback = 'mm-cat-face.jpg'
+                  when 'დეოდორანტები'
+                    assign mm_fallback = 'mm-cat-deo.jpg'
                 endcase
               endif
               assign mm_use_asset = false
               if mm_img == blank and mm_fallback != blank
                 assign mm_use_asset = true
               endif
+              assign mm_show_count = false
+              if section.settings.show_counts and mm_count > 0
+                assign mm_show_count = true
+              endif
+              assign mm_count_label = 'mm_home.categories.products_count' | t: count: mm_count
+              if mm_count_label contains 'Translation missing'
+                assign mm_count_label = mm_count | append: ' პროდუქტი'
+              endif
             -%}
             <a
-              class="mm-list-collections__card"
+              class="mm-list-collections__card mm-list-collections__card--{{ mm_role }}"
               href="{{ mm_col.url }}"
               {{ block.shopify_attributes }}
             >
@@ -102,7 +127,21 @@
                   </span>
                 {%- endif -%}
               </span>
-              <span class="mm-list-collections__title">{{ mm_title | escape }}</span>
+              <span class="mm-list-collections__meta">
+                <span class="mm-list-collections__title">{{ mm_title | escape }}</span>
+                {%- if mm_desc != blank -%}
+                  <span class="mm-list-collections__desc">{{ mm_desc | escape }}</span>
+                {%- endif -%}
+                {%- if mm_show_count -%}
+                  <span class="mm-list-collections__count">{{ mm_count_label | escape }}</span>
+                {%- endif -%}
+              </span>
+              <span class="mm-list-collections__arrow" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" focusable="false">
+                  <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                  <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
             </a>
           {%- endunless -%}
         {%- endif -%}
@@ -127,8 +166,16 @@
     {
       "type": "checkbox",
       "id": "hide_empty",
-      "label": "Hide collections with 0 products",
-      "default": true
+      "label": "Hide empty standard collections",
+      "default": true,
+      "info": "Featured hub collections stay visible even with 0 products so customers can still open the audience entry."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_counts",
+      "label": "Show live product counts",
+      "default": true,
+      "info": "Uses the current collection product count. Hidden when the count is 0."
     }
   ],
   "blocks": [
@@ -154,10 +201,27 @@
           "label": "Collection"
         },
         {
+          "type": "select",
+          "id": "role",
+          "label": "Card weight",
+          "default": "standard",
+          "options": [
+            { "value": "featured", "label": "Featured audience hub" },
+            { "value": "standard", "label": "Standard product area" }
+          ],
+          "info": "Featured hubs stay visible when empty and use a larger card."
+        },
+        {
           "type": "text",
           "id": "label",
           "label": "Title override",
           "info": "Optional. Defaults to the collection title."
+        },
+        {
+          "type": "text",
+          "id": "description",
+          "label": "Short description (optional)",
+          "info": "Only when it adds clarity. Do not repeat the title."
         },
         {
           "type": "image_picker",

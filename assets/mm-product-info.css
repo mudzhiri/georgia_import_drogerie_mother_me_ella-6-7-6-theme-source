@@ -79,7 +79,7 @@
   -webkit-appearance: none;
   appearance: none;
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
-  font-size: 0.875rem;
+  font-size: 14px;
   font-weight: 500;
   line-height: 1.3;
   letter-spacing: normal;
@@ -451,6 +451,117 @@
   }
 }
 
+/* Compact facts before price / ATC */
+.mm-pdp-facts {
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.mm-pdp-facts__item {
+  display: grid;
+  grid-template-columns: minmax(0, 7.5rem) minmax(0, 1fr);
+  gap: 8px 12px;
+  align-items: baseline;
+  margin: 0;
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.mm-pdp-facts__label {
+  color: var(--mm-i-muted, #59665f);
+  font-weight: 500;
+}
+
+.mm-pdp-facts__value {
+  color: var(--mm-i-ink, #214d43);
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+/* Share after trust — secondary, not in the title stack */
+.mm-pdp-share-after {
+  margin: 8px 0 0;
+}
+
+.mm-pdp-share-after .mm-pdp-title-share {
+  min-height: 40px;
+  padding: 6px 8px;
+  font-size: 13px;
+  opacity: 0.65;
+}
+
+.mm-pdp-trust__text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.mm-pdp-trust__lead {
+  font-weight: 600;
+}
+
+.mm-pdp-trust__detail {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--mm-i-muted, #59665f);
+}
+
+/* Hide Ella share block if still present; MM share lives under trust */
+.halo-productView-right .productView-shareSharing,
+.halo-productView-right .productView-share {
+  display: none !important;
+}
+
+/* Pickup: quieter under trust */
+.halo-productView-right .productView-pickUp,
+.halo-productView-right pickup-availability {
+  margin-top: 4px;
+}
+
+.halo-productView-right .pickup-availability-preview,
+.halo-productView-right .product__pickup-availabilities {
+  font-size: 14px;
+  line-height: 1.45;
+  color: var(--mm-i-muted, #59665f);
+}
+
+.halo-productView-right .pickup-availability-preview .caption-large,
+.halo-productView-right .pickup-availability-info {
+  font-size: 14px !important;
+  line-height: 1.45 !important;
+}
+
+/* Hide empty short description wrappers */
+.halo-productView-right .productView-moreItem:has(.productView-desc:empty),
+.halo-productView-right .productView-desc:empty {
+  display: none !important;
+  margin: 0 !important;
+}
+
+/* Tighter buy-column rhythm */
+.halo-productView-right .productView-product {
+  gap: 0;
+}
+
+.halo-productView-right .productView-moreItem {
+  margin-block: 0 !important;
+  padding-block: 0 !important;
+}
+
+.mm-pdp-title-stack {
+  margin: 0 0 8px;
+}
+
+.halo-productView-right .productView-desc {
+  margin: 0 0 10px;
+}
+
 /* Mobile: stack under gallery (Ella already stacks; ensure order/gap) */
 @media screen and (max-width: 767px) {
   .productView-top {
@@ -466,21 +577,43 @@
   .halo-productView-right.productView-details {
     order: 1;
     width: 100%;
-    margin-top: 12px;
+    margin-top: 10px;
     padding-top: 0;
   }
 
   .halo-productView-right .productView-title,
   .mm-pdp-title-stack .productView-title {
-    font-size: 26px !important;
+    font-size: 24px !important;
   }
 
   .mm-pdp-title-stack {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
 
   .halo-productView-right .productView-price,
   .halo-productView-right .productView-price .price {
     margin-bottom: 8px;
+  }
+
+  .mm-pdp-facts__item {
+    grid-template-columns: minmax(0, 6.5rem) minmax(0, 1fr);
+    font-size: 14px;
+  }
+
+  /* Sticky ATC: safe area */
+  sticky-add-to-cart.show-sticky,
+  .productView-stickyCart.show-sticky {
+    padding-bottom: max(8px, env(safe-area-inset-bottom, 0px));
+  }
+}
+
+@media screen and (min-width: 1025px) {
+  .halo-productView-right.productView-details .productView-product,
+  .mm-product-info .productView-product {
+    max-width: 36rem;
+  }
+
+  .mm-product-accordions__panel {
+    max-width: 42rem;
   }
 }

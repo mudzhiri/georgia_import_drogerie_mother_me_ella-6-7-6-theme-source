@@ -1,0 +1,67 @@
+{%- comment -%}
+  2–3 compact PDP facts before the buy button — only from real product data.
+  No invented health claims or skin-type placeholders.
+{%- endcomment -%}
+{%- liquid
+  assign fact_size = blank
+  assign fact_type = product.type | strip
+  assign fact_age = product.metafields.custom.age_recommendation
+
+  assign v = product.selected_or_first_available_variant
+  if v != blank and v.title != blank and v.title != 'Default Title'
+    assign fact_size = v.title | strip
+  endif
+
+  if fact_size == blank
+    assign unit = product.selected_or_first_available_variant.unit_price_measurement
+    if unit != blank and unit.quantity_value != blank
+      assign fact_size = unit.quantity_value | append: ' ' | append: unit.quantity_unit
+    endif
+  endif
+
+  # Many MM titles end with ", 75 მლ" / ", 250 ml" — use last comma segment when it looks like a size
+  if fact_size == blank and product.title contains ','
+    assign mm_title_parts = product.title | split: ','
+    assign mm_last_part = mm_title_parts | last | strip
+    assign mm_last_down = mm_last_part | downcase
+    if mm_last_down contains 'მლ' or mm_last_down contains 'ml' or mm_last_down contains 'გ' or mm_last_down contains ' g' or mm_last_down contains 'ც' or mm_last_down contains 'st'
+      if mm_last_part.size < 24
+        assign fact_size = mm_last_part
+      endif
+    endif
+  endif
+
+  assign show_facts = false
+  if fact_size != blank or fact_type != blank or fact_age != blank
+    assign show_facts = true
+  endif
+-%}
+
+{%- if show_facts -%}
+  <ul class="mm-pdp-facts" data-mm-pdp-facts role="list">
+    {%- if fact_size != blank -%}
+      <li class="mm-pdp-facts__item">
+        <span class="mm-pdp-facts__label">{{ 'products.product.facts.size' | t }}</span>
+        <span class="mm-pdp-facts__value">{{ fact_size | escape }}</span>
+      </li>
+    {%- endif -%}
+    {%- if fact_type != blank -%}
+      <li class="mm-pdp-facts__item">
+        <span class="mm-pdp-facts__label">{{ 'products.product.facts.type' | t }}</span>
+        <span class="mm-pdp-facts__value">{{ fact_type | escape }}</span>
+      </li>
+    {%- endif -%}
+    {%- if fact_age != blank -%}
+      <li class="mm-pdp-facts__item">
+        <span class="mm-pdp-facts__label">{{ 'products.product.facts.age' | t }}</span>
+        <span class="mm-pdp-facts__value">
+          {%- if fact_age.value != blank -%}
+            {{ fact_age.value | escape }}
+          {%- else -%}
+            {{ fact_age | escape }}
+          {%- endif -%}
+        </span>
+      </li>
+    {%- endif -%}
+  </ul>
+{%- endif -%}

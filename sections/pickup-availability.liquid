@@ -1,15 +1,31 @@
 {%- assign pick_up_availabilities = product_variant.store_availabilities | where: 'pick_up_enabled', true -%}
 
+{%- comment -%}
+  Soften internal location labels (e.g. GEO WAREHOUSE) for storefront copy.
+  Do not invent hours or addresses — only rename known warehouse codes.
+{%- endcomment -%}
+{%- capture mm_pickup_label_tbilisi -%}{{ 'products.product.trust.pickup_location_tbilisi' | t }}{%- endcapture -%}
+{%- if mm_pickup_label_tbilisi == blank or mm_pickup_label_tbilisi contains 'Translation missing' -%}
+  {%- assign mm_pickup_label_tbilisi = 'თბილისი' -%}
+{%- endif -%}
+
 {%- if pick_up_availabilities.size > 0 -%}
     <pickup-availability-preview class="pickup-availability-preview">
         <div class="pickup-availability-info">
             {%- assign closest_location = pick_up_availabilities.first -%}
+            {%- liquid
+              assign mm_loc_name = closest_location.location.name | strip
+              assign mm_loc_down = mm_loc_name | downcase
+              if mm_loc_down contains 'warehouse' or mm_loc_down == 'geo warehouse' or mm_loc_down contains 'geo ware'
+                assign mm_loc_name = mm_pickup_label_tbilisi
+              endif
+            -%}
 
             {%- if closest_location.available -%}
                 <p class="caption caption-text">
                     {% render 'icon-tick' %}
                     <span class="text">
-                        {{ 'products.product.pickup_availability.pick_up_available_at_html' | t: location_name: closest_location.location.name }}
+                        {{ 'products.product.pickup_availability.pick_up_available_at_html' | t: location_name: mm_loc_name }}
                     </span>
                 </p>
                 <div class="pickup-availability-content">
@@ -25,7 +41,7 @@
             {%- else -%}
                 <p class="caption">
                     <span class="text">
-                        {{ 'products.product.pickup_availability.pick_up_unavailable_at_html' | t: location_name: closest_location.location.name }}
+                        {{ 'products.product.pickup_availability.pick_up_unavailable_at_html' | t: location_name: mm_loc_name }}
                     </span>
                 </p>
                 {%- if pick_up_availabilities.size > 1 -%}
@@ -64,8 +80,15 @@
                 {%- endunless -%}
                 <ul class="pickup-availability-list list-unstyled" role="list" data-store-availability-drawer-content>
                     {%- for availability in pick_up_availabilities -%}
+                        {%- liquid
+                          assign mm_item_name = availability.location.name | strip
+                          assign mm_item_down = mm_item_name | downcase
+                          if mm_item_down contains 'warehouse' or mm_item_down == 'geo warehouse' or mm_item_down contains 'geo ware'
+                            assign mm_item_name = mm_pickup_label_tbilisi
+                          endif
+                        -%}
                         <li class="pickup-availability-list__item">
-                            <h3 class="pickup-availability-heading">{{ availability.location.name | escape }}</h3>
+                            <h3 class="pickup-availability-heading">{{ mm_item_name | escape }}</h3>
                                 <p class="pickup-availability-preview">
                                     {%- if availability.available -%}
                                         {% render 'icon-tick' %} {{ 'products.product.pickup_availability.pick_up_available' | t }}, {{ availability.pick_up_time | downcase }}

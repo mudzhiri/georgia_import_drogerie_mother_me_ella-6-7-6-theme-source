@@ -15,28 +15,60 @@
     assign view_all_link = routes.collections_url
   endif
 
-  assign visible_tiles = 0
+  assign primary_count = 0
+  assign secondary_count = 0
+
   for block in section.blocks
+    assign tone = block.settings.tone | default: 'sage'
+    assign role = block.settings.role | default: 'auto'
+    if role != 'primary' and role != 'secondary'
+      if tone == 'kids' or tone == 'mamas'
+        assign role = 'primary'
+      else
+        assign role = 'secondary'
+      endif
+    endif
+
+    assign link = block.settings.link
     assign tile_collection = block.settings.collection
-    assign tile_link = block.settings.link
-    assign tile_label = block.settings.label
+    assign label = block.settings.label
     assign skip = false
-    if tile_collection != blank and tile_collection.products_count == 0 and tile_link == blank
-      assign skip = true
+
+    if tile_collection != blank
+      if link == blank
+        assign link = tile_collection.url
+      endif
+      if tile_collection.products_count == 0 and block.settings.link == blank and role != 'primary'
+        assign skip = true
+      endif
     endif
-    if tile_label == blank and tile_link == blank and tile_collection == blank and block.settings.tone != 'kids' and block.settings.tone != 'mamas'
-      assign skip = true
+
+    if label == blank
+      if tone == 'mamas'
+        assign label = 'mm_home.categories.mamas_label' | t
+      elsif tone == 'kids'
+        assign label = 'mm_home.categories.kids_label' | t
+      elsif tile_collection != blank
+        assign label = tile_collection.title
+      endif
     endif
-    unless skip
-      assign visible_tiles = visible_tiles | plus: 1
+
+    unless skip or label == blank or link == blank
+      if role == 'primary'
+        assign primary_count = primary_count | plus: 1
+      else
+        assign secondary_count = secondary_count | plus: 1
+      endif
     endunless
   endfor
+
+  assign visible_tiles = primary_count | plus: secondary_count
 -%}
 
 {%- if visible_tiles > 0 -%}
   <section
     id="mm-categories-{{ section.id }}"
-    class="mm-categories mm-categories--grid-{{ visible_tiles }} mm-reveal"
+    class="mm-categories mm-categories--primary-{{ primary_count }} mm-categories--secondary-{{ secondary_count }} mm-reveal"
     aria-label="{{ section_heading | escape }}"
   >
     <div class="mm-categories__inner">
@@ -49,128 +81,21 @@
         {%- endif -%}
       </div>
 
-      <div class="mm-categories__grid">
-        {%- for block in section.blocks -%}
-          {%- liquid
-            assign tone = block.settings.tone | default: 'sage'
-            if tone != 'kids' and tone != 'mamas' and tone != 'sage' and tone != 'cream'
-              assign tone = 'sage'
-            endif
+      {%- if primary_count > 0 -%}
+        <div class="mm-categories__row mm-categories__row--primary">
+          {%- for block in section.blocks -%}
+            {%- render 'mm-category-tile', block: block, force_role: 'primary' -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
 
-            assign label = block.settings.label
-            assign description = block.settings.description
-            assign link = block.settings.link
-            assign image = block.settings.image
-            assign tile_collection = block.settings.collection
-            assign fallback_asset = block.settings.fallback_asset | strip
-            assign skip_empty = false
-            assign use_asset_image = false
-
-            if tile_collection != blank
-              if tile_collection.products_count == 0 and link == blank
-                assign skip_empty = true
-              endif
-              if link == blank
-                assign link = tile_collection.url
-              endif
-              if image == blank and tile_collection.image != blank
-                assign image = tile_collection.image
-              endif
-            endif
-
-            if label == blank
-              if tone == 'mamas'
-                assign label = 'mm_home.categories.mamas_label' | t
-              elsif tone == 'kids'
-                assign label = 'mm_home.categories.kids_label' | t
-              elsif tile_collection != blank
-                assign label = tile_collection.title
-              endif
-            endif
-
-            if description == blank
-              if tone == 'mamas'
-                assign description = 'mm_home.categories.mamas_desc' | t
-              elsif tone == 'kids'
-                assign description = 'mm_home.categories.kids_desc' | t
-              endif
-            endif
-
-            if fallback_asset == blank
-              if tone == 'kids'
-                assign fallback_asset = 'mm-cat-kids.jpg'
-              endif
-            endif
-
-            if image == blank and fallback_asset != blank
-              assign use_asset_image = true
-            endif
-
-            assign has_image = false
-            if image != blank or use_asset_image
-              assign has_image = true
-            endif
-            assign focal_point = 'center'
-            if image != blank and image.presentation.focal_point != blank
-              assign focal_point = image.presentation.focal_point
-            endif
-            assign image_alt = label
-          -%}
-          {%- unless skip_empty -%}
-            {%- if label != blank and link != blank -%}
-              <a
-                class="mm-categories__tile mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}{% if description == blank %} mm-categories__tile--compact{% endif %}"
-                data-mm-reveal-item
-                href="{{ link }}"
-                {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
-                {{ block.shopify_attributes }}
-              >
-                <div class="mm-categories__body">
-                  <p class="mm-categories__label">{{ label | escape }}</p>
-                  {%- if description != blank -%}
-                    <p class="mm-categories__desc">{{ description | escape }}</p>
-                  {%- endif -%}
-                  <span class="mm-categories__arrow" aria-hidden="true">
-                    <svg class="mm-categories__arrow-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" focusable="false" aria-hidden="true">
-                      <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                      <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                  </span>
-                </div>
-
-                {%- if has_image -%}
-                  <div class="mm-categories__media">
-                    {%- if image != blank -%}
-                      {{
-                        image
-                        | image_url: width: 800
-                        | image_tag:
-                          loading: 'lazy',
-                          widths: '160, 240, 320, 480, 640, 800',
-                          sizes: '(min-width: 900px) 160px, (min-width: 768px) 22vw, 36vw',
-                          alt: image_alt,
-                          class: 'mm-categories__image'
-                      }}
-                    {%- elsif use_asset_image -%}
-                      <img
-                        class="mm-categories__image"
-                        src="{{ fallback_asset | asset_img_url: '480x' }}"
-                        srcset="{{ fallback_asset | asset_img_url: '240x' }} 240w, {{ fallback_asset | asset_img_url: '320x' }} 320w, {{ fallback_asset | asset_img_url: '480x' }} 480w, {{ fallback_asset | asset_img_url: '640x' }} 640w, {{ fallback_asset | asset_img_url: '800x' }} 800w"
-                        sizes="(min-width: 900px) 160px, (min-width: 768px) 22vw, 36vw"
-                        width="480"
-                        height="480"
-                        loading="lazy"
-                        decoding="async"
-                        alt="{{ image_alt | escape }}"
-                      >
-                    {%- endif -%}
-                  </div>
-                {%- endif -%}
-              </a>
-            {%- endif -%}
-          {%- endunless -%}
-        {%- endfor -%}
-      </div>
+      {%- if secondary_count > 0 -%}
+        <div class="mm-categories__row mm-categories__row--secondary">
+          {%- for block in section.blocks -%}
+            {%- render 'mm-category-tile', block: block, force_role: 'secondary' -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
     </div>
   </section>
 {%- endif -%}
@@ -180,7 +105,7 @@
   "name": "MM Categories",
   "tag": "section",
   "class": "section-mm-categories",
-  "max_blocks": 6,
+  "max_blocks": 8,
   "settings": [
     {
       "type": "text",
@@ -207,6 +132,18 @@
       "settings": [
         {
           "type": "select",
+          "id": "role",
+          "label": "Hierarchy",
+          "default": "auto",
+          "options": [
+            { "value": "auto", "label": "Auto (Kids/Mamas = primary)" },
+            { "value": "primary", "label": "Primary audience entry" },
+            { "value": "secondary", "label": "Secondary product-area entry" }
+          ],
+          "info": "Primary tiles are larger. Secondary tiles sit in a compact row below."
+        },
+        {
+          "type": "select",
           "id": "tone",
           "label": "Tile color",
           "default": "sage",
@@ -227,7 +164,7 @@
           "type": "textarea",
           "id": "description",
           "label": "Description (optional)",
-          "info": "Leave blank for compact tiles. Kids/Mamas fill locale desc when label is also blank."
+          "info": "Only when it adds new information. Leave blank to avoid repeating the title."
         },
         {
           "type": "url",
@@ -238,7 +175,7 @@
           "type": "collection",
           "id": "collection",
           "label": "Collection",
-          "info": "Empty collections are hidden. Image uses collection image only (no product cutouts)."
+          "info": "Empty secondary collections are hidden. Primary audience hubs stay visible with a link. Image uses collection image when picker is empty."
         },
         {
           "type": "image_picker",
@@ -259,8 +196,8 @@
     {
       "name": "MM Categories",
       "blocks": [
-        { "type": "tile", "settings": { "tone": "kids" } },
-        { "type": "tile", "settings": { "tone": "mamas" } }
+        { "type": "tile", "settings": { "tone": "kids", "role": "primary" } },
+        { "type": "tile", "settings": { "tone": "mamas", "role": "primary" } }
       ]
     }
   ]

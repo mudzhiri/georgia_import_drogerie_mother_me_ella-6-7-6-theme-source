@@ -50,6 +50,12 @@
   assign trust_assortment = 'mm_home.about.trust_assortment' | t
   assign trust_shipping = 'mm_home.about.trust_shipping' | t
   assign trust_contact = 'mm_home.about.trust_contact' | t
+  assign trust_payment = 'mm_home.about.trust_payment' | t
+  assign contact_label = 'mm_home.about.link_contact' | t
+  assign panel_kicker = 'mm_home.about.panel_kicker' | t
+  assign panel_fact_select = 'mm_home.about.panel_fact_select' | t
+  assign panel_fact_import = 'mm_home.about.panel_fact_import' | t
+  assign panel_fact_reach = 'mm_home.about.panel_fact_reach' | t
 
   assign shipping_policy = shop.shipping_policy
   assign shipping_url = ''
@@ -64,6 +70,9 @@
   if contact_page == empty
     assign contact_page = pages['kontakt']
   endif
+  if contact_page == empty
+    assign contact_page = pages['კონტაქტი']
+  endif
   assign contact_url = ''
   if contact_page != empty and contact_page.url != blank
     assign contact_url = contact_page.url
@@ -75,9 +84,16 @@
     if about_page == empty
       assign about_page = pages['about-us']
     endif
+    if about_page == empty
+      assign about_page = pages['ჩვენს-შესახებ']
+    endif
     if about_page != empty and about_page.url != blank
       assign about_url = about_page.url
     endif
+  endif
+
+  if contact_label == blank or contact_label contains 'Translation missing'
+    assign contact_label = 'კონტაქტი'
   endif
 -%}
 
@@ -119,6 +135,11 @@
                 {%- endif -%}
               </li>
             {%- endunless -%}
+            {%- unless trust_payment == blank or trust_payment contains 'Translation missing' -%}
+              <li class="mm-about__trust-item">
+                <span class="mm-about__trust-chip">{{ trust_payment | escape }}</span>
+              </li>
+            {%- endunless -%}
             {%- unless trust_contact == blank or trust_contact contains 'Translation missing' -%}
               <li class="mm-about__trust-item">
                 {%- if contact_url != blank -%}
@@ -130,17 +151,34 @@
             {%- endunless -%}
           </ul>
 
-          {%- if has_button -%}
-            <a class="mm-about__link" href="{{ button_link }}">
-              {{ button_label | escape }}
-              <span class="mm-about__link-arrow" aria-hidden="true">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" focusable="false">
-                  <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
-                  <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </span>
-            </a>
-          {%- endif -%}
+          <div class="mm-about__actions">
+            {%- if has_button -%}
+              <a class="mm-about__link" href="{{ button_link }}">
+                {{ button_label | escape }}
+                <span class="mm-about__link-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" focusable="false">
+                    <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                    <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            {%- elsif about_url != blank -%}
+              <a class="mm-about__link" href="{{ about_url }}">
+                {{ button_label | escape }}
+                <span class="mm-about__link-arrow" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" focusable="false">
+                    <path d="M5 12h12" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+                    <path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </span>
+              </a>
+            {%- endif -%}
+            {%- if contact_url != blank -%}
+              <a class="mm-about__link mm-about__link--secondary" href="{{ contact_url }}">
+                {{ contact_label | escape }}
+              </a>
+            {%- endif -%}
+          </div>
         </div>
 
         {%- if has_image -%}
@@ -157,9 +195,27 @@
             }}
           </figure>
         {%- else -%}
-          {%- comment -%} Quiet brand plane — not presented as a real team/warehouse photo. {%- endcomment -%}
-          <div class="mm-about__media mm-about__media--placeholder" aria-hidden="true">
-            <span class="mm-about__placeholder-mark">MOTHER &amp; ME</span>
+          {%- comment -%}
+            No authentic photo yet: compact facts panel (not a fake warehouse/team image).
+            Replace with a real selection/packing photo in the theme editor when available.
+          {%- endcomment -%}
+          <div class="mm-about__media mm-about__media--panel" aria-hidden="true">
+            <div class="mm-about__panel">
+              {%- unless panel_kicker == blank or panel_kicker contains 'Translation missing' -%}
+                <p class="mm-about__panel-kicker">{{ panel_kicker | escape }}</p>
+              {%- endunless -%}
+              <ul class="mm-about__panel-facts">
+                {%- unless panel_fact_select == blank or panel_fact_select contains 'Translation missing' -%}
+                  <li>{{ panel_fact_select | escape }}</li>
+                {%- endunless -%}
+                {%- unless panel_fact_import == blank or panel_fact_import contains 'Translation missing' -%}
+                  <li>{{ panel_fact_import | escape }}</li>
+                {%- endunless -%}
+                {%- unless panel_fact_reach == blank or panel_fact_reach contains 'Translation missing' -%}
+                  <li>{{ panel_fact_reach | escape }}</li>
+                {%- endunless -%}
+              </ul>
+            </div>
           </div>
         {%- endif -%}
       </div>

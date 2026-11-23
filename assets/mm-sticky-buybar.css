@@ -35,15 +35,37 @@
   max-width: 100%;
 }
 
-.mm-sticky-buybar__price {
+.mm-sticky-buybar__meta {
   flex: 0 1 auto;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.mm-sticky-buybar__price {
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
-  font-size: 1rem;
+  font-size: 16px;
   font-weight: 600;
   line-height: 1.3;
   color: var(--mm-primary, #214d43);
   white-space: nowrap;
+}
+
+.mm-sticky-buybar__variant {
+  font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #59665f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 9rem;
+}
+
+.mm-sticky-buybar__variant:empty {
+  display: none;
 }
 
 .mm-sticky-buybar__btn {
@@ -60,7 +82,7 @@
   background: var(--mm-primary, #214d43);
   color: #ffffff;
   font-family: var(--mm-font-sans, 'Noto Sans Georgian', 'Noto Sans', system-ui, sans-serif);
-  font-size: 0.9375rem;
+  font-size: 15px;
   font-weight: 600;
   line-height: 1.3;
   text-align: center;
