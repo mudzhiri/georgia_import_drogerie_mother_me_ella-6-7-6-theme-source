@@ -146,7 +146,12 @@
     function shouldShow() {
       if (!MQ.matches) return false;
       if (overlayOpen()) return false;
-      if (!getMainBtn()) return false;
+      const btn = getMainBtn();
+      if (!btn) return false;
+      /* Recompute when observer missed a layout change (e.g. desktop→mobile). */
+      const rect = btn.getBoundingClientRect();
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      mainVisible = inView;
       return !mainVisible;
     }
 
@@ -309,9 +314,26 @@
       applyVisibility();
     }
 
+    let scrollTick = false;
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!MQ.matches) return;
+        if (scrollTick) return;
+        scrollTick = true;
+        window.requestAnimationFrame(() => {
+          scrollTick = false;
+          lastShow = null;
+          applyVisibility();
+        });
+      },
+      { passive: true }
+    );
+
     window.addEventListener(
       'resize',
       () => {
+        onMqChange();
         if (bar.classList.contains('is-visible')) updateBottomOffset();
       },
       { passive: true }
