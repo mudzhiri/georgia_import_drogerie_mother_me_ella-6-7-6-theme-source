@@ -19,12 +19,13 @@
     assign ingredients_text = product.metafields.c_f.ingredients
   endif
 
+  # Warnings only — age belongs in mm-product-facts, not this accordion
   assign warnings_text = product.metafields.custom.warnings
   if warnings_text == blank
-    assign warnings_text = product.metafields.custom.age_recommendation
+    assign warnings_text = product.metafields.c_f.warnings
   endif
   if warnings_text == blank
-    assign warnings_text = product.metafields.c_f.warnings
+    assign warnings_text = product.metafields.custom.safety
   endif
 
   assign has_description = false
