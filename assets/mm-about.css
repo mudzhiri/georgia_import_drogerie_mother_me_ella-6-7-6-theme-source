@@ -294,11 +294,11 @@ a.mm-about__trust-chip:focus-visible {
   .mm-about__link,
   .mm-about__link-arrow,
   .mm-about__trust-chip {
-    transition: none;
+    transition: none !important;
   }
 
   .mm-about__link:hover .mm-about__link-arrow,
   .mm-about__link:focus-visible .mm-about__link-arrow {
-    transform: none;
+    transform: none !important;
   }
 }
