@@ -97,7 +97,7 @@
         "col_makeup": {
           "type": "collection",
           "settings": {
-            "collection": "მაკიაჟი",
+            "collection": "დეკორატიული-კოსმეტიკა",
             "label": "დეკორატიული კოსმეტიკა"
           }
         }
