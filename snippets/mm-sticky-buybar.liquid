@@ -13,8 +13,17 @@
   aria-hidden="true"
 >
   <div class="mm-sticky-buybar__inner">
-    <div class="mm-sticky-buybar__price" data-mm-sticky-price>
-      {{ current_variant.price | money }}
+    <div class="mm-sticky-buybar__meta">
+      <div class="mm-sticky-buybar__price" data-mm-sticky-price>
+        {{ current_variant.price | money }}
+      </div>
+      {%- unless product.has_only_default_variant -%}
+        <div class="mm-sticky-buybar__variant" data-mm-sticky-variant>
+          {%- if current_variant.title != blank and current_variant.title != 'Default Title' -%}
+            {{ current_variant.title | escape }}
+          {%- endif -%}
+        </div>
+      {%- endunless -%}
     </div>
     <button
       type="button"

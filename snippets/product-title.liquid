@@ -2,17 +2,35 @@
   assign fontsize_text = block.settings.fontsize_text
   assign fontsize_text_mb = block.settings.fontsize_text_mb
   assign color_title = block.settings.color_title
+
+  # Avoid repeating brand in H1 when vendor line already shows it
+  assign mm_title = product.title | strip
+  assign mm_vendor = product.vendor | strip
+  if mm_vendor != blank and mm_title != blank
+    assign mm_vendor_len = mm_vendor | size
+    assign mm_title_prefix = mm_title | slice: 0, mm_vendor_len
+    assign mm_title_prefix_down = mm_title_prefix | downcase
+    assign mm_vendor_down = mm_vendor | downcase
+    if mm_title_prefix_down == mm_vendor_down
+      assign mm_rest = mm_title | slice: mm_vendor_len, 200 | strip
+      if mm_rest != blank
+        assign mm_first = mm_rest | slice: 0, 1
+        if mm_first == '-' or mm_first == '–' or mm_first == '—' or mm_first == ':' or mm_first == '|' or mm_first == '·'
+          assign mm_rest = mm_rest | slice: 1, 200 | strip
+        endif
+        if mm_rest != blank
+          assign mm_title = mm_rest
+        endif
+      endif
+    endif
+  endif
 -%}
 {%- comment -%}
-  PDP title stack: brand sits above (vendor block). Full-width H1, then share on its own row.
-  Share must not share a flex row with the title — that crushed Georgian titles.
+  Full-width H1 only. Share is rendered after the buy area as a secondary action.
 {%- endcomment -%}
 <div class="mm-pdp-title-stack">
   <h1
     class="productView-title"
     style="--color-title: {{ color_title }};--fontsize-text: {{ fontsize_text | append: 'px' }};--fontsize-mb-text: {{ fontsize_text_mb | append: 'px' }};"
-  >{{ product.title | escape }}</h1>
-  <div class="mm-pdp-title-share-wrap">
-    {% render 'mm-pdp-title-share', product: product %}
-  </div>
+  >{{ mm_title | escape }}</h1>
 </div>

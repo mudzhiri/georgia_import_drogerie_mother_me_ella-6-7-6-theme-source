@@ -32,6 +32,7 @@
     bar.dataset.mmStickyInit = '1';
 
     const priceEl = bar.querySelector('[data-mm-sticky-price]');
+    const variantEl = bar.querySelector('[data-mm-sticky-variant]');
     const btn = bar.querySelector('[data-mm-sticky-atc]');
     const labelEl = bar.querySelector('[data-mm-sticky-label]');
     if (!btn || !priceEl || !labelEl) return;
@@ -140,6 +141,23 @@
       if (priceSource) {
         const text = (priceSource.textContent || '').replace(/\s+/g, ' ').trim();
         if (text && priceEl.textContent !== text) priceEl.textContent = text;
+      }
+
+      if (variantEl) {
+        const checked = document.querySelector(
+          'variant-radios input[type="radio"]:checked, .product-form__input input[type="radio"]:checked'
+        );
+        const select = document.querySelector('variant-selects select, .product-form__input select');
+        let variantText = '';
+        if (checked) {
+          const lab = checked.closest('label') || document.querySelector(`label[for="${checked.id}"]`);
+          variantText = (lab ? lab.textContent : checked.value || '').replace(/\s+/g, ' ').trim();
+        } else if (select && select.value) {
+          const opt = select.options[select.selectedIndex];
+          variantText = ((opt && opt.textContent) || select.value).replace(/\s+/g, ' ').trim();
+        }
+        if (variantText === 'Default Title') variantText = '';
+        if (variantEl.textContent !== variantText) variantEl.textContent = variantText;
       }
     }
 
