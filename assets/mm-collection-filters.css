@@ -783,6 +783,19 @@
   letter-spacing: normal;
 }
 
+/* Collection/search canvas: keep cream brand surface (avoid dark page holes) */
+body.template-collection,
+body.template-search,
+body.template-collection .body-content-wrapper,
+body.template-search .body-content-wrapper {
+  background-color: #faf8f4;
+}
+
+body.template-collection #MainContent,
+body.template-search #MainContent {
+  background-color: #faf8f4;
+}
+
 /* Desktop: left filter rail + product grid (sibling sections in #MainContent) */
 @media screen and (min-width: 1100px) {
   body.template-collection #MainContent,
