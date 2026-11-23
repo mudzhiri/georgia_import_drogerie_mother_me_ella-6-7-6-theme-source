@@ -43,10 +43,10 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
+  gap: 6px;
   width: 100%;
   max-width: 100%;
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   box-sizing: border-box;
 }
 
@@ -236,7 +236,19 @@
 /* Price */
 .halo-productView-right .productView-price,
 .halo-productView-right .productView-price .price {
-  margin: 0 0 12px;
+  margin: 0 0 8px;
+}
+
+/* Collapse empty buy-column blocks that leave large gaps */
+.halo-productView-right .productView-moreItem:empty,
+.halo-productView-right .productView-moreItem:not(:has(*)) {
+  display: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.halo-productView-right .productView-moreItem {
+  margin-bottom: 0;
 }
 
 .halo-productView-right .productView-price .price-item,

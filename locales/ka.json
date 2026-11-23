@@ -374,6 +374,7 @@
       "select_options": "ვარიანტების არჩევა",
       "select_options_plus": "+ ვარიანტების არჩევა",
       "sub_total": "კალათაში დამატება — {{ value }}",
+      "product_total": "პროდუქტის ჯამი",
       "hot_stock": "იჩქარეთ! დარჩა მხოლოდ {{ inventory }}",
       "hot_stock_2": "გთხოვთ, იჩქაროთ! მარაგში დარჩა მხოლოდ {{ inventory }}",
       "warning_quantity": "მაქსიმალური რაოდენობა: {{ inventory}}",
