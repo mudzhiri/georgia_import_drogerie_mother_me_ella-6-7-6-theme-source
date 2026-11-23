@@ -1081,11 +1081,13 @@
       "trust_payment": "გადახდა საბანკო გადარიცხვით"
     },
     "categories": {
-      "heading": "კატეგორიები",
-      "kids_label": "ბავშვებისთვის",
-      "kids_desc": "მოვლა და ჰიგიენა პატარებისთვის",
-      "mamas_label": "დედებისთვის",
-      "mamas_desc": "მოვლა დედებისთვის"
+      "heading": "Categories",
+      "kids_label": "For kids",
+      "kids_desc": "",
+      "mamas_label": "For moms",
+      "mamas_desc": "",
+      "view_all": "All categories",
+      "products_count": "{{ count }} products"
     },
     "info": {
       "heading": "ინფორმაცია",

@@ -138,6 +138,7 @@
         "tile_kids": {
           "type": "tile",
           "settings": {
+            "role": "primary",
             "tone": "kids",
             "label": "",
             "description": "",
@@ -149,41 +150,49 @@
         "tile_mamas": {
           "type": "tile",
           "settings": {
+            "role": "primary",
             "tone": "mamas",
             "label": "",
             "description": "",
             "link": "shopify://collections/დედა",
-            "collection": "დედა"
+            "collection": "დედა",
+            "fallback_asset": "mm-cat-mamas.jpg"
           }
         },
         "tile_feed": {
           "type": "tile",
           "settings": {
+            "role": "secondary",
             "tone": "sage",
             "label": "კვება",
             "description": "",
             "link": "",
-            "collection": "ბავშვის-კვება-0-3-წლამდე"
+            "collection": "ბავშვის-კვება-0-3-წლამდე",
+            "fallback_asset": "mm-cat-feed.jpg"
           }
         },
         "tile_face": {
           "type": "tile",
           "settings": {
+            "role": "secondary",
             "tone": "cream",
             "label": "სახის მოვლა",
             "description": "",
             "link": "",
-            "collection": "სახის-მოვლა"
+            "collection": "სახის-მოვლა",
+            "fallback_asset": "mm-cat-face.jpg"
           }
         },
         "tile_deo": {
           "type": "tile",
           "settings": {
+            "role": "secondary",
             "tone": "sage",
             "label": "დეოდორანტები",
             "description": "",
             "link": "",
-            "collection": "დეოდორანტები"
+            "collection": "დეოდორანტები",
+            "fallback_asset": "mm-cat-deo.jpg"
           }
         }
       },

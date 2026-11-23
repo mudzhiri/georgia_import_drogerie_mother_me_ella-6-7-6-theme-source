@@ -1104,10 +1104,11 @@
     "categories": {
       "heading": "კატეგორიები",
       "kids_label": "ბავშვებისთვის",
-      "kids_desc": "მოვლა პატარებისთვის",
+      "kids_desc": "",
       "mamas_label": "დედებისთვის",
-      "mamas_desc": "მოვლა დედებისთვის",
-      "view_all": "ყველა კატეგორია"
+      "mamas_desc": "",
+      "view_all": "ყველა კატეგორია",
+      "products_count": "{{ count }} პროდუქტი"
     },
     "info": {
       "heading": "ინფორმაცია",

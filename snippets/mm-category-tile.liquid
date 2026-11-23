@@ -1,0 +1,137 @@
+{%- comment -%}
+  Renders one homepage category tile when its resolved role matches force_role.
+  Accepts: block, force_role ('primary' | 'secondary')
+{%- endcomment -%}
+{%- liquid
+  assign tone = block.settings.tone | default: 'sage'
+  if tone != 'kids' and tone != 'mamas' and tone != 'sage' and tone != 'cream'
+    assign tone = 'sage'
+  endif
+
+  assign role = block.settings.role | default: 'auto'
+  if role != 'primary' and role != 'secondary'
+    if tone == 'kids' or tone == 'mamas'
+      assign role = 'primary'
+    else
+      assign role = 'secondary'
+    endif
+  endif
+
+  unless role == force_role
+    assign role = 'skip'
+  endunless
+-%}
+{%- unless role == 'skip' -%}
+  {%- liquid
+    assign label = block.settings.label
+    assign description = block.settings.description | strip
+    assign link = block.settings.link
+    assign image = block.settings.image
+    assign tile_collection = block.settings.collection
+    assign fallback_asset = block.settings.fallback_asset | strip
+    assign skip_empty = false
+    assign use_asset_image = false
+
+    if tile_collection != blank
+      if tile_collection.products_count == 0 and link == blank and role != 'primary'
+        assign skip_empty = true
+      endif
+      if link == blank
+        assign link = tile_collection.url
+      endif
+      if image == blank and tile_collection.image != blank
+        assign image = tile_collection.image
+      endif
+    endif
+
+    if label == blank
+      if tone == 'mamas'
+        assign label = 'mm_home.categories.mamas_label' | t
+      elsif tone == 'kids'
+        assign label = 'mm_home.categories.kids_label' | t
+      elsif tile_collection != blank
+        assign label = tile_collection.title
+      endif
+    endif
+
+    if description contains 'Translation missing'
+      assign description = ''
+    endif
+
+    if fallback_asset == blank
+      if tone == 'kids'
+        assign fallback_asset = 'mm-cat-kids.jpg'
+      elsif tone == 'mamas'
+        assign fallback_asset = 'mm-cat-mamas.jpg'
+      endif
+    endif
+
+    if image == blank and fallback_asset != blank
+      assign use_asset_image = true
+    endif
+
+    assign has_image = false
+    if image != blank or use_asset_image
+      assign has_image = true
+    endif
+
+    assign focal_point = 'center'
+    if image != blank and image.presentation.focal_point != blank
+      assign focal_point = image.presentation.focal_point
+    endif
+    assign image_alt = label
+  -%}
+  {%- unless skip_empty -%}
+    {%- if label != blank and link != blank -%}
+      <a
+        class="mm-categories__tile mm-categories__tile--{{ role }} mm-categories__tile--{{ tone }}{% if has_image %} mm-categories__tile--with-image{% else %} mm-categories__tile--text-only{% endif %}{% if description == blank %} mm-categories__tile--compact{% endif %}"
+        data-mm-reveal-item
+        href="{{ link }}"
+        {% if has_image %}style="--mm-cat-focal: {{ focal_point }};"{% endif %}
+        {{ block.shopify_attributes }}
+      >
+        <div class="mm-categories__body">
+          <p class="mm-categories__label">{{ label | escape }}</p>
+          {%- if description != blank -%}
+            <p class="mm-categories__desc">{{ description | escape }}</p>
+          {%- endif -%}
+          <span class="mm-categories__arrow" aria-hidden="true">
+            <svg class="mm-categories__arrow-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" focusable="false" aria-hidden="true">
+              <path d="M5 12h14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+              <path d="M13 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </div>
+
+        {%- if has_image -%}
+          <div class="mm-categories__media">
+            {%- if image != blank -%}
+              {{
+                image
+                | image_url: width: 800
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '160, 240, 320, 480, 640, 800',
+                  sizes: '(min-width: 900px) 200px, (min-width: 768px) 28vw, 42vw',
+                  alt: image_alt,
+                  class: 'mm-categories__image'
+              }}
+            {%- elsif use_asset_image -%}
+              <img
+                class="mm-categories__image"
+                src="{{ fallback_asset | asset_img_url: '480x' }}"
+                srcset="{{ fallback_asset | asset_img_url: '240x' }} 240w, {{ fallback_asset | asset_img_url: '320x' }} 320w, {{ fallback_asset | asset_img_url: '480x' }} 480w, {{ fallback_asset | asset_img_url: '640x' }} 640w, {{ fallback_asset | asset_img_url: '800x' }} 800w"
+                sizes="(min-width: 900px) 200px, (min-width: 768px) 28vw, 42vw"
+                width="480"
+                height="480"
+                loading="lazy"
+                decoding="async"
+                alt="{{ image_alt | escape }}"
+              >
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </a>
+    {%- endif -%}
+  {%- endunless -%}
+{%- endunless -%}

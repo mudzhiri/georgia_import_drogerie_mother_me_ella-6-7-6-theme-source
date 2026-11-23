@@ -15,61 +15,75 @@
         "group_bavshvi": {
           "type": "group",
           "settings": {
-            "title": "ბავშვი"
+            "title": "ბავშვებისთვის"
           }
         },
         "col_bavshvi": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვი",
-            "label": "ყველა ბავშვის პროდუქტი"
+            "role": "featured",
+            "label": "ყველა ბავშვის პროდუქტი",
+            "description": "",
+            "fallback_asset": "mm-cat-kids.jpg"
           }
         },
         "col_kanis": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვის-კანის-მოვლა",
-            "label": "კანის მოვლა"
+            "role": "standard",
+            "label": "კანის მოვლა",
+            "fallback_asset": "mm-cat-kids.jpg"
           }
         },
         "col_abazana": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვის-ჰიგიენა-0-3-წლამდე",
-            "label": "აბაზანა და ჰიგიენა"
+            "role": "standard",
+            "label": "აბაზანა და ჰიგიენა",
+            "fallback_asset": "mm-cat-bath.jpg"
           }
         },
         "col_kveba": {
           "type": "collection",
           "settings": {
             "collection": "ბავშვის-კვება-0-3-წლამდე",
-            "label": "კვება"
+            "role": "standard",
+            "label": "კვება",
+            "fallback_asset": "mm-cat-feed.jpg"
           }
         },
         "col_toys": {
           "type": "collection",
           "settings": {
             "collection": "საბავშვო-ინვენტარი-0-3-წლამდე",
+            "role": "standard",
             "label": "სათამაშოები და აქსესუარები"
           }
         },
         "group_deda": {
           "type": "group",
           "settings": {
-            "title": "დედა"
+            "title": "დედებისთვის"
           }
         },
         "col_deda": {
           "type": "collection",
           "settings": {
             "collection": "დედა",
-            "label": "ყველა დედის პროდუქტი"
+            "role": "featured",
+            "label": "ყველა დედის პროდუქტი",
+            "description": "",
+            "fallback_asset": "mm-cat-mamas.jpg"
           }
         },
         "col_lact": {
           "type": "collection",
           "settings": {
             "collection": "ლაქტაცია-და-ორსულობა",
+            "role": "standard",
             "label": "ორსულობა და ლაქტაცია"
           }
         },
@@ -77,13 +91,16 @@
           "type": "collection",
           "settings": {
             "collection": "სახის-მოვლა",
-            "label": "სახის მოვლა"
+            "role": "standard",
+            "label": "სახის მოვლა",
+            "fallback_asset": "mm-cat-face.jpg"
           }
         },
         "col_body": {
           "type": "collection",
           "settings": {
             "collection": "სხეულის-მოვლა",
+            "role": "standard",
             "label": "სხეულის მოვლა"
           }
         },
@@ -91,13 +108,16 @@
           "type": "collection",
           "settings": {
             "collection": "დეოდორანტები",
-            "label": "დეოდორანტები"
+            "role": "standard",
+            "label": "დეოდორანტები",
+            "fallback_asset": "mm-cat-deo.jpg"
           }
         },
         "col_makeup": {
           "type": "collection",
           "settings": {
             "collection": "დეკორატიული-კოსმეტიკა",
+            "role": "standard",
             "label": "დეკორატიული კოსმეტიკა"
           }
         }
@@ -119,7 +139,8 @@
       ],
       "settings": {
         "heading": "",
-        "hide_empty": true
+        "hide_empty": true,
+        "show_counts": true
       }
     }
   },
