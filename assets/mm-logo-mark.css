@@ -1,13 +1,15 @@
 /**
  * MOTHER & ME — composed header lockup:
  * solid "mother" wordmark + expressive italic "& me"
+ *
+ * Sizes in px (not rem): Ella sets html{font-size:62.5%} so rem ≈ 10px.
  */
 
 .mm-logo-mark {
   --mm-logo-mark-width: 180px;
   display: inline-flex;
   align-items: flex-end;
-  gap: 0.18em;
+  gap: 0.14em;
   max-width: 100%;
   width: auto;
   height: auto;
@@ -21,55 +23,55 @@
   display: block;
   width: auto;
   height: clamp(22px, calc(var(--mm-logo-mark-width) * 0.2), 40px);
-  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.68));
+  max-width: min(100%, calc(var(--mm-logo-mark-width) * 0.62));
   object-fit: contain;
   object-position: left center;
   flex: 0 1 auto;
 }
 
 /*
-  "& me" — editorial italic companion.
-  Scale close to the mother x-height so it reads as brand, not a caption.
+  "& me" — editorial italic companion at near-wordmark scale.
+  Ampersand is the flourish; "me" sits as a confident italic.
 */
 .mm-logo-mark__me {
   display: inline-flex;
   align-items: baseline;
   flex: 0 0 auto;
-  gap: 0.08em;
+  gap: 0.06em;
   font-family: var(--mm-display, "Cormorant Garamond", Georgia, "Times New Roman", serif);
-  font-size: clamp(1.35rem, calc(var(--mm-logo-mark-width) * 0.195), 2.35rem);
+  font-size: clamp(26px, calc(var(--mm-logo-mark-width) * 0.22), 40px);
   font-weight: 500;
   font-style: italic;
-  letter-spacing: -0.01em;
-  line-height: 0.85;
+  letter-spacing: -0.02em;
+  line-height: 0.82;
   color: #214d43;
   white-space: nowrap;
   text-transform: lowercase;
-  transform: translateY(0.12em);
+  transform: translateY(0.14em);
 }
 
 .mm-logo-mark__amp {
   display: inline-block;
   font-weight: 400;
   font-style: italic;
-  font-size: 1.12em;
+  font-size: 1.18em;
   letter-spacing: 0;
   line-height: 1;
   color: #214d43;
-  transform: translateY(0.02em) rotate(-4deg);
-  transform-origin: center bottom;
+  transform: translateY(0.04em) rotate(-6deg);
+  transform-origin: 50% 70%;
 }
 
 .mm-logo-mark__word {
   display: inline-block;
   font-weight: 600;
   font-style: italic;
-  letter-spacing: 0.01em;
+  letter-spacing: 0.015em;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .mm-logo-mark__amp {
-    transform: translateY(0.02em);
+    transform: translateY(0.04em);
   }
 }
 
@@ -95,16 +97,16 @@
 
 @media screen and (max-width: 749px) {
   .mm-logo-mark {
-    --mm-logo-mark-width: 150px;
-    gap: 0.14em;
+    --mm-logo-mark-width: 160px;
+    gap: 0.1em;
   }
 
   .mm-logo-mark__mother {
-    height: clamp(20px, 5.2vw, 30px);
+    height: clamp(22px, 5.8vw, 32px);
   }
 
   .mm-logo-mark__me {
-    font-size: clamp(1.2rem, 5.2vw, 1.75rem);
+    font-size: clamp(24px, 7.2vw, 34px);
   }
 }
 
