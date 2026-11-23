@@ -869,6 +869,7 @@
     "colors_text_white": "#ffffff",
     "colors_text_black": "#242d29",
     "btn_1_color": "#ffffff",
-    "enable_multilang_shopify": false
+    "enable_multilang_shopify": false,
+    "mm_enable_language_switcher": false
   }
 }
