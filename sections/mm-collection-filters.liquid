@@ -72,6 +72,26 @@
     assign has_filters = true
   endif
 
+  assign mm_has_vendor_filter = false
+  assign mm_has_type_filter = false
+  assign mm_has_age_filter = false
+  for filter in filter_list
+    assign mm_fp = filter.param_name | downcase
+    if mm_fp contains 'vendor'
+      assign mm_has_vendor_filter = true
+    elsif mm_fp contains 'product_type' or mm_fp contains 'product-type'
+      assign mm_has_type_filter = true
+    elsif mm_fp contains 'age'
+      assign mm_has_age_filter = true
+    endif
+  endfor
+
+  assign mm_category_menu = section.settings.category_menu
+  assign mm_show_category_nav = true
+  if is_search
+    assign mm_show_category_nav = false
+  endif
+
   assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,UYU,VES,VND' | split: ','
   assign uses_comma_decimals = false
   if currencies_using_comma_decimals contains cart.currency.iso_code
@@ -130,7 +150,7 @@
       </p>
 
       <div class="mm-filters__mobile-actions">
-        {%- if has_filters -%}
+        {%- if has_filters or mm_show_category_nav -%}
           <button
             type="button"
             class="mm-filters__btn"
@@ -175,12 +195,25 @@
       </div>
     </div>
 
+    {%- if request.design_mode -%}
+      <div class="mm-filters__admin-note" role="note">
+        <p class="mm-filters__admin-note-title">MOTHER &amp; ME — Filter setup</p>
+        <ul>
+          <li>Brand filter (Vendor): {% if mm_has_vendor_filter %}active{% else %}<strong>missing</strong> — enable in Search &amp; Discovery → Filters → Vendor / Brand{% endif %}</li>
+          <li>Product type filter: {% if mm_has_type_filter %}active{% else %}<strong>missing</strong> — enable Product type in Search &amp; Discovery{% endif %}</li>
+          <li>Age filter: {% if mm_has_age_filter %}active{% else %}not ready — create metafield <code>custom.age_recommendation</code>, curate products, then enable in S&amp;D{% endif %}</li>
+          <li>Price filter: available when Search &amp; Discovery exposes it</li>
+          <li>Category navigation uses real collection links (not a fake in-page filter)</li>
+        </ul>
+      </div>
+    {%- endif -%}
+
     <div class="mm-filters__toolbar">
       <p class="mm-filters__count mm-filters__count--desktop" role="status" data-mm-filters-count-desktop>
         {{ 'sections.collection_template.product_count_simple' | t: count: results_count }}
       </p>
 
-      {%- if has_filters -%}
+      {%- if has_filters or mm_show_category_nav -%}
         <form
           method="get"
           action="{{ results_url }}"
@@ -195,6 +228,15 @@
           <input type="hidden" name="sort_by" value="{{ sort_by | escape }}" data-mm-desktop-sort>
 
           <div class="mm-filters__groups mm-filters__groups--toolbar">
+            {%- if mm_show_category_nav -%}
+              {% render 'mm-filters-category-nav',
+                category_menu: mm_category_menu,
+                filter_list: filter_list,
+                sort_for_clear: sort_for_clear,
+                is_search: is_search,
+                collection: collection
+              %}
+            {%- endif -%}
             {% render 'mm-filters-groups',
               filter_list: filter_list,
               section: section,
@@ -334,7 +376,7 @@
     {%- endif -%}
   </div>
 
-  {%- if has_filters -%}
+  {%- if has_filters or mm_show_category_nav -%}
     <div class="mm-filters__overlay" data-mm-filters-overlay></div>
     <aside
       id="mm-filters-panel-{{ section.id }}"
@@ -372,6 +414,15 @@
         <input type="hidden" name="sort_by" value="{{ sort_by | escape }}" data-mm-panel-sort>
 
         <div class="mm-filters__groups mm-filters__groups--panel">
+          {%- if mm_show_category_nav -%}
+            {% render 'mm-filters-category-nav',
+              category_menu: mm_category_menu,
+              filter_list: filter_list,
+              sort_for_clear: sort_for_clear,
+              is_search: is_search,
+              collection: collection
+            %}
+          {%- endif -%}
           {% render 'mm-filters-groups',
             filter_list: filter_list,
             section: section,
@@ -420,6 +471,17 @@
   "name": "MM Collection Filters",
   "tag": "section",
   "class": "section-mm-collection-filters",
-  "settings": []
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Brand / product type / age appear only after Search & Discovery exposes them. Category uses real collection links."
+    },
+    {
+      "type": "link_list",
+      "id": "category_menu",
+      "label": "Category menu (collections)",
+      "info": "Optional. Leave empty to use curated collections that currently have products. Links navigate to real collections (not client-side hiding)."
+    }
+  ]
 }
 {% endschema %}

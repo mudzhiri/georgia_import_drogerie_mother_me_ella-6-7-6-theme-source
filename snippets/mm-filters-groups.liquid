@@ -1,6 +1,7 @@
 {%- comment -%}
   Shared filter groups for desktop toolbar + mobile drawer.
   Accepts: filter_list, section, id_prefix, uses_comma_decimals, shop_money_format, results_count
+  Shows only groups Shopify Search & Discovery actually exposes (no fake filters).
 {%- endcomment -%}
 {%- for filter in filter_list -%}
   {%- liquid
@@ -9,21 +10,32 @@
     assign is_availability = false
     assign is_vendor = false
     assign is_product_type = false
+    assign is_age = false
 
     if filter_param contains 'availability' or filter.label == 'Availability'
       assign is_availability = true
       assign filter_label = 'sections.collection_template.availability' | t
-    elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor'
+    elsif filter_param contains 'vendor' or filter.label == 'Brand' or filter.label == 'Vendor' or filter.label == 'ბრენდი'
       assign is_vendor = true
       assign filter_label = 'sections.collection_template.filter_brand' | t
-    elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type'
+    elsif filter_param contains 'product_type' or filter_param contains 'product-type' or filter.label == 'Product type' or filter.label == 'Type' or filter.label == 'კატეგორია' or filter.label == 'პროდუქტის სახეობა'
       assign is_product_type = true
-      assign filter_label = 'sections.collection_template.filter_category' | t
+      assign filter_label = 'sections.collection_template.filter_product_type' | t
+    elsif filter_param contains 'age' or filter.label == 'Age' or filter.label == 'ასაკი' or filter.label contains 'ასაკ'
+      assign is_age = true
+      assign filter_label = 'sections.collection_template.filter_age' | t
     endif
 
     assign show_filter_group = false
     assign visible_values = 0
     assign active_in_group = 0
+    assign sorted_values = filter.values
+
+    if filter.type == 'list' or filter.type == 'boolean'
+      if is_vendor
+        assign sorted_values = filter.values | sort: 'label'
+      endif
+    endif
 
     if filter.type == 'price_range'
       if filter.range_max != blank
@@ -34,10 +46,10 @@
         assign active_in_group = 1
       endif
     elsif is_availability
-      # Availability is not offered in the customer toolbar (only brand / category / price).
+      # Availability is not offered in the customer toolbar.
       assign show_filter_group = false
     elsif filter.type == 'list' or filter.type == 'boolean'
-      for value in filter.values
+      for value in sorted_values
         if value.count == 0 and value.active == false
           continue
         endif
@@ -53,7 +65,7 @@
         assign show_filter_group = true
       elsif visible_values == 1 and results_count != blank
         assign sole_count = 0
-        for value in filter.values
+        for value in sorted_values
           if value.count == 0 and value.active == false
             continue
           endif
@@ -71,7 +83,7 @@
     endif
 
     assign show_list_search = false
-    if visible_values > 8
+    if visible_values > 6
       if is_vendor or is_product_type
         assign show_list_search = true
       endif
@@ -80,9 +92,12 @@
 
   {%- if show_filter_group -%}
     <details
-      class="mm-filters__group{% if is_vendor %} mm-filters__group--vendor{% endif %}{% if is_product_type %} mm-filters__group--type{% endif %}"
+      class="mm-filters__group{% if is_vendor %} mm-filters__group--vendor{% endif %}{% if is_product_type %} mm-filters__group--type{% endif %}{% if is_age %} mm-filters__group--age{% endif %}"
       data-mm-filter-group
       data-mm-filter-param="{{ filter.param_name | escape }}"
+      {% if is_vendor %}data-mm-filter-kind="vendor"{% endif %}
+      {% if is_product_type %}data-mm-filter-kind="product_type"{% endif %}
+      {% if is_age %}data-mm-filter-kind="age"{% endif %}
       {% if group_open %}open{% endif %}
     >
       <summary class="mm-filters__group-summary">
@@ -114,7 +129,7 @@
               >
             {%- endif -%}
             <ul class="mm-filters__options" role="list">
-              {%- for value in filter.values -%}
+              {%- for value in sorted_values -%}
                 {%- if value.count == 0 and value.active == false -%}
                   {%- continue -%}
                 {%- endif -%}
