@@ -119,6 +119,13 @@
   .mm-categories--secondary-4 .mm-categories__row--secondary {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
+
+  .mm-categories--grid-3 .mm-categories__grid,
+  .mm-categories--grid-4 .mm-categories__grid,
+  .mm-categories--grid-5 .mm-categories__grid,
+  .mm-categories--grid-6 .mm-categories__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .mm-categories__tile {
@@ -209,6 +216,13 @@
     text-decoration: none;
   }
 
+  .mm-categories__tile--cream:hover {
+    background: var(--mm-cat-cream-bg-hover);
+    box-shadow: var(--mm-shadow-soft);
+    color: var(--mm-cat-text);
+    text-decoration: none;
+  }
+
   .mm-categories__tile:hover .mm-categories__arrow {
     transform: translateX(3px);
   }
@@ -264,7 +278,7 @@
 
 .mm-categories__desc {
   margin: 0;
-  max-width: 18em;
+  max-width: 16em;
   color: var(--mm-cat-muted);
   font-family: var(--mm-font-sans);
   font-size: 14px;
@@ -336,6 +350,11 @@
   object-position: var(--mm-cat-focal, center);
   transform: scale(1);
   transition: transform var(--mm-cat-motion);
+}
+
+/* Equal visual weight: audience + topical tiles share media size */
+.mm-categories__tile--with-image {
+  min-height: 132px;
 }
 
 @media (prefers-reduced-motion: reduce) {

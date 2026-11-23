@@ -194,6 +194,36 @@
             "collection": "დეოდორანტები",
             "fallback_asset": "mm-cat-deo.jpg"
           }
+        },
+        "tile_feed": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "კვება",
+            "description": "",
+            "link": "",
+            "collection": "ბავშვის-კვება-0-3-წლამდე"
+          }
+        },
+        "tile_face": {
+          "type": "tile",
+          "settings": {
+            "tone": "cream",
+            "label": "სახის მოვლა",
+            "description": "",
+            "link": "",
+            "collection": "სახის-მოვლა"
+          }
+        },
+        "tile_deo": {
+          "type": "tile",
+          "settings": {
+            "tone": "sage",
+            "label": "დეოდორანტები",
+            "description": "",
+            "link": "",
+            "collection": "დეოდორანტები"
+          }
         }
       },
       "block_order": [
