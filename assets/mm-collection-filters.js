@@ -137,13 +137,31 @@
         this.overlay.addEventListener('click', () => this.setOpen(false, { discard: true }));
       }
 
+      this.bindFilterSearch(this.root);
+
+      const retryBtn = root.querySelector('[data-mm-filters-retry]');
+      if (retryBtn) {
+        retryBtn.addEventListener('click', () => {
+          const err = root.querySelector('[data-mm-filters-error]');
+          if (err) err.hidden = true;
+          this.navigate(new URL(window.location.href), { push: false, source: 'retry' });
+        });
+      }
+
       if (this.desktopForm) {
+        const syncDesktopSort = () => {
+          const liveSort = this.root.querySelector('.mm-filters__toolbar select[data-mm-filters-sort], .mm-filters__sort--desktop select[data-mm-filters-sort]');
+          const hiddenSort = this.desktopForm.querySelector('[data-mm-desktop-sort]');
+          if (liveSort && hiddenSort) hiddenSort.value = liveSort.value;
+        };
+
         this.desktopForm.addEventListener('submit', (event) => {
           if (!validatePrice(this.desktopForm)) {
             event.preventDefault();
             restoreDisabledPriceInputs(this.desktopForm);
             return;
           }
+          syncDesktopSort();
           prepareForm(this.desktopForm);
           event.preventDefault();
           this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
@@ -153,8 +171,10 @@
         this.desktopForm.addEventListener('change', (event) => {
           const target = event.target;
           if (!target) return;
-          if (target.matches('input[type="checkbox"], input[type="radio"], select[data-mm-filters-sort]')) {
+          if (target.matches('[data-mm-filter-search]')) return;
+          if (target.matches('input[type="checkbox"], input[type="radio"]')) {
             if (!validatePrice(this.desktopForm)) return;
+            syncDesktopSort();
             prepareForm(this.desktopForm);
             this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
             restoreDisabledPriceInputs(this.desktopForm);
@@ -164,6 +184,7 @@
         this.desktopForm.querySelectorAll('.mm-filters__price-input').forEach((input) => {
           input.addEventListener('change', () => {
             if (!validatePrice(this.desktopForm)) return;
+            syncDesktopSort();
             prepareForm(this.desktopForm);
             this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
             restoreDisabledPriceInputs(this.desktopForm);
@@ -407,13 +428,32 @@
         );
       } catch (err) {
         if (err && err.name === 'AbortError') return;
-        // Fallback: full navigation keeps server filters correct
+        const errorEl = this.root.querySelector('[data-mm-filters-error]');
+        if (errorEl) {
+          errorEl.hidden = false;
+          this.setLoading(false);
+          return;
+        }
         window.location.assign(url.toString());
       } finally {
         if (currentRequest === this.requestId) {
           this.setLoading(false);
         }
       }
+    }
+
+    bindFilterSearch(scope) {
+      scope.querySelectorAll('[data-mm-filter-search]').forEach((input) => {
+        input.addEventListener('input', () => {
+          const group = input.closest('[data-mm-filter-group]');
+          if (!group) return;
+          const q = String(input.value || '').trim().toLowerCase();
+          group.querySelectorAll('[data-mm-filter-option]').forEach((row) => {
+            const label = row.getAttribute('data-mm-filter-label') || '';
+            row.hidden = q !== '' && !label.includes(q);
+          });
+        });
+      });
     }
   }
 

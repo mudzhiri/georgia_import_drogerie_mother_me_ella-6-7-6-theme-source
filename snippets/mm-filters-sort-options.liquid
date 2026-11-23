@@ -2,8 +2,11 @@
   Supported sort options with Georgian locale labels.
   Accepts: sort_options, sort_by
 {%- endcomment -%}
+{%- comment -%}
+  Georgian sort set. best-selling = Shopify sales order. created-ascending omitted.
+{%- endcomment -%}
 {%- liquid
-  assign allowed = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-ascending,created-descending,relevance' | split: ','
+  assign allowed = 'manual,best-selling,title-ascending,title-descending,price-ascending,price-descending,created-descending,relevance' | split: ','
 -%}
 {%- for option in sort_options -%}
   {%- if allowed contains option.value -%}

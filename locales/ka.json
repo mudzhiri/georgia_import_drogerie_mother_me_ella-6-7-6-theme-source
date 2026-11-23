@@ -631,7 +631,8 @@
       "all_tags": "ყველა პროდუქტი",
       "apply": "გამოყენება",
       "clear": "გასუფთავება",
-      "clear_all": "ყველას გასუფთავება",
+      "clear_all": "ყველა ფილტრის გასუფთავება",
+      "filter_search_brand": "ბრენდის ძებნა",
       "empty": "პროდუქტები ვერ მოიძებნა",
       "end_count": " სულ {{ count }}-დან",
       "from": "დან",
@@ -697,7 +698,7 @@
         "price-ascending": "ფასი: დაბლიდან მაღლა",
         "price-descending": "ფასი: მაღლიდან დაბლა",
         "created-ascending": "ძველი ახალამდე",
-        "created-descending": "ახალი ძველამდე",
+        "created-descending": "უახლესი",
         "relevance": "რელევანტურობა"
       }
     },
