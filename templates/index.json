@@ -142,7 +142,8 @@
             "label": "",
             "description": "",
             "link": "shopify://collections/ბავშვი",
-            "collection": "ბავშვი"
+            "collection": "ბავშვი",
+            "fallback_asset": "mm-cat-kids.jpg"
           }
         },
         "tile_mamas": {

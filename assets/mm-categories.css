@@ -264,19 +264,18 @@
 
 .mm-categories__media {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;
   width: 100%;
   max-width: 140px;
   min-width: 0;
-  min-height: 80px;
   margin-inline-start: auto;
   border-radius: 14px;
   overflow: hidden;
   aspect-ratio: 1 / 1;
   background: rgba(255, 255, 255, 0.45);
   box-sizing: border-box;
+  /* Reserve square space before image paints — avoids layout jump */
+  flex-shrink: 0;
 }
 
 @media screen and (min-width: 768px) {
@@ -295,6 +294,11 @@
   object-position: var(--mm-cat-focal, center);
   transform: scale(1);
   transition: transform var(--mm-hover-duration, 200ms) ease-out;
+}
+
+/* Equal visual weight: audience + topical tiles share media size */
+.mm-categories__tile--with-image {
+  min-height: 132px;
 }
 
 @media (prefers-reduced-motion: reduce) {
