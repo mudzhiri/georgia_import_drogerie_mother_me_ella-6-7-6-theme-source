@@ -8,15 +8,23 @@
   --mm-g-muted: #59665f;
   --mm-g-duration: 200ms;
   --mm-g-ease: ease-out;
-  --mm-g-main-h: min(58vh, 560px);
-  --mm-g-thumb: 72px;
+  /* Keep package fully visible without pushing ATC far below the fold */
+  --mm-g-main-h: min(46vh, 440px);
+  --mm-g-thumb: 68px;
 }
 
 @media screen and (max-width: 767px) {
   .mm-product-gallery,
   [data-image-gallery].mm-product-gallery {
-    --mm-g-main-h: min(52vh, 420px);
-    --mm-g-thumb: 60px;
+    --mm-g-main-h: min(38vh, 280px);
+    --mm-g-thumb: 56px;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .mm-product-gallery,
+  [data-image-gallery].mm-product-gallery {
+    --mm-g-main-h: min(44vh, 400px);
   }
 }
 

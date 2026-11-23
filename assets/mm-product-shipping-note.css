@@ -49,8 +49,31 @@
   overflow-wrap: anywhere;
 }
 
+.mm-pdp-trust__link {
+  display: inline;
+  margin-left: 0.35em;
+  color: #214d43;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mm-pdp-trust__link:hover {
+  color: #173b33;
+}
+
+.mm-pdp-trust__link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
 :lang(ka) .mm-pdp-trust__text {
   line-height: 1.5;
+}
+
+.mm-pdp-trust {
+  margin-top: 12px;
 }
 
 /* Legacy single-note class kept for safety if cached markup remains */
