@@ -129,7 +129,7 @@
     "portrait_height": "130",
     "show_image_loading": false,
     "show_compare": false,
-    "mm_use_canonical_nav": true,
+    "mm_use_canonical_nav": false,
     "show_hot_stock": false,
     "show_wishlist": true,
     "show_wishlist_card": true,
