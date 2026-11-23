@@ -249,12 +249,24 @@
   display: none;
 }
 
+.template-cart .cart-item-block.cart-item-price.small-screen-visible {
+  display: block !important;
+  margin: 0 0 8px;
+}
+
 .template-cart .cart-item__price-wrapper .price,
 .template-cart .cart-item-value {
   color: var(--mm-cart-page-accent);
   font-family: var(--mm-font-sans, Manrope, "Noto Sans Georgian", system-ui, sans-serif);
   font-size: 0.9375rem;
   font-weight: 600;
+}
+
+.template-cart .cart-item-block.cart-item-price.small-screen-visible .price::after {
+  content: ' / ცალი';
+  color: var(--mm-cart-page-muted);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 
 .template-cart .cart-item__old-price {
@@ -386,18 +398,37 @@
 }
 
 @media screen and (max-width: 767px) {
-  .template-cart .cart-item-block.cart-item-remove.small-screen-visible .cart-remove__label {
-    display: inline;
+  /* Prefer the labeled mobile remove; hide the absolute desktop X that overlaps long names */
+  .template-cart .cart-item-block.cart-item-remove:not(.small-screen-visible) {
+    display: none !important;
   }
 
   .template-cart .cart-item-block.cart-item-remove.small-screen-visible {
     position: static;
-    grid-column: 1 / -1;
-    margin-top: 4px;
+    display: block !important;
+    width: 100% !important;
+    margin-top: 8px;
+  }
+
+  .template-cart .cart-item-block.cart-item-remove.small-screen-visible .cart-remove {
+    justify-content: flex-start;
+    min-height: 44px;
+    padding: 8px 10px;
+    border: 1px solid var(--mm-cart-page-border);
+  }
+
+  .template-cart .cart-item-block.cart-item-remove.small-screen-visible .cart-remove__label {
+    display: inline;
   }
 
   .template-cart .cart-item {
     padding-right: 16px !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .template-cart .cart-item-block.cart-item-remove.small-screen-visible {
+    display: none !important;
   }
 }
 
