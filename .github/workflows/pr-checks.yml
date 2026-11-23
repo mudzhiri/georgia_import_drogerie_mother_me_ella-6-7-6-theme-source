@@ -1,4 +1,4 @@
-# PR quality gates for durable branches (dev / test / prod).
+# PR quality gates for durable branches (dev / test / live / prod).
 # No Shopify Admin credentials — Theme Check + static validation only.
 # Existing Shopify GitHub theme sync remains the deploy path; this workflow does not publish.
 
@@ -9,6 +9,7 @@ on:
     branches:
       - dev
       - test
+      - live
       - prod
 
 permissions:
