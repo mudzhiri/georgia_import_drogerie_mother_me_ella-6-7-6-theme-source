@@ -63,12 +63,69 @@
   border: 1px solid var(--mm-ap-border);
 }
 
+.mm-about-page__figure--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 4 / 3;
+  background: linear-gradient(145deg, #eaf1ec 0%, #faf8f4 55%, #e4ece7 100%);
+}
+
+.mm-about-page__placeholder-mark {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(1.25rem, 3vw, 1.75rem);
+  letter-spacing: 0.04em;
+  color: #214d43;
+  opacity: 0.5;
+}
+
 .mm-about-page__image {
   display: block;
   width: 100%;
   height: auto;
   aspect-ratio: 4 / 3;
   object-fit: cover;
+}
+
+.mm-about-page__list {
+  margin: 14px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.mm-about-page__list-item {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: #ffffff;
+  border: 1px solid var(--mm-ap-border);
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--mm-ap-text);
+  overflow-wrap: anywhere;
+}
+
+.mm-about-page__list-item strong {
+  display: inline;
+  color: var(--mm-ap-heading);
+  font-weight: 600;
+}
+
+.mm-about-page__inline-link {
+  display: inline;
+  margin-left: 0.35em;
+  color: #214d43;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.mm-about-page__inline-link:focus-visible {
+  outline: 2px solid #214d43;
+  outline-offset: 2px;
+  border-radius: 2px;
 }
 
 .mm-about-page__caption {
