@@ -219,9 +219,9 @@ html.mm-sticky-header-on {
 .header-mobile .header__icon--search svg {
   width: 24px !important;
   height: 24px !important;
+  fill: #214d43 !important;
   color: #214d43 !important;
-  stroke: currentColor;
-  fill: none !important;
+  stroke: #214d43;
 }
 
 /* Hide Ella’s native search modal / inline field — MM panel replaces it */
@@ -2008,47 +2008,6 @@ html.mm-sticky-header-on .mm-lang__dropdown {
   border-radius: 4px;
 }
 
-/* —— motherher header icons (stroke search / account / bag) —— */
-.mm-icon {
-  display: block;
-  width: 24px;
-  height: 24px;
-  color: #214d43;
-  flex-shrink: 0;
-}
-
-.mm-icon--cart {
-  width: 26px;
-  height: 22px;
-}
-
-.header-nav-hamburger .header__icon .mm-icon,
-.header-mobile .header__icon .mm-icon,
-.header-mobile__item--search .mm-icon {
-  width: 24px !important;
-  height: 24px !important;
-  max-width: 24px;
-  max-height: 24px;
-  fill: none !important;
-  stroke: currentColor;
-  color: #214d43 !important;
-}
-
-.header-nav-hamburger .header__icon .mm-icon--cart,
-.header-mobile .header__icon .mm-icon--cart {
-  width: 26px !important;
-  height: 22px !important;
-  max-width: 26px;
-  max-height: 22px;
-}
-
-.header-nav-hamburger .header__icon--search .mm-icon path,
-.header-nav-hamburger .header__icon--account .mm-icon path,
-.header-nav-hamburger .header__icon--cart .mm-icon path,
-.header-mobile .header__icon .mm-icon path {
-  fill: none !important;
-  stroke: currentColor !important;
-}
 
 /* Icon cluster spacing like motherher */
 .header-nav-hamburger .header-icons {

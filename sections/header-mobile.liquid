@@ -27,7 +27,11 @@
                                 <details>
                                     <summary class="header__icon header__icon--search header__icon--summary link link--text focus-inset modal__toggle" aria-haspopup="dialog" aria-label="{{ 'general.search.search' | t }}" data-search-mobile>
                                         <span>
-                                            {% render 'mm-icon-search', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
+                                            {% if block.settings.icon == '1' %}
+                                            {% render 'icon-search', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
+                                            {% else %}
+                                            {% render 'icon-search-01', class: 'modal__toggle-open icon icon-search w-24 h-24' %}
+                                            {% endif %}
                                             {% render 'icon-close', class: 'modal__toggle-close icon icon-close w-24 h-24' %}
                                         </span>
                                     </summary>
@@ -125,7 +129,28 @@
                         {%-  when 'cart' -%}
                             <div class="header-mobile--icon" style="--i-color: {{ block.settings.color }}; --color-bubble: {{ block.settings.color_bubble }}; --bg-bubble: {{ block.settings.bg_bubble }}">
                                 <a href="{{ routes.cart_url }}" class="header__icon header__icon--cart link link--text focus-inset cart-icon-bubble" aria-label="{{ 'accessibility.cart' | t }}" {% if settings.show_quick_cart %}data-cart-sidebar{% endif %}>
-                                    {% render 'mm-icon-cart' %}
+                                    {%- case block.settings.icon -%}
+                                        {%-  when '1' -%}
+                                            {% render 'icon-cart-05' %}
+                                        {%-  when '2' -%}
+                                            {% render 'icon-cart-02' %}
+                                        {%-  when '3' -%}
+                                            {% render 'icon-cart-06' %}
+                                        {%-  when '8' -%}
+                                            {% render 'icon-cart-12' %}
+                                        {%-  when '4' -%}
+                                            {% render 'icon-cart-04' %}
+                                        {%-  when '5' -%}
+                                            {% render 'icon-cart-03' %}
+                                        {%-  when '7' -%}
+                                            {% render 'icon-cart-09' %}
+                                        {%-  when '6' -%}
+                                            {% render 'icon-cart-07', class: 'shopping-basket' %}
+                                        {%-  when '9' -%}
+                                            {% render 'icon-cart-13' %}
+                                        {%-  when '10' -%}
+                                            {% render 'icon-cart-14' %}
+                                    {%- endcase -%}
                                     <span class="visually-hidden">{{ 'accessibility.cart' | t }}</span>
                                     {% if block.settings.show_cart_count_bubble %}
                                     <div class="cart-count-bubble{% if cart.item_count == 0 %} is-empty{% endif %}"{% if cart.item_count == 0 %} hidden{% endif %}>
