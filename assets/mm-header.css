@@ -2007,3 +2007,129 @@ html.mm-sticky-header-on .mm-lang__dropdown {
   outline-offset: 3px;
   border-radius: 4px;
 }
+
+/* —— motherher header icons (stroke search / account / bag) —— */
+.mm-icon {
+  display: block;
+  width: 24px;
+  height: 24px;
+  color: #214d43;
+  flex-shrink: 0;
+}
+
+.mm-icon--cart {
+  width: 26px;
+  height: 22px;
+}
+
+.header-nav-hamburger .header__icon .mm-icon,
+.header-mobile .header__icon .mm-icon,
+.header-mobile__item--search .mm-icon {
+  width: 24px !important;
+  height: 24px !important;
+  max-width: 24px;
+  max-height: 24px;
+  fill: none !important;
+  stroke: currentColor;
+  color: #214d43 !important;
+}
+
+.header-nav-hamburger .header__icon .mm-icon--cart,
+.header-mobile .header__icon .mm-icon--cart {
+  width: 26px !important;
+  height: 22px !important;
+  max-width: 26px;
+  max-height: 22px;
+}
+
+.header-nav-hamburger .header__icon--search .mm-icon path,
+.header-nav-hamburger .header__icon--account .mm-icon path,
+.header-nav-hamburger .header__icon--cart .mm-icon path,
+.header-mobile .header__icon .mm-icon path {
+  fill: none !important;
+  stroke: currentColor !important;
+}
+
+/* Icon cluster spacing like motherher */
+.header-nav-hamburger .header-icons {
+  gap: 4px !important;
+  column-gap: 4px !important;
+}
+
+.header-nav-hamburger .header__icon--search,
+.header-nav-hamburger .header__icon--account,
+.header-nav-hamburger .header__icon--cart {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  color: #214d43 !important;
+  border-radius: 8px;
+  transition: background-color var(--mm-header-motion, 200ms ease);
+}
+
+.header-nav-hamburger .header__icon--search:hover,
+.header-nav-hamburger .header__icon--account:hover,
+.header-nav-hamburger .header__icon--cart:hover,
+.header-nav-hamburger .header__icon--search:focus-visible,
+.header-nav-hamburger .header__icon--account:focus-visible,
+.header-nav-hamburger .header__icon--cart:focus-visible {
+  background: rgba(33, 77, 67, 0.06) !important;
+  outline: none;
+}
+
+.header-nav-hamburger .header__icon--search:focus-visible,
+.header-nav-hamburger .header__icon--account:focus-visible,
+.header-nav-hamburger .header__icon--cart:focus-visible {
+  outline: 2px solid #214d43 !important;
+  outline-offset: 2px;
+}
+
+/* motherher hamburger — three lines, bottom shorter */
+.header-mobile .mobileMenu-toggle__Icon {
+  position: relative;
+  display: block;
+  width: 22px;
+  height: 14px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.header-mobile .mobileMenu-toggle__Icon::before,
+.header-mobile .mobileMenu-toggle__Icon::after,
+.header-mobile .mobileMenu-toggle__Icon {
+  border: 0 !important;
+}
+
+.header-mobile .mobileMenu-toggle__Icon::before,
+.header-mobile .mobileMenu-toggle__Icon::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  height: 2px;
+  background: #214d43;
+  border-radius: 1px;
+  transition: transform 180ms ease, opacity 180ms ease, width 180ms ease;
+}
+
+.header-mobile .mobileMenu-toggle__Icon::before {
+  top: 0;
+  width: 22px;
+  box-shadow: 0 6px 0 #214d43; /* middle bar */
+}
+
+.header-mobile .mobileMenu-toggle__Icon::after {
+  bottom: 0;
+  width: 15px; /* motherher: shorter bottom line */
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header-mobile .mobileMenu-toggle__Icon::before,
+  .header-mobile .mobileMenu-toggle__Icon::after {
+    transition: none;
+  }
+}
