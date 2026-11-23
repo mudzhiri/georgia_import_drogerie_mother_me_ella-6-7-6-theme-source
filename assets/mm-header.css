@@ -134,7 +134,7 @@ html.mm-sticky-header-on {
 
 /* Logo — editor width via --logo_width / --width-logo-mb; keep SVG colors */
 .header-navigation .header-logo {
-  justify-content: flex-start !important;
+  justify-content: center !important;
   max-width: var(--logo_width, 180px);
   flex: 0 0 auto;
   z-index: 2;
@@ -838,11 +838,11 @@ html.mm-search-open {
 
   .header-nav-hamburger--style1 .main-menu .list-menu--inline {
     display: flex !important;
-    flex-wrap: wrap !important;
+    flex-wrap: nowrap !important;
     justify-content: flex-start !important;
     align-items: center !important;
-    gap: 4px 2px !important;
-    column-gap: 2px !important;
+    gap: 0 !important;
+    column-gap: 0 !important;
     margin: 0 !important;
     padding: 0 !important;
     min-height: 0;
@@ -860,9 +860,9 @@ html.mm-search-open {
   .header-nav-hamburger--style1 .main-menu {
     --mm-nav-font: var(--mm-font-sans, "Noto Sans Georgian", "Noto Sans", system-ui, sans-serif);
     /* Explicit px: Ella html{font-size:62.5%} → 1rem≈10px; rem here was ~9.4px */
-    --mm-nav-size: 14px;
+    --mm-nav-size: 13px;
     --mm-nav-weight: 500;
-    --mm-nav-line: 1.4;
+    --mm-nav-line: 1.3;
     --mm-nav-tracking: 0;
   }
 
@@ -882,7 +882,7 @@ html.mm-search-open {
     text-transform: none !important;
     color: #214d43 !important;
     background: transparent !important;
-    padding: 0 10px !important;
+    padding: 0 8px !important;
     min-height: 44px !important;
     margin: 0 !important;
     white-space: nowrap;
@@ -1584,8 +1584,13 @@ html.mm-sticky-header-on .section-header-mobile.mm-sticky-enabled.shopify-sectio
     min-height: var(--mm-header-main-min) !important;
     box-sizing: border-box;
     background: #ffffff;
-    padding-block: 8px !important;
+    padding-block: 4px !important;
     margin: 0 !important;
+  }
+
+  /* Keep motherher-like height; long Georgian labels stay one line */
+  .header-nav-hamburger--style1 > .container > .mm-header-main-row > .main-menu {
+    overflow: hidden;
   }
 
   .header-nav-hamburger--style1 > .container > .mm-header-main-row > .main-menu {
@@ -1967,6 +1972,14 @@ html.mm-sticky-header-on .mm-lang__dropdown {
 @media screen and (min-width: 1025px) {
   .mm-header__business-link {
     display: inline-flex;
+  }
+
+  /* Compact B2B label so icon cluster stays motherher-tight */
+  .mm-header__business-link-text {
+    font-size: 12px;
+    max-width: 7.5rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
