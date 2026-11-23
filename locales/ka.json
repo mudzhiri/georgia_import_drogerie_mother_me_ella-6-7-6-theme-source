@@ -641,6 +641,9 @@
       "filter_and_sort": "ფილტრი და დალაგება",
       "filter_by_label": "ფილტრი",
       "filter_button": "ფილტრი",
+      "filter_brand": "ბრენდი",
+      "filter_category": "კატეგორია",
+      "filter_apply": "გამოყენება",
       "filters_selected": "არჩეულია {{ count }}",
       "product_count_simple": {
         "one": "{{ count }} პროდუქტი",

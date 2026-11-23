@@ -39,24 +39,26 @@
 
   const validatePrice = (form) => {
     if (!form) return true;
-    const wrap = form.querySelector('[data-mm-price-range]');
-    if (!wrap) return true;
-    const minInput = wrap.querySelector('[data-mm-price-min]');
-    const maxInput = wrap.querySelector('[data-mm-price-max]');
-    const error = wrap.querySelector('[data-mm-price-error]');
-    const minVal = parseNumber(minInput && minInput.value);
-    const maxVal = parseNumber(maxInput && maxInput.value);
-    const invalid = minVal != null && maxVal != null && minVal > maxVal;
-    if (error) {
-      error.hidden = !invalid;
-    }
-    if (invalid) {
-      wrap.classList.add('is-invalid');
-      (minInput || maxInput)?.focus();
-      return false;
-    }
-    wrap.classList.remove('is-invalid');
-    return true;
+    const wraps = form.querySelectorAll('[data-mm-price-range]');
+    if (!wraps.length) return true;
+    let ok = true;
+    wraps.forEach((wrap) => {
+      const minInput = wrap.querySelector('[data-mm-price-min]');
+      const maxInput = wrap.querySelector('[data-mm-price-max]');
+      const error = wrap.querySelector('[data-mm-price-error]');
+      const minVal = parseNumber(minInput && minInput.value);
+      const maxVal = parseNumber(maxInput && maxInput.value);
+      const invalid = minVal != null && maxVal != null && minVal > maxVal;
+      if (error) error.hidden = !invalid;
+      if (invalid) {
+        wrap.classList.add('is-invalid');
+        ok = false;
+        (minInput || maxInput)?.focus();
+      } else {
+        wrap.classList.remove('is-invalid');
+      }
+    });
+    return ok;
   };
 
   const prepareForm = (form) => {
@@ -89,6 +91,76 @@
     return url;
   };
 
+  const snapshotFields = (scope) => {
+    if (!scope) return [];
+    const snapshot = [];
+    scope.querySelectorAll('input, select, textarea').forEach((el) => {
+      if (el.matches('[data-mm-filter-search]')) return;
+      if (el.type === 'checkbox' || el.type === 'radio') {
+        snapshot.push({ name: el.name, value: el.value, checked: el.checked, type: el.type });
+      } else {
+        snapshot.push({ name: el.name, value: el.value, type: el.type || el.tagName });
+      }
+    });
+    return snapshot;
+  };
+
+  const restoreFields = (scope, snapshot) => {
+    if (!scope || !snapshot) return;
+    scope.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((el) => {
+      if (el.matches('[data-mm-filter-search]')) return;
+      el.checked = false;
+    });
+    snapshot.forEach((item) => {
+      if (item.type === 'checkbox' || item.type === 'radio') {
+        const el = scope.querySelector(
+          `input[type="${item.type}"][name="${CSS.escape(item.name)}"][value="${CSS.escape(item.value)}"]`
+        );
+        if (el) el.checked = item.checked;
+      } else {
+        const el = scope.querySelector(`[name="${CSS.escape(item.name)}"]`);
+        if (el && el.type !== 'checkbox' && el.type !== 'radio') el.value = item.value;
+      }
+    });
+    scope.querySelectorAll('[data-mm-price-error]').forEach((err) => {
+      err.hidden = true;
+    });
+    scope.querySelectorAll('[data-mm-price-range]').forEach((wrap) => {
+      wrap.classList.remove('is-invalid');
+    });
+  };
+
+  const updateGroupActiveBadge = (group) => {
+    if (!group) return;
+    const summary = group.querySelector('.mm-filters__group-summary');
+    if (!summary) return;
+    let count = 0;
+    const price = group.querySelector('[data-mm-price-range]');
+    if (price) {
+      const minInput = price.querySelector('[data-mm-price-min]');
+      const maxInput = price.querySelector('[data-mm-price-max]');
+      if ((minInput && String(minInput.value || '').trim()) || (maxInput && String(maxInput.value || '').trim())) {
+        count = 1;
+      }
+    } else {
+      count = group.querySelectorAll('input[type="checkbox"]:checked, input[type="radio"]:checked').length;
+    }
+    let badge = summary.querySelector('[data-mm-group-active]');
+    if (count > 0) {
+      if (!badge) {
+        badge = document.createElement('span');
+        badge.className = 'mm-filters__group-active';
+        badge.setAttribute('data-mm-group-active', '');
+        badge.setAttribute('aria-hidden', 'true');
+        const chevron = summary.querySelector('.mm-filters__group-chevron');
+        summary.insertBefore(badge, chevron || null);
+      }
+      badge.textContent = String(count);
+    } else if (badge) {
+      badge.remove();
+    }
+  };
+
   class MmFilters {
     constructor(rootEl) {
       this.root = rootEl;
@@ -106,6 +178,8 @@
       this.lastFocus = null;
       this.focusTrapHandler = null;
       this.panelSnapshot = null;
+      this.groupSnapshots = new WeakMap();
+      this.applyingDesktop = false;
       this.boundKeydown = this.onDocumentKeydown.bind(this);
       this.boundCloseRequest = this.onCloseRequest.bind(this);
       this.boundDocClick = this.onDocumentClick.bind(this);
@@ -130,23 +204,96 @@
       }
     }
 
+    closeDesktopGroups({ discard = true } = {}) {
+      if (!this.root) return;
+      this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group[open]').forEach((group) => {
+        if (discard && !this.applyingDesktop) {
+          const snap = this.groupSnapshots.get(group);
+          if (snap) {
+            restoreFields(group, snap);
+            updateGroupActiveBadge(group);
+          }
+        }
+        group.open = false;
+      });
+    }
+
     onDocumentClick(event) {
       if (!this.root) return;
-      const openGroups = this.root.querySelectorAll('.mm-filters__group[open]');
+      if (this.root.classList.contains('is-panel-open')) return;
+      const openGroups = this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group[open]');
+      if (!openGroups.length) return;
+      let inside = false;
       openGroups.forEach((openGroup) => {
-        if (openGroup.contains(event.target)) return;
-        openGroup.open = false;
+        if (openGroup.contains(event.target)) inside = true;
       });
+      if (inside) return;
+      this.closeDesktopGroups({ discard: true });
     }
 
     bindExclusiveGroups() {
       if (!this.root) return;
-      this.root.querySelectorAll('.mm-filters__group').forEach((group) => {
+      this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group').forEach((group) => {
+        group.addEventListener('toggle', () => {
+          if (group.open) {
+            this.groupSnapshots.set(group, snapshotFields(group));
+            this.root.querySelectorAll('.mm-filters__groups--toolbar .mm-filters__group[open]').forEach((other) => {
+              if (other === group) return;
+              const snap = this.groupSnapshots.get(other);
+              if (snap && !this.applyingDesktop) {
+                restoreFields(other, snap);
+                updateGroupActiveBadge(other);
+              }
+              other.open = false;
+            });
+            return;
+          }
+          if (this.applyingDesktop) return;
+          const snap = this.groupSnapshots.get(group);
+          if (snap) {
+            restoreFields(group, snap);
+            updateGroupActiveBadge(group);
+          }
+        });
+      });
+
+      // Mobile panel: accordion without discard (panel snapshot handles discard on close)
+      this.root.querySelectorAll('.mm-filters__groups--panel .mm-filters__group').forEach((group) => {
         group.addEventListener('toggle', () => {
           if (!group.open) return;
-          this.root.querySelectorAll('.mm-filters__group[open]').forEach((other) => {
+          this.root.querySelectorAll('.mm-filters__groups--panel .mm-filters__group[open]').forEach((other) => {
             if (other !== group) other.open = false;
           });
+        });
+      });
+    }
+
+    bindProvisionalUpdates(form) {
+      if (!form) return;
+      form.addEventListener('change', (event) => {
+        const target = event.target;
+        if (!target || target.matches('[data-mm-filter-search]')) return;
+        if (!target.matches('input[type="checkbox"], input[type="radio"], .mm-filters__price-input')) return;
+        const group = target.closest('[data-mm-filter-group]');
+        updateGroupActiveBadge(group);
+        if (target.matches('.mm-filters__price-input')) {
+          validatePrice(form);
+        }
+      });
+      form.querySelectorAll('.mm-filters__price-input').forEach((input) => {
+        input.addEventListener('input', () => {
+          // Visual validation only — never navigate on keystroke.
+          const wrap = input.closest('[data-mm-price-range]');
+          if (!wrap) return;
+          const minInput = wrap.querySelector('[data-mm-price-min]');
+          const maxInput = wrap.querySelector('[data-mm-price-max]');
+          const error = wrap.querySelector('[data-mm-price-error]');
+          const minVal = parseNumber(minInput && minInput.value);
+          const maxVal = parseNumber(maxInput && maxInput.value);
+          const invalid = minVal != null && maxVal != null && minVal > maxVal;
+          if (error) error.hidden = !invalid;
+          wrap.classList.toggle('is-invalid', invalid);
+          updateGroupActiveBadge(input.closest('[data-mm-filter-group]'));
         });
       });
     }
@@ -177,6 +324,8 @@
 
       this.bindFilterSearch(this.root);
       this.bindExclusiveGroups();
+      this.bindProvisionalUpdates(this.desktopForm);
+      this.bindProvisionalUpdates(this.panelForm);
 
       const retryBtn = this.root.querySelector('[data-mm-filters-retry]');
       if (retryBtn) {
@@ -197,39 +346,19 @@
         };
 
         this.desktopForm.addEventListener('submit', (event) => {
+          event.preventDefault();
           if (!validatePrice(this.desktopForm)) {
-            event.preventDefault();
             restoreDisabledPriceInputs(this.desktopForm);
             return;
           }
+          this.applyingDesktop = true;
           syncDesktopSort();
           prepareForm(this.desktopForm);
-          event.preventDefault();
-          this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
+          const url = formToUrl(this.desktopForm);
+          this.closeDesktopGroups({ discard: false });
+          this.navigate(url, { source: 'desktop' });
           restoreDisabledPriceInputs(this.desktopForm);
-        });
-
-        this.desktopForm.addEventListener('change', (event) => {
-          const target = event.target;
-          if (!target) return;
-          if (target.matches('[data-mm-filter-search]')) return;
-          if (target.matches('input[type="checkbox"], input[type="radio"]')) {
-            if (!validatePrice(this.desktopForm)) return;
-            syncDesktopSort();
-            prepareForm(this.desktopForm);
-            this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
-            restoreDisabledPriceInputs(this.desktopForm);
-          }
-        });
-
-        this.desktopForm.querySelectorAll('.mm-filters__price-input').forEach((input) => {
-          input.addEventListener('change', () => {
-            if (!validatePrice(this.desktopForm)) return;
-            syncDesktopSort();
-            prepareForm(this.desktopForm);
-            this.navigate(formToUrl(this.desktopForm), { source: 'desktop' });
-            restoreDisabledPriceInputs(this.desktopForm);
-          });
+          this.applyingDesktop = false;
         });
       }
 
@@ -269,8 +398,14 @@
     }
 
     onDocumentKeydown(event) {
-      if (event.key === 'Escape' && this.root.classList.contains('is-panel-open')) {
+      if (event.key !== 'Escape') return;
+      if (this.root.classList.contains('is-panel-open')) {
         this.setOpen(false, { discard: true });
+        return;
+      }
+      const openDesktop = this.root.querySelector('.mm-filters__groups--toolbar .mm-filters__group[open]');
+      if (openDesktop) {
+        this.closeDesktopGroups({ discard: true });
       }
     }
 
@@ -280,7 +415,7 @@
         this.panel.querySelectorAll(
           'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
         )
-      ).filter((el) => el.getAttribute('aria-hidden') !== 'true');
+      ).filter((el) => el.getAttribute('aria-hidden') !== 'true' && !el.closest('[hidden]'));
     }
 
     releaseFocusTrap() {
@@ -311,38 +446,14 @@
 
     snapshotPanel() {
       if (!this.panelForm) return;
-      const snapshot = [];
-      this.panelForm.querySelectorAll('input, select, textarea').forEach((el) => {
-        if (el.type === 'checkbox' || el.type === 'radio') {
-          snapshot.push({ name: el.name, value: el.value, checked: el.checked, type: el.type });
-        } else {
-          snapshot.push({ name: el.name, value: el.value, type: el.type || el.tagName });
-        }
-      });
-      this.panelSnapshot = snapshot;
+      this.panelSnapshot = snapshotFields(this.panelForm);
     }
 
     restorePanel() {
       if (!this.panelForm || !this.panelSnapshot) return;
-      this.panelForm.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach((el) => {
-        el.checked = false;
-      });
-      this.panelSnapshot.forEach((item) => {
-        if (item.type === 'checkbox' || item.type === 'radio') {
-          const el = this.panelForm.querySelector(
-            `input[type="${item.type}"][name="${CSS.escape(item.name)}"][value="${CSS.escape(item.value)}"]`
-          );
-          if (el) el.checked = item.checked;
-        } else {
-          const el = this.panelForm.querySelector(`[name="${CSS.escape(item.name)}"]`);
-          if (el) el.value = item.value;
-        }
-      });
-      this.panelForm.querySelectorAll('[data-mm-price-error]').forEach((err) => {
-        err.hidden = true;
-      });
-      this.panelForm.querySelectorAll('[data-mm-price-range]').forEach((wrap) => {
-        wrap.classList.remove('is-invalid');
+      restoreFields(this.panelForm, this.panelSnapshot);
+      this.panelForm.querySelectorAll('[data-mm-filter-group]').forEach((group) => {
+        updateGroupActiveBadge(group);
       });
     }
 
@@ -504,4 +615,7 @@
   } else {
     boot();
   }
+
+  // Silence unused helper in some builds; motion preference used by CSS primarily.
+  void prefersReducedMotion;
 })();

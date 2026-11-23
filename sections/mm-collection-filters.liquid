@@ -247,24 +247,31 @@
               endif
             -%}
             <li>
-              <a class="mm-filters__chip" href="{{ value.url_to_remove }}">
+              <a
+                class="mm-filters__chip"
+                href="{{ value.url_to_remove }}"
+                aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ chip_label | escape }}"
+              >
                 <span>{{ chip_label | escape }}</span>
                 <span class="mm-filters__chip-x" aria-hidden="true">×</span>
-                <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
               </a>
             </li>
           {%- endfor -%}
           {%- if filter.type == 'price_range' -%}
             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
               <li>
-                <a class="mm-filters__chip" href="{{ filter.url_to_remove }}">
-                  <span>
-                    {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
-                    –
-                    {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
-                  </span>
+                {%- capture price_chip_label -%}
+                  {%- if filter.min_value.value -%}{{ filter.min_value.value | money }}{%- else -%}{{ 0 | money }}{%- endif -%}
+                  –
+                  {%- if filter.max_value.value -%}{{ filter.max_value.value | money }}{%- else -%}{{ filter.range_max | money }}{%- endif -%}
+                {%- endcapture -%}
+                <a
+                  class="mm-filters__chip"
+                  href="{{ filter.url_to_remove }}"
+                  aria-label="{{ 'sections.collection_template.clear' | t | escape }}: {{ price_chip_label | strip | escape }}"
+                >
+                  <span>{{ price_chip_label | strip }}</span>
                   <span class="mm-filters__chip-x" aria-hidden="true">×</span>
-                  <span class="visually-hidden">{{ 'sections.collection_template.clear' | t }}</span>
                 </a>
               </li>
             {%- endif -%}
@@ -357,7 +364,7 @@
           form="mm-filters-panel-form-{{ section.id }}"
           data-mm-filters-apply
         >
-          {{ 'sections.collection_template.show_results' | t }}
+          {{ 'sections.collection_template.filter_apply' | t }}
         </button>
       </div>
     </aside>
